@@ -1,0 +1,77 @@
+[
+	{
+	"name":"Default Profile",
+	"ahkHandle":"ahk_exe blah.exe",
+	"ahkClass":"ahk_class thingy",
+	"pieMenus":[
+		{
+		"hotkey": "d",
+		"radius": 40,
+		"numSlices":6,
+		"thickness":10,
+		"bgColor": "0xff303030",
+		"selColor": "0xff1ee8e2",
+		"offset": 1,
+		"labelDelay":5,
+		"disableInTypeField": true,
+		"enablePie2":true,
+		"enablePie3":true,
+		"functions":[
+			{
+			"function":"repeatLast",
+			"label":"thing",
+			"icon":"01"
+			},
+			{
+			"function":"SendKey",
+			"label":"thing",
+			"icon":"figure this out later",
+			"key":"d"
+			}
+			],
+		"pie2":{
+			"radius": 40,
+			"numSlices":8,
+			"bgColor": "0xff303030",
+			"selColor": "0xff1ee8e2",
+			"offset": 1,
+			"functions":[
+				{
+				"function":"SendKey",
+				"label":"thing",
+				"icon":"figure this out later",
+				"key":"d"
+				},
+				{
+				"function":"SendKey",
+				"label":"thing",
+				"icon":"figure this out later",
+				"key":"d"
+				}
+				]
+			},
+		"pie3":{
+			"radius": 40,
+			"numSlices":8,
+			"bgColor": "0xff303030",
+			"selColor": "0xff1ee8e2",
+			"offset": 1,
+			"functions":[
+				{
+				"function":"SendKey",
+				"label":"thing",
+				"icon":"figure this out later",
+				"key":"d"
+				},
+				{
+				"function":"SendKey",
+				"label":"thing",
+				"icon":"figure this out later",
+				"key":"d"
+				}
+				]
+			}
+		}
+		]
+	}
+]	

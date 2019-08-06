@@ -1,0 +1,23 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GLLayeredWindow", "GLLayeredWindow.vcxproj", "{5CCC3163-8189-42EF-8567-875934111D85}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5CCC3163-8189-42EF-8567-875934111D85}.Debug|Win32.ActiveCfg = Debug|Win32
+		{5CCC3163-8189-42EF-8567-875934111D85}.Debug|Win32.Build.0 = Debug|Win32
+		{5CCC3163-8189-42EF-8567-875934111D85}.Release|Win32.ActiveCfg = Release|Win32
+		{5CCC3163-8189-42EF-8567-875934111D85}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		VisualSVNWorkingCopyRoot = 
+	EndGlobalSection
+EndGlobal
