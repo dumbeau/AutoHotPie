@@ -1,10 +1,23 @@
-﻿#Persistent
-#SingleInstance ignore
-#Include %A_ScriptDir%\Resources\lib\Gdip_All.ahk
-#Include %A_ScriptDir%\Resources\lib\GdipHelper.ahk
-#Include %A_ScriptDir%\Resources\lib\BGFuncs.ahk
-#Include %A_ScriptDir%\Resources\lib\Jxon.ahk
-;Read Json Settings file to object
-
-
-#Include %A_ScriptDir%\Resources\lib\AppendScript.ahk
+﻿for profiles in settings
+	{
+	; msgbox, boop		
+	if settings[profiles].ahkHandle == "ahk_group regApps"
+		{
+		; msgbox, boop
+		Hotkey, IfWinNotActive, ahk_group regApps
+		for menus in settings[profiles].pieMenus
+			{
+			Hotkey, % settings[profiles].pieMenus[menus].hotkey, pieLabel
+			}
+		}
+	else
+		{
+		; msgbox, % settings[profiles].ahkHandle
+		Hotkey, IfWinActive, % settings[profiles].ahkHandle
+		for menus in settings[profiles].pieMenus
+			{
+			; msgbox, % settings[profiles].pieMenus[menus].hotkey
+			Hotkey, % settings[profiles].pieMenus[menus].hotkey, pieLabel
+			}
+		}
+	}

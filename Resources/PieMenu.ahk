@@ -5,8 +5,6 @@
 #Include %A_ScriptDir%\Resources\lib\BGFuncs.ahk
 #Include %A_ScriptDir%\Resources\lib\Jxon.ahk
 CoordMode, Mouse, Screen
-
-
 runPieMenu(profileNum, index)
 	{
 	global
@@ -48,10 +46,6 @@ runPieMenu(profileNum, index)
 ;Check AHK version and if AHK is installed.  Prompt install or update.
 checkAHK()
 
-;Read Json Settings file to object
-	FileRead, settings, %A_ScriptDir%\Resources\settings.json
-	global settings := Jxon_Load(settings)
-
 ;Initialize Variables and GDI+ Screen bitmap
 	;Thank you Tariq Porter
 	; monLeft := 0 monRight := 0 monTop := 0 monBottom := 0
@@ -61,96 +55,10 @@ checkAHK()
 	global monBottom := 0
 	getMonitorCoords(monLeft, monTop, monRight, monBottom)
 	SetUpGDIP(monLeft, monTop, monRight-monLeft, monBottom-monTop)
-
-
-
-
-;Hotkey, IfWinActive, ahk_class Notepad
-
-; for profiles in settings
-; for menus in profiles
-; msgbox, % settings[1].ahkHandle
-
-; for profiles in settings
-; 	Hotkey, IfWinActive, settings[profiles].ahkHandle
-for profiles in settings
-	{
-	if settings[profiles].ahkHandle == "ahk_group regApps"
-		continue
-	GroupAdd, regApps, % settings[profiles].ahkHandle
-	}
-; msgbox, % ahk_group regApps
-
-
-for profiles in settings
-	{
-	; msgbox, boop		
-	if settings[profiles].ahkHandle == "ahk_group regApps"
-		{
-		; msgbox, boop
-		Hotkey, IfWinNotActive, ahk_group regApps
-		for menus in settings[profiles].pieMenus
-			{
-			Hotkey, % settings[profiles].pieMenus[menus].hotkey, pieLabel
-			}
-		}
-	else
-		{
-		; msgbox, % settings[profiles].ahkHandle
-		Hotkey, IfWinActive, % settings[profiles].ahkHandle
-		for menus in settings[profiles].pieMenus
-			{
-			; msgbox, % settings[profiles].pieMenus[menus].hotkey
-			Hotkey, % settings[profiles].pieMenus[menus].hotkey, pieLabel
-			}
-		}
-	}
-
-return
-;End Initialization
-
-; pieLabel:
-;     runPieMenu(1, 1)
-; return
-
-pieLabel:
-	;Get application and key
-	WinGet, activeWindow, ProcessName, A
-	activeWindow := "ahk_exe " + activeWindow	
-	activeKey := A_ThisHotkey
-
-	;Lookup profile and key index
-	for profiles in settings
-		{
-		if settings[profiles].ahkHandle == activeWindow
-			{
-			for menus in settings[profiles].pieMenus
-				{
-				;if hotkey found []
-				if settings[profiles].pieMenus[menus].hotkey == activeKey
-					{
-					functionNum := runPieMenu(profiles, menus)
-					; msgbox, % functionNum
-					break, 2
-					}				
-				}
-			}		
-		}
-
-	; msgbox, %activeWindow%  `nHotkey = %A_ThisHotkey%
-	;functionNum := runPieMenu(1, 1)
-	; msgbox, % functionNum
-return
-
-; runPieMenu(profiles, menu)
-
-
-i::
-exitapp
-return
-
-
-
+;Read Json Settings file to object
+	FileRead, settings, %A_ScriptDir%\settings.json
+	global settings := Jxon_Load(settings)
+msgbox, hi
 ;If a display is connected or disconnected
 	OnMessage(0x7E, "WM_DISPLAYCHANGE")
 	return
@@ -159,3 +67,21 @@ return
 		sleep, 200
 		Reload
 		}
+
+;Include for all of the shortcuts
+
+;Default Profile
+
+Hotkey, IfWinActive, ahk_class Notepad
+Hotkey, r, pieLabel
+
+pieLabel:
+    runPieMenu(1, 1)
+    return
+
+
+i::
+exitapp
+return
+
+

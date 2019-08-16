@@ -1,6 +1,7 @@
 ;Default Profile
-#If WinActive("ahk_exe blah.exe")
+#If WinActive("ahk_group regApps")
 {
-d::
+r::
+    runPieMenu(1, 1)
     return
 }
