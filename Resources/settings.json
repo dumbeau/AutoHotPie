@@ -1,94 +1,31 @@
-[
-	{
-	"name":"Default Profile",
-	"ahkHandle":"ahk_group regApps",
-	"pieMenus":[
+{
+"global":{
+	"pieTips":0
+},
+"appProfiles":
+	[
 		{
-		"hotkey": "r",
-		"radius": 40,
-		"numSlices":2,
-		"thickness":10,
-		"bgColor": "0xff303030",
-		"selColor": "0xff1ee8e2",
-		"offset": 1,
-		"labelDelay":5,
-		"disableInTypeField": true,
-		"enablePie2":true,
-		"enablePie3":true,
-		"functions":[
-			{
-			"function":"repeatLast",
-			"label":"thing",
-			"icon":"01"
-			},
-			{
-			"function":"SendKey",
-			"label":"thing",
-			"icon":"figure this out later",
-			"key":"d"
-			}
-			],
-		"pie2":{
-			"radius": 40,
-			"numSlices":8,
-			"bgColor": "0xff303030",
-			"selColor": "0xff1ee8e2",
-			"offset": 1,
-			"functions":[
-				{
-				"function":"SendKey",
-				"label":"thing",
-				"icon":"figure this out later",
-				"key":"d"
-				},
-				{
-				"function":"SendKey",
-				"label":"thing",
-				"icon":"figure this out later",
-				"key":"d"
-				}
-				]
-			},
-		"pie3":{
-			"radius": 40,
-			"numSlices":8,
-			"bgColor": "0xff303030",
-			"selColor": "0xff1ee8e2",
-			"offset": 1,
-			"functions":[
-				{
-				"function":"SendKey",
-				"label":"thing",
-				"icon":"figure this out later",
-				"key":"d"
-				},
-				{
-				"function":"SendKey",
-				"label":"thing",
-				"icon":"figure this out later",
-				"key":"d"
-				}
-				]
-			}
-		}
-		]
-	},
-	{
-		"name":"Chrome",
-		"ahkHandle":"ahk_exe chrome.exe",
+		"name":"Default Profile",
+		"ahkHandle":"ahk_group regApps",
+		"enablePenTablet":0,
+		"pieModifier":{
+			"useModifierKey":1,
+			"modifierKey":"g",
+			"toggle":0
+			},		
 		"pieMenus":[
 			{
-			"hotkey": "f",
+			"hotkey": "r",
 			"radius": 40,
-			"numSlices":6,
+			"numSlices":10,
 			"thickness":10,
 			"bgColor": "0xff303030",
 			"selColor": "0xff1ee8e2",
 			"offset": 1,
 			"labelDelay":5,
-			"disableInTypeField": true,
-			"enablePie2":true,
-			"enablePie3":true,
+			"disableInTypeField": 1,
+			"enablePie2": 1,
+			"enablePie3": 1,
 			"functions":[
 				{
 				"function":"repeatLast",
@@ -103,60 +40,30 @@
 				}
 				],
 			"pie2":{
-				"radius": 40,
-				"numSlices":8,
+				"numSlices":2,
 				"bgColor": "0xff303030",
-				"selColor": "0xff1ee8e2",
-				"offset": 1,
-				"functions":[
-					{
-					"function":"SendKey",
-					"label":"thing",
-					"icon":"figure this out later",
-					"key":"d"
-					},
-					{
-					"function":"SendKey",
-					"label":"thing",
-					"icon":"figure this out later",
-					"key":"d"
-					}
-					]
+				"selColor": "0xffA134EB",
+				"offset": 1
 				},
 			"pie3":{
-				"radius": 40,
-				"numSlices":8,
+				"numSlices":3,
 				"bgColor": "0xff303030",
-				"selColor": "0xff1ee8e2",
-				"offset": 1,
-				"functions":[
-					{
-					"function":"SendKey",
-					"label":"thing",
-					"icon":"figure this out later",
-					"key":"d"
-					},
-					{
-					"function":"SendKey",
-					"label":"thing",
-					"icon":"figure this out later",
-					"key":"d"
-					}
-					]
+				"selColor": "0xffCC3939",
+				"offset": 1
 				}
 			},
 			{
-				"hotkey": "r",
+				"hotkey": "^r",
 				"radius": 40,
-				"numSlices":1,
+				"numSlices":10,
 				"thickness":10,
 				"bgColor": "0xff303030",
-				"selColor": "0xff1ee8e2",
+				"selColor": "0xffffffff",
 				"offset": 1,
 				"labelDelay":5,
-				"disableInTypeField": true,
-				"enablePie2":true,
-				"enablePie3":true,
+				"disableInTypeField": 1,
+				"enablePie2": 1,
+				"enablePie3": 1,
 				"functions":[
 					{
 					"function":"repeatLast",
@@ -171,66 +78,42 @@
 					}
 					],
 				"pie2":{
-					"radius": 40,
-					"numSlices":8,
+					"numSlices":2,
 					"bgColor": "0xff303030",
-					"selColor": "0xff1ee8e2",
-					"offset": 1,
-					"functions":[
-						{
-						"function":"SendKey",
-						"label":"thing",
-						"icon":"figure this out later",
-						"key":"d"
-						},
-						{
-						"function":"SendKey",
-						"label":"thing",
-						"icon":"figure this out later",
-						"key":"d"
-						}
-						]
+					"selColor": "0xffA134EB",
+					"offset": 1
 					},
 				"pie3":{
-					"radius": 40,
-					"numSlices":8,
+					"numSlices":3,
 					"bgColor": "0xff303030",
-					"selColor": "0xff1ee8e2",
-					"offset": 1,
-					"functions":[
-						{
-						"function":"SendKey",
-						"label":"thing",
-						"icon":"figure this out later",
-						"key":"d"
-						},
-						{
-						"function":"SendKey",
-						"label":"thing",
-						"icon":"figure this out later",
-						"key":"d"
-						}
-						]
+					"selColor": "0xffCC3939",
+					"offset": 1
 					}
 				}
 			]
 		},
 		{
-			"name":"Notepad",
-			"ahkHandle":"ahk_exe notepad.exe",
+			"name":"Chome",
+			"ahkHandle":"ahk_class Chrome_WidgetWin_1",
+			"enablePenTablet":0,
+			"pieModifier":{
+				"useModifierKey":1,
+				"modifierKey":"g",
+				"toggle":1
+				},		
 			"pieMenus":[
 				{
-				"hotkey": "r",
+				"hotkey": "f",
 				"radius": 40,
-				"numSlices":20,
+				"numSlices":10,
 				"thickness":10,
 				"bgColor": "0xff303030",
-				"selColor": "0xffff0000",
+				"selColor": "0xff1ee8e2",
 				"offset": 1,
 				"labelDelay":5,
-				"disableInTypeField": true,
-				"enablePie2":true,
-				"enablePie3":true,
+				"disableInTypeField": 1,
+				"enablePie2": 1,
+				"enablePie3": 1,
 				"functions":[
 					{
 					"function":"repeatLast",
@@ -245,60 +128,30 @@
 					}
 					],
 				"pie2":{
-					"radius": 40,
-					"numSlices":8,
+					"numSlices":2,
 					"bgColor": "0xff303030",
-					"selColor": "0xffff0000",
-					"offset": 1,
-					"functions":[
-						{
-						"function":"SendKey",
-						"label":"thing",
-						"icon":"figure this out later",
-						"key":"d"
-						},
-						{
-						"function":"SendKey",
-						"label":"thing",
-						"icon":"figure this out later",
-						"key":"d"
-						}
-						]
+					"selColor": "0xffA134EB",
+					"offset": 1
 					},
 				"pie3":{
-					"radius": 40,
-					"numSlices":8,
+					"numSlices":3,
 					"bgColor": "0xff303030",
-					"selColor": "0xff1ee8e2",
-					"offset": 1,
-					"functions":[
-						{
-						"function":"SendKey",
-						"label":"thing",
-						"icon":"figure this out later",
-						"key":"d"
-						},
-						{
-						"function":"SendKey",
-						"label":"thing",
-						"icon":"figure this out later",
-						"key":"d"
-						}
-						]
+					"selColor": "0xffCC3939",
+					"offset": 1
 					}
 				},
 				{
-					"hotkey": "g",
+					"hotkey": "^f",
 					"radius": 40,
-					"numSlices":6,
+					"numSlices":10,
 					"thickness":10,
 					"bgColor": "0xff303030",
-					"selColor": "0xff1ee8e2",
+					"selColor": "0xffffffff",
 					"offset": 1,
 					"labelDelay":5,
-					"disableInTypeField": true,
-					"enablePie2":true,
-					"enablePie3":true,
+					"disableInTypeField": 1,
+					"enablePie2": 1,
+					"enablePie3": 1,
 					"functions":[
 						{
 						"function":"repeatLast",
@@ -313,48 +166,19 @@
 						}
 						],
 					"pie2":{
-						"radius": 40,
-						"numSlices":8,
+						"numSlices":2,
 						"bgColor": "0xff303030",
-						"selColor": "0xff1ee8e2",
-						"offset": 1,
-						"functions":[
-							{
-							"function":"SendKey",
-							"label":"thing",
-							"icon":"figure this out later",
-							"key":"d"
-							},
-							{
-							"function":"SendKey",
-							"label":"thing",
-							"icon":"figure this out later",
-							"key":"d"
-							}
-							]
+						"selColor": "0xffA134EB",
+						"offset": 1
 						},
 					"pie3":{
-						"radius": 40,
-						"numSlices":8,
+						"numSlices":3,
 						"bgColor": "0xff303030",
-						"selColor": "0xff1ee8e2",
-						"offset": 1,
-						"functions":[
-							{
-							"function":"SendKey",
-							"label":"thing",
-							"icon":"figure this out later",
-							"key":"d"
-							},
-							{
-							"function":"SendKey",
-							"label":"thing",
-							"icon":"figure this out later",
-							"key":"d"
-							}
-							]
+						"selColor": "0xffCC3939",
+						"offset": 1
 						}
 					}
 				]
 			}
-]	
+	]	
+}

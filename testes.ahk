@@ -1,23 +1,19 @@
-﻿for profiles in settings
-	{
-	; msgbox, boop		
-	if settings[profiles].ahkHandle == "ahk_group regApps"
-		{
-		; msgbox, boop
-		Hotkey, IfWinNotActive, ahk_group regApps
-		for menus in settings[profiles].pieMenus
-			{
-			Hotkey, % settings[profiles].pieMenus[menus].hotkey, pieLabel
-			}
-		}
-	else
-		{
-		; msgbox, % settings[profiles].ahkHandle
-		Hotkey, IfWinActive, % settings[profiles].ahkHandle
-		for menus in settings[profiles].pieMenus
-			{
-			; msgbox, % settings[profiles].pieMenus[menus].hotkey
-			Hotkey, % settings[profiles].pieMenus[menus].hotkey, pieLabel
-			}
-		}
-	}
+﻿#Include %A_ScriptDir%\Resources\lib\Gdip_All.ahk
+#Include %A_ScriptDir%\Resources\lib\GdipHelper.ahk
+#Include %A_ScriptDir%\Resources\lib\BGFuncs.ahk
+#Include %A_ScriptDir%\Resources\lib\Jxon.ahk
+
+hotkey, r, test
+hotkey,r up, test2
+return
+test:
+msgbox, Hi
+return
+
+test2:
+msgbox, other hi
+return
+escape::
+exitapp
+
+;solve by disabling all hotkeys 
