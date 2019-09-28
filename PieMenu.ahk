@@ -2,7 +2,8 @@
 #SingleInstance ignore
 #Include %A_ScriptDir%\Resources\lib\Gdip_All.ahk
 #Include %A_ScriptDir%\Resources\lib\GdipHelper.ahk
-#Include %A_ScriptDir%\Resources\lib\BGFuncs.ahk
+#Include %A_ScriptDir%\Resources\lib\BGFunks.ahk
+#Include %A_ScriptDir%\Resources\lib\PieFunctions.ahk
 #Include %A_ScriptDir%\Resources\lib\Jxon.ahk
 CoordMode, Mouse, Screen
 ;Check AHK version and if AHK is installed.  Prompt install or update.
@@ -21,25 +22,33 @@ checkAHK()
 	global monBottom := 0
 	getMonitorCoords(monLeft, monTop, monRight, monBottom)
 	SetUpGDIP(monLeft, monTop, monRight-monLeft, monBottom-monTop)
-
+	StartDrawGDIP()
+	Gdip_TextToGraphics(G, "Test", "x20 y20 Center vCenter c00FFFFFF r4 s20", "Arial")
+	ClearDrawGDIP()
+	EndDrawGDIP()
 ;Load registered applications to ahk_group regApps
 for profiles in settings.appProfiles
-	{
+	{		
 	if settings.appProfiles[profiles].ahkHandle == "ahk_group regApps"
 		continue
 	GroupAdd, regApps, % settings.appProfiles[profiles].ahkHandle
 	}
 
-
 ;Load hotkeys from settings object
  for profiles in settings.appProfiles
 	{
+	If settings.appProfiles[profiles].enable = 0 ;continue if profile is disabled
+		continue
 	if settings.appProfiles[profiles].ahkHandle == "ahk_group regApps"
-		{				
+		{
 		Hotkey, IfWinNotActive, ahk_group regApps
 		for menus in settings.appProfiles[profiles].pieMenus
-			{	
+			{
 			Hotkey, % settings.appProfiles[profiles].pieMenus[menus].hotkey, pieLabel
+			If (settings.appProfiles[profiles].pieModifier.useModifierKey == 1) && (settings.appProfiles[profiles].pieModifier.toggle == 0)
+				{ ;initialize off if modkey active no toggle
+				Hotkey, % settings.appProfiles[profiles].pieMenus[menus].hotkey, Off
+				}
 			}
 		;load modifier key for default profiles
 		If settings.appProfiles[profiles].pieModifier.useModifierKey == 1
@@ -52,7 +61,7 @@ for profiles in settings.appProfiles
 				{
 				Hotkey, % settings.appProfiles[profiles].pieModifier.modifierKey, onPieLabel
 				upHotkey := settings.appProfiles[profiles].pieModifier.modifierKey " up"
-				Hotkey, % upHotkey, offPieLabel							
+				Hotkey, % upHotkey, offPieLabel
 				}
 			}	
 		}
@@ -65,6 +74,10 @@ for profiles in settings.appProfiles
 			{
 			; msgbox, % settings.appProfiles[profiles].pieMenus[menus].hotkey
 			Hotkey, % settings.appProfiles[profiles].pieMenus[menus].hotkey, pieLabel
+			If (settings.appProfiles[profiles].pieModifier.useModifierKey == 1) && (settings.appProfiles[profiles].pieModifier.toggle == 0)
+				{
+				Hotkey, % settings.appProfiles[profiles].pieMenus[menus].hotkey, Off
+				}
 			}
 		If settings.appProfiles[profiles].pieModifier.useModifierKey == 1
 			{
@@ -76,110 +89,102 @@ for profiles in settings.appProfiles
 				{
 				Hotkey, % settings.appProfiles[profiles].pieModifier.modifierKey, onPieLabel
 				upHotkey := settings.appProfiles[profiles].pieModifier.modifierKey " up"
-				Hotkey, % upHotkey, offPieLabel			
+				Hotkey, % upHotkey, offPieLabel					
 				}
 			}
 		}
 	}
 return
+
+
+
 ;End Initialization
 
 pieLabel: ;Fixed hotkey overlap "r and ^r", refactor this
-	; pieModifiers("Off")
-	activeKey := A_ThisHotkey
-	otherHotkeys := []
+	if (pieLaunchedState == 1)
+		return	
+	pieLaunchedState := 1
+	hotKeyArray := []	
+	global activePieKey := A_ThisHotkey
+	; msgbox, % activePieKey
 	If (!WinActive("ahk_group regApps"))
 		{
 		Hotkey, IfWinNotActive, ahk_group regApps
 		for menus in settings.appProfiles[1].pieMenus
+			hotKeyArray.Push(settings.appProfiles[1].pieMenus[menus].hotkey)		
+		for menus in settings.appProfiles[1].pieMenus
 			{
 			; msgbox, % settings.appProfiles[1].pieMenus[menus].hotkey  menus
-			if (settings.appProfiles[1].pieMenus[menus].hotkey == activeKey)
+			if (settings.appProfiles[1].pieMenus[menus].hotkey == activePieKey)
 				{
-				activeMenuNum := menus	
-				; msgbox, % functionNum
-				; break
-				}
-			else
-				{
-				otherHotkeys.Push(settings.appProfiles[1].pieMenus[menus].hotkey)
-				Hotkey, % settings.appProfiles[1].pieMenus[menus].hotkey, Off				
-				}							
-			}		
-		functionNum := runPieMenu(1, activeMenuNum)
-		for offKeys in otherHotkeys
-			{				
-			Hotkey, % otherHotkeys[offKeys], On
+				blockBareKeys(activePieKey, hotKeyArray, 1)				
+				functionNum := runPieMenu(1, menus)
+				pieLaunchedState := 0				
+				blockBareKeys(activePieKey, hotKeyArray, 0)
+				 ;deactivate dummy keys
+				activePieKey := ""
+				runPieFunction(functionNum)
+				break
+				}			
 			}
 		return
 		}
-	else
+	else ;Registered applications
 		{
 		;Get application and key
 		WinGet, activeWinProc, ProcessName, A
 		WinGetClass, activeWinClass, A
-		activeKey := A_ThisHotkey
+		activePieKey := A_ThisHotkey
 		;lookup profile and key index
 		for profiles in settings.appProfiles
-			{			
-			; if ahk_group regApps not contains activeWindow
+			{
+			; if ahk_group regApps not contains activeWi6ndow
 			testAHKHandle := StrSplit(settings.appProfiles[profiles].ahkHandle, " ", ,2)[2]
 			if (testAHKHandle == activeWinProc)
 				{
 				Hotkey, IfWinActive, % "ahk_exe " + activeWinProc
 				for menus in settings.appProfiles[profiles].pieMenus
+					hotKeyArray.Push(settings.appProfiles[profiles].pieMenus[menus].hotkey)
+				for menus in settings.appProfiles[profiles].pieMenus
 					{
 					;if hotkey found
-					if settings.appProfiles[profiles].pieMenus[menus].hotkey == activeKey
+					if settings.appProfiles[profiles].pieMenus[menus].hotkey == activePieKey
 						{
-						activeMenuNum := menus						
-						; msgbox, % functionNum
-						; pieModifiers("On")
-						; break, 2
+						blockBareKeys(activePieKey, hotKeyArray, 1)
+						functionNum := runPieMenu(profiles, menus)
+						pieLaunchedState := 0
+						blockBareKeys(activePieKey, hotKeyArray, 0)
+						activePieKey := ""
+						runPieFunction(functionNum)
+						break, 2
 						}
-					else
-						{
-						otherHotkeys.Push(settings.appProfiles[profiles].pieMenus[menus].hotkey)
-						Hotkey, % settings.appProfiles[profiles].pieMenus[menus].hotkey, Off				
-						}			
-					}
-				functionNum := runPieMenu(profiles, activeMenuNum)
-				for offKeys in otherHotkeys
-					{				
-					Hotkey, % otherHotkeys[offKeys], On
 					}
 				return
 				}
 			If (testAHKHandle == activeWinClass)	
 				{
-				; msgbox, % "ahk_class " + activeWinClass		
 				Hotkey, IfWinActive, % "ahk_class " + activeWinClass
+				for menus in settings.appProfiles[profiles].pieMenus
+					hotKeyArray.Push(settings.appProfiles[profiles].pieMenus[menus].hotkey)
 				for menus in settings.appProfiles[profiles].pieMenus
 					{
 					;if hotkey found
-					if settings.appProfiles[profiles].pieMenus[menus].hotkey == activeKey
+					if settings.appProfiles[profiles].pieMenus[menus].hotkey == activePieKey
 						{
-						activeMenuNum := menus						
-						; msgbox, % functionNum
-						; pieModifiers("On")
-						; break, 2
-						}
-					else
-						{
-						otherHotkeys.Push(settings.appProfiles[profiles].pieMenus[menus].hotkey)
-						Hotkey, % settings.appProfiles[profiles].pieMenus[menus].hotkey, Off				
+						blockBareKeys(activePieKey, hotKeyArray, 1)								
+						functionNum := runPieMenu(profiles, menus)
+						pieLaunchedState := 0
+						blockBareKeys(activePieKey, hotKeyArray, 0)
+						activePieKey := ""
+						runPieFunction(functionNum)
+						break, 2
 						}					
-					}
-				functionNum := runPieMenu(profiles, activeMenuNum)
-				for offKeys in otherHotkeys
-					{
-					Hotkey, % otherHotkeys[offKeys], On
-					}
+					}				
 				return
 				}	
 			}
-		}
-return
+		}	
+	return
 
 togglePieLabel:
 	pieModifier.modToggle()
@@ -195,15 +200,9 @@ offPieLabel:
 	; msgbox, off
 return
 
-u::
-msgbox, % getActiveProfile()[2]
-return
-
 escape::
 exitapp
 return
-
-
 
 ;If a display is connected or disconnected
 	OnMessage(0x7E, "WM_DISPLAYCHANGE")

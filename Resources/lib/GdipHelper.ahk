@@ -19,12 +19,13 @@
 
 }
 
-SetUpGDIP(iOriginX=-1, iOriginY=-1, iWidth=-1, iHeight=-1) {
+SetUpGDIP(iOriginX=-1, iOriginY=-1, iWidth=-1, iHeight=-1, iToggle="Show") {
 	global
 	originX := iOriginX
 	originY := iOriginY
 	Width := iWidth
 	Height := iHeight
+	ShowToggle := iToggle
 	If (iOriginX = -1) {
 		originX := 0
 	}
@@ -37,9 +38,7 @@ SetUpGDIP(iOriginX=-1, iOriginY=-1, iWidth=-1, iHeight=-1) {
 	if (iHeight = -1) {
 		height := A_ScreenHeight
 	}
-	
-	
-	
+		
 	JustTheBasics()
 	
 	; Create a layered window (+E0x80000 : must be used for UpdateLayeredWindow to work!) that is always on top (+AlwaysOnTop), has no taskbar entry or caption

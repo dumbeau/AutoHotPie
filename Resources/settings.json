@@ -7,178 +7,693 @@
 		{
 		"name":"Default Profile",
 		"ahkHandle":"ahk_group regApps",
-		"enablePenTablet":0,
+		"enable":1,
+		
+		"enablePenTablet":0,		
 		"pieModifier":{
-			"useModifierKey":1,
+			"useModifierKey":0,
 			"modifierKey":"g",
 			"toggle":0
-			},		
+			},
 		"pieMenus":[
 			{
 			"hotkey": "r",
 			"radius": 40,
-			"numSlices":10,
 			"thickness":10,
-			"bgColor": "0xff303030",
-			"selColor": "0xff1ee8e2",
-			"offset": 1,
 			"labelDelay":5,
-			"disableInTypeField": 1,
-			"enablePie2": 1,
-			"enablePie3": 1,
-			"functions":[
+			"activePie":
+				[
 				{
-				"function":"repeatLast",
-				"label":"thing",
-				"icon":"01"
-				},
-				{
-				"function":"SendKey",
-				"label":"thing",
-				"icon":"figure this out later",
-				"key":"d"
-				}
-				],
-			"pie2":{
-				"numSlices":2,
-				"bgColor": "0xff303030",
-				"selColor": "0xffA134EB",
-				"offset": 1
-				},
-			"pie3":{
-				"numSlices":3,
-				"bgColor": "0xff303030",
-				"selColor": "0xffCC3939",
-				"offset": 1
-				}
-			},
-			{
-				"hotkey": "^r",
-				"radius": 40,
-				"numSlices":10,
-				"thickness":10,
-				"bgColor": "0xff303030",
-				"selColor": "0xffffffff",
-				"offset": 1,
-				"labelDelay":5,
-				"disableInTypeField": 1,
-				"enablePie2": 1,
-				"enablePie3": 1,
+				"numSlices":6,
+				"bgColor": [35,35,35,255],
+				"selColor": [30,232,226,255],
+				"offset": 0,
 				"functions":[
 					{
-					"function":"repeatLast",
-					"label":"thing",
-					"icon":"01"
+					"function":"sendKey",
+					"params":["blah"],
+					"label":"Send A",
+					"icon":"figurethisoutlater.svg"
+					},
+					{
+					"function":"runScript",
+					"params":["u"],
+					"label":"Run Script Wo 1",
+					"icon":"figurethisoutlater.svg"
+					},
+					{
+					"function":"sendKey",
+					"params":["c"],
+					"label":"pieFunction Test 2",
+					"icon":"figurethisoutlater.svg"
+					},
+					{
+					"function":"sendKey",
+					"params":["d"],
+					"label":"Send D 3",
+					"icon":"figurethisoutlater.svg"
+					},
+					{
+					"function":"sendKey",
+					"params":["e"],
+					"label":"Send E 4",
+					"icon":"figurethisoutlater.svg"
+					},
+					{
+					"function":"sendKey",
+					"params":["f"],
+					"label":"Send F 5",
+					"icon":"figurethisoutlater.svg"
+					},
+					{
+					"function":"sendKey",
+					"params":["f"],
+					"label":"Send F 6",
+					"icon":"figurethisoutlater.svg"
+					}
+					]
+				},
+				{
+				"enable":1,
+				"numSlices":6,
+				"bgColor": [35,35,35,255],
+				"selColor": [161,52,235,255],
+				"offset": 1,
+				"functions":[
+					{
+					"function":"sendKey",
+					"params":["a"],
+					"label":"Send A",
+					"icon":"figurethisoutlater.svg"
+					},
+					{
+					"function":"sendKey",
+					"params":["b"],
+					"label":"Send B",
+					"icon":"figurethisoutlater.svg"
+					},
+					{
+					"function":"sendKey",
+					"params":["c"],
+					"label":"Send Cfa",
+					"icon":"figurethisoutlater.svg"
+					},
+					{
+					"function":"sendKey",
+					"params":["d"],
+					"label":"Send D",
+					"icon":"figurethisoutlater.svg"
+					},
+					{
+					"function":"sendKey",
+					"params":["e"],
+					"label":"Send E",
+					"icon":"figurethisoutlater.svg"
+					},
+					{
+					"function":"sendKey",
+					"params":["f"],
+					"label":"Send F",
+					"icon":"figurethisoutlater.svg"
+					}
+					]
+				},
+				{
+				"enable":1,
+				"numSlices":3,
+				"bgColor": [35,35,35,255],
+				"selColor": [204,57,57,255],
+				"offset": 1,
+				"functions":[
+					{
+					"function":"SendKey",
+					"params":["a"],
+					"label":"Send A",
+					"icon":"figurethisoutlater.svg"
+					},
+					{
+					"function":"runScript",
+					"params":["C:\\Users\\beaug\\Desktop\\blah.ahk"],
+					"label":"Run Function",
+					"icon":"figurethisoutlater.svg"
 					},
 					{
 					"function":"SendKey",
-					"label":"thing",
-					"icon":"figure this out later",
-					"key":"d"
-					}
-					],
-				"pie2":{
-					"numSlices":2,
-					"bgColor": "0xff303030",
-					"selColor": "0xffA134EB",
-					"offset": 1
+					"params":["c"],
+					"label":"Send C",
+					"icon":"figurethisoutlater.svg"
 					},
-				"pie3":{
-					"numSlices":3,
-					"bgColor": "0xff303030",
-					"selColor": "0xffCC3939",
-					"offset": 1
+					{
+					"function":"SendKey",
+					"params":["d"],
+					"label":"Send D",
+					"icon":"figurethisoutlater.svg"
+					},
+					{
+					"function":"SendKey",
+					"params":["e"],
+					"label":"Send E",
+					"icon":"figurethisoutlater.svg"
+					},
+					{
+					"function":"SendKey",
+					"params":["f"],
+					"label":"Send F",
+					"icon":"figurethisoutlater.svg"
 					}
+					]
 				}
+				]				
+			}		
 			]
 		},
 		{
-			"name":"Chome",
-			"ahkHandle":"ahk_class Chrome_WidgetWin_1",
-			"enablePenTablet":0,
-			"pieModifier":{
-				"useModifierKey":1,
-				"modifierKey":"g",
-				"toggle":1
-				},		
-			"pieMenus":[
+		"name":"Chrome",
+		"ahkHandle":"ahk_exe chrome.exe",
+		"enablePenTablet":0,
+		"enable":1,		
+		"pieModifier":{
+			"useModifierKey":0,
+			"modifierKey":"g",
+			"toggle":0
+			},
+		"pieMenus":[
+			{
+			"hotkey": "r",
+			"radius": 40,
+			"thickness":10,
+			"labelDelay":5,
+			"activePie":
+				[
 				{
-				"hotkey": "f",
-				"radius": 40,
-				"numSlices":10,
-				"thickness":10,
-				"bgColor": "0xff303030",
-				"selColor": "0xff1ee8e2",
-				"offset": 1,
-				"labelDelay":5,
-				"disableInTypeField": 1,
-				"enablePie2": 1,
-				"enablePie3": 1,
+				"numSlices":7,
+				"bgColor": [35,35,35,255],
+				"selColor": [255,255,255,255],
+				"offset": 0,
 				"functions":[
 					{
-					"function":"repeatLast",
-					"label":"thing",
-					"icon":"01"
+					"function":"sendKey",
+					"params":["^s"],
+					"label":"Send A",
+					"icon":"figurethisoutlater.svg"
+					},
+					{
+					"function":"sendKey",
+					"params":["boops"],
+					"label":"Boops",
+					"icon":"figurethisoutlater.svg"
+					},
+					{
+					"function":"sendKey",
+					"params":["c"],
+					"label":"Send C",
+					"icon":"figurethisoutlater.svg"
+					},
+					{
+					"function":"sendKey",
+					"params":["d"],
+					"label":"Send D",
+					"icon":"figurethisoutlater.svg"
+					},
+					{
+					"function":"sendKey",
+					"params":["e"],
+					"label":"Send E",
+					"icon":"figurethisoutlater.svg"
+					},
+					{
+					"function":"sendKey",
+					"params":["f"],
+					"label":"Send F",
+					"icon":"figurethisoutlater.svg"
+					},
+					{
+					"function":"sendKey",
+					"params":["f"],
+					"label":"Send F",
+					"icon":"figurethisoutlater.svg"
+					},
+					{
+					"function":"sendKey",
+					"params":["f"],
+					"label":"Send F",
+					"icon":"figurethisoutlater.svg"
+					}
+					]
+				},
+				{
+				"enable":1,
+				"numSlices":6,
+				"bgColor": [35,35,35,255],
+				"selColor": [161,52,235,255],
+				"offset": 1,
+				"functions":[
+					{
+					"function":"sendKey",
+					"params":["a"],
+					"label":"Send A",
+					"icon":"figurethisoutlater.svg"
+					},
+					{
+					"function":"sendKey",
+					"params":["b"],
+					"label":"Send B",
+					"icon":"figurethisoutlater.svg"
+					},
+					{
+					"function":"sendKey",
+					"params":["c"],
+					"label":"Send Cfa",
+					"icon":"figurethisoutlater.svg"
+					},
+					{
+					"function":"sendKey",
+					"params":["d"],
+					"label":"Send D",
+					"icon":"figurethisoutlater.svg"
+					},
+					{
+					"function":"sendKey",
+					"params":["e"],
+					"label":"Send E",
+					"icon":"figurethisoutlater.svg"
+					},
+					{
+					"function":"sendKey",
+					"params":["f"],
+					"label":"Send F",
+					"icon":"figurethisoutlater.svg"
+					}
+					]
+				},
+				{
+				"enable":1,
+				"numSlices":3,
+				"bgColor": [35,35,35,255],
+				"selColor": [204,57,57,255],
+				"offset": 1,
+				"functions":[
+					{
+					"function":"SendKey",
+					"params":["a"],
+					"label":"Send A",
+					"icon":"figurethisoutlater.svg"
 					},
 					{
 					"function":"SendKey",
-					"label":"thing",
-					"icon":"figure this out later",
-					"key":"d"
-					}
-					],
-				"pie2":{
-					"numSlices":2,
-					"bgColor": "0xff303030",
-					"selColor": "0xffA134EB",
-					"offset": 1
+					"params":["b"],
+					"label":"Send B",
+					"icon":"figurethisoutlater.svg"
 					},
-				"pie3":{
-					"numSlices":3,
-					"bgColor": "0xff303030",
-					"selColor": "0xffCC3939",
-					"offset": 1
+					{
+					"function":"SendKey",
+					"params":["c"],
+					"label":"Send C",
+					"icon":"figurethisoutlater.svg"
+					},
+					{
+					"function":"SendKey",
+					"params":["d"],
+					"label":"Send D",
+					"icon":"figurethisoutlater.svg"
+					},
+					{
+					"function":"SendKey",
+					"params":["e"],
+					"label":"Send E",
+					"icon":"figurethisoutlater.svg"
+					},
+					{
+					"function":"SendKey",
+					"params":["f"],
+					"label":"Send F",
+					"icon":"figurethisoutlater.svg"
 					}
+					]
+				}
+				]				
+			}		
+			]
+		},
+		{
+		"name":"After Effects",
+		"ahkHandle":"ahk_exe AfterFX.exe",
+		"enable":1,
+		"enablePenTablet":0,		
+		"pieModifier":{
+			"useModifierKey":0,
+			"modifierKey":"g",
+			"toggle":0
+			},
+		"pieMenus":[
+			{
+			"hotkey": ";",
+			"radius": 40,
+			"thickness":10,
+			"labelDelay":5,
+			"activePie":
+				[
+				{
+				"numSlices":7,
+				"bgColor": [10,10,10,255],
+				"selColor": [210,145,255,255],
+				"offset": 1,
+				"functions":[
+					{
+					"function":"sendKey",
+					"params":["^s"],
+					"label":"Send A",
+					"icon":"figurethisoutlater.svg"
+					},
+					{
+					"function":"sendKey",
+					"params":["boops"],
+					"label":"Boops",
+					"icon":"figurethisoutlater.svg"
+					},
+					{
+					"function":"sendKey",
+					"params":["c"],
+					"label":"Send C",
+					"icon":"figurethisoutlater.svg"
+					},
+					{
+					"function":"sendKey",
+					"params":["d"],
+					"label":"Send D",
+					"icon":"figurethisoutlater.svg"
+					},
+					{
+					"function":"sendKey",
+					"params":["e"],
+					"label":"Send E",
+					"icon":"figurethisoutlater.svg"
+					},
+					{
+					"function":"sendKey",
+					"params":["f"],
+					"label":"Send F",
+					"icon":"figurethisoutlater.svg"
+					},
+					{
+					"function":"sendKey",
+					"params":["f"],
+					"label":"Send F",
+					"icon":"figurethisoutlater.svg"
+					},
+					{
+					"function":"sendKey",
+					"params":["f"],
+					"label":"Send F",
+					"icon":"figurethisoutlater.svg"
+					}
+					]
 				},
 				{
-					"hotkey": "^f",
-					"radius": 40,
-					"numSlices":10,
-					"thickness":10,
-					"bgColor": "0xff303030",
-					"selColor": "0xffffffff",
-					"offset": 1,
-					"labelDelay":5,
-					"disableInTypeField": 1,
-					"enablePie2": 1,
-					"enablePie3": 1,
-					"functions":[
-						{
-						"function":"repeatLast",
-						"label":"thing",
-						"icon":"01"
-						},
-						{
-						"function":"SendKey",
-						"label":"thing",
-						"icon":"figure this out later",
-						"key":"d"
-						}
-						],
-					"pie2":{
-						"numSlices":2,
-						"bgColor": "0xff303030",
-						"selColor": "0xffA134EB",
-						"offset": 1
-						},
-					"pie3":{
-						"numSlices":3,
-						"bgColor": "0xff303030",
-						"selColor": "0xffCC3939",
-						"offset": 1
-						}
+				"enable":0,
+				"numSlices":6,
+				"bgColor": [35,35,35,255],
+				"selColor": [161,52,235,255],
+				"offset": 1,
+				"functions":[
+					{
+					"function":"sendKey",
+					"params":["a"],
+					"label":"Send A",
+					"icon":"figurethisoutlater.svg"
+					},
+					{
+					"function":"sendKey",
+					"params":["b"],
+					"label":"Send B",
+					"icon":"figurethisoutlater.svg"
+					},
+					{
+					"function":"sendKey",
+					"params":["c"],
+					"label":"Send Cfa",
+					"icon":"figurethisoutlater.svg"
+					},
+					{
+					"function":"sendKey",
+					"params":["d"],
+					"label":"Send D",
+					"icon":"figurethisoutlater.svg"
+					},
+					{
+					"function":"sendKey",
+					"params":["e"],
+					"label":"Send E",
+					"icon":"figurethisoutlater.svg"
+					},
+					{
+					"function":"sendKey",
+					"params":["f"],
+					"label":"Send F",
+					"icon":"figurethisoutlater.svg"
 					}
-				]
-			}
+					]
+				},
+				{
+				"enable":0,
+				"numSlices":3,
+				"bgColor": [35,35,35,255],
+				"selColor": [204,57,57,255],
+				"offset": 0,
+				"functions":[
+					{
+					"function":"SendKey",
+					"params":["a"],
+					"label":"Send A",
+					"icon":"figurethisoutlater.svg"
+					},
+					{
+					"function":"SendKey",
+					"params":["b"],
+					"label":"Send B",
+					"icon":"figurethisoutlater.svg"
+					},
+					{
+					"function":"SendKey",
+					"params":["c"],
+					"label":"Send C",
+					"icon":"figurethisoutlater.svg"
+					},
+					{
+					"function":"SendKey",
+					"params":["d"],
+					"label":"Send D",
+					"icon":"figurethisoutlater.svg"
+					},
+					{
+					"function":"SendKey",
+					"params":["e"],
+					"label":"Send E",
+					"icon":"figurethisoutlater.svg"
+					},
+					{
+					"function":"SendKey",
+					"params":["f"],
+					"label":"Send F",
+					"icon":"figurethisoutlater.svg"
+					}
+					]
+				}
+				]				
+			}		
+			]
+		},
+		{
+		"name":"After Effects",
+		"ahkHandle":"ahk_exe AfterFX.exe",
+		"enable":1,
+		"enablePenTablet":0,		
+		"pieModifier":{
+			"useModifierKey":0,
+			"modifierKey":"g",
+			"toggle":0
+			},
+		"pieMenus":[
+			{
+			"hotkey": ";",
+			"radius": 40,
+			"thickness":10,
+			"labelDelay":5,
+			"activePie":
+				[
+				{
+				"numSlices":7,
+				"bgColor": [10,10,10,255],
+				"selColor": [210,145,255,255],
+				"offset": 1,
+				"functions":[
+					{
+					"function":"sendKey",
+					"params":["^s"],
+					"label":"Send A",
+					"icon":"figurethisoutlater.svg"
+					},
+					{
+					"function":"sendKey",
+					"params":["boops"],
+					"label":"Boops",
+					"icon":"figurethisoutlater.svg"
+					},
+					{
+					"function":"sendKey",
+					"params":["c"],
+					"label":"Send C",
+					"icon":"figurethisoutlater.svg"
+					},
+					{
+					"function":"sendKey",
+					"params":["d"],
+					"label":"Send D",
+					"icon":"figurethisoutlater.svg"
+					},
+					{
+					"function":"sendKey",
+					"params":["e"],
+					"label":"Send E",
+					"icon":"figurethisoutlater.svg"
+					},
+					{
+					"function":"sendKey",
+					"params":["f"],
+					"label":"Send F",
+					"icon":"figurethisoutlater.svg"
+					},
+					{
+					"function":"sendKey",
+					"params":["f"],
+					"label":"Send F",
+					"icon":"figurethisoutlater.svg"
+					},
+					{
+					"function":"sendKey",
+					"params":["f"],
+					"label":"Send F",
+					"icon":"figurethisoutlater.svg"
+					}
+					]
+				},
+				{
+				"enable":0,
+				"numSlices":6,
+				"bgColor": [35,35,35,255],
+				"selColor": [161,52,235,255],
+				"offset": 1,
+				"functions":[
+					]
+				},
+				{
+				"enable":0,
+				"numSlices":3,
+				"bgColor": [35,35,35,255],
+				"selColor": [204,57,57,255],
+				"offset": 0,
+				"functions":[
+					]
+				}
+				]				
+			}		
+			]
+		},
+		{
+		"name":"Photoshop",
+		"ahkHandle":"ahk_exe Photoshop.exe",
+		"enable":1,
+		"enablePenTablet":0,		
+		"pieModifier":{
+			"useModifierKey":1,
+			"modifierKey":"F2",
+			"toggle":1
+			},
+		"pieMenus":[
+			{
+			"hotkey": "b",
+			"radius": 40,
+			"thickness":10,
+			"labelDelay":5,
+			"activePie":
+				[
+				{
+				"numSlices":4,
+				"bgColor": [10,10,10,255],
+				"selColor": [53, 185, 233,255],
+				"offset": 1,
+				"functions":[
+					{
+					"function":"none",
+					"params":["moveTool"],
+					"label":"Move Tool",
+					"icon":"figurethisoutlater.svg"
+					},
+					{
+					"function":"Photoshop_cycleTool",
+					"params":["magicStampTool", "patchSelection"],
+					"label":"Stamp and Patch",
+					"icon":"figurethisoutlater.svg"
+					},
+					{
+					"function":"Photoshop_cycleTool",
+					"params":["paintbrushTool","eraserTool"],
+					"label":"Brush/Eraser",
+					"icon":"figurethisoutlater.svg"
+					},
+					{
+					"function":"Photoshop_cycleTool",
+					"params":["gradientTool","bucketTool","blurTool"],
+					"label":"Three Tools",
+					"icon":"figurethisoutlater.svg"
+					},
+					{
+					"function":"Photoshop_cycleTool",
+					"params":["moveTool"],
+					"label":"Move Tool",
+					"icon":"figurethisoutlater.svg"
+					},
+					{
+					"function":"sendKey",
+					"params":["f"],
+					"label":"Send F",
+					"icon":"figurethisoutlater.svg"
+					},
+					{
+					"function":"sendKey",
+					"params":["f"],
+					"label":"Send F",
+					"icon":"figurethisoutlater.svg"
+					},
+					{
+					"function":"sendKey",
+					"params":["f"],
+					"label":"Send F",
+					"icon":"figurethisoutlater.svg"
+					}
+					]
+				},
+				{
+				"enable":0,
+				"numSlices":6,
+				"bgColor": [35,35,35,255],
+				"selColor": [161,52,235,255],
+				"offset": 1,
+				"functions":[
+					]
+				},
+				{
+				"enable":0,
+				"numSlices":3,
+				"bgColor": [35,35,35,255],
+				"selColor": [204,57,57,255],
+				"offset": 0,
+				"functions":[
+					]
+				}
+				]				
+			}		
+			]
+		}
 	]	
 }
