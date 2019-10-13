@@ -10,8 +10,22 @@ CoordMode, Mouse, Screen
 checkAHK()
 
 ;Read Json Settings file to object
-	FileRead, settings, %A_ScriptDir%\Resources\settings.json
-	global settings := Jxon_Load(settings)
+	Try
+	{
+		FileRead, settings, %A_ScriptDir%\Resources\settings.json
+		global settings := Jxon_Load(settings)
+	} catch e {
+		msgbox, Settings file is invalid JSON.`n`nNo Pie Menus for you :(`n`nFind settings file at Pie-Menus-V3\Resources\settings.json
+		Exitapp
+	}
+	
+
+
+
+if FileExist(settings.global.adobeScriptsFolder)
+	{
+	copyFilesAndFolders(A_ScriptDir . "\Resources\Local Scripts\AdobePieScripts", settings.global.adobeScriptsFolder, True)
+	} ;Check if folder exists.
 
 ;Initialize Variables and GDI+ Screen bitmap
 	;Thank you Tariq Porter
@@ -44,6 +58,8 @@ for profiles in settings.appProfiles
 		Hotkey, IfWinNotActive, ahk_group regApps
 		for menus in settings.appProfiles[profiles].pieMenus
 			{
+			if settings.appProfiles[profiles].pieMenus[menus].enable = 0
+				continue
 			Hotkey, % settings.appProfiles[profiles].pieMenus[menus].hotkey, pieLabel
 			If (settings.appProfiles[profiles].pieModifier.useModifierKey == 1) && (settings.appProfiles[profiles].pieModifier.toggle == 0)
 				{ ;initialize off if modkey active no toggle

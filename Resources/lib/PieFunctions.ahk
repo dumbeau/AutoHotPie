@@ -17,6 +17,10 @@ pie_focusApplication(applications)
 	{
 	return
 	}
+pie_multiClipboard()
+	{
+	return	
+	}
 pie_repeatLastFunction() ;special function
 	{
 	return
@@ -33,8 +37,12 @@ pie_afterfx_cursorToPlayhead()
 	{
 	return
 	}
+pie_afterfx_runPieScript()
+	{
+	return
+	}
 ; photoshopTools := ["moveTool","artboardTool","marqueeRectTool","marqueeEllipTool","marqueeSingleRowTool","marqueeSingleColumnTool","lassoTool","polySelTool","magneticLassoTool","quickSelectTool","magicWandTool","cropTool","perspectiveCropTool","sliceTool","sliceSelectTool","framedGroupTool","eyedropperTool","3DMaterialSelectTool","colorSamplerTool","rulerTool","textAnnotTool","countTool","spotHealingBrushTool","magicStampTool","patchSelection","recomposeSelection","redEyeTool","paintbrushTool","pencilTool","colorReplacementBrushTool","wetBrushTool","cloneStampTool","patternStampTool","historyBrushTool","artBrushTool","eraserTool","backgroundEraserTool","magicEraserTool","gradientTool","bucketTool","3DMaterialDropTool","blurTool","sharpenTool","smudgeTool","dodgeTool","burnInTool","saturationTool","penTool","freeformPenTool","curvaturePenTool","addKnotTool","deleteKnotTool","convertKnotTool","typeCreateOrEditTool","typeVerticalCreateOrEditTool","typeVerticalCreateMaskTool","typeCreateMaskTool","pathComponentSelectTool","directSelectTool","rectangleTool","roundedRectangleTool","ellipseTool","polygonTool","lineTool","customShapeTool","handTool","rotateTool","zoomTool"]		
-pie_Photoshop_cycleTool(cycleTools)
+pie_Photoshop_cycleTool(cycleTools) ;cycle through array of tools.  The array can have only one value as well.
 	{
 	; msgbox, hi
 	appRef := ComObjActive( "Photoshop.Application" )

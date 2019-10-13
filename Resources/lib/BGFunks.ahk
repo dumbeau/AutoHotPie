@@ -69,6 +69,22 @@ checkAHK()
 	}
 	}
 
+copyFilesAndFolders(SourcePattern, DestinationFolder, DoOverwrite = false)
+	{
+    ; First copy all the files (but not the folders):
+    FileCopy, %SourcePattern%, %DestinationFolder%, %DoOverwrite%
+    ErrorCount := ErrorLevel
+    ; Now copy all the folders:
+    Loop, %SourcePattern%, 2  ; 2 means "retrieve folders only".
+    {
+        FileCopyDir, %A_LoopFileFullPath%, %DestinationFolder%\%A_LoopFileName%, %DoOverwrite%
+        ErrorCount += ErrorLevel
+        if ErrorLevel  ; Report each problem folder by name.
+            MsgBox Could not copy %A_LoopFileFullPath% into %DestinationFolder%.
+    }
+    return ErrorCount
+	}
+
 cycleRange(var, range=360){
 	var := var - (range*Floor((var / range)))
 	return var
@@ -108,7 +124,7 @@ drawPieLabel(pGraphics, labelText, xPos, yPos, selected:=0, anchor:="top", activ
 	xPosition := xPos
 	yPosition := yPos
 	pad := 6
-	fontSize := 12	
+	fontSize := 14	
 	If (selected == 1)
 		{
 		strokeColor := RGBAtoHEX(activePieProfile.selColor)

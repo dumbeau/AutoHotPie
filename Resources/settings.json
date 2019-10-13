@@ -1,14 +1,14 @@
 {
 "global":{
-	"pieTips":0
+	"pieTips":0,
+	"adobeScriptsFolder":"C:\\Users\\beaug\\Documents\\Adobe Scripts\\"
 },
 "appProfiles":
 	[
 		{
 		"name":"Default Profile",
 		"ahkHandle":"ahk_group regApps",
-		"enable":1,
-		
+		"enable":1,		
 		"enablePenTablet":0,		
 		"pieModifier":{
 			"useModifierKey":0,
@@ -16,11 +16,12 @@
 			"toggle":0
 			},
 		"pieMenus":[
-			{
+			{		
 			"hotkey": "r",
 			"radius": 40,
 			"thickness":10,
 			"labelDelay":5,
+			"enable":1,
 			"activePie":
 				[
 				{
@@ -30,9 +31,9 @@
 				"offset": 0,
 				"functions":[
 					{
-					"function":"sendKey",
+					"function":"none",
 					"params":["blah"],
-					"label":"Send A",
+					"label":"I do nothing or show",
 					"icon":"figurethisoutlater.svg"
 					},
 					{
@@ -170,8 +171,8 @@
 		{
 		"name":"Chrome",
 		"ahkHandle":"ahk_exe chrome.exe",
-		"enablePenTablet":0,
-		"enable":1,		
+		"enable":1,
+		"enablePenTablet":0,				
 		"pieModifier":{
 			"useModifierKey":0,
 			"modifierKey":"g",
@@ -183,6 +184,7 @@
 			"radius": 40,
 			"thickness":10,
 			"labelDelay":5,
+			"enable":1,
 			"activePie":
 				[
 				{
@@ -351,6 +353,7 @@
 			"radius": 40,
 			"thickness":10,
 			"labelDelay":5,
+			"enable":1,
 			"activePie":
 				[
 				{
@@ -519,6 +522,7 @@
 			"radius": 40,
 			"thickness":10,
 			"labelDelay":5,
+			"enable":1,
 			"activePie":
 				[
 				{
@@ -615,6 +619,7 @@
 			"radius": 40,
 			"thickness":10,
 			"labelDelay":5,
+			"enable":1,
 			"activePie":
 				[
 				{
