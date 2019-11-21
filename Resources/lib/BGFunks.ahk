@@ -147,7 +147,7 @@ drawPieLabel(pGraphics, labelText, xPos, yPos, selected:=0, anchor:="top", activ
 	basicBrush := Gdip_BrushCreateSolid(labelBGColor)
 	theRect := Gdip_TextToGraphics(pGraphics, displayText, textOptionsTest, "Arial")
 	theRect := StrSplit(theRect, "|")
-	theRect[3] := Ceil(theRect[3])
+	theRect[3] := Max(Ceil(theRect[3]), 100)
 	theRect[4] := Ceil(theRect[4])
 	If (anchor == "bottom")
 		{
@@ -210,6 +210,8 @@ drawPie(G, xPos, yPos, dist, theta, numSlices, radius, thickness, bgColor, selec
 	;Draw pie labels
 	loop, %numSlices%
 		{
+		if (activePieProfile.functions[A_Index+1].label = "")
+			continue
 		labelTheta := (((A_Index-1)*(360/numSlices))+(180/numSlices+thetaOffset))
 		if labelTheta between 0.1 and 179.9
 			labelAnchor := "left"
@@ -225,13 +227,14 @@ drawPie(G, xPos, yPos, dist, theta, numSlices, radius, thickness, bgColor, selec
 		Else
 			selectedLabelState := 0
 		
-		drawPieLabel(G, activePieProfile.functions[A_Index+1].label, Round(xPos+(labelRadius*Cos((labelTheta-90)*0.01745329252))), Round(ypos+(labelRadius*Sin((labelTheta-90)*0.01745329252))), selectedLabelState, labelAnchor, activePieProfile)
+		drawPieLabel(G, activePieProfile.functions[A_Index+1].label, Round(gmx+(labelRadius*Cos((labelTheta-90)*0.01745329252))), Round(gmy+(labelRadius*Sin((labelTheta-90)*0.01745329252))), selectedLabelState, labelAnchor, activePieProfile)
 		}
 	EndDrawGDIP()
 	return pieRegion
 	}
 runPieMenu(profileNum, index)
 	{
+	;REFACTOR - Declare variables better
 	global
 	MouseGetPos, iMouseX, iMouseY
 	StartDrawGDIP()
@@ -244,7 +247,7 @@ runPieMenu(profileNum, index)
 	runningProfile := settings.appProfiles[profileNum].pieMenus[index]
 	offsetPie := [runningProfile.activePie[1].offset*(180/runningProfile.activePie[1].numSlices),runningProfile.activePie[2].offset*(180/runningProfile.activePie[2].numSlices),runningProfile.activePie[3].offset*(180/runningProfile.activePie[3].numSlices)]	
 	pieMode := 0
-	pieRegion := 0 ;what is this used for?
+	pieRegion := 0 ;what is one this used for?
 	drawPie(G, iMouseX, iMouseY, 0, 0, runningProfile.activePie[activePieNumber].numSlices, runningProfile.radius, runningProfile.thickness, runningProfile.activePie[1].bgColor, runningProfile.activePie[1].selColor, offsetPie[1], runningProfile.activePie[activePieNumber])
 	fPieRegion := 0
 	pieHotkey := removeCharacters(runningProfile.hotkey, "!^+#")
@@ -401,11 +404,46 @@ Class pieModifier{
 	}
 runPieFunction(funcNum)
 	{
-	selectedRegion := settings.appProfiles[funcNum[1]].pieMenus[funcNum[2]].activePie[funcNum[3]].functions[funcNum[4]+1]
+	static lastPieFunctionRanTickCount := 0
+	static lastPieFunctionRan = ""
+	selectedRegion := settings.appProfiles[funcNum[1]].pieMenus[funcNum[2]].activePie[funcNum[3]].functions[funcNum[4]+1]	
+	if (selectedRegion.function = "repeatLastFunction")
+		{
+		;Determine timeOut 0 := Infinite or >0 := value
+		repeatTimeOut := 0	
+		If (selectedRegion.params[1] > 0)
+			{
+			if ((lastPieFunctionRanTickCount + (selectedRegion.params[1]*1000)) > A_TickCount)
+				repeatTimeOut := 1		
+			}				
+		else
+			repeatTimeOut := 1
+
+		if (lastPieFunctionRan != "") && repeatTimeOut
+			selectedRegion := lastPieFunctionRan
+		else
+			return
+		}
+	else
+		{
+		lastPieFunctionRan := selectedRegion	
+		}	
+
 	pieFuncToRun := "pie_" . selectedRegion.function	
 	pieFuncParamsArray := selectedRegion.params
 	%pieFuncToRun%(pieFuncParamsArray)
+
+	lastPieFunctionRanTickCount := A_TickCount
 	}
+
+; runPieFunction(funcNum)
+; 	{	
+; 	selectedRegion := settings.appProfiles[funcNum[1]].pieMenus[funcNum[2]].activePie[funcNum[3]].functions[funcNum[4]+1]	
+; 	pieFuncToRun := "pie_" . selectedRegion.function	
+; 	pieFuncParamsArray := selectedRegion.params
+; 	%pieFuncToRun%(pieFuncParamsArray)
+; 	}
+
 getActiveProfile()
 	{
 	If (!WinActive("ahk_group regApps"))

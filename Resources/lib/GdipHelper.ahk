@@ -21,6 +21,7 @@
 
 SetUpGDIP(iOriginX=-1, iOriginY=-1, iWidth=-1, iHeight=-1, iToggle="Show") {
 	global
+	Gui -DPIScale
 	originX := iOriginX
 	originY := iOriginY
 	Width := iWidth

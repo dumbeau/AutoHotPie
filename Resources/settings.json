@@ -8,7 +8,7 @@
 		{
 		"name":"Default Profile",
 		"ahkHandle":"ahk_group regApps",
-		"enable":1,		
+		"enable":1,
 		"enablePenTablet":0,		
 		"pieModifier":{
 			"useModifierKey":0,
@@ -38,8 +38,8 @@
 					},
 					{
 					"function":"runScript",
-					"params":["u"],
-					"label":"Run Script Wo 1",
+					"params":["%A_ScriptDir%\\Local Scripts\\testscript.ahk"],
+					"label":"Run local script",
 					"icon":"figurethisoutlater.svg"
 					},
 					{
@@ -55,9 +55,9 @@
 					"icon":"figurethisoutlater.svg"
 					},
 					{
-					"function":"sendKey",
-					"params":["e"],
-					"label":"Send E 4",
+					"function":"repeatLastFunction",
+					"params":[0.5],
+					"label":"Repeat Last Function",
 					"icon":"figurethisoutlater.svg"
 					},
 					{
@@ -75,7 +75,7 @@
 					]
 				},
 				{
-				"enable":1,
+				"enable":0,
 				"numSlices":6,
 				"bgColor": [35,35,35,255],
 				"selColor": [161,52,235,255],
@@ -120,7 +120,7 @@
 					]
 				},
 				{
-				"enable":1,
+				"enable":0,
 				"numSlices":3,
 				"bgColor": [35,35,35,255],
 				"selColor": [204,57,57,255],

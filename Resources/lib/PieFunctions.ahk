@@ -10,8 +10,17 @@ pie_sendKey(keys)
 	}
 pie_runScript(scripts)
 	{
-	run, "C:\Users\beaug\Desktop\blah.ahk"
+	Try
+	{
+	If (SubStr(scripts[1], 1, 13) = "%A_ScriptDir%")
+		run, % A_ScriptDir . SubStr(scripts[1], 14)
+	else
+		run, % scripts[1]
 	return
+	} catch e {
+		msgbox, % "Cannot run the script at:`n`n" . scripts[1]
+	return
+	}
 	}
 pie_focusApplication(applications)
 	{
@@ -19,9 +28,9 @@ pie_focusApplication(applications)
 	}
 pie_multiClipboard()
 	{
-	return	
+	return
 	}
-pie_repeatLastFunction() ;special function
+pie_repeatLastFunction(timeOut) ;special function
 	{
 	return
 	}

@@ -1,0 +1,14 @@
+C:\Users\beaug\Documents\GitHub\Pie-Menus-V3\Resources\PieMenuSettings\PieMenuSettings\bin\Debug\PieMenuSettings.exe.config
+C:\Users\beaug\Documents\GitHub\Pie-Menus-V3\Resources\PieMenuSettings\PieMenuSettings\bin\Debug\PieMenuSettings.exe
+C:\Users\beaug\Documents\GitHub\Pie-Menus-V3\Resources\PieMenuSettings\PieMenuSettings\bin\Debug\PieMenuSettings.pdb
+C:\Users\beaug\Documents\GitHub\Pie-Menus-V3\Resources\PieMenuSettings\PieMenuSettings\obj\Debug\PieMenuSettings.csprojAssemblyReference.cache
+C:\Users\beaug\Documents\GitHub\Pie-Menus-V3\Resources\PieMenuSettings\PieMenuSettings\obj\Debug\MainWindow.g.cs
+C:\Users\beaug\Documents\GitHub\Pie-Menus-V3\Resources\PieMenuSettings\PieMenuSettings\obj\Debug\App.g.cs
+C:\Users\beaug\Documents\GitHub\Pie-Menus-V3\Resources\PieMenuSettings\PieMenuSettings\obj\Debug\PieMenuSettings_MarkupCompile.cache
+C:\Users\beaug\Documents\GitHub\Pie-Menus-V3\Resources\PieMenuSettings\PieMenuSettings\obj\Debug\PieMenuSettings_MarkupCompile.lref
+C:\Users\beaug\Documents\GitHub\Pie-Menus-V3\Resources\PieMenuSettings\PieMenuSettings\obj\Debug\MainWindow.baml
+C:\Users\beaug\Documents\GitHub\Pie-Menus-V3\Resources\PieMenuSettings\PieMenuSettings\obj\Debug\PieMenuSettings.g.resources
+C:\Users\beaug\Documents\GitHub\Pie-Menus-V3\Resources\PieMenuSettings\PieMenuSettings\obj\Debug\PieMenuSettings.Properties.Resources.resources
+C:\Users\beaug\Documents\GitHub\Pie-Menus-V3\Resources\PieMenuSettings\PieMenuSettings\obj\Debug\PieMenuSettings.csproj.GenerateResource.cache
+C:\Users\beaug\Documents\GitHub\Pie-Menus-V3\Resources\PieMenuSettings\PieMenuSettings\obj\Debug\PieMenuSettings.exe
+C:\Users\beaug\Documents\GitHub\Pie-Menus-V3\Resources\PieMenuSettings\PieMenuSettings\obj\Debug\PieMenuSettings.pdb
