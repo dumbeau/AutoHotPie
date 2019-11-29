@@ -15,13 +15,15 @@ checkAHK()
 		FileRead, settings, %A_ScriptDir%\settings.json
 		global settings := Jxon_Load(settings)
 	} catch e {
-		msgbox, Settings file is invalid JSON.`n`nNo Pie Menus for you :(`n`nFind settings file at Pie-Menus-V3\Resources\settings.json
+		msgbox, % "Settings file is invalid JSON.`n`nNo Pie Menus for you :(`n`nFix settings file at:`n" . A_ScriptDir . "\settings.json"
 		Exitapp
 	}
-if FileExist(settings.global.adobeScriptsFolder)
-	{
-	copyFilesAndFolders(A_ScriptDir . "\Local Scripts\AdobePieScripts", settings.global.adobeScriptsFolder, True)
-	} ;Check if folder exists.
+
+;Experimental
+; if FileExist(settings.global.adobeScriptsFolder)
+; 	{
+; 	copyFilesAndFolders(A_ScriptDir . "\Local Scripts\AdobePieScripts", settings.global.adobeScriptsFolder, True)
+; 	} ;Check if folder exists.
 
 ;Initialize Variables and GDI+ Screen bitmap
 	;Thank you Tariq Porter

@@ -338,7 +338,7 @@ runPieMenu(profileNum, index)
 	StartDrawGDIP()
 	ClearDrawGDIP()
 	EndDrawGDIP()	
-	return [profileNum,index,activePieNumber,pieRegion]
+	return [profileNum,index,activePieNumber,pieRegion, iMouseX, iMouseY]
 	}
 
 
@@ -406,7 +406,13 @@ runPieFunction(funcNum)
 	{
 	static lastPieFunctionRanTickCount := 0
 	static lastPieFunctionRan = ""
+	
 	selectedRegion := settings.appProfiles[funcNum[1]].pieMenus[funcNum[2]].activePie[funcNum[3]].functions[funcNum[4]+1]	
+	if selectedRegion.returnMousePos = 1
+		{
+		MouseMove, funcNum[5], funcNum[6], 0
+		; BlockInput, Mouse
+		}
 	if (selectedRegion.function = "repeatLastFunction")
 		{
 		;Determine timeOut 0 := Infinite or >0 := value
@@ -415,7 +421,7 @@ runPieFunction(funcNum)
 			{
 			if ((lastPieFunctionRanTickCount + (selectedRegion.params[1]*1000)) > A_TickCount)
 				repeatTimeOut := 1		
-			}				
+			}
 		else
 			repeatTimeOut := 1
 
@@ -434,15 +440,10 @@ runPieFunction(funcNum)
 	%pieFuncToRun%(pieFuncParamsArray)
 
 	lastPieFunctionRanTickCount := A_TickCount
+	
+	; if selectedRegion.returnMousePos = 1
+	; 	BlockInput, Off
 	}
-
-; runPieFunction(funcNum)
-; 	{	
-; 	selectedRegion := settings.appProfiles[funcNum[1]].pieMenus[funcNum[2]].activePie[funcNum[3]].functions[funcNum[4]+1]	
-; 	pieFuncToRun := "pie_" . selectedRegion.function	
-; 	pieFuncParamsArray := selectedRegion.params
-; 	%pieFuncToRun%(pieFuncParamsArray)
-; 	}
 
 getActiveProfile()
 	{

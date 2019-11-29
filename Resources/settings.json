@@ -34,42 +34,49 @@
 					"function":"none",
 					"params":["blah"],
 					"label":"I do nothing or show",
+					"returnMousePos":0,
 					"icon":"figurethisoutlater.svg"
 					},
 					{
 					"function":"runScript",
 					"params":["%A_ScriptDir%\\Local Scripts\\testscript.ahk"],
 					"label":"Run local script",
+					"returnMousePos":0,
 					"icon":"figurethisoutlater.svg"
 					},
 					{
 					"function":"sendKey",
 					"params":["c"],
 					"label":"pieFunction Test 2",
+					"returnMousePos":0,
 					"icon":"figurethisoutlater.svg"
 					},
 					{
 					"function":"sendKey",
 					"params":["d"],
 					"label":"Send D 3",
+					"returnMousePos":0,
 					"icon":"figurethisoutlater.svg"
 					},
 					{
 					"function":"repeatLastFunction",
 					"params":[0.5],
 					"label":"Repeat Last Function",
+					"returnMousePos":0,
 					"icon":"figurethisoutlater.svg"
 					},
 					{
 					"function":"sendKey",
 					"params":["f"],
 					"label":"Send F 5",
+					"returnMousePos":0,
 					"icon":"figurethisoutlater.svg"
 					},
 					{
 					"function":"sendKey",
 					"params":["f"],
 					"label":"Send F 6",
+					"returnMousePos":0,
 					"icon":"figurethisoutlater.svg"
 					}
 					]
@@ -85,36 +92,42 @@
 					"function":"sendKey",
 					"params":["a"],
 					"label":"Send A",
+					"returnMousePos":0,
 					"icon":"figurethisoutlater.svg"
 					},
 					{
 					"function":"sendKey",
 					"params":["b"],
 					"label":"Send B",
+					"returnMousePos":0,
 					"icon":"figurethisoutlater.svg"
 					},
 					{
 					"function":"sendKey",
 					"params":["c"],
 					"label":"Send Cfa",
+					"returnMousePos":0,
 					"icon":"figurethisoutlater.svg"
 					},
 					{
 					"function":"sendKey",
 					"params":["d"],
 					"label":"Send D",
+					"returnMousePos":0,
 					"icon":"figurethisoutlater.svg"
 					},
 					{
 					"function":"sendKey",
 					"params":["e"],
 					"label":"Send E",
+					"returnMousePos":0,
 					"icon":"figurethisoutlater.svg"
 					},
 					{
 					"function":"sendKey",
 					"params":["f"],
 					"label":"Send F",
+					"returnMousePos":0,
 					"icon":"figurethisoutlater.svg"
 					}
 					]
@@ -130,36 +143,42 @@
 					"function":"SendKey",
 					"params":["a"],
 					"label":"Send A",
+					"returnMousePos":0,
 					"icon":"figurethisoutlater.svg"
 					},
 					{
 					"function":"runScript",
 					"params":["C:\\Users\\beaug\\Desktop\\blah.ahk"],
 					"label":"Run Function",
+					"returnMousePos":0,
 					"icon":"figurethisoutlater.svg"
 					},
 					{
 					"function":"SendKey",
 					"params":["c"],
 					"label":"Send C",
+					"returnMousePos":0,
 					"icon":"figurethisoutlater.svg"
 					},
 					{
 					"function":"SendKey",
 					"params":["d"],
 					"label":"Send D",
+					"returnMousePos":0,
 					"icon":"figurethisoutlater.svg"
 					},
 					{
 					"function":"SendKey",
 					"params":["e"],
 					"label":"Send E",
+					"returnMousePos":0,
 					"icon":"figurethisoutlater.svg"
 					},
 					{
 					"function":"SendKey",
 					"params":["f"],
 					"label":"Send F",
+					"returnMousePos":0,
 					"icon":"figurethisoutlater.svg"
 					}
 					]
@@ -194,58 +213,66 @@
 				"offset": 0,
 				"functions":[
 					{
-					"function":"sendKey",
-					"params":["^s"],
+					"function":"none",
+					"params":[""],
 					"label":"Send A",
+					"returnMousePos":0,
 					"icon":"figurethisoutlater.svg"
 					},
 					{
 					"function":"sendKey",
 					"params":["boops"],
 					"label":"Boops",
+					"returnMousePos":0,
 					"icon":"figurethisoutlater.svg"
 					},
 					{
 					"function":"sendKey",
 					"params":["c"],
 					"label":"Send C",
+					"returnMousePos":0,
 					"icon":"figurethisoutlater.svg"
 					},
 					{
 					"function":"sendKey",
 					"params":["d"],
 					"label":"Send D",
+					"returnMousePos":0,
 					"icon":"figurethisoutlater.svg"
 					},
 					{
 					"function":"sendKey",
 					"params":["e"],
 					"label":"Send E",
+					"returnMousePos":0,
 					"icon":"figurethisoutlater.svg"
 					},
 					{
 					"function":"sendKey",
 					"params":["f"],
 					"label":"Send F",
+					"returnMousePos":0,
 					"icon":"figurethisoutlater.svg"
 					},
 					{
 					"function":"sendKey",
 					"params":["f"],
 					"label":"Send F",
+					"returnMousePos":0,
 					"icon":"figurethisoutlater.svg"
 					},
 					{
 					"function":"sendKey",
 					"params":["f"],
 					"label":"Send F",
+					"returnMousePos":0,
 					"icon":"figurethisoutlater.svg"
 					}
 					]
 				},
 				{
 				"enable":1,
-				"numSlices":6,
+				"numSlices":5,
 				"bgColor": [35,35,35,255],
 				"selColor": [161,52,235,255],
 				"offset": 1,
@@ -254,36 +281,42 @@
 					"function":"sendKey",
 					"params":["a"],
 					"label":"Send A",
+					"returnMousePos":0,
 					"icon":"figurethisoutlater.svg"
 					},
 					{
 					"function":"sendKey",
 					"params":["b"],
 					"label":"Send B",
+					"returnMousePos":0,
 					"icon":"figurethisoutlater.svg"
 					},
 					{
 					"function":"sendKey",
 					"params":["c"],
-					"label":"Send Cfa",
+					"label":"Send C",
+					"returnMousePos":0,
 					"icon":"figurethisoutlater.svg"
 					},
 					{
 					"function":"sendKey",
 					"params":["d"],
 					"label":"Send D",
+					"returnMousePos":0,
 					"icon":"figurethisoutlater.svg"
 					},
 					{
 					"function":"sendKey",
 					"params":["e"],
 					"label":"Send E",
+					"returnMousePos":0,
 					"icon":"figurethisoutlater.svg"
 					},
 					{
 					"function":"sendKey",
 					"params":["f"],
 					"label":"Send F",
+					"returnMousePos":0,
 					"icon":"figurethisoutlater.svg"
 					}
 					]
@@ -299,304 +332,44 @@
 					"function":"SendKey",
 					"params":["a"],
 					"label":"Send A",
+					"returnMousePos":0,
 					"icon":"figurethisoutlater.svg"
 					},
 					{
 					"function":"SendKey",
 					"params":["b"],
 					"label":"Send B",
+					"returnMousePos":0,
 					"icon":"figurethisoutlater.svg"
 					},
 					{
 					"function":"SendKey",
 					"params":["c"],
 					"label":"Send C",
+					"returnMousePos":0,
 					"icon":"figurethisoutlater.svg"
 					},
 					{
 					"function":"SendKey",
 					"params":["d"],
 					"label":"Send D",
+					"returnMousePos":0,
 					"icon":"figurethisoutlater.svg"
 					},
 					{
 					"function":"SendKey",
 					"params":["e"],
 					"label":"Send E",
+					"returnMousePos":0,
 					"icon":"figurethisoutlater.svg"
 					},
 					{
 					"function":"SendKey",
 					"params":["f"],
 					"label":"Send F",
+					"returnMousePos":0,
 					"icon":"figurethisoutlater.svg"
 					}
-					]
-				}
-				]				
-			}		
-			]
-		},
-		{
-		"name":"After Effects",
-		"ahkHandle":"ahk_exe AfterFX.exe",
-		"enable":1,
-		"enablePenTablet":0,		
-		"pieModifier":{
-			"useModifierKey":0,
-			"modifierKey":"g",
-			"toggle":0
-			},
-		"pieMenus":[
-			{
-			"hotkey": ";",
-			"radius": 40,
-			"thickness":10,
-			"labelDelay":5,
-			"enable":1,
-			"activePie":
-				[
-				{
-				"numSlices":7,
-				"bgColor": [10,10,10,255],
-				"selColor": [210,145,255,255],
-				"offset": 1,
-				"functions":[
-					{
-					"function":"sendKey",
-					"params":["^s"],
-					"label":"Send A",
-					"icon":"figurethisoutlater.svg"
-					},
-					{
-					"function":"sendKey",
-					"params":["boops"],
-					"label":"Boops",
-					"icon":"figurethisoutlater.svg"
-					},
-					{
-					"function":"sendKey",
-					"params":["c"],
-					"label":"Send C",
-					"icon":"figurethisoutlater.svg"
-					},
-					{
-					"function":"sendKey",
-					"params":["d"],
-					"label":"Send D",
-					"icon":"figurethisoutlater.svg"
-					},
-					{
-					"function":"sendKey",
-					"params":["e"],
-					"label":"Send E",
-					"icon":"figurethisoutlater.svg"
-					},
-					{
-					"function":"sendKey",
-					"params":["f"],
-					"label":"Send F",
-					"icon":"figurethisoutlater.svg"
-					},
-					{
-					"function":"sendKey",
-					"params":["f"],
-					"label":"Send F",
-					"icon":"figurethisoutlater.svg"
-					},
-					{
-					"function":"sendKey",
-					"params":["f"],
-					"label":"Send F",
-					"icon":"figurethisoutlater.svg"
-					}
-					]
-				},
-				{
-				"enable":0,
-				"numSlices":6,
-				"bgColor": [35,35,35,255],
-				"selColor": [161,52,235,255],
-				"offset": 1,
-				"functions":[
-					{
-					"function":"sendKey",
-					"params":["a"],
-					"label":"Send A",
-					"icon":"figurethisoutlater.svg"
-					},
-					{
-					"function":"sendKey",
-					"params":["b"],
-					"label":"Send B",
-					"icon":"figurethisoutlater.svg"
-					},
-					{
-					"function":"sendKey",
-					"params":["c"],
-					"label":"Send Cfa",
-					"icon":"figurethisoutlater.svg"
-					},
-					{
-					"function":"sendKey",
-					"params":["d"],
-					"label":"Send D",
-					"icon":"figurethisoutlater.svg"
-					},
-					{
-					"function":"sendKey",
-					"params":["e"],
-					"label":"Send E",
-					"icon":"figurethisoutlater.svg"
-					},
-					{
-					"function":"sendKey",
-					"params":["f"],
-					"label":"Send F",
-					"icon":"figurethisoutlater.svg"
-					}
-					]
-				},
-				{
-				"enable":0,
-				"numSlices":3,
-				"bgColor": [35,35,35,255],
-				"selColor": [204,57,57,255],
-				"offset": 0,
-				"functions":[
-					{
-					"function":"SendKey",
-					"params":["a"],
-					"label":"Send A",
-					"icon":"figurethisoutlater.svg"
-					},
-					{
-					"function":"SendKey",
-					"params":["b"],
-					"label":"Send B",
-					"icon":"figurethisoutlater.svg"
-					},
-					{
-					"function":"SendKey",
-					"params":["c"],
-					"label":"Send C",
-					"icon":"figurethisoutlater.svg"
-					},
-					{
-					"function":"SendKey",
-					"params":["d"],
-					"label":"Send D",
-					"icon":"figurethisoutlater.svg"
-					},
-					{
-					"function":"SendKey",
-					"params":["e"],
-					"label":"Send E",
-					"icon":"figurethisoutlater.svg"
-					},
-					{
-					"function":"SendKey",
-					"params":["f"],
-					"label":"Send F",
-					"icon":"figurethisoutlater.svg"
-					}
-					]
-				}
-				]				
-			}		
-			]
-		},
-		{
-		"name":"After Effects",
-		"ahkHandle":"ahk_exe AfterFX.exe",
-		"enable":1,
-		"enablePenTablet":0,		
-		"pieModifier":{
-			"useModifierKey":0,
-			"modifierKey":"g",
-			"toggle":0
-			},
-		"pieMenus":[
-			{
-			"hotkey": ";",
-			"radius": 40,
-			"thickness":10,
-			"labelDelay":5,
-			"enable":1,
-			"activePie":
-				[
-				{
-				"numSlices":7,
-				"bgColor": [10,10,10,255],
-				"selColor": [210,145,255,255],
-				"offset": 1,
-				"functions":[
-					{
-					"function":"sendKey",
-					"params":["^s"],
-					"label":"Send A",
-					"icon":"figurethisoutlater.svg"
-					},
-					{
-					"function":"sendKey",
-					"params":["boops"],
-					"label":"Boops",
-					"icon":"figurethisoutlater.svg"
-					},
-					{
-					"function":"sendKey",
-					"params":["c"],
-					"label":"Send C",
-					"icon":"figurethisoutlater.svg"
-					},
-					{
-					"function":"sendKey",
-					"params":["d"],
-					"label":"Send D",
-					"icon":"figurethisoutlater.svg"
-					},
-					{
-					"function":"sendKey",
-					"params":["e"],
-					"label":"Send E",
-					"icon":"figurethisoutlater.svg"
-					},
-					{
-					"function":"sendKey",
-					"params":["f"],
-					"label":"Send F",
-					"icon":"figurethisoutlater.svg"
-					},
-					{
-					"function":"sendKey",
-					"params":["f"],
-					"label":"Send F",
-					"icon":"figurethisoutlater.svg"
-					},
-					{
-					"function":"sendKey",
-					"params":["f"],
-					"label":"Send F",
-					"icon":"figurethisoutlater.svg"
-					}
-					]
-				},
-				{
-				"enable":0,
-				"numSlices":6,
-				"bgColor": [35,35,35,255],
-				"selColor": [161,52,235,255],
-				"offset": 1,
-				"functions":[
-					]
-				},
-				{
-				"enable":0,
-				"numSlices":3,
-				"bgColor": [35,35,35,255],
-				"selColor": [204,57,57,255],
-				"offset": 0,
-				"functions":[
 					]
 				}
 				]				
