@@ -1,5 +1,7 @@
 ﻿getMonitorCoords(ByRef monLeft, ByRef monTop, ByRef monRight, ByRef monBottom)
 	{
+	global monitorManager := New MonitorManager
+	; msgbox, % monitorManager.monitors[1].dpiX
 	monLeft := 0
 	monRight := 0
 	monTop := 0
@@ -10,21 +12,24 @@
 		if testMonLeft is number
 			Break
 		sleep, 100
-		}
-	Sysget, numMonitors, MonitorCount
-	loop, %numMonitors%
+		}	
+	;Get the number of monitors from the monitor manager.
+	numMonitors := 0
+	for monIndex in monitorManager.monitors
 		{
-		SysGet, iMon, Monitor, %A_Index%	
-		if monLeft > %iMonLeft%
-		monLeft = %iMonLeft%
-		if monRight < %iMonRight%
-		monRight = %iMonRight%
-		if monTop > %iMonTop%
-		monTop = %iMonTop%
-		if monBottom < %iMonBottom%
-		monBottom = %iMonBottom%
-		; msgbox, "left:"%iMonLeft%" Top:"%iMonTop%" Right:"%iMonRight%" Bottom:"%iMonBottom%"."
-		; msgbox, "left:"%monLeft%" Top:"%monTop%" Right:"%monRight%" Bottom:"%monBottom%"."
+		;Count monitors
+		if (IsObject(monitorManager.monitors[monIndex]))
+		numMonitors := numMonitors+1
+		;Determine maximum area, only disregard scaling when true/pm is enabled in the compile.
+		if (monLeft > monitorManager.monitors[monIndex].left)
+		monLeft := monitorManager.monitors[monIndex].left
+		if (monRight < monitorManager.monitors[monIndex].right)
+		monRight := monitorManager.monitors[monIndex].right
+		if (monTop > monitorManager.monitors[monIndex].top)
+		monTop := monitorManager.monitors[monIndex].top
+		if (monBottom < monitorManager.monitors[monIndex].bottom)
+		monBottom := monitorManager.monitors[monIndex].bottom
+		; msgbox, %monIndex% "left:"%monLeft%" Top:"%monTop%" Right:"%monRight%" Bottom:"%monBottom%
 		}
 	return
 	}
@@ -119,12 +124,13 @@ whitenRGB(RGBAarray)
 	; msgbox, % RGBAarray[1] "," RGBAarray[2] "," RGBAarray[3]
 	return NewRGBA
 	}
-drawPieLabel(pGraphics, labelText, xPos, yPos, selected:=0, anchor:="top", activePieProfile=0)
+drawPieLabel(pGraphics, labelText, xPos, yPos, selected:=0, anchor:="top", activePieProfile=0, pieDPIScale=1)
 	{	
 	xPosition := xPos
 	yPosition := yPos
-	pad := 6
-	fontSize := 14	
+	pad := Ceil(6*(((pieDPIScale-1)/2)+1))
+	fontSize := Ceil(14*pieDPIScale)
+	; fontSize := 14
 	If (selected == 1)
 		{
 		strokeColor := RGBAtoHEX(activePieProfile.selColor)
@@ -137,7 +143,7 @@ drawPieLabel(pGraphics, labelText, xPos, yPos, selected:=0, anchor:="top", activ
 		labelBGColor := RGBAtoHEX(activePieProfile.bgColor)		
 		; labelBGColor := RGBAtoHEX([30, 30, 30, 255])		
 		}
-	
+	textYOffset := Ceil(1*pieDPIScale)
 	textColor := "C7FFFFFF"
 	displayText := labelText
 	textOptionsTest := % "x" xPosition " y" yPosition " Center vCenter c00FFFFFF r4 s" fontSize
@@ -147,47 +153,47 @@ drawPieLabel(pGraphics, labelText, xPos, yPos, selected:=0, anchor:="top", activ
 	basicBrush := Gdip_BrushCreateSolid(labelBGColor)
 	theRect := Gdip_TextToGraphics(pGraphics, displayText, textOptionsTest, "Arial")
 	theRect := StrSplit(theRect, "|")
-	theRect[3] := Max(Ceil(theRect[3]), 100)
+	theRect[3] := Max(Ceil(theRect[3]), 100*pieDPIScale)
 	theRect[4] := Ceil(theRect[4])
 	If (anchor == "bottom")
 		{
 		Gdip_FillRoundedRectangle(pGraphics, basicBrush, Ceil(xPosition-(theRect[3]/2)-pad), Ceil(yPosition-theRect[4]-(2*pad)), Ceil(theRect[3]+(2*pad)), Ceil(theRect[4]+(2*pad)), 3)
 		Gdip_DrawRoundedRectangle(pGraphics, basicPen, Ceil(xPosition-(theRect[3]/2)-pad), Ceil(yPosition-theRect[4]-(2*pad)), Ceil(theRect[3]+(2*pad)), Ceil(theRect[4]+(2*pad)), 3)
-		textOptions := % "x" xPosition " y" (yPosition-theRect[4]-pad) " Center vCenter c" textColor " r4 s" fontSize
+		textOptions := % "x" xPosition " y" (yPosition-theRect[4]-pad+textYOffset) " Center vCenter c" textColor " r4 s" fontSize
 		Gdip_TextToGraphics(pGraphics, displayText, textOptions, "Arial")
 		}
 	If (anchor == "top")
 		{
 		Gdip_FillRoundedRectangle(pGraphics, basicBrush, Ceil(xPosition-(theRect[3]/2)-pad), yPosition, Ceil(theRect[3]+(2*pad)), Ceil(theRect[4]+(2*pad)), 3)
 		Gdip_DrawRoundedRectangle(pGraphics, basicPen, Ceil(xPosition-(theRect[3]/2)-pad), yPosition, Ceil(theRect[3]+(2*pad)), Ceil(theRect[4]+(2*pad)), 3)
-		textOptions := % "x" xPosition " y" (yPosition+pad) " Center vCenter c" textColor " r4 s" fontSize
+		textOptions := % "x" xPosition " y" (yPosition+pad+textYOffset) " Center vCenter c" textColor " r4 s" fontSize
 		Gdip_TextToGraphics(pGraphics, displayText, textOptions, "Arial")
 		}
 	If (anchor == "left")
 		{
 		Gdip_FillRoundedRectangle(pGraphics, basicBrush, xPosition, Ceil(yPosition-(theRect[4]/2)-pad), Ceil(theRect[3]+(2*pad)), Ceil(theRect[4]+(2*pad)), 3)
 		Gdip_DrawRoundedRectangle(pGraphics, basicPen, xPosition, Ceil(yPosition-(theRect[4]/2)-pad), Ceil(theRect[3]+(2*pad)), Ceil(theRect[4]+(2*pad)), 3)
-		textOptions := % "x" (xPosition+(theRect[3]/2)+pad) " y" (yPosition-(theRect[4]/2)) " Center vCenter c" textColor " r4 s" fontSize
+		textOptions := % "x" (xPosition+(theRect[3]/2)+pad) " y" (yPosition-(theRect[4]/2)+textYOffset) " Center vCenter c" textColor " r4 s" fontSize
 		Gdip_TextToGraphics(pGraphics, displayText, textOptions, "Arial")
 		}
 	If (anchor == "right")
 		{
 		Gdip_FillRoundedRectangle(pGraphics, basicBrush, Ceil(xPosition-theRect[3]-(2*pad)), Ceil(yPosition-(theRect[4]/2)-pad), Ceil(theRect[3]+(2*pad)), Ceil(theRect[4]+(2*pad)), 3)
 		Gdip_DrawRoundedRectangle(pGraphics, basicPen, Ceil(xPosition-theRect[3]-(2*pad)), Ceil(yPosition-(theRect[4]/2)-pad), Ceil(theRect[3]+(2*pad)), Ceil(theRect[4]+(2*pad)), 3)
-		textOptions := % "x" (xPosition-(theRect[3]/2)-pad) " y" (yPosition-(theRect[4]/2)) " Center vCenter c" textColor " r4 s" fontSize
+		textOptions := % "x" (xPosition-(theRect[3]/2)-pad) " y" (yPosition-(theRect[4]/2)+textYOffset) " Center vCenter c" textColor " r4 s" fontSize
 		Gdip_TextToGraphics(pGraphics, displayText, textOptions, "Arial")
 		}
 	; Gdip_DrawEllipse(pGraphics, otherPen, xPosition, yPosition, 1, 1)
 	return
 	}
 
-drawPie(G, xPos, yPos, dist, theta, numSlices, radius, thickness, bgColor, selectColor, thetaOffset, activePieProfile)
+drawPie(G, xPos, yPos, dist, theta, numSlices, radius, thickness, bgColor, selectColor, thetaOffset, activePieProfile, pieDPIScale=1)
 	{	
 	;init local variables
 	nTheta := (Floor(cycleRange(theta-thetaOffset)/(360/numSlices))*(360/numSlices))+thetaOffset
 	gmx := xPos-monLeft
 	gmy := yPos-monTop
-	labelRadius := 100
+	labelRadius := 100*pieDPIScale
 	ClearDrawGDIP()
 	Gdip_SetSmoothingMode(G, 4)
 	basicPen := Gdip_CreatePen(RGBAtoHEX(bgColor), thickness)
@@ -227,7 +233,7 @@ drawPie(G, xPos, yPos, dist, theta, numSlices, radius, thickness, bgColor, selec
 		Else
 			selectedLabelState := 0
 		
-		drawPieLabel(G, activePieProfile.functions[A_Index+1].label, Round(gmx+(labelRadius*Cos((labelTheta-90)*0.01745329252))), Round(gmy+(labelRadius*Sin((labelTheta-90)*0.01745329252))), selectedLabelState, labelAnchor, activePieProfile)
+		drawPieLabel(G, activePieProfile.functions[A_Index+1].label, Round(gmx+(labelRadius*Cos((labelTheta-90)*0.01745329252))), Round(gmy+(labelRadius*Sin((labelTheta-90)*0.01745329252))), selectedLabelState, labelAnchor, activePieProfile, pieDPIScale)
 		}
 	EndDrawGDIP()
 	return pieRegion
@@ -237,6 +243,25 @@ runPieMenu(profileNum, index)
 	;REFACTOR - Declare variables better
 	global
 	MouseGetPos, iMouseX, iMouseY
+	
+	
+	;detemine what monitor the mouse is in and scale factor
+	pieDPIScale := 1
+	for monIndex in monitorManager.monitors
+		{
+		if (iMouseX >= monitorManager.monitors[monIndex].left and iMouseX <= monitorManager.monitors[monIndex].right)
+			{
+			; msgbox, % iMouseX " is apparently between " monitorManager.monitors[monIndex].left " and " monitorManager.monitors[monIndex].right
+			if (iMouseY >= monitorManager.monitors[monIndex].top and iMouseY <= monitorManager.monitors[monIndex].bottom)
+				{
+				pieDPIScale := monitorManager.monitors[monIndex].scaleX					
+				break			
+				}
+			}
+		}
+	; msgbox, % iMouseX " and " iMouseY " pieDPI=" pieDPIScale
+	pieDPIScaleHalf := ((pieDPIScale-1)/2)+1
+
 	StartDrawGDIP()
 	arm2 := false	
 	arm3 := false
@@ -248,7 +273,7 @@ runPieMenu(profileNum, index)
 	offsetPie := [runningProfile.activePie[1].offset*(180/runningProfile.activePie[1].numSlices),runningProfile.activePie[2].offset*(180/runningProfile.activePie[2].numSlices),runningProfile.activePie[3].offset*(180/runningProfile.activePie[3].numSlices)]	
 	pieMode := 0
 	pieRegion := 0 ;what is one this used for?
-	drawPie(G, iMouseX, iMouseY, 0, 0, runningProfile.activePie[activePieNumber].numSlices, runningProfile.radius, runningProfile.thickness, runningProfile.activePie[1].bgColor, runningProfile.activePie[1].selColor, offsetPie[1], runningProfile.activePie[activePieNumber])
+	drawPie(G, iMouseX, iMouseY, 0, 0, runningProfile.activePie[activePieNumber].numSlices, runningProfile.radius*pieDPIScale, runningProfile.thickness*pieDPIScale, runningProfile.activePie[1].bgColor, runningProfile.activePie[1].selColor, offsetPie[1], runningProfile.activePie[activePieNumber], pieDPIScale)
 	fPieRegion := 0
 	pieHotkey := removeCharacters(runningProfile.hotkey, "!^+#")
 	; msgbox, % runningProfile.hotkey " changed to " pieHotkey
@@ -275,7 +300,7 @@ runPieMenu(profileNum, index)
 		dist := (Sqrt((Abs(mouseX-iMouseX)**2) + (Abs(mouseY-iMouseY)**2)))
 		theta := cycleRange(calcAngle(iMouseX, iMouseY, mouseX, mouseY)+90)
 		;if inside circle
-		If (dist <= ((runningProfile.radius/2)+(runningProfile.thickness/2)) or midDist <= ((runningProfile.radius/2)+(runningProfile.thickness/2)))
+		If (dist <= (((runningProfile.radius/2)+(runningProfile.thickness/2))*pieDPIScale) or midDist <= (((runningProfile.radius/2)+(runningProfile.thickness/2))*pieDPIScale))
 		{
 		pieRegion := 0
 		}
@@ -330,8 +355,7 @@ runPieMenu(profileNum, index)
 					activePieNumber := 2			
 				}
 			StartDrawGDIP()
-			fPieRegion := drawPie(G, iMouseX, iMouseY, dist, theta, runningProfile.activePie[activePieNumber].numSlices, runningProfile.radius, runningProfile.thickness, runningProfile.activePie[activePieNumber].bgColor, runningProfile.activePie[activePieNumber].selColor, offsetPie[activePieNumber], runningProfile.activePie[activePieNumber])
-
+			fPieRegion := drawPie(G, iMouseX, iMouseY, dist, theta, runningProfile.activePie[activePieNumber].numSlices, runningProfile.radius*pieDPIScale, runningProfile.thickness*pieDPIScale, runningProfile.activePie[activePieNumber].bgColor, runningProfile.activePie[activePieNumber].selColor, offsetPie[activePieNumber], runningProfile.activePie[activePieNumber], pieDPIScale)
 			}
 		sleep, 10		
 		} ;end pie loop
@@ -491,3 +515,74 @@ blockBareKeys(hotkeyInput, hotkeyArray, blockState=1){
 		}
 	return
 	}
+
+class MonitorManager {
+  __New() {
+    ;; enum _PROCESS_DPI_AWARENESS
+    PROCESS_DPI_UNAWARE := 0
+    PROCESS_SYSTEM_DPI_AWARE := 1
+    PROCESS_PER_MONITOR_DPI_AWARE := 2
+    ; DllCall("SHcore\SetProcessDpiAwareness", "UInt", PROCESS_PER_MONITOR_DPI_AWARE)
+    ;; InnI: Get per-monitor DPI scaling factor (https://www.autoitscript.com/forum/topic/189341-get-per-monitor-dpi-scaling-factor/?tab=comments#comment-1359832)
+    DPI_AWARENESS_CONTEXT_UNAWARE := -1
+    DPI_AWARENESS_CONTEXT_SYSTEM_AWARE := -2
+    DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE := -3
+    DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2 := -4
+    DllCall("User32\SetProcessDpiAwarenessContext", "UInt" , DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE)
+    ;; pneumatic: -DPIScale not working properly (https://www.autohotkey.com/boards/viewtopic.php?p=241869&sid=abb2db983d2b3966bc040c3614c0971e#p241869)
+    
+    ptr := A_PtrSize ? "Ptr" : "UInt"
+    this.monitors := []
+    DllCall("EnumDisplayMonitors", ptr, 0, ptr, 0, ptr, RegisterCallback("MonitorEnumProc", "", 4, &this), "UInt", 0)
+    ;; Solar: SysGet incorrectly identifies monitors (https://autohotkey.com/board/topic/66536-sysget-incorrectly-identifies-monitors/)
+  }
+}
+
+MonitorEnumProc(hMonitor, hdcMonitor, lprcMonitor, dwData) {
+  l := NumGet(lprcMonitor + 0,  0, "Int")
+  t := NumGet(lprcMonitor + 0,  4, "Int")
+  r := NumGet(lprcMonitor + 0,  8, "Int")
+  b := NumGet(lprcMonitor + 0, 12, "Int")
+  
+  this := Object(A_EventInfo)
+  ;; Helgef: Allow RegisterCallback with BoundFunc objects (https://www.autohotkey.com/boards/viewtopic.php?p=235243#p235243)
+  this.monitors.push(New Monitor(hMonitor, l, t, r, b))
+  
+	Return, 1
+}
+
+class Monitor {
+  __New(handle, left, top, right, bottom) {
+    ;When compiled with true/pm these values are based on real pixel coordinates without scaling.
+	this.handle := handle
+    this.left   := left
+    this.top    := top
+    this.right  := right
+    this.bottom := bottom
+    
+    this.x      := left
+    this.y      := top
+    this.width  := right - left
+    this.height := bottom - top
+    
+    dpi := this.getDpiForMonitor()
+    this.dpiX := dpi.x
+    this.dpiY := dpi.y
+    this.scaleX := this.dpiX / 96
+    this.scaleY := this.dpiY / 96
+  }
+  
+  getDpiForMonitor() {
+    ;; enum _MONITOR_DPI_TYPE
+    MDT_EFFECTIVE_DPI := 0
+    MDT_ANGULAR_DPI := 1
+    MDT_RAW_DPI := 2
+    MDT_DEFAULT := MDT_EFFECTIVE_DPI
+    ptr := A_PtrSize ? "Ptr" : "UInt"
+    dpiX := dpiY := 0
+    DllCall("SHcore\GetDpiForMonitor", ptr, this.handle, "Int", MDT_DEFAULT, "UInt*", dpiX, "UInt*", dpiY)
+    
+    Return, {x: dpiX, y: dpiY}
+  }
+  ;; InnI: Get per-monitor DPI scaling factor (https://www.autoitscript.com/forum/topic/189341-get-per-monitor-dpi-scaling-factor/?tab=comments#comment-1359832)
+}

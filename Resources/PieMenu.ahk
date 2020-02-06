@@ -6,8 +6,11 @@
 #Include %A_ScriptDir%\lib\PieFunctions.ahk
 #Include %A_ScriptDir%\lib\Jxon.ahk
 CoordMode, Mouse, Screen
+;  DllCall("SetThreadDpiAwarenessContext", "ptr", -3, "ptr")
 ;Check AHK version and if AHK is installed.  Prompt install or update.
 checkAHK()
+
+debugMode := False
 
 ;Read Json Settings file to object
 	Try 
@@ -26,17 +29,20 @@ checkAHK()
 ; 	} ;Check if folder exists.
 
 ;Initialize Variables and GDI+ Screen bitmap
-	;Thank you Tariq Porter
+	;Tariq Porter, you will forever have a special place in my heart.
+	
 	global monLeft := 0
 	global monRight := 0
 	global monTop := 0
 	global monBottom := 0
 	getMonitorCoords(monLeft, monTop, monRight, monBottom)
+	;setup need to include scaling.
 	SetUpGDIP(monLeft, monTop, monRight-monLeft, monBottom-monTop)
 	StartDrawGDIP()
 	Gdip_TextToGraphics(G, "Test", "x20 y20 Center vCenter c00FFFFFF r4 s20", "Arial")
 	ClearDrawGDIP()
-	EndDrawGDIP()	
+	EndDrawGDIP()
+		
 ;Load registered applications to ahk_group regApps
 for profiles in settings.appProfiles
 	{		
@@ -213,9 +219,9 @@ offPieLabel:
 	; msgbox, off
 return
 
-escape::
-exitapp
-return
+; escape::
+; exitapp
+; return
 
 ;If a display is connected or disconnected
 	OnMessage(0x7E, "WM_DISPLAYCHANGE")

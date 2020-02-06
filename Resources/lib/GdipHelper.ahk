@@ -43,7 +43,7 @@ SetUpGDIP(iOriginX=-1, iOriginY=-1, iWidth=-1, iHeight=-1, iToggle="Show") {
 	JustTheBasics()
 	
 	; Create a layered window (+E0x80000 : must be used for UpdateLayeredWindow to work!) that is always on top (+AlwaysOnTop), has no taskbar entry or caption
-	Gui, 1: -Caption +E0x80000 +LastFound +AlwaysOnTop +ToolWindow +OwnDialogs
+	Gui, 1: -Caption +E0x80000 +LastFound +AlwaysOnTop +ToolWindow +OwnDialogs -DPIScale
 
 	; Show the window
 	Gui, 1: Show, NA
