@@ -55,7 +55,9 @@ calcAngle(aX, aY, bX, bY)
 checkAHK()
 	{
 	AHKVersion := StrReplace(A_AHKVersion, ".","")
-	If ( A_IsCompiled AND A_AhkPath="" AND (AHKVersion >= 113001)) 
+	; msgbox, % AHKVersion < 113202
+	; If ( A_IsCompiled AND A_AhkPath="" AND (AHKVersion < 113201)) 
+	If (AHKVersion < 113200) 
 	{
 	 MsgBox, 4, ,Autohotkey needs to be installed/updated to run the Pie Menu apps, Install Autohotkey?
 	 IfMsgBox, Yes
@@ -72,7 +74,7 @@ checkAHK()
 		}
 	ExitApp
 	}
-	}
+}
 
 copyFilesAndFolders(SourcePattern, DestinationFolder, DoOverwrite = false)
 	{
@@ -243,8 +245,9 @@ runPieMenu(profileNum, index)
 	;REFACTOR - Declare variables better
 	global
 	MouseGetPos, iMouseX, iMouseY
-	
-	
+
+	if (substr(a_osversion, 1, 2) = "10")
+	{	
 	;detemine what monitor the mouse is in and scale factor
 	pieDPIScale := 1
 	for monIndex in monitorManager.monitors
@@ -259,6 +262,12 @@ runPieMenu(profileNum, index)
 				}
 			}
 		}
+	}
+	else
+	{
+		;Win7 DPI Scaling (takes value of primary monitor)
+		pieDPIScale := A_ScreenDPI / 96
+	}
 	; msgbox, % iMouseX " and " iMouseY " pieDPI=" pieDPIScale
 	pieDPIScaleHalf := ((pieDPIScale-1)/2)+1
 
@@ -518,8 +527,8 @@ blockBareKeys(hotkeyInput, hotkeyArray, blockState=1){
 
 class MonitorManager {
   __New() {
-    ;; enum _PROCESS_DPI_AWARENESS
-    PROCESS_DPI_UNAWARE := 0
+    ;; enum _PROCESS_DPI_AWARENESS    
+	PROCESS_DPI_UNAWARE := 0
     PROCESS_SYSTEM_DPI_AWARE := 1
     PROCESS_PER_MONITOR_DPI_AWARE := 2
     ; DllCall("SHcore\SetProcessDpiAwareness", "UInt", PROCESS_PER_MONITOR_DPI_AWARE)
@@ -564,12 +573,12 @@ class Monitor {
     this.y      := top
     this.width  := right - left
     this.height := bottom - top
-    
-    dpi := this.getDpiForMonitor()
-    this.dpiX := dpi.x
+
+	dpi := this.getDpiForMonitor()	
+	this.dpiX := dpi.x	
     this.dpiY := dpi.y
     this.scaleX := this.dpiX / 96
-    this.scaleY := this.dpiY / 96
+   	this.scaleY := this.dpiY / 96
   }
   
   getDpiForMonitor() {
@@ -585,4 +594,6 @@ class Monitor {
     Return, {x: dpiX, y: dpiY}
   }
   ;; InnI: Get per-monitor DPI scaling factor (https://www.autoitscript.com/forum/topic/189341-get-per-monitor-dpi-scaling-factor/?tab=comments#comment-1359832)
+
 }
+

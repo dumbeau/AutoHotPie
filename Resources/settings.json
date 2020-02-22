@@ -17,7 +17,7 @@
 			},
 		"pieMenus":[
 			{		
-			"hotkey": "XButton1",
+			"hotkey": "r",
 			"radius": 40,
 			"thickness":10,
 			"labelDelay":5,

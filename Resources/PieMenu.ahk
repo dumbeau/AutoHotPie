@@ -219,9 +219,9 @@ offPieLabel:
 	; msgbox, off
 return
 
-; escape::
-; exitapp
-; return
+escape::
+exitapp
+return
 
 ;If a display is connected or disconnected
 	OnMessage(0x7E, "WM_DISPLAYCHANGE")
