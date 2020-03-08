@@ -126,7 +126,7 @@ whitenRGB(RGBAarray)
 	; msgbox, % RGBAarray[1] "," RGBAarray[2] "," RGBAarray[3]
 	return NewRGBA
 	}
-drawPieLabel(pGraphics, labelText, xPos, yPos, selected:=0, anchor:="top", activePieProfile=0, pieDPIScale=1)
+drawPieLabel(pGraphics, labelText, xPos, yPos, selected:=0, anchor:="top", activePieProfile=0, pieDPIScale=1, clicked:=false)
 	{	
 	xPosition := xPos
 	yPosition := yPos
@@ -135,18 +135,27 @@ drawPieLabel(pGraphics, labelText, xPos, yPos, selected:=0, anchor:="top", activ
 	; fontSize := 14
 	If (selected == 1)
 		{
+		If (clicked = true)
+		{
+		strokeColor := RGBAtoHEX(activePieProfile.selColor)
+		labelBGColor := RGBAtoHEX(activePieProfile.selColor)
+		textColor := RGBAtoHEX(activePieProfile.bgColor)
+		}
+		else ;slice is focused
+		{
 		strokeColor := RGBAtoHEX(activePieProfile.selColor)
 		labelBGColor := RGBAtoHEX(whitenRGB(activePieProfile.bgColor))
-		; labelBGColor := RGBAtoHEX(whitenRGB([30, 30, 30, 255]))
+		textColor := "FFFFFFFF"
+		}	
 		}
 	else
 		{
 		strokeColor := RGBAtoHEX([123, 123, 123, 255])
-		labelBGColor := RGBAtoHEX(activePieProfile.bgColor)		
+		labelBGColor := RGBAtoHEX(activePieProfile.bgColor)	
+		textColor := "FFFFFFFF"	
 		; labelBGColor := RGBAtoHEX([30, 30, 30, 255])		
 		}
 	textYOffset := Ceil(1*pieDPIScale)
-	textColor := "C7FFFFFF"
 	displayText := labelText
 	textOptionsTest := % "x" xPosition " y" yPosition " Center vCenter c00FFFFFF r4 s" fontSize
 	Gdip_SetSmoothingMode(pGraphics, 4)
@@ -189,7 +198,7 @@ drawPieLabel(pGraphics, labelText, xPos, yPos, selected:=0, anchor:="top", activ
 	return
 	}
 
-drawPie(G, xPos, yPos, dist, theta, numSlices, radius, thickness, bgColor, selectColor, thetaOffset, activePieProfile, pieDPIScale=1)
+drawPie(G, xPos, yPos, dist, theta, numSlices, radius, thickness, bgColor, selectColor, thetaOffset, activePieProfile, pieDPIScale=1, clicked:=false)
 	{	
 	;init local variables
 	nTheta := (Floor(cycleRange(theta-thetaOffset)/(360/numSlices))*(360/numSlices))+thetaOffset
@@ -235,7 +244,7 @@ drawPie(G, xPos, yPos, dist, theta, numSlices, radius, thickness, bgColor, selec
 		Else
 			selectedLabelState := 0
 		
-		drawPieLabel(G, activePieProfile.functions[A_Index+1].label, Round(gmx+(labelRadius*Cos((labelTheta-90)*0.01745329252))), Round(gmy+(labelRadius*Sin((labelTheta-90)*0.01745329252))), selectedLabelState, labelAnchor, activePieProfile, pieDPIScale)
+		drawPieLabel(G, activePieProfile.functions[A_Index+1].label, Round(gmx+(labelRadius*Cos((labelTheta-90)*0.01745329252))), Round(gmy+(labelRadius*Sin((labelTheta-90)*0.01745329252))), selectedLabelState, labelAnchor, activePieProfile, pieDPIScale, clicked)
 		}
 	EndDrawGDIP()
 	return pieRegion
@@ -243,7 +252,7 @@ drawPie(G, xPos, yPos, dist, theta, numSlices, radius, thickness, bgColor, selec
 runPieMenu(profileNum, index)
 	{
 	;REFACTOR - Declare variables better
-	global
+	global		
 	MouseGetPos, iMouseX, iMouseY
 
 	if (substr(a_osversion, 1, 2) = "10")
@@ -272,10 +281,14 @@ runPieMenu(profileNum, index)
 	pieDPIScaleHalf := ((pieDPIScale-1)/2)+1
 
 	StartDrawGDIP()
+
 	arm2 := false	
 	arm3 := false
 	armPie3 := false
 	armPie2 := false
+	LButtonPressed := false
+	LButtonPressed_LastState := false
+	LButtonPressed_static := false
 	thetaOffset := 0
 	activePieNumber := 1	
 	runningProfile := settings.appProfiles[profileNum].pieMenus[index]
@@ -290,7 +303,8 @@ runPieMenu(profileNum, index)
 		{
 		if !GetKeyState(pieHotkey, "P")
 			Break
-		
+		if (LButtonPressed = false)
+		{
 		if (A_Index != 1) && (pieRegion != 0) ;Midpoint stuff
 			{
 			midMouseX := mouseX
@@ -305,6 +319,7 @@ runPieMenu(profileNum, index)
 			MouseGetPos, mouseX, mouseY
 			midDist := 99999
 			}
+		}
 		;Calculate Distance and Angle
 		dist := (Sqrt((Abs(mouseX-iMouseX)**2) + (Abs(mouseY-iMouseY)**2)))
 		theta := cycleRange(calcAngle(iMouseX, iMouseY, mouseX, mouseY)+90)
@@ -345,8 +360,17 @@ runPieMenu(profileNum, index)
 				}		
 			}
 
+		;If LButton down - Change State and launch function maybe consider getting this out of the loop
+		If (settings.global.functionLaunchMode < 2) && (GetKeyState("LButton","P"))  
+		{
+			LButtonPressed := true
+			LButtonPressed_static := true
+		}
+		else
+			LButtonPressed := false
+
 		; If (pieRegion != fPieRegion) ;If region changes
-		If (pieRegion != fPieRegion) ;If region changes
+		If (pieRegion != fPieRegion) or (LButtonPressed_LastState != LButtonPressed) ;If region changes or mouseclick changes
 			{
 			;;If you leave the center
 			If (pieRegion > 0) && (fPieRegion == 0)
@@ -364,14 +388,25 @@ runPieMenu(profileNum, index)
 					activePieNumber := 2			
 				}
 			StartDrawGDIP()
-			fPieRegion := drawPie(G, iMouseX, iMouseY, dist, theta, runningProfile.activePie[activePieNumber].numSlices, runningProfile.radius*pieDPIScale, runningProfile.thickness*pieDPIScale, runningProfile.activePie[activePieNumber].bgColor, runningProfile.activePie[activePieNumber].selColor, offsetPie[activePieNumber], runningProfile.activePie[activePieNumber], pieDPIScale)
+			
+			fPieRegion := drawPie(G, iMouseX, iMouseY, dist, theta, runningProfile.activePie[activePieNumber].numSlices, runningProfile.radius*pieDPIScale, runningProfile.thickness*pieDPIScale, runningProfile.activePie[activePieNumber].bgColor, runningProfile.activePie[activePieNumber].selColor, offsetPie[activePieNumber], runningProfile.activePie[activePieNumber], pieDPIScale, LButtonPressed)
+			if (LButtonPressed_LastState = true) && (LButtonPressed = false)
+				runPieFunction([profileNum,index,activePieNumber,pieRegion, iMouseX, iMouseY])
+			LButtonPressed_LastState := LButtonPressed
+			
 			}
 		sleep, 10		
 		} ;end pie loop
 	StartDrawGDIP()
 	ClearDrawGDIP()
-	EndDrawGDIP()	
+	EndDrawGDIP()
+	if LButtonPressed_static
+	return false
+	else
+	{
+	if (settings.global.functionLaunchMode != 1)
 	return [profileNum,index,activePieNumber,pieRegion, iMouseX, iMouseY]
+	}
 	}
 
 
@@ -437,6 +472,8 @@ Class pieModifier{
 	}
 runPieFunction(funcNum)
 	{
+	if(funcNum = false)
+		return
 	static lastPieFunctionRanTickCount := 0
 	static lastPieFunctionRan = ""
 	
@@ -574,7 +611,7 @@ class Monitor {
     this.width  := right - left
     this.height := bottom - top
 
-	dpi := this.getDpiForMonitor()	
+	dpi := this.getDpiForMonitor()
 	this.dpiX := dpi.x	
     this.dpiY := dpi.y
     this.scaleX := this.dpiX / 96

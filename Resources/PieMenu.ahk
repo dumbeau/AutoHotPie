@@ -119,11 +119,12 @@ return
 
 ;End Initialization
 
+
+
 pieLabel: ;Fixed hotkey overlap "r and ^r", refactor this
 	if (pieLaunchedState == 1)
 		return	
 	pieLaunchedState := 1
-	hotKeyArray := []	
 	global activePieKey := A_ThisHotkey
 	; msgbox, % activePieKey
 	If (!WinActive("ahk_group regApps"))
@@ -154,13 +155,14 @@ pieLabel: ;Fixed hotkey overlap "r and ^r", refactor this
 		WinGet, activeWinProc, ProcessName, A
 		WinGetClass, activeWinClass, A
 		activePieKey := A_ThisHotkey
+		
 		;lookup profile and key index
 		for profiles in settings.appProfiles
 			{
-			; if ahk_group regApps not contains activeWi6ndow
+			; if ahk_group regApps not conftains activeWi6ndow
 			testAHKHandle := StrSplit(settings.appProfiles[profiles].ahkHandle, " ", ,2)[2]
 			if (testAHKHandle == activeWinProc)
-				{
+				{				
 				Hotkey, IfWinActive, % "ahk_exe " + activeWinProc
 				for menus in settings.appProfiles[profiles].pieMenus
 					hotKeyArray.Push(settings.appProfiles[profiles].pieMenus[menus].hotkey)
@@ -219,9 +221,15 @@ offPieLabel:
 	; msgbox, off
 return
 
-escape::
-exitapp
-return
+; escape::
+; exitapp
+; return
+
+;Block LButton when Pie Menu is opened
+#If (pieLaunchedState == 1)
+{
+LButton::Return
+}
 
 ;If a display is connected or disconnected
 	OnMessage(0x7E, "WM_DISPLAYCHANGE")
