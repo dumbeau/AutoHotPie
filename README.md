@@ -1,5 +1,5 @@
 # AutoHotPie
-- Pie-Menus-V2 -
+(Pie-Menus-V2)
 
 Radial menus for Windows, designed for digital artists or macro enthusiasts, sponsored by unemployment :)
 
