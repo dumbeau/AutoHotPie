@@ -22,6 +22,7 @@
 			"hotkey": "r",
 			"radius": 40,
 			"thickness":10,
+			"holdOpenOverride":0,
 			"labelDelay":5,
 			"enable":1,
 			"activePie":
