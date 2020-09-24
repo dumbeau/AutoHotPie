@@ -203,8 +203,8 @@ drawPie(G, xPos, yPos, dist, theta, numSlices, radius, thickness, bgColor, selec
 	{	
 	;init local variables
 	nTheta := (Floor(cycleRange(theta-thetaOffset)/(360/numSlices))*(360/numSlices))+thetaOffset
-	gmx := xPos-monLeft
-	gmy := yPos-monTop
+	gmx := xPos
+	gmy := yPos
 	labelRadius := 100*pieDPIScale
 	ClearDrawGDIP()
 	Gdip_SetSmoothingMode(G, 4)
@@ -255,6 +255,7 @@ runPieMenu(profileNum, index)
 	;REFACTOR - Declare variables better
 	global		
 	MouseGetPos, iMouseX, iMouseY
+	
 
 	if (substr(a_osversion, 1, 2) = "10")
 	{	
@@ -278,9 +279,12 @@ runPieMenu(profileNum, index)
 		;Win7 DPI Scaling (takes value of primary monitor)
 		pieDPIScale := A_ScreenDPI / 96
 	}
+	; pieDPIScale := 1
 	; msgbox, % iMouseX " and " iMouseY " pieDPI=" pieDPIScale
 	pieDPIScaleHalf := ((pieDPIScale-1)/2)+1
-
+	
+	bitmapPadding := [300*pieDPIScale,180*pieDPIScale]
+	SetUpGDIP(iMouseX-bitmapPadding[1], iMouseY-bitmapPadding[2], 2*bitmapPadding[1], 2*bitmapPadding[2])
 	StartDrawGDIP()
 
 	arm2 := false	
@@ -296,7 +300,7 @@ runPieMenu(profileNum, index)
 	offsetPie := [runningProfile.activePie[1].offset*(180/runningProfile.activePie[1].numSlices),runningProfile.activePie[2].offset*(180/runningProfile.activePie[2].numSlices),runningProfile.activePie[3].offset*(180/runningProfile.activePie[3].numSlices)]	
 	pieMode := 0
 	pieRegion := 0 ;what is one this used for?
-	drawPie(G, iMouseX, iMouseY, 0, 0, runningProfile.activePie[activePieNumber].numSlices, runningProfile.radius*pieDPIScale, runningProfile.thickness*pieDPIScale, runningProfile.activePie[1].bgColor, runningProfile.activePie[1].selColor, offsetPie[1], runningProfile.activePie[activePieNumber], pieDPIScale)
+	drawPie(G, bitmapPadding[1], bitmapPadding[2], 0, 0, runningProfile.activePie[activePieNumber].numSlices, runningProfile.radius*pieDPIScale, runningProfile.thickness*pieDPIScale, runningProfile.activePie[1].bgColor, runningProfile.activePie[1].selColor, offsetPie[1], runningProfile.activePie[activePieNumber], pieDPIScale)
 	fPieRegion := 0
 	pieHotkey := removeCharacters(runningProfile.hotkey, "!^+#")
 	
@@ -398,7 +402,7 @@ runPieMenu(profileNum, index)
 				}
 			StartDrawGDIP()
 			
-			fPieRegion := drawPie(G, iMouseX, iMouseY, dist, theta, runningProfile.activePie[activePieNumber].numSlices, runningProfile.radius*pieDPIScale, runningProfile.thickness*pieDPIScale, runningProfile.activePie[activePieNumber].bgColor, runningProfile.activePie[activePieNumber].selColor, offsetPie[activePieNumber], runningProfile.activePie[activePieNumber], pieDPIScale, LButtonPressed)
+			fPieRegion := drawPie(G, bitmapPadding[1], bitmapPadding[2], dist, theta, runningProfile.activePie[activePieNumber].numSlices, runningProfile.radius*pieDPIScale, runningProfile.thickness*pieDPIScale, runningProfile.activePie[activePieNumber].bgColor, runningProfile.activePie[activePieNumber].selColor, offsetPie[activePieNumber], runningProfile.activePie[activePieNumber], pieDPIScale, LButtonPressed)
 			if (LButtonPressed_LastState = true) && (LButtonPressed = false)
 				runPieFunction([profileNum,index,activePieNumber,pieRegion, iMouseX, iMouseY])
 				if (runningProfile.holdOpenOverride == true)

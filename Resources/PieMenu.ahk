@@ -36,11 +36,12 @@ debugMode := False
 	global monTop := 0
 	global monBottom := 0
 	getMonitorCoords(monLeft, monTop, monRight, monBottom)
-	SetUpGDIP(monLeft, monTop, monRight-monLeft, monBottom-monTop-0.01) ;windows were appearing over taskbar without -0.01
+	; SetUpGDIP(monLeft, monTop, monRight-monLeft, monBottom-monTop-0.01) ;windows were appearing over taskbar without -0.01
 	StartDrawGDIP()
 	Gdip_TextToGraphics(G, "Test", "x20 y20 Center vCenter c00FFFFFF r4 s20", "Arial")
 	ClearDrawGDIP()
 	EndDrawGDIP()
+	Menu, Tray, Add , Reload, Rel
 		
 ;Load registered applications to ahk_group regApps
 for profiles in settings.appProfiles
@@ -178,10 +179,10 @@ pieLabel: ;Fixed hotkey overlap "r and ^r", refactor this
 					;if hotkey found
 					if settings.appProfiles[profiles].pieMenus[menus].hotkey == activePieKey
 						{
-						blockBareKeys(activePieKey, hotKeyArray, 1)
+						; blockBareKeys(activePieKey, hotKeyArray, 1)
 						funcAddress := runPieMenu(profiles, menus)
 						pieLaunchedState := 0
-						blockBareKeys(activePieKey, hotKeyArray, 0)
+						; blockBareKeys(activePieKey, hotKeyArray, 0)
 						activePieKey := ""
 						runPieFunction(funcAddress)
 						break, 2
@@ -254,4 +255,9 @@ LButton::Return
 		{
 		sleep, 200
 		Reload
+		return
 		}
+
+Rel:
+Reload
+Return
