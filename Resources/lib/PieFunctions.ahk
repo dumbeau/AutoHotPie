@@ -3,7 +3,7 @@
 pie_sendKey(keys)
 	{
 	for key in keys
-		{
+		{		
 		send, % keys[key]
 		}
 		return
