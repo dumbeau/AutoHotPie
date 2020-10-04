@@ -133,6 +133,7 @@ drawPieLabel(pGraphics, labelText, xPos, yPos, selected:=0, anchor:="top", activ
 	yPosition := yPos
 	pad := Ceil(6*(((pieDPIScale-1)/2)+1))
 	fontSize := Ceil(p_FontSize*pieDPIScale)
+	minBoxWidth := Ceil(settings.global.minimumLabelWidth)
 	; fontSize := 14
 	If (selected == 1)
 		{
@@ -165,7 +166,7 @@ drawPieLabel(pGraphics, labelText, xPos, yPos, selected:=0, anchor:="top", activ
 	basicBrush := Gdip_BrushCreateSolid(labelBGColor)
 	theRect := Gdip_TextToGraphics(pGraphics, displayText, textOptionsTest, "Arial")
 	theRect := StrSplit(theRect, "|")
-	theRect[3] := Max(Ceil(theRect[3]), 100*pieDPIScale)
+	theRect[3] := Max(Ceil(theRect[3]), minBoxWidth*pieDPIScale)
 	theRect[4] := Ceil(theRect[4])
 	If (anchor == "bottom")
 		{

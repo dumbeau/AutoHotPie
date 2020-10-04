@@ -3,7 +3,8 @@
 	"pieTips":0,
 	"adobeScriptsFolder":"C:\\Users\\beaug\\Documents\\Adobe Scripts\\",
 	"functionLaunchMode":0,
-	"fontSize":14
+	"fontSize":14,
+	"minimumLabelWidth":10
 },
 "appProfiles":
 	[

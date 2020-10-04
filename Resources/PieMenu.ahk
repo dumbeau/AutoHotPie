@@ -12,11 +12,13 @@ checkAHK()
 
 debugMode := False
 
+
 ;Read Json Settings file to object
 	Try 
 	{
 		FileRead, settings, %A_ScriptDir%\settings.json
 		global settings := Json.Load(settings)
+		
 	} catch e {
 		msgbox, % "Settings file is invalid JSON.`n`nNo Pie Menus for you :(`n`nFix settings file at:`n" . A_ScriptDir . "\settings.json"
 		Exitapp

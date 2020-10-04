@@ -1,10 +1,15 @@
 ﻿;To set the function to call from the JSON settings file, type in the
 ;part of the function after "pie_"
 pie_sendKey(keys)
-	{
+	{	
 	for key in keys
 		{		
+		; sendCount++
+		; if(key != 1)
+		; sleep, 1
 		send, % keys[key]
+		; showKey := keys[key]
+		; FileAppend, %sendCount% : %A_TickCount% : %showKey% `n, C:\Users\beaug\Desktop\keyLog.txt
 		}
 		return
 	}
