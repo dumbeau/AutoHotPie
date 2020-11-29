@@ -144,3 +144,8 @@ pie_Photoshop_cycleBrush(brushNames)
     appRef.executeAction( appRef.charIDToTypeID( "slct" ), desc, 3 )
     return
 }
+
+;Special function allowing submenus
+pie_SubMenu(pieMenuAddress)
+{
+}

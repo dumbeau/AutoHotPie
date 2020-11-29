@@ -321,7 +321,7 @@ runPieMenu(profileNum, index)
 	
 
 	if (SubStr(pieHotkey, -6) == "LButton") || (runningProfile.holdOpenOverride == true)
-		f_FunctionLaunchMode := 2
+		f_FunctionLaunchMode := 1 ;Click only launchmode
 	else
 		f_FunctionLaunchMode := settings.global.functionLaunchMode
 
@@ -414,26 +414,26 @@ runPieMenu(profileNum, index)
 				{
 				if (runningProfile.activePie[2].enable)
 					armPie2 := true
-				leftTheta := theta				
-				}			
+				leftTheta := theta
+				}
 			;Check armed pie when return to circle
-			if (fPieRegion > 0) && (pieRegion == 0) 
+			if (fPieRegion > 0) && (pieRegion == 0)
 				{
 				if (armPie3 == true) && (runningProfile.activePie[3].enable)
 					activePieNumber := 3
 				else if (armPie2 == true) && (runningProfile.activePie[2].enable)
-					activePieNumber := 2			
+					activePieNumber := 2
 				}
-			StartDrawGDIP()
-			
+			StartDrawGDIP()			
 			fPieRegion := drawPie(G, bitmapPadding[1], bitmapPadding[2], dist, theta, runningProfile.activePie[activePieNumber].numSlices, runningProfile.radius*pieDPIScale, runningProfile.thickness*pieDPIScale, runningProfile.activePie[activePieNumber].bgColor, runningProfile.activePie[activePieNumber].selColor, offsetPie[activePieNumber], runningProfile.activePie[activePieNumber], pieDPIScale, LButtonPressed, showLabel)
-			if (LButtonPressed_LastState = true) && (LButtonPressed = false)
-				runPieFunction([profileNum,index,activePieNumber,pieRegion, iMouseX, iMouseY])
+			if (LButtonPressed_LastState == true) && (LButtonPressed == false){
+				runPieFunction([profileNum, index, activePieNumber, pieRegion, iMouseX, iMouseY])
 				if (runningProfile.holdOpenOverride == true)
 					break
-			LButtonPressed_LastState := LButtonPressed
+				}			
 			
 			}
+		LButtonPressed_LastState := LButtonPressed
 		sleep, 10		
 		} ;end pie loop
 	StartDrawGDIP()

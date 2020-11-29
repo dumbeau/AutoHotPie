@@ -16,6 +16,7 @@ debugMode := False
 ;Read Json Settings file to object
 	Try 
 	{
+		
 		FileRead, settings, %A_ScriptDir%\settings.json
 		global settings := Json.Load(settings)
 		
