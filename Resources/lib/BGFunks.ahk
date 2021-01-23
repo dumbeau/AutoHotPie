@@ -257,7 +257,7 @@ drawPie(G, xPos, yPos, dist, theta, numSlices, radius, thickness, bgColor, selec
 runPieMenu(profileNum, index)
 	{
 	;REFACTOR - Declare variables better
-	global		
+	global	
 	MouseGetPos, iMouseX, iMouseY
 	
 
@@ -545,17 +545,6 @@ runPieFunction(funcNum)
 		lastPieFunctionRan := selectedRegion	
 		}
 
-	if (selectedRegion.function = "resizeWindow") {
-		resizeWindow(funcNum[5],funcNum[6])
-		return
-	}
-
-	if (selectedRegion.function = "moveWindow") {
-		moveWindow(funcNum[5],funcNum[6])
-		return
-	}
-
-
 	pieFuncToRun := "pie_" . selectedRegion.function	
 	pieFuncParamsArray := selectedRegion.params
 	%pieFuncToRun%(pieFuncParamsArray)
@@ -731,4 +720,24 @@ logTime(start=True){
 	static timeArray := []
 	if (start == True){
 	}
+}
+
+;For mouseClick pie function
+lButtonWait(clickButton,sleepTime=3){	
+	loop
+		{
+		Sleep, %sleepTime%
+		if GetKeyState("LButton", "P")
+			{				
+			; MouseClick, %clickButton%, , , ,0, D
+			loop
+				{
+				sleep, %sleepTime%
+				If !GetKeyState("LButton", "P"){
+					; MouseClick, %clickButton%, , , ,0, U
+					return
+				}
+				}			
+			}
+		}
 }

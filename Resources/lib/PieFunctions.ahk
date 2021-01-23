@@ -13,6 +13,37 @@ pie_sendKey(keys)
 		}
 		return
 	}
+pie_mouseClick(params)
+	{
+		; MouseButton - str, Shift - bool, Ctrl - bool, Alt - bool, Drag - bool
+		;["LButton",1,0,0,0,0]
+		remapLButton := params.button		
+		modsDown := ""
+		modsUp := ""
+		mouseButton := params.button
+		if(params.shift == true){
+			modsDown := modsDown . "{shift down}"
+			modsUp := modsUp . "{shift up}"
+		}
+		if(params.ctrl == true){
+			modsDown := modsDown . "{ctrl down}"
+			modsUp := modsUp . "{ctrl up}"
+		}
+		if(params.alt == true){
+			modsDown := modsDown . "{alt down}"
+			modsUp := modsUp . "{alt up}"
+		}
+		send, %modsDown%		
+		if (params.drag == true){	
+			lButtonWait(mouseButton)			
+			
+		} else {			
+			MouseClick, %mouseButton%, iMouseX, iMouseY, ,0
+		}
+		send, %modsUp%
+		remapLButton := ""
+		return
+	}
 pie_runScript(scripts)
 	{
 	Try
@@ -45,11 +76,13 @@ pie_openSettings()
 	}
 pie_resizeWindow() ;make this work thorugh here
 	{
-	msgbox, % PieMenuPosition[1]
+	; msgbox, % PieMenuPosition[1]
+	resizeWindow(iMouseX,iMouseY)
 	return
 	}
 pie_moveWindow() ;make this work thorugh here
 	{
+	moveWindow(iMouseX,iMouseY)
 	return
 	}
 

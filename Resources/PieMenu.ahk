@@ -11,6 +11,7 @@ CoordMode, Mouse, Screen
 checkAHK()
 
 debugMode := False
+global remapLButton := ""
 
 
 ;Read Json Settings file to object
@@ -38,6 +39,9 @@ debugMode := False
 	global monRight := 0
 	global monTop := 0
 	global monBottom := 0
+
+	global iMouseX	;X Position of where pie menu is opened
+	global iMouseY	;Y ^
 	getMonitorCoords(monLeft, monTop, monRight, monBottom)
 	; SetUpGDIP(monLeft, monTop, monRight-monLeft, monBottom-monTop-0.01) ;windows were appearing over taskbar without -0.01
 	SetUpGDIP(0, 0, 50, 50) ;windows were appearing over taskbar without -0.01
@@ -241,26 +245,26 @@ exitapp
 return
 }
 
-; i::
-; SetUpGDIP(monLeft, monTop, monRight-monLeft, monBottom-monTop, "Hide")
-; SetUpGDIP(monLeft, monTop, monRight-monLeft, monBottom-monTop, "Show")
-; return
-
 ;Block LButton when Pie Menu is opened
 #If (pieLaunchedState == 1)
-{
 LButton::Return
-}
+
+
+;For mouseClick function 
+#If (remapLButton == "Right")
+LButton::RButton
+#If (remapLButton == "Middle")
+LButton::MButton
 
 ;If a display is connected or disconnected
-	OnMessage(0x7E, "WM_DISPLAYCHANGE")
+OnMessage(0x7E, "WM_DISPLAYCHANGE")
+return
+WM_DISPLAYCHANGE(wParam, lParam)
+	{
+	sleep, 200
+	Reload
 	return
-	WM_DISPLAYCHANGE(wParam, lParam)
-		{
-		sleep, 200
-		Reload
-		return
-		}
+	}
 
 Rel:
 Reload

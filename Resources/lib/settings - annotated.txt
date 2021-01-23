@@ -75,11 +75,17 @@
 					"icon":"figurethisoutlater.svg"
 					},
 					{
-					"function":"sendKey",
-					"params":["f"],
-					"label":"Send F 6",
-					"returnMousePos":0,
-					"icon":"figurethisoutlater.svg"
+						"function":"mouseClick",
+						"params":{
+							"button":"Right",
+							"shift":true,
+							"ctrl":false,
+							"alt":false,
+							"drag":true
+						},
+						"label":"6 Right-Click Drag",
+						"returnMousePos":0,
+						"icon":"figurethisoutlater.svg"
 					}
 					]
 				},
@@ -264,11 +270,17 @@
 					"icon":"figurethisoutlater.svg"
 					},
 					{
-					"function":"sendKey",
-					"params":["f"],
-					"label":"Send F",
-					"returnMousePos":0,
-					"icon":"figurethisoutlater.svg"
+						"function":"mouseClick",		;Click at location Pie Menu was opened, or drag on the next click.
+						"params":{
+							"button":"Right",
+							"shift":true,
+							"ctrl":false,
+							"alt":false,
+							"drag":true
+						},
+						"label":"6 Right-Click Drag",
+						"returnMousePos":0,
+						"icon":"figurethisoutlater.svg"
 					}
 					]
 				},
