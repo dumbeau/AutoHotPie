@@ -1,20 +1,21 @@
 {
 "global":{
 	"pieTips":0,
-	"adobeScriptsFolder":"C:\\Users\\beaug\\Documents\\Adobe Scripts\\"
-	"functionLaunchMode":0,    //0-default 1-click functions only 2-release on function only
-	"fontSize":14   //This sets the font size of the pie menu labels, this also responds to system scaling.
+	"adobeScriptsFolder":"",   	// Does nothing right now.
+	"functionLaunchMode":0,    	// 0-default 1-click functions only 2-release on function only
+	"fontSize":14,				// Sets the font size of the pie menu labels.
+	"minimumLabelWidth":10,		// Sets the minimum width of the label background rectangles
+	"iconSize":24				// Size of the icons in the labels.
 },
-"appProfiles":   								//This object's key is an array where each value contains all the information for an application's pie menus.
-	[
-		{   									//The first profile here is the default profile, or the profile that is active when no other profile is active.  Scroll down to the next profile to see descriptions for all objects/keys
-		"name":"Default Profile",				//Don't delete the default profile, you should only disable it
-		"ahkHandle":"ahk_group regApps",		//don't change this
-		"enable":1,  							//Change this to 0 to disable the default pie menus.
-		"enablePenTablet":0,					//Scroll down and learn about the rest of these on the next profile.
+"appProfiles":					//This object's key is an array where each value contains all the information for an application's pie menus.
+	[	{						//The first profile here is the default profile, or the profile that is active when no other profile is active.  Scroll down to the next profile to see descriptions for all objects/keys
+		"name":"Default Profile"			//Don't delete the default profile, you should only disable it
+		"ahkHandle":"ahk_group regApps",	//Don't even think about changing this.
+		"enable":1,							//Change this to 0 to disable the default pie menus.
+		"enablePenTablet":0,				//Scroll down and learn about the rest of these on the next profile.
 		"pieModifier":{
 			"useModifierKey":0,
-			"modifierKey":"g",
+			"modifierKey":"XButton1",
 			"toggle":0
 			},
 		"pieMenus":[
@@ -23,7 +24,7 @@
 			"radius": 40,
 			"thickness":10,
 			"holdOpenOverride":0,
-			"labelDelay":5,
+			"labelDelay":0,
 			"enable":1,
 			"activePie":
 				[
@@ -34,53 +35,80 @@
 				"offset": 0,
 				"functions":[
 					{
-					"function":"none",
-					"params":["blah"],
-					"label":"I do nothing or show",
+					"function":"repeatLastFunction",
+					"params":[0.6],
+					"label":"0 RepeatLast (center function label does not show up)",
 					"returnMousePos":0,
-					"icon":"figurethisoutlater.svg"
+					"icon":{							
+						"filePath":"",
+						"WBOnly":true
+						}
 					},
 					{
 					"function":"runScript",
 					"params":["%A_ScriptDir%\\Local Scripts\\testscript.ahk"],
 					"label":"Run local script",
 					"returnMousePos":0,
-					"icon":"figurethisoutlater.svg"
+					"icon":{							
+						"filePath":"Run Script.png",
+						"WBOnly":true
+						}
 					},
 					{
 					"function":"sendKey",
-					"params":["c"],
-					"label":"pieFunction Test 2",
+					"params":["^z"],
+					"label":"Undo",
 					"returnMousePos":0,
-					"icon":"figurethisoutlater.svg"
+					"icon":{							
+						"filePath":"Left Arrow.png",
+						"WBOnly":true
+						}
 					},
 					{
-					"function":"sendKey",
-					"params":["d"],
-					"label":"Send D 3",
+					"function":"moveWindow",
+					"params":["^z"],
+					"label":"Move Window",
 					"returnMousePos":0,
-					"icon":"figurethisoutlater.svg"
+					"icon":{							
+						"filePath":"Move Window.png",
+						"WBOnly":true
+						}
 					},
 					{
 					"function":"repeatLastFunction",
-					"params":[0.5],
+					"params":[5],
 					"label":"Repeat Last Function",
 					"returnMousePos":0,
-					"icon":"figurethisoutlater.svg"
+					"icon":{							
+						"filePath":"Color Rainbow.png",
+						"WBOnly":false
+						}
 					},
 					{
-					"function":"sendKey",
+					"function":"resizeWindow",
 					"params":["f"],
-					"label":"Send F 5",
+					"label":"Resize Window",
 					"returnMousePos":0,
-					"icon":"figurethisoutlater.svg"
+					"icon":{							
+						"filePath":"Resize Window.png",
+						"WBOnly":true
+						}
 					},
 					{
-					"function":"sendKey",
-					"params":["f"],
-					"label":"Send F 6",
-					"returnMousePos":0,
-					"icon":"figurethisoutlater.svg"
+						"function":"mouseClick",
+						"params":{
+							"button":"Right",
+							"shift":true,
+							"ctrl":false,
+							"alt":false,
+							"drag":true
+						},
+						"label":"Shift-RMB Drag",
+						"returnMousePos":0,
+						"icon":{							
+						"filePath":"Mouse Drag.png",
+						"WBOnly":true
+						}
 					}
 					]
 				},
@@ -96,42 +124,60 @@
 					"params":["a"],
 					"label":"Send A",
 					"returnMousePos":0,
-					"icon":"figurethisoutlater.svg"
+					"icon":{							
+						"filePath":"",
+						"WBOnly":false
+						}
 					},
 					{
 					"function":"sendKey",
 					"params":["b"],
 					"label":"Send B",
 					"returnMousePos":0,
-					"icon":"figurethisoutlater.svg"
+					"icon":{							
+						"filePath":"",
+						"WBOnly":false
+						}
 					},
 					{
 					"function":"sendKey",
 					"params":["c"],
 					"label":"Send Cfa",
 					"returnMousePos":0,
-					"icon":"figurethisoutlater.svg"
+					"icon":{							
+						"filePath":"",
+						"WBOnly":false
+						}
 					},
 					{
 					"function":"sendKey",
 					"params":["d"],
 					"label":"Send D",
 					"returnMousePos":0,
-					"icon":"figurethisoutlater.svg"
+					"icon":{							
+						"filePath":"",
+						"WBOnly":false
+						}
 					},
 					{
 					"function":"sendKey",
 					"params":["e"],
 					"label":"Send E",
 					"returnMousePos":0,
-					"icon":"figurethisoutlater.svg"
+					"icon":{							
+						"filePath":"",
+						"WBOnly":false
+						}
 					},
 					{
 					"function":"sendKey",
 					"params":["f"],
 					"label":"Send F",
 					"returnMousePos":0,
-					"icon":"figurethisoutlater.svg"
+					"icon":{							
+						"filePath":"",
+						"WBOnly":false
+						}
 					}
 					]
 				},
@@ -147,42 +193,60 @@
 					"params":["a"],
 					"label":"Send A",
 					"returnMousePos":0,
-					"icon":"figurethisoutlater.svg"
+					"icon":{							
+						"filePath":"",
+						"WBOnly":false
+						}
 					},
 					{
 					"function":"runScript",
 					"params":["C:\\Users\\beaug\\Desktop\\blah.ahk"],
 					"label":"Run Function",
 					"returnMousePos":0,
-					"icon":"figurethisoutlater.svg"
+					"icon":{							
+						"filePath":"",
+						"WBOnly":false
+						}
 					},
 					{
 					"function":"SendKey",
 					"params":["c"],
 					"label":"Send C",
 					"returnMousePos":0,
-					"icon":"figurethisoutlater.svg"
+					"icon":{							
+						"filePath":"",
+						"WBOnly":false
+						}
 					},
 					{
 					"function":"SendKey",
 					"params":["d"],
 					"label":"Send D",
 					"returnMousePos":0,
-					"icon":"figurethisoutlater.svg"
+					"icon":{							
+						"filePath":"",
+						"WBOnly":false
+						}
 					},
 					{
 					"function":"SendKey",
 					"params":["e"],
 					"label":"Send E",
 					"returnMousePos":0,
-					"icon":"figurethisoutlater.svg"
+					"icon":{							
+						"filePath":"",
+						"WBOnly":false
+						}
 					},
 					{
 					"function":"SendKey",
 					"params":["f"],
 					"label":"Send F",
 					"returnMousePos":0,
-					"icon":"figurethisoutlater.svg"
+					"icon":{							
+						"filePath":"",
+						"WBOnly":false
+						}
 					}
 					]
 				}
@@ -191,24 +255,24 @@
 			]
 		},
 		{
-		"name":"Chrome",                      	//This is the name of the profile, not used for anything at the moment technically.
-		"ahkHandle":"ahk_exe chrome.exe",     	//The is the ahk handle to look for to determine when this profile's pie menus are active (find this value using WindowSpy.ahk and focusing the desired application)
-		"enable":1,        						//if you want to disable this profile from being active, enter 0
-		"enablePenTablet":0,					//This doesn't currently do anything (because I can't code any tablet integration >:(  )
-		"pieModifier":{							//This object contains settings related to toggling the pie menus, this is my solution to typefields, as you don't always want the pie menus to be active when you're doing things like typing.
-			"useModifierKey":0,					//States whether the profile uses a modifier key to toggle the state of the profile.
-			"modifierKey":"g",					//Determines the key that activates/deactivates the profile.
-			"toggle":0							//0 = pie menus can be activated only when the designated modifier key is held down.  1 = the designated modifier key toggles the state of the pie menus
+		"name":"Chrome",					//This is the name of the profile, not used for anything at the moment technically.
+		"ahkHandle":"ahk_exe chrome.exe",	//The is the ahk handle to look for to determine when this profile's pie menus are active (find this value using WindowSpy.ahk and focusing the desired application)
+		"enable":1,							//if you want to disable this profile from being active, enter 0
+		"enablePenTablet":0,				//This doesn't currently do anything (because I can't code proper tablet integration >:(  )
+		"pieModifier":{						//This object contains settings related to toggling the pie menus, this is my solution to typefields, as you don't always want the pie menus to be active when you're doing things like typing.
+			"useModifierKey":0,				//States whether the profile uses a modifier key to toggle the state of the profile.
+			"modifierKey":"g",				//Determines the key that activates/deactivates the profile.
+			"toggle":0						//0 = pie menus can be activated only when the designated modifier key is held down.  1 = the designated modifier key toggles the state of the pie menus
 			},
-		"pieMenus":[							//This object's key is an array where each value is a pie menu assigned to a hotkey.
+		"pieMenus":[						//This object's key is an array where each value is a pie menu assigned to a hotkey.		
 			{
-			"hotkey": "r",						//The key that activates the pie menu, this can include modifier symbols you can use scancodes (  ` = "{SC029}" ) as well.  Rules follow ahk's rules for hotkeys https://www.autohotkey.com/docs/KeyList.htm
-			"radius": 40,						//The radius of the pie menu
-			"thickness":10,						//the thickness of the pie menu, the stroke is aligned along the center of the circle defined by the radius
-			"holdOpenOverride":0,				//If this is on, the pie menu will stay open and the function will be launched as soon as the slice is hovered. ideal for external macro devices.
-			"labelDelay":5,						//Not currently used for anything
-			"enable":1,							//Determines if this pie menu is active or not
-			"activePie":						//This object contains three values, the first, second and third pie menus.
+			"hotkey": "r",					//The key that activates the pie menu, this can include modifier symbols you can use scancodes (  ` = "{SC029}" ) as well.  Rules follow ahk's rules for hotkeys https://www.autohotkey.com/docs/KeyList.htm
+			"radius": 40,					//The radius of the pie menu				
+			"thickness":10,					//the thickness of the pie menu, the stroke is aligned along the center of the circle defined by the radius
+			"holdOpenOverride":0,			//If this is on, the pie menu will stay open and the function will be launched as soon as the slice is hovered. ideal for external macro devices.
+			"labelDelay":0,					//Time (secs) for labels to appear after the pie menu is opened.
+			"enable":1,						//Determines if this pie menu is active or not
+			"activePie":					//This object contains three values, the first, second and third pie menus, then any submenus.
 				[
 				{
 				"numSlices":7,					//The number of slices in the pie menu not including the center.
@@ -217,65 +281,85 @@
 				"offset": 0,					//0 = the counter-clockwise edge of the first slice will be aligned to the top of the pie menu. 1 = the center of the last slice will be aligned to the top of the circle.
 				"functions":[					//This array contains the functions for all the pie menu slices.  The number of values in this array should be <= numSlices + 1.  The first function is the function for the center
 					{							//The first value in "functions" is the center region, so usually this should be nothing, or repeatLastFunction
-					"function":"repeatLastFunction",			//Determines the function of the region.  (working functions: sendKey, runScript, repeatLastFunction)
-					"params":["1"],				//Array that lists the parameters for the function.
+					"function":"repeatLastFunction",	//Determines the function of the region.  (working functions: sendKey, mouseClick, runScript, repeatLastFunction, resizeWindow, moveWindow)
+					"params":["1"],				//Parameters for function, usually an array, but can be an object.	
 					"label":"Repeat Last",			//Text that appears in the label for the slice (will not show on center)
 					"returnMousePos":0,			//1 = return the mouse to the location where the pie menu was opened when function is launched.  0 = do not interfere with mouse position.
-					"icon":"figurethisoutlater.svg"    //doesn't do anything yet obviously
+					"icon":{					//Object for icon to use.				
+						"filePath":"",			//Filename of icon PNG image.  Checks in Resources > icons for image.
+						"WBOnly":false			//true = image is Black and White with transparency, image will use "selColor"; false = do not alter image colors.
+						}
 					},
 					{
-					"function":"sendKey",		//The sendKey function will send the keystrokes listed in the "params" array
-					"params":["^s"],			//The function will loop through the keys in this array.  They follow the ruls of the AHK Send command.
-					"label":"Save",				
+					"function":"runScript",			//This function will run a script at a specified path, follows rules for AHK Run command.
+					"params":["%A_ScriptDir%\\Local Scripts\\testscript.ahk"],  //the filepath can be an absolute filepath or local filepath using %A_ScriptDir%\\Local Scripts\\yourscript.ahk, just copy your script to that folder.
+					"label":"Run local script",
 					"returnMousePos":0,
-					"icon":"figurethisoutlater.svg"
+					"icon":{							
+						"filePath":"Run Script.png",
+						"WBOnly":true
+						}
 					},
 					{
-					"function":"repeatLastFunction",	//This function will repeat the last function launched, the parameter is the function memory timeout
-					"params":[0.5],						//Time in secs this function will repeat the previous function after the previous function was launched.  Will do nothing if the function is launched after the timeout time, best for putting on the center slice.
-					"label":"Repeat Last Function",
+					"function":"sendKey",			//The sendKey function will send the keystrokes listed in the "params" array
+					"params":["^z"],				//The function will loop through the keys in this array.  They follow the ruls of the AHK Send command.
+					"label":"Undo",
 					"returnMousePos":0,
-					"icon":"figurethisoutlater.svg"
+					"icon":{							
+						"filePath":"Left Arrow.png",
+						"WBOnly":true
+						}
 					},
 					{
-					"function":"runScript",				//This function will run a script at a specified path, follows rules for AHK Run command.
-					"params":["%A_ScriptDir%\\Local Scripts\\testscript.ahk"],		//the filepath can be an absolute filepath or local filepath using %A_ScriptDir%\\Local Scripts\\yourscript.ahk, just copy your script to that folder.
-					"label":"Run Script Test",
-					"returnMousePos":1,
-					"icon":"figurethisoutlater.svg"
-					},
-					{
-					"function":"moveWindow",			//Moves the center of the focused window to the location the pie menu was opened
+					"function":"moveWindow",		//Moves the center of the focused window to the location the pie menu was opened
 					"params":[""],
 					"label":"Move Window",
 					"returnMousePos":0,
-					"icon":"figurethisoutlater.svg"
+					"icon":{							
+						"filePath":"Move Window.png",
+						"WBOnly":true
+						}
 					},
 					{
-					"function":"resizeWindow",			//Resizes window by bringing a corner of the focused window to the location the pie menu was opened.
-					"params":[""],
-					"label":"Send F",
+					"function":"repeatLastFunction",
+					"params":[5],
+					"label":"Repeat Last Function",
 					"returnMousePos":0,
-					"icon":"figurethisoutlater.svg"
+					"icon":{							
+						"filePath":"Color Rainbow.png",
+						"WBOnly":false
+						}
 					},
 					{
-					"function":"sendKey",
+					"function":"resizeWindow",		//Resizes window by bringing a corner of the focused window to the location the pie menu was opened.
 					"params":["f"],
-					"label":"Send F",
+					"label":"Resize Window",
 					"returnMousePos":0,
-					"icon":"figurethisoutlater.svg"
+					"icon":{							
+						"filePath":"Resize Window.png",
+						"WBOnly":true
+						}
 					},
 					{
-					"function":"sendKey",
-					"params":["f"],
-					"label":"Send F",
-					"returnMousePos":0,
-					"icon":"figurethisoutlater.svg"
+						"function":"mouseClick",		//Performs a mouse click or click-and-drag action
+						"params":{
+							"button":"Right",			//What mouse button: "Left" "Right" "Middle"
+							"shift":true,				//Hold SHIFT during click
+							"ctrl":false,				//Hold CTRL during click
+							"alt":false,				//Hold ALT during click
+							"drag":true					//true = next click drags with modifiers, false = click with modifiers in location pie menu was opened.
+						},
+						"label":"Shift-RMB Drag",
+						"returnMousePos":0,
+						"icon":{							
+						"filePath":"Mouse Drag.png",
+						"WBOnly":true
+						}
 					}
 					]
 				},
 				{
-				"enable":1,							//this pie menu is for when you leave and return to the center of the menu.  Enable = 1 Disable = 0
+				"enable":1,
 				"numSlices":5,
 				"bgColor": [35,35,35,255],
 				"selColor": [161,52,235,255],
@@ -286,47 +370,65 @@
 					"params":["a"],
 					"label":"Send A",
 					"returnMousePos":0,
-					"icon":"figurethisoutlater.svg"
+					"icon":{							
+						"filePath":"",
+						"WBOnly":false
+						}
 					},
 					{
 					"function":"sendKey",
 					"params":["b"],
 					"label":"Send B",
 					"returnMousePos":0,
-					"icon":"figurethisoutlater.svg"
+					"icon":{							
+						"filePath":"",
+						"WBOnly":false
+						}
 					},
 					{
 					"function":"sendKey",
 					"params":["c"],
 					"label":"Send C",
 					"returnMousePos":0,
-					"icon":"figurethisoutlater.svg"
+					"icon":{							
+						"filePath":"",
+						"WBOnly":false
+						}
 					},
 					{
 					"function":"sendKey",
 					"params":["d"],
 					"label":"Send D",
 					"returnMousePos":0,
-					"icon":"figurethisoutlater.svg"
+					"icon":{							
+						"filePath":"",
+						"WBOnly":false
+						}
 					},
 					{
 					"function":"sendKey",
 					"params":["e"],
 					"label":"Send E",
 					"returnMousePos":0,
-					"icon":"figurethisoutlater.svg"
+					"icon":{							
+						"filePath":"",
+						"WBOnly":false
+						}
 					},
 					{
 					"function":"sendKey",
 					"params":["f"],
 					"label":"Send F",
 					"returnMousePos":0,
-					"icon":"figurethisoutlater.svg"
+					"icon":{							
+						"filePath":"",
+						"WBOnly":false
+						}
 					}
 					]
 				},
 				{
-				"enable":1,							//this pie menu is for when you leave, circle around > 180° and return to the center of the menu.  Enable = 1 Disable = 0
+				"enable":1,
 				"numSlices":3,
 				"bgColor": [35,35,35,255],
 				"selColor": [204,57,57,255],
@@ -337,42 +439,60 @@
 					"params":["a"],
 					"label":"Send A",
 					"returnMousePos":0,
-					"icon":"figurethisoutlater.svg"
+					"icon":{							
+						"filePath":"",
+						"WBOnly":false
+						}
 					},
 					{
 					"function":"SendKey",
 					"params":["b"],
 					"label":"Send B",
 					"returnMousePos":0,
-					"icon":"figurethisoutlater.svg"
+					"icon":{							
+						"filePath":"",
+						"WBOnly":false
+						}
 					},
 					{
 					"function":"SendKey",
 					"params":["c"],
 					"label":"Send C",
 					"returnMousePos":0,
-					"icon":"figurethisoutlater.svg"
+					"icon":{							
+						"filePath":"",
+						"WBOnly":false
+						}
 					},
 					{
 					"function":"SendKey",
 					"params":["d"],
 					"label":"Send D",
 					"returnMousePos":0,
-					"icon":"figurethisoutlater.svg"
+					"icon":{							
+						"filePath":"",
+						"WBOnly":false
+						}
 					},
 					{
 					"function":"SendKey",
 					"params":["e"],
 					"label":"Send E",
 					"returnMousePos":0,
-					"icon":"figurethisoutlater.svg"
+					"icon":{							
+						"filePath":"",
+						"WBOnly":false
+						}
 					},
 					{
 					"function":"SendKey",
 					"params":["f"],
 					"label":"Send F",
 					"returnMousePos":0,
-					"icon":"figurethisoutlater.svg"
+					"icon":{							
+						"filePath":"",
+						"WBOnly":false
+						}
 					}
 					]
 				}
@@ -395,63 +515,94 @@
 			"hotkey": "b",
 			"radius": 40,
 			"thickness":10,
-			"labelDelay":5,
+			"holdOpenOverride":0,
+			"labelDelay":0,
 			"enable":1,
 			"activePie":
 				[
 				{
-				"numSlices":4,
+				"numSlices":6,
 				"bgColor": [10,10,10,255],
 				"selColor": [53, 185, 233,255],
 				"offset": 1,
 				"functions":[
 					{
-					"function":"none",
-					"params":["moveTool"],
-					"label":"Move Tool",
-					"icon":"figurethisoutlater.svg"
+					"function":"repeatLastFunction",
+					"params":[0.5],
+					"label":"",
+					"icon":{							
+						"filePath":"",
+						"WBOnly":false
+						}
 					},
 					{
-					"function":"Photoshop_cycleTool", 				//this function cycles through the tools in the parameters using COM commands in photoshop (so keystrokes are not sent to select tools)
-					"params":["magicStampTool", "patchSelection"],	//If the magicStampTool is active, the patchSelection tool will be selected.
+					"function":"Photoshop_cycleTool",
+					"params":["magicStampTool", "patchSelection"],
 					"label":"Stamp and Patch",
-					"icon":"figurethisoutlater.svg"
+					"icon":{							
+						"filePath":"",
+						"WBOnly":false
+						}
 					},
 					{
 					"function":"Photoshop_cycleTool",
 					"params":["paintbrushTool","eraserTool"],
 					"label":"Brush/Eraser",
-					"icon":"figurethisoutlater.svg"
+					"icon":{							
+						"filePath":"",
+						"WBOnly":false
+						}
 					},
 					{
 					"function":"Photoshop_cycleTool",
 					"params":["gradientTool","bucketTool","blurTool"],
 					"label":"Three Tools",
-					"icon":"figurethisoutlater.svg"
+					"icon":{							
+						"filePath":"",
+						"WBOnly":false
+						}
 					},
 					{
 					"function":"Photoshop_cycleTool",
 					"params":["moveTool"],
 					"label":"Move Tool",
-					"icon":"figurethisoutlater.svg"
+					"icon":{							
+						"filePath":"",
+						"WBOnly":false
+						}
 					},
 					{
-					"function":"sendKey",
-					"params":["f"],
-					"label":"Send F",
-					"icon":"figurethisoutlater.svg"
+					"function":"Photoshop_toggleLayerByName",
+					"params":["Layer 1","Layer 3"],
+					"label":"Toggle Layers 1,3",
+					"icon":{							
+						"filePath":"",
+						"WBOnly":false
+						}
 					},
 					{
-					"function":"sendKey",
-					"params":["f"],
-					"label":"Send F",
-					"icon":"figurethisoutlater.svg"
+					"function":"Photoshop_cycleBrush",
+					"params":["Hard Round"],
+					"label":"Hard Round",
+					"icon":{							
+						"filePath":"",
+						"WBOnly":false
+						}
 					},
 					{
-					"function":"sendKey",
-					"params":["f"],
-					"label":"Send F",
-					"icon":"figurethisoutlater.svg"
+					"function":"mouseClick",
+					"params":{
+						"button":"Right",
+						"shift":false,
+						"ctrl":false,
+						"alt":true,
+						"drag":true
+					},
+					"label":"Brush Size",
+					"icon":{							
+						"filePath":"",
+						"WBOnly":false
+						}
 					}
 					]
 				},

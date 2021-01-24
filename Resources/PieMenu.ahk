@@ -10,7 +10,7 @@ CoordMode, Mouse, Screen
 ;Check AHK version and if AHK is installed.  Prompt install or update.
 checkAHK()
 
-debugMode := False
+debugMode := false
 global remapLButton := ""
 
 

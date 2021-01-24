@@ -4,7 +4,8 @@
 	"adobeScriptsFolder":"C:\\Users\\beaug\\Documents\\Adobe Scripts\\",
 	"functionLaunchMode":0,
 	"fontSize":14,
-	"minimumLabelWidth":10
+	"minimumLabelWidth":10,
+	"iconSize":24
 },
 "appProfiles":
 	[	{
@@ -38,42 +39,60 @@
 					"params":[0.6],
 					"label":"0 RepeatLast (center function label does not show up)",
 					"returnMousePos":0,
-					"icon":"figurethisoutlater.svg"
+					"icon":{							
+						"filePath":"",
+						"WBOnly":true
+						}
 					},
 					{
 					"function":"runScript",
 					"params":["%A_ScriptDir%\\Local Scripts\\testscript.ahk"],
-					"label":"1 Run local script",
+					"label":"Run local script",
 					"returnMousePos":0,
-					"icon":"figurethisoutlater.svg"
+					"icon":{							
+						"filePath":"Run Script.png",
+						"WBOnly":true
+						}
 					},
 					{
 					"function":"sendKey",
 					"params":["^z"],
-					"label":"2 Undo",
+					"label":"Undo",
 					"returnMousePos":0,
-					"icon":"figurethisoutlater.svg"
+					"icon":{							
+						"filePath":"Left Arrow.png",
+						"WBOnly":true
+						}
 					},
 					{
 					"function":"moveWindow",
 					"params":["^z"],
-					"label":"3 Move Window",
+					"label":"Move Window",
 					"returnMousePos":0,
-					"icon":"figurethisoutlater.svg"
+					"icon":{							
+						"filePath":"Move Window.png",
+						"WBOnly":true
+						}
 					},
 					{
 					"function":"repeatLastFunction",
-					"params":[0.5],
-					"label":"4 Repeat Last Function",
+					"params":[5],
+					"label":"Repeat Last Function",
 					"returnMousePos":0,
-					"icon":"figurethisoutlater.svg"
+					"icon":{							
+						"filePath":"Color Rainbow.png",
+						"WBOnly":false
+						}
 					},
 					{
 					"function":"resizeWindow",
 					"params":["f"],
-					"label":"5 Resize Window",
+					"label":"Resize Window",
 					"returnMousePos":0,
-					"icon":"figurethisoutlater.svg"
+					"icon":{							
+						"filePath":"Resize Window.png",
+						"WBOnly":true
+						}
 					},
 					{
 						"function":"mouseClick",
@@ -84,9 +103,12 @@
 							"alt":false,
 							"drag":true
 						},
-						"label":"6 Right-Click Drag",
+						"label":"Shift-RMB Drag",
 						"returnMousePos":0,
-						"icon":"figurethisoutlater.svg"
+						"icon":{							
+						"filePath":"Mouse Drag.png",
+						"WBOnly":true
+						}
 					}
 					]
 				},
@@ -102,42 +124,60 @@
 					"params":["a"],
 					"label":"Send A",
 					"returnMousePos":0,
-					"icon":"figurethisoutlater.svg"
+					"icon":{							
+						"filePath":"",
+						"WBOnly":false
+						}
 					},
 					{
 					"function":"sendKey",
 					"params":["b"],
 					"label":"Send B",
 					"returnMousePos":0,
-					"icon":"figurethisoutlater.svg"
+					"icon":{							
+						"filePath":"",
+						"WBOnly":false
+						}
 					},
 					{
 					"function":"sendKey",
 					"params":["c"],
 					"label":"Send Cfa",
 					"returnMousePos":0,
-					"icon":"figurethisoutlater.svg"
+					"icon":{							
+						"filePath":"",
+						"WBOnly":false
+						}
 					},
 					{
 					"function":"sendKey",
 					"params":["d"],
 					"label":"Send D",
 					"returnMousePos":0,
-					"icon":"figurethisoutlater.svg"
+					"icon":{							
+						"filePath":"",
+						"WBOnly":false
+						}
 					},
 					{
 					"function":"sendKey",
 					"params":["e"],
 					"label":"Send E",
 					"returnMousePos":0,
-					"icon":"figurethisoutlater.svg"
+					"icon":{							
+						"filePath":"",
+						"WBOnly":false
+						}
 					},
 					{
 					"function":"sendKey",
 					"params":["f"],
 					"label":"Send F",
 					"returnMousePos":0,
-					"icon":"figurethisoutlater.svg"
+					"icon":{							
+						"filePath":"",
+						"WBOnly":false
+						}
 					}
 					]
 				},
@@ -153,42 +193,60 @@
 					"params":["a"],
 					"label":"Send A",
 					"returnMousePos":0,
-					"icon":"figurethisoutlater.svg"
+					"icon":{							
+						"filePath":"",
+						"WBOnly":false
+						}
 					},
 					{
 					"function":"runScript",
 					"params":["C:\\Users\\beaug\\Desktop\\blah.ahk"],
 					"label":"Run Function",
 					"returnMousePos":0,
-					"icon":"figurethisoutlater.svg"
+					"icon":{							
+						"filePath":"",
+						"WBOnly":false
+						}
 					},
 					{
 					"function":"SendKey",
 					"params":["c"],
 					"label":"Send C",
 					"returnMousePos":0,
-					"icon":"figurethisoutlater.svg"
+					"icon":{							
+						"filePath":"",
+						"WBOnly":false
+						}
 					},
 					{
 					"function":"SendKey",
 					"params":["d"],
 					"label":"Send D",
 					"returnMousePos":0,
-					"icon":"figurethisoutlater.svg"
+					"icon":{							
+						"filePath":"",
+						"WBOnly":false
+						}
 					},
 					{
 					"function":"SendKey",
 					"params":["e"],
 					"label":"Send E",
 					"returnMousePos":0,
-					"icon":"figurethisoutlater.svg"
+					"icon":{							
+						"filePath":"",
+						"WBOnly":false
+						}
 					},
 					{
 					"function":"SendKey",
 					"params":["f"],
 					"label":"Send F",
 					"returnMousePos":0,
-					"icon":"figurethisoutlater.svg"
+					"icon":{							
+						"filePath":"",
+						"WBOnly":false
+						}
 					}
 					]
 				}
@@ -223,53 +281,64 @@
 				"offset": 0,
 				"functions":[
 					{
-					"function":"none",
-					"params":[""],
-					"label":"Send A",
+					"function":"repeatLastFunction",
+					"params":[0.6],
+					"label":"RepeatLast (center function label does not show up)",
 					"returnMousePos":0,
-					"icon":"figurethisoutlater.svg"
+					"icon":{							
+						"filePath":"",
+						"WBOnly":true
+						}
+					},
+					{
+					"function":"runScript",
+					"params":["%A_ScriptDir%\\Local Scripts\\testscript.ahk"],
+					"label":"Run local script",
+					"returnMousePos":0,
+					"icon":{							
+						"filePath":"Run Script.png",
+						"WBOnly":true
+						}
 					},
 					{
 					"function":"sendKey",
-					"params":["boops"],
-					"label":"Boops",
+					"params":["^z"],
+					"label":"Undo",
 					"returnMousePos":0,
-					"icon":"figurethisoutlater.svg"
+					"icon":{							
+						"filePath":"Left Arrow.png",
+						"WBOnly":true
+						}
 					},
 					{
-					"function":"sendKey",
-					"params":["c"],
-					"label":"Send C",
+					"function":"moveWindow",
+					"params":["^z"],
+					"label":"Move Window",
 					"returnMousePos":0,
-					"icon":"figurethisoutlater.svg"
+					"icon":{							
+						"filePath":"Move Window.png",
+						"WBOnly":true
+						}
 					},
 					{
-					"function":"sendKey",
-					"params":["d"],
-					"label":"Send D",
+					"function":"repeatLastFunction",
+					"params":[5],
+					"label":"Repeat Last Function",
 					"returnMousePos":0,
-					"icon":"figurethisoutlater.svg"
+					"icon":{							
+						"filePath":"Color Rainbow.png",
+						"WBOnly":false
+						}
 					},
 					{
-					"function":"sendKey",
-					"params":["e"],
-					"label":"Send E",
-					"returnMousePos":0,
-					"icon":"figurethisoutlater.svg"
-					},
-					{
-					"function":"sendKey",
+					"function":"resizeWindow",
 					"params":["f"],
-					"label":"Send F",
+					"label":"Resize Window",
 					"returnMousePos":0,
-					"icon":"figurethisoutlater.svg"
-					},
-					{
-					"function":"sendKey",
-					"params":["f"],
-					"label":"Send F",
-					"returnMousePos":0,
-					"icon":"figurethisoutlater.svg"
+					"icon":{							
+						"filePath":"Resize Window.png",
+						"WBOnly":true
+						}
 					},
 					{
 						"function":"mouseClick",
@@ -280,9 +349,12 @@
 							"alt":false,
 							"drag":true
 						},
-						"label":"6 Right-Click Drag",
+						"label":"Shift-RMB Drag",
 						"returnMousePos":0,
-						"icon":"figurethisoutlater.svg"
+						"icon":{							
+						"filePath":"Mouse Drag.png",
+						"WBOnly":true
+						}
 					}
 					]
 				},
@@ -298,42 +370,60 @@
 					"params":["a"],
 					"label":"Send A",
 					"returnMousePos":0,
-					"icon":"figurethisoutlater.svg"
+					"icon":{							
+						"filePath":"",
+						"WBOnly":false
+						}
 					},
 					{
 					"function":"sendKey",
 					"params":["b"],
 					"label":"Send B",
 					"returnMousePos":0,
-					"icon":"figurethisoutlater.svg"
+					"icon":{							
+						"filePath":"",
+						"WBOnly":false
+						}
 					},
 					{
 					"function":"sendKey",
 					"params":["c"],
 					"label":"Send C",
 					"returnMousePos":0,
-					"icon":"figurethisoutlater.svg"
+					"icon":{							
+						"filePath":"",
+						"WBOnly":false
+						}
 					},
 					{
 					"function":"sendKey",
 					"params":["d"],
 					"label":"Send D",
 					"returnMousePos":0,
-					"icon":"figurethisoutlater.svg"
+					"icon":{							
+						"filePath":"",
+						"WBOnly":false
+						}
 					},
 					{
 					"function":"sendKey",
 					"params":["e"],
 					"label":"Send E",
 					"returnMousePos":0,
-					"icon":"figurethisoutlater.svg"
+					"icon":{							
+						"filePath":"",
+						"WBOnly":false
+						}
 					},
 					{
 					"function":"sendKey",
 					"params":["f"],
 					"label":"Send F",
 					"returnMousePos":0,
-					"icon":"figurethisoutlater.svg"
+					"icon":{							
+						"filePath":"",
+						"WBOnly":false
+						}
 					}
 					]
 				},
@@ -349,42 +439,60 @@
 					"params":["a"],
 					"label":"Send A",
 					"returnMousePos":0,
-					"icon":"figurethisoutlater.svg"
+					"icon":{							
+						"filePath":"",
+						"WBOnly":false
+						}
 					},
 					{
 					"function":"SendKey",
 					"params":["b"],
 					"label":"Send B",
 					"returnMousePos":0,
-					"icon":"figurethisoutlater.svg"
+					"icon":{							
+						"filePath":"",
+						"WBOnly":false
+						}
 					},
 					{
 					"function":"SendKey",
 					"params":["c"],
 					"label":"Send C",
 					"returnMousePos":0,
-					"icon":"figurethisoutlater.svg"
+					"icon":{							
+						"filePath":"",
+						"WBOnly":false
+						}
 					},
 					{
 					"function":"SendKey",
 					"params":["d"],
 					"label":"Send D",
 					"returnMousePos":0,
-					"icon":"figurethisoutlater.svg"
+					"icon":{							
+						"filePath":"",
+						"WBOnly":false
+						}
 					},
 					{
 					"function":"SendKey",
 					"params":["e"],
 					"label":"Send E",
 					"returnMousePos":0,
-					"icon":"figurethisoutlater.svg"
+					"icon":{							
+						"filePath":"",
+						"WBOnly":false
+						}
 					},
 					{
 					"function":"SendKey",
 					"params":["f"],
 					"label":"Send F",
 					"returnMousePos":0,
-					"icon":"figurethisoutlater.svg"
+					"icon":{							
+						"filePath":"",
+						"WBOnly":false
+						}
 					}
 					]
 				}
@@ -421,50 +529,80 @@
 					{
 					"function":"repeatLastFunction",
 					"params":[0.5],
-					"label":"Move Tool",
-					"icon":"figurethisoutlater.svg"
+					"label":"",
+					"icon":{							
+						"filePath":"",
+						"WBOnly":false
+						}
 					},
 					{
 					"function":"Photoshop_cycleTool",
 					"params":["magicStampTool", "patchSelection"],
 					"label":"Stamp and Patch",
-					"icon":"figurethisoutlater.svg"
+					"icon":{							
+						"filePath":"",
+						"WBOnly":false
+						}
 					},
 					{
 					"function":"Photoshop_cycleTool",
 					"params":["paintbrushTool","eraserTool"],
 					"label":"Brush/Eraser",
-					"icon":"figurethisoutlater.svg"
+					"icon":{							
+						"filePath":"",
+						"WBOnly":false
+						}
 					},
 					{
 					"function":"Photoshop_cycleTool",
 					"params":["gradientTool","bucketTool","blurTool"],
 					"label":"Three Tools",
-					"icon":"figurethisoutlater.svg"
+					"icon":{							
+						"filePath":"",
+						"WBOnly":false
+						}
 					},
 					{
 					"function":"Photoshop_cycleTool",
 					"params":["moveTool"],
 					"label":"Move Tool",
-					"icon":"figurethisoutlater.svg"
+					"icon":{							
+						"filePath":"",
+						"WBOnly":false
+						}
 					},
 					{
 					"function":"Photoshop_toggleLayerByName",
 					"params":["Layer 1","Layer 3"],
-					"label":"toggle layer",
-					"icon":"figurethisoutlater.svg"
+					"label":"Toggle Layers 1,3",
+					"icon":{							
+						"filePath":"",
+						"WBOnly":false
+						}
 					},
 					{
 					"function":"Photoshop_cycleBrush",
 					"params":["Hard Round"],
 					"label":"Hard Round",
-					"icon":"figurethisoutlater.svg"
+					"icon":{							
+						"filePath":"",
+						"WBOnly":false
+						}
 					},
 					{
-					"function":"sendKey",
-					"params":["f"],
-					"label":"Send F",
-					"icon":"figurethisoutlater.svg"
+					"function":"mouseClick",
+					"params":{
+						"button":"Right",
+						"shift":false,
+						"ctrl":false,
+						"alt":true,
+						"drag":true
+					},
+					"label":"Brush Size",
+					"icon":{							
+						"filePath":"",
+						"WBOnly":false
+						}
 					}
 					]
 				},

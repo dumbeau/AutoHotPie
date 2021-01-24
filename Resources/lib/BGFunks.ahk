@@ -126,14 +126,15 @@ whitenRGB(RGBAarray)
 	; msgbox, % RGBAarray[1] "," RGBAarray[2] "," RGBAarray[3]
 	return NewRGBA
 	}
-drawPieLabel(pGraphics, labelText, xPos, yPos, selected:=0, anchor:="top", activePieProfile=0, pieDPIScale=1, clicked:=false)
+drawPieLabel(pGraphics, labelText, xPos, yPos, selected:=0, anchor:="top", activePieProfile=0, pieDPIScale=1, clicked:=false, labelIcon="")
 	{
-	p_FontSize := settings.global.fontSize
-	xPosition := xPos
-	yPosition := yPos
-	pad := Ceil(6*(((pieDPIScale-1)/2)+1))
-	fontSize := Ceil(p_FontSize*pieDPIScale)
-	minBoxWidth := Ceil(settings.global.minimumLabelWidth)
+	pad := [Ceil(6*(((pieDPIScale-1)/2)+1)), Ceil(6*(((pieDPIScale-1)/2)+1))]
+	iconTextPad := Ceil(6*(((pieDPIScale-1)/2)+1))
+	fontSize := Ceil(settings.global.fontSize*pieDPIScale)
+	minBoxWidth := Ceil(settings.global.minimumLabelWidth)	
+	iconSizeSquare := Ceil(settings.global.iconSize*pieDPIScale)	
+	
+	safetyGreyColor := [123, 123, 123, 255]
 	; fontSize := 14
 	If (selected == 1)
 		{
@@ -151,52 +152,70 @@ drawPieLabel(pGraphics, labelText, xPos, yPos, selected:=0, anchor:="top", activ
 		}	
 		}
 	else
-		{
-		strokeColor := RGBAtoHEX([123, 123, 123, 255])
+		{		
+		strokeColor := RGBAtoHEX(safetyGreyColor)
 		labelBGColor := RGBAtoHEX(activePieProfile.bgColor)
 		textColor := "FFFFFFFF"
 		; labelBGColor := RGBAtoHEX([30, 30, 30, 255])
-		}
+		}	
+
 	textYOffset := Ceil(1*pieDPIScale)
-	displayText := labelText
-	textOptionsTest := % "x" xPosition " y" yPosition " Center vCenter c00FFFFFF r4 s" fontSize
+	
+	textOptionsTest := % "x" xPos " y" yPos " Center vCenter c00FFFFFF r4 s" fontSize
 	Gdip_SetSmoothingMode(pGraphics, 4)
+
+	
+
 	basicPen := Gdip_CreatePen(strokeColor, 1)
 	otherPen := Gdip_CreatePen("0xFFff0000" , 1)
 	basicBrush := Gdip_BrushCreateSolid(labelBGColor)
-	theRect := Gdip_TextToGraphics(pGraphics, displayText, textOptionsTest, "Arial")
-	theRect := StrSplit(theRect, "|")
-	theRect[3] := Max(Ceil(theRect[3]), minBoxWidth*pieDPIScale)
-	theRect[4] := Ceil(theRect[4])
+	temptextRect := Gdip_TextToGraphics(pGraphics, labelText, textOptionsTest, "Arial")
+	textRect := StrSplit(temptextRect, "|")
+	textRect := [ Ceil(textRect[3]) , Ceil(textRect[4]) ]
+	
+	iconTextOffset := 0
+	iconContentWidth := 0
+	if ( labelIcon.filePath != ""){
+		iconFile := A_ScriptDir . "\icons\" . labelIcon.filePath 
+		; msgbox, % iconFile
+		pBitmaps := Gdip_CreateBitmapFromFile(iconFile)		
+		iconTextOffset := (iconSizeSquare+pad[1])/2
+		iconContentWidth := iconSizeSquare+iconTextPad
+	}
+	contentRect := [textRect[1]+iconContentWidth, iconSizeSquare] ;change 4 if you want different heights
+	; msgbox, % textRect[1] ;change 4 if you want different heights
+	outerRectSize := [Max(contentRect[1]+(2*pad[1]),minBoxWidth), contentRect[2]+(2*pad[2])]
+
+	rectCenter := [0,0]	
 	If (anchor == "bottom")
-		{
-		Gdip_FillRoundedRectangle(pGraphics, basicBrush, Ceil(xPosition-(theRect[3]/2)-pad), Ceil(yPosition-theRect[4]-(2*pad)), Ceil(theRect[3]+(2*pad)), Ceil(theRect[4]+(2*pad)), 3)
-		Gdip_DrawRoundedRectangle(pGraphics, basicPen, Ceil(xPosition-(theRect[3]/2)-pad), Ceil(yPosition-theRect[4]-(2*pad)), Ceil(theRect[3]+(2*pad)), Ceil(theRect[4]+(2*pad)), 3)
-		textOptions := % "x" xPosition " y" (yPosition-theRect[4]-pad+textYOffset) " Center vCenter c" textColor " r4 s" fontSize
-		Gdip_TextToGraphics(pGraphics, displayText, textOptions, "Arial")
-		}
+		rectCenter := [xPos, yPos-(contentRect[2]/2)+pad[2]]		
 	If (anchor == "top")
-		{
-		Gdip_FillRoundedRectangle(pGraphics, basicBrush, Ceil(xPosition-(theRect[3]/2)-pad), yPosition, Ceil(theRect[3]+(2*pad)), Ceil(theRect[4]+(2*pad)), 3)
-		Gdip_DrawRoundedRectangle(pGraphics, basicPen, Ceil(xPosition-(theRect[3]/2)-pad), yPosition, Ceil(theRect[3]+(2*pad)), Ceil(theRect[4]+(2*pad)), 3)
-		textOptions := % "x" xPosition " y" (yPosition+pad+textYOffset) " Center vCenter c" textColor " r4 s" fontSize
-		Gdip_TextToGraphics(pGraphics, displayText, textOptions, "Arial")
-		}
+		rectCenter := [xPos, yPos+(contentRect[2]/2)+pad[2]]		
 	If (anchor == "left")
-		{
-		Gdip_FillRoundedRectangle(pGraphics, basicBrush, xPosition, Ceil(yPosition-(theRect[4]/2)-pad), Ceil(theRect[3]+(2*pad)), Ceil(theRect[4]+(2*pad)), 3)
-		Gdip_DrawRoundedRectangle(pGraphics, basicPen, xPosition, Ceil(yPosition-(theRect[4]/2)-pad), Ceil(theRect[3]+(2*pad)), Ceil(theRect[4]+(2*pad)), 3)
-		textOptions := % "x" (xPosition+(theRect[3]/2)+pad) " y" (yPosition-(theRect[4]/2)+textYOffset) " Center vCenter c" textColor " r4 s" fontSize
-		Gdip_TextToGraphics(pGraphics, displayText, textOptions, "Arial")
-		}
+		rectCenter := [xPos+pad[1]+(contentRect[1]/2), yPos]		
 	If (anchor == "right")
-		{
-		Gdip_FillRoundedRectangle(pGraphics, basicBrush, Ceil(xPosition-theRect[3]-(2*pad)), Ceil(yPosition-(theRect[4]/2)-pad), Ceil(theRect[3]+(2*pad)), Ceil(theRect[4]+(2*pad)), 3)
-		Gdip_DrawRoundedRectangle(pGraphics, basicPen, Ceil(xPosition-theRect[3]-(2*pad)), Ceil(yPosition-(theRect[4]/2)-pad), Ceil(theRect[3]+(2*pad)), Ceil(theRect[4]+(2*pad)), 3)
-		textOptions := % "x" (xPosition-(theRect[3]/2)-pad) " y" (yPosition-(theRect[4]/2)+textYOffset) " Center vCenter c" textColor " r4 s" fontSize
-		Gdip_TextToGraphics(pGraphics, displayText, textOptions, "Arial")
-		}
-	; Gdip_DrawEllipse(pGraphics, otherPen, xPosition, yPosition, 1, 1)
+		rectCenter := [xPos-pad[1]-(contentRect[1]/2), yPos]
+
+	iconPosition := [rectCenter[1]-(contentRect[1]/2)+(iconSizeSquare/2), rectCenter[2]]
+	textOptions := % "x" (rectCenter[1]+iconTextOffset) " y" (rectCenter[2]-(textRect[2]/2)+textYOffset) " Center vCenter c" textColor " r4 s" fontSize
+	Gdip_FillRoundedRectangle(pGraphics, basicBrush, rectCenter[1]-(outerRectSize[1]/2), rectCenter[2]-(outerRectSize[2]/2), outerRectSize[1], outerRectSize[2], 3)
+	Gdip_DrawRoundedRectangle(pGraphics, basicPen, rectCenter[1]-(outerRectSize[1]/2), rectCenter[2]-(outerRectSize[2]/2), outerRectSize[1], outerRectSize[2], 3)
+	Gdip_TextToGraphics(pGraphics, labelText, textOptions, "Arial")
+	
+	If (labelIcon.filePath != ""){
+		if (labelIcon.WBOnly == true)
+			{
+			colW := activePieProfile.selColor
+			; colB := safetyGreyColor
+			If (selected = 1)
+				imageMatrix := "1|0|0|0|0|0|1|0|0|0|0|0|1|0|0|0|0|0|1|0|1|1|1|0|1"
+			Else
+				imageMatrix := "0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|1|0|" . (colW[1]/255) . "|" . (colW[2]/255) . "|" . (colW[3]/255) . "|0|1"
+			}
+		Else
+			imageMatrix := 1
+		Gdip_DrawImage(pGraphics, pBitmaps, (iconPosition[1]-(iconSizeSquare/2)), (iconPosition[2]-(iconSizeSquare/2)), iconSizeSquare, iconSizeSquare,,,,,imageMatrix)
+	}
 	return
 	}
 
@@ -248,7 +267,7 @@ drawPie(G, xPos, yPos, dist, theta, numSlices, radius, thickness, bgColor, selec
 		Else
 			selectedLabelState := 0	
 		
-		drawPieLabel(G, activePieProfile.functions[A_Index+1].label, Round(gmx+(labelRadius*Cos((labelTheta-90)*0.01745329252))), Round(gmy+(labelRadius*Sin((labelTheta-90)*0.01745329252))), selectedLabelState, labelAnchor, activePieProfile, pieDPIScale, clicked)
+		drawPieLabel(G, activePieProfile.functions[A_Index+1].label, Round(gmx+(labelRadius*Cos((labelTheta-90)*0.01745329252))), Round(gmy+(labelRadius*Sin((labelTheta-90)*0.01745329252))), selectedLabelState, labelAnchor, activePieProfile, pieDPIScale, clicked, activePieProfile.functions[A_Index+1].icon)
 		}
 	}
 	EndDrawGDIP()
@@ -690,7 +709,6 @@ class Monitor {
   ;; InnI: Get per-monitor DPI scaling factor (https://www.autoitscript.com/forum/topic/189341-get-per-monitor-dpi-scaling-factor/?tab=comments#comment-1359832)
 
 }
-
 
 resizeWindow(xPos,yPos){
 	WinGetPos, winX, winY, width, height, A
