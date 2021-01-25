@@ -129,7 +129,10 @@ whitenRGB(RGBAarray)
 drawPieLabel(pGraphics, labelText, xPos, yPos, selected:=0, anchor:="top", activePieProfile=0, pieDPIScale=1, clicked:=false, labelIcon="")
 	{
 	pad := [Ceil(6*(((pieDPIScale-1)/2)+1)), Ceil(6*(((pieDPIScale-1)/2)+1))]
-	iconTextPad := Ceil(6*(((pieDPIScale-1)/2)+1))
+	if (labelText != "")
+		iconTextPad := Ceil(6*(((pieDPIScale-1)/2)+1))
+	else
+		iconTextPad := 0
 	fontSize := Ceil(settings.global.fontSize*pieDPIScale)
 	minBoxWidth := Ceil(settings.global.minimumLabelWidth)	
 	iconSizeSquare := Ceil(settings.global.iconSize*pieDPIScale)	
@@ -175,8 +178,12 @@ drawPieLabel(pGraphics, labelText, xPos, yPos, selected:=0, anchor:="top", activ
 	
 	iconTextOffset := 0
 	iconContentWidth := 0
-	if ( labelIcon.filePath != ""){
-		iconFile := A_ScriptDir . "\icons\" . labelIcon.filePath 
+
+	 
+	iconFile := A_ScriptDir . "\icons\" . labelIcon.filePath
+	If !FileExist(iconFile)
+		iconFile := ""
+	if ( iconFile != ""){
 		; msgbox, % iconFile
 		pBitmaps := Gdip_CreateBitmapFromFile(iconFile)		
 		iconTextOffset := (iconSizeSquare+pad[1])/2
@@ -202,7 +209,7 @@ drawPieLabel(pGraphics, labelText, xPos, yPos, selected:=0, anchor:="top", activ
 	Gdip_DrawRoundedRectangle(pGraphics, basicPen, rectCenter[1]-(outerRectSize[1]/2), rectCenter[2]-(outerRectSize[2]/2), outerRectSize[1], outerRectSize[2], 3)
 	Gdip_TextToGraphics(pGraphics, labelText, textOptions, "Arial")
 	
-	If (labelIcon.filePath != ""){
+	If (iconFile != ""){
 		if (labelIcon.WBOnly == true)
 			{
 			colW := activePieProfile.selColor
@@ -250,8 +257,8 @@ drawPie(G, xPos, yPos, dist, theta, numSlices, radius, thickness, bgColor, selec
 	{
 	loop, %numSlices%
 		{
-		if (activePieProfile.functions[A_Index+1].label = "")
-			continue
+		; if (activePieProfile.functions[A_Index+1].label = "" && )
+		; 	continue
 		labelTheta := (((A_Index-1)*(360/numSlices))+(180/numSlices+thetaOffset))
 		if labelTheta between 0.1 and 179.9
 			labelAnchor := "left"
