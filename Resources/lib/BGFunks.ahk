@@ -181,10 +181,9 @@ drawPieLabel(pGraphics, labelText, xPos, yPos, selected:=0, anchor:="top", activ
 
 	 
 	iconFile := A_ScriptDir . "\icons\" . labelIcon.filePath
-	If !FileExist(iconFile)
+	If (!FileExist(iconFile) || (labelIcon.filePath == ""))
 		iconFile := ""
 	if ( iconFile != ""){
-		; msgbox, % iconFile
 		pBitmaps := Gdip_CreateBitmapFromFile(iconFile)		
 		iconTextOffset := (iconSizeSquare+pad[1])/2
 		iconContentWidth := iconSizeSquare+iconTextPad
