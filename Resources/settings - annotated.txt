@@ -5,7 +5,10 @@
 	"functionLaunchMode":0,    	// 0-default 1-click functions only 2-release on function only
 	"fontSize":14,				// Sets the font size of the pie menu labels.
 	"minimumLabelWidth":10,		// Sets the minimum width of the label background rectangles
+	"pieIconFolder":"%A_ScriptDir%\\icons",   // Sets the folder the icons are located in, can be absolute or relative
 	"iconSize":24				// Size of the icons in the labels.
+	"safetyStrokeColor":[123, 123, 123, 255], // Sets a global color of the stroke around the labels to separate from the background
+	"labelStrokeThickness":1    // Stroke thickness around labels in pixels.
 },
 "appProfiles":					//This object's key is an array where each value contains all the information for an application's pie menus.
 	[	{						//The first profile here is the default profile, or the profile that is active when no other profile is active.  Scroll down to the next profile to see descriptions for all objects/keys

@@ -127,7 +127,7 @@ whitenRGB(RGBAarray)
 	return NewRGBA
 	}
 drawPieLabel(pGraphics, labelText, xPos, yPos, selected:=0, anchor:="top", activePieProfile=0, pieDPIScale=1, clicked:=false, labelIcon="")
-	{
+	{		
 	pad := [Ceil(6*(((pieDPIScale-1)/2)+1)), Ceil(6*(((pieDPIScale-1)/2)+1))]
 	if (labelText != "")
 		iconTextPad := Ceil(6*(((pieDPIScale-1)/2)+1))
@@ -135,9 +135,10 @@ drawPieLabel(pGraphics, labelText, xPos, yPos, selected:=0, anchor:="top", activ
 		iconTextPad := 0
 	fontSize := Ceil(settings.global.fontSize*pieDPIScale)
 	minBoxWidth := Ceil(settings.global.minimumLabelWidth)	
-	iconSizeSquare := Ceil(settings.global.iconSize*pieDPIScale)	
+	iconSizeSquare := Ceil(settings.global.iconSize*pieDPIScale)
+	strokeThickness := settings.global.labelStrokeThickness*pieDPIScale
 	
-	safetyGreyColor := [123, 123, 123, 255]
+	safetyGreyColor := settings.global.safetyStrokeColor
 	; fontSize := 14
 	If (selected == 1)
 		{
@@ -169,8 +170,8 @@ drawPieLabel(pGraphics, labelText, xPos, yPos, selected:=0, anchor:="top", activ
 
 	
 
-	basicPen := Gdip_CreatePen(strokeColor, 1)
-	otherPen := Gdip_CreatePen("0xFFff0000" , 1)
+	basicPen := Gdip_CreatePen(strokeColor, strokeThickness)
+	otherPen := Gdip_CreatePen("0xFFff0000" , strokeThickness)
 	basicBrush := Gdip_BrushCreateSolid(labelBGColor)
 	temptextRect := Gdip_TextToGraphics(pGraphics, labelText, textOptionsTest, "Arial")
 	textRect := StrSplit(temptextRect, "|")
@@ -179,8 +180,20 @@ drawPieLabel(pGraphics, labelText, xPos, yPos, selected:=0, anchor:="top", activ
 	iconTextOffset := 0
 	iconContentWidth := 0
 
-	 
-	iconFile := A_ScriptDir . "\icons\" . labelIcon.filePath
+	;Determine Icon Folder:
+	static iconFolder
+	If (iconFolder == ""){
+		if(substr(settings.global.pieIconFolder, 1,13) == "%A_ScriptDir%"){
+			iconFolder := A_ScriptDir . substr(settings.global.pieIconFolder, 14)
+		} else {
+			iconFolder := settings.global.pieIconFolder
+		}
+	}
+	
+
+	
+	iconFile := iconFolder . "\" . labelIcon.filePath
+	; msgbox, % iconFile
 	If (!FileExist(iconFile) || (labelIcon.filePath == ""))
 		iconFile := ""
 	if ( iconFile != ""){
@@ -451,7 +464,11 @@ runPieMenu(profileNum, index)
 				}
 			StartDrawGDIP()			
 			fPieRegion := drawPie(G, bitmapPadding[1], bitmapPadding[2], dist, theta, runningProfile.activePie[activePieNumber].numSlices, runningProfile.radius*pieDPIScale, runningProfile.thickness*pieDPIScale, runningProfile.activePie[activePieNumber].bgColor, runningProfile.activePie[activePieNumber].selColor, offsetPie[activePieNumber], runningProfile.activePie[activePieNumber], pieDPIScale, LButtonPressed, showLabel)
-			if (LButtonPressed_LastState == true) && (LButtonPressed == false){
+			; if (LButtonPressed_LastState == true) && (LButtonPressed == false){
+			if (LButtonPressed_LastState == true) && (LButtonPressed == false) || (GetKeyState("Esc")){
+				if (GetKeyState("Esc")) {
+					break
+				}
 				runPieFunction([profileNum, index, activePieNumber, pieRegion, iMouseX, iMouseY])
 				if (runningProfile.holdOpenOverride == true)
 					break

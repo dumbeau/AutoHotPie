@@ -5,7 +5,10 @@
 	"functionLaunchMode":0,
 	"fontSize":14,
 	"minimumLabelWidth":10,
-	"iconSize":24
+	"pieIconFolder":"%A_ScriptDir%\\icons",
+	"iconSize":24,
+	"safetyStrokeColor":[123, 123, 123, 255],
+	"labelStrokeThickness":1
 },
 "appProfiles":
 	[	{
