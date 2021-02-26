@@ -127,12 +127,17 @@ whitenRGB(RGBAarray)
 	return NewRGBA
 	}
 drawPieLabel(pGraphics, labelText, xPos, yPos, selected:=0, anchor:="top", activePieProfile=0, pieDPIScale=1, clicked:=false, labelIcon="")
-	{		
+	{
 	pad := [Ceil(6*(((pieDPIScale-1)/2)+1)), Ceil(6*(((pieDPIScale-1)/2)+1))]
 	if (labelText != "")
 		iconTextPad := Ceil(6*(((pieDPIScale-1)/2)+1))
 	else
+		{
+		if (labelIcon.filePath = "")
+			return
 		iconTextPad := 0
+		}
+		
 	fontSize := Ceil(settings.global.fontSize*pieDPIScale)
 	minBoxWidth := Ceil(settings.global.minimumLabelWidth)	
 	iconSizeSquare := Ceil(settings.global.iconSize*pieDPIScale)
@@ -205,7 +210,7 @@ drawPieLabel(pGraphics, labelText, xPos, yPos, selected:=0, anchor:="top", activ
 	; msgbox, % textRect[1] ;change 4 if you want different heights
 	outerRectSize := [Max(contentRect[1]+(2*pad[1]),minBoxWidth), contentRect[2]+(2*pad[2])]
 
-	rectCenter := [0,0]	
+	rectCenter := [0,0]	;if anchor is none of these, leave as center
 	If (anchor == "bottom")
 		rectCenter := [xPos, yPos-(contentRect[2]/2)+pad[2]]		
 	If (anchor == "top")
@@ -213,7 +218,11 @@ drawPieLabel(pGraphics, labelText, xPos, yPos, selected:=0, anchor:="top", activ
 	If (anchor == "left")
 		rectCenter := [xPos+pad[1]+(contentRect[1]/2), yPos]		
 	If (anchor == "right")
-		rectCenter := [xPos-pad[1]-(contentRect[1]/2), yPos]
+		rectCenter := [xPos-pad[1]-(contentRect[1]/2), yPos]			
+	If (anchor == "center")
+		rectCenter := [xPos, yPos]
+	
+
 
 	iconPosition := [rectCenter[1]-(contentRect[1]/2)+(iconSizeSquare/2), rectCenter[2]]
 	textOptions := % "x" (rectCenter[1]+iconTextOffset) " y" (rectCenter[2]-(textRect[2]/2)+textYOffset) " Center vCenter c" textColor " r4 s" fontSize
@@ -287,6 +296,7 @@ drawPie(G, xPos, yPos, dist, theta, numSlices, radius, thickness, bgColor, selec
 			selectedLabelState := 0	
 		
 		drawPieLabel(G, activePieProfile.functions[A_Index+1].label, Round(gmx+(labelRadius*Cos((labelTheta-90)*0.01745329252))), Round(gmy+(labelRadius*Sin((labelTheta-90)*0.01745329252))), selectedLabelState, labelAnchor, activePieProfile, pieDPIScale, clicked, activePieProfile.functions[A_Index+1].icon)
+		; drawPieLabel(G, activePieProfile.functions[A_Index+1].label, Round(gmx+(labelRadius*Cos((labelTheta-90)*0.01745329252))), Round(gmy+(labelRadius*Sin((labelTheta-90)*0.01745329252))), selectedLabelState, "center", activePieProfile, pieDPIScale, clicked, activePieProfile.functions[A_Index+1].icon)
 		}
 	}
 	EndDrawGDIP()
