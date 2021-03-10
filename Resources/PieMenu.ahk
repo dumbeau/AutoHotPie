@@ -1,5 +1,6 @@
 ﻿#Persistent
 #SingleInstance ignore
+
 #Include %A_ScriptDir%\lib\Gdip_All.ahk
 #Include %A_ScriptDir%\lib\GdipHelper.ahk
 #Include %A_ScriptDir%\lib\BGFunks.ahk
@@ -39,10 +40,18 @@ global remapLButton := ""
 	global monRight := 0
 	global monTop := 0
 	global monBottom := 0
+	global Mon := {left: 0,	right: 0, top: 0,bottom: 0, pieDPIScale: 1} 
+	global G ;For Gdip+ stuff
+	
+
+
 
 	global iMouseX	;X Position of where pie menu is opened
 	global iMouseY	;Y ^
-	getMonitorCoords(monLeft, monTop, monRight, monBottom)
+
+	; global pieDPIScale
+	getMonitorCoords(Mon.left , Mon.right , Mon.top , Mon.bottom )
+	; getMonitorCoords(monLeft, monRight, monTop, monBottom)
 	; SetUpGDIP(monLeft, monTop, monRight-monLeft, monBottom-monTop-0.01) ;windows were appearing over taskbar without -0.01
 	SetUpGDIP(0, 0, 50, 50) ;windows were appearing over taskbar without -0.01
 	StartDrawGDIP()
@@ -132,8 +141,7 @@ return
 pieLabel: ;Fixed hotkey overlap "r and ^r", refactor this
 	; SetUpGDIP(monLeft, monTop, monRight-monLeft, monBottom-monTop, "Hide")
 	; SetUpGDIP(monLeft, monTop, monRight-monLeft, monBottom-monTop, "Show")
-	;Re-initialize variables	
-	
+	;Re-initialize variables		
 	
 	if (pieLaunchedState == 1)
 		return
@@ -175,7 +183,7 @@ pieLabel: ;Fixed hotkey overlap "r and ^r", refactor this
 		;lookup profile and key index
 		for profiles in settings.appProfiles
 			{
-			; if ahk_group regApps not conftains activeWi6ndow
+			; if ahk_group regApps not conftains activeWindow
 			testAHKHandle := StrSplit(settings.appProfiles[profiles].ahkHandle, " ", ,2)[2]
 			if (testAHKHandle == activeWinProc)
 				{				
@@ -248,13 +256,12 @@ return
 ;Block LButton when Pie Menu is opened
 #If (pieLaunchedState == 1)
 LButton::Return
-
-
 ;For mouseClick function 
 #If (remapLButton == "Right")
 LButton::RButton
 #If (remapLButton == "Middle")
 LButton::MButton
+#If ;This ends the context-sensitivity
 
 ;If a display is connected or disconnected
 OnMessage(0x7E, "WM_DISPLAYCHANGE")

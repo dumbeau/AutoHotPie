@@ -62,6 +62,14 @@ pie_focusApplication(applications)
 	{
 	return
 	}
+
+pie_eyedropper(mode)
+	{
+	PixelGetColor, pixelcol, iMouseX, iMouseY, RGB
+	pixelcol := SubStr(pixelcol, 3, 6)
+	clipboard = %pixelcol%
+	Return		
+	}
 pie_multiClipboard()
 	{
 	return
@@ -77,12 +85,28 @@ pie_openSettings()
 pie_resizeWindow() ;make this work thorugh here
 	{
 	; msgbox, % PieMenuPosition[1]
-	resizeWindow(iMouseX,iMouseY)
-	return
+	xPos := iMouseX
+	yPos := iMouseY
+	WinGetPos, winX, winY, width, height, A
+	if (xPos < winX){ ;to left of origin
+		if (yPos > winY){ ;below origin
+			WinMove, A,,xPos,, width+(winX-xPos), (yPos-winY)
+		}else{ ;above origin
+			WinMove, A,, xPos, yPos, width+(winX-xPos), height+(winY-yPos)		
+		}	
+	}else{ ;right of origin
+		if (yPos > winY){ ;mouse below origin
+			WinMove, A,,,, (xPos-winX), (yPos-winY)
+		} else { ;mouse above origin
+			WinMove, A,,,yPos, (xPos-winX), height+(winY-yPos)
+		}	
+	}	
+	Return
 	}
 pie_moveWindow() ;make this work thorugh here
 	{
-	moveWindow(iMouseX,iMouseY)
+	WinGetPos, winX, winY, width, height, A
+	WinMove, A, , iMouseX-(width/2), iMouseY-(width/3)
 	return
 	}
 

@@ -34,7 +34,7 @@
 	return
 	}
 
-removeCharacters(var, chars="!^+#")
+removeCharacters(var, chars="+^!#")
 	{
 	   stringreplace,var,var,%A_space%,_,a
 	   loop, parse, chars,
@@ -126,193 +126,18 @@ whitenRGB(RGBAarray)
 	; msgbox, % RGBAarray[1] "," RGBAarray[2] "," RGBAarray[3]
 	return NewRGBA
 	}
-drawPieLabel(pGraphics, labelText, xPos, yPos, selected:=0, anchor:="top", activePieProfile=0, pieDPIScale=1, clicked:=false, labelIcon="")
-	{
-	pad := [Ceil(6*(((pieDPIScale-1)/2)+1)), Ceil(6*(((pieDPIScale-1)/2)+1))]
-	if (labelText != "")
-		iconTextPad := Ceil(6*(((pieDPIScale-1)/2)+1))
-	else
-		{
-		if (labelIcon.filePath = "")
-			return
-		iconTextPad := 0
-		}
-		
-	fontSize := Ceil(settings.global.fontSize*pieDPIScale)
-	minBoxWidth := Ceil(settings.global.minimumLabelWidth)	
-	iconSizeSquare := Ceil(settings.global.iconSize*pieDPIScale)
-	strokeThickness := settings.global.labelStrokeThickness*pieDPIScale
-	
-	safetyGreyColor := settings.global.safetyStrokeColor
-	; fontSize := 14
-	If (selected == 1)
-		{
-		If (clicked = true)
-		{
-		strokeColor := RGBAtoHEX(activePieProfile.selColor)
-		labelBGColor := RGBAtoHEX(activePieProfile.selColor)
-		textColor := RGBAtoHEX(activePieProfile.bgColor)
-		}
-		else ;slice is focused
-		{
-		strokeColor := RGBAtoHEX(activePieProfile.selColor)
-		labelBGColor := RGBAtoHEX(whitenRGB(activePieProfile.bgColor))
-		textColor := "FFFFFFFF"
-		}	
-		}
-	else
-		{		
-		strokeColor := RGBAtoHEX(safetyGreyColor)
-		labelBGColor := RGBAtoHEX(activePieProfile.bgColor)
-		textColor := "FFFFFFFF"
-		; labelBGColor := RGBAtoHEX([30, 30, 30, 255])
-		}	
-
-	textYOffset := Ceil(1*pieDPIScale)
-	
-	textOptionsTest := % "x" xPos " y" yPos " Center vCenter c00FFFFFF r4 s" fontSize
-	Gdip_SetSmoothingMode(pGraphics, 4)
-
-	
-
-	basicPen := Gdip_CreatePen(strokeColor, strokeThickness)
-	otherPen := Gdip_CreatePen("0xFFff0000" , strokeThickness)
-	basicBrush := Gdip_BrushCreateSolid(labelBGColor)
-	temptextRect := Gdip_TextToGraphics(pGraphics, labelText, textOptionsTest, "Arial")
-	textRect := StrSplit(temptextRect, "|")
-	textRect := [ Ceil(textRect[3]) , Ceil(textRect[4]) ]
-	
-	iconTextOffset := 0
-	iconContentWidth := 0
-
-	;Determine Icon Folder:
-	static iconFolder
-	If (iconFolder == ""){
-		if(substr(settings.global.pieIconFolder, 1,13) == "%A_ScriptDir%"){
-			iconFolder := A_ScriptDir . substr(settings.global.pieIconFolder, 14)
-		} else {
-			iconFolder := settings.global.pieIconFolder
-		}
-	}
-	
-
-	
-	iconFile := iconFolder . "\" . labelIcon.filePath
-	; msgbox, % iconFile
-	If (!FileExist(iconFile) || (labelIcon.filePath == ""))
-		iconFile := ""
-	if ( iconFile != ""){
-		pBitmaps := Gdip_CreateBitmapFromFile(iconFile)		
-		iconTextOffset := (iconSizeSquare+pad[1])/2
-		iconContentWidth := iconSizeSquare+iconTextPad
-	}
-	contentRect := [textRect[1]+iconContentWidth, iconSizeSquare] ;change 4 if you want different heights
-	; msgbox, % textRect[1] ;change 4 if you want different heights
-	outerRectSize := [Max(contentRect[1]+(2*pad[1]),minBoxWidth), contentRect[2]+(2*pad[2])]
-
-	rectCenter := [0,0]	;if anchor is none of these, leave as center
-	If (anchor == "bottom")
-		rectCenter := [xPos, yPos-(contentRect[2]/2)+pad[2]]		
-	If (anchor == "top")
-		rectCenter := [xPos, yPos+(contentRect[2]/2)+pad[2]]		
-	If (anchor == "left")
-		rectCenter := [xPos+pad[1]+(contentRect[1]/2), yPos]		
-	If (anchor == "right")
-		rectCenter := [xPos-pad[1]-(contentRect[1]/2), yPos]			
-	If (anchor == "center")
-		rectCenter := [xPos, yPos]
-	
-
-
-	iconPosition := [rectCenter[1]-(contentRect[1]/2)+(iconSizeSquare/2), rectCenter[2]]
-	textOptions := % "x" (rectCenter[1]+iconTextOffset) " y" (rectCenter[2]-(textRect[2]/2)+textYOffset) " Center vCenter c" textColor " r4 s" fontSize
-	Gdip_FillRoundedRectangle(pGraphics, basicBrush, rectCenter[1]-(outerRectSize[1]/2), rectCenter[2]-(outerRectSize[2]/2), outerRectSize[1], outerRectSize[2], 3)
-	Gdip_DrawRoundedRectangle(pGraphics, basicPen, rectCenter[1]-(outerRectSize[1]/2), rectCenter[2]-(outerRectSize[2]/2), outerRectSize[1], outerRectSize[2], 3)
-	Gdip_TextToGraphics(pGraphics, labelText, textOptions, "Arial")
-	
-	If (iconFile != ""){
-		if (labelIcon.WBOnly == true)
-			{
-			colW := activePieProfile.selColor
-			; colB := safetyGreyColor
-			If (selected = 1)
-				imageMatrix := "1|0|0|0|0|0|1|0|0|0|0|0|1|0|0|0|0|0|1|0|1|1|1|0|1"
-			Else
-				imageMatrix := "0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|1|0|" . (colW[1]/255) . "|" . (colW[2]/255) . "|" . (colW[3]/255) . "|0|1"
-			}
-		Else
-			imageMatrix := 1
-		Gdip_DrawImage(pGraphics, pBitmaps, (iconPosition[1]-(iconSizeSquare/2)), (iconPosition[2]-(iconSizeSquare/2)), iconSizeSquare, iconSizeSquare,,,,,imageMatrix)
-	}
-	return
-	}
-
-drawPie(G, xPos, yPos, dist, theta, numSlices, radius, thickness, bgColor, selectColor, thetaOffset, activePieProfile, pieDPIScale=1, clicked:=false, drawLabel:=true)
-	{	
-	;init local variables
-	nTheta := (Floor(cycleRange(theta-thetaOffset)/(360/numSlices))*(360/numSlices))+thetaOffset
-	gmx := xPos
-	gmy := yPos
-	labelRadius := 100*pieDPIScale
-	ClearDrawGDIP()
-	Gdip_SetSmoothingMode(G, 4)
-	basicPen := Gdip_CreatePen(RGBAtoHEX(bgColor), thickness)
-	Gdip_DrawEllipse(G, basicPen, (gmx-(radius / 2)), (gmy-(radius / 2)), radius, radius)
-	If (dist <= ((radius/2)+(thickness/2)))
-		{
-		selectPen := Gdip_CreatePen(RGBAtoHEX(selectColor), thickness/2)
-		Gdip_DrawEllipse(G, selectPen, (gmx-(radius / 2)+(thickness/4)), (gmy-(radius / 2)+(thickness/4)), radius-(thickness/2), radius-(thickness/2))
-		pieRegion := 0
-		}
-	Else
-		{
-		selectPen := Gdip_CreatePen(RGBAtoHEX(selectColor), thickness)
-		Gdip_DrawArc(G, selectPen, (gmx-(radius/2)), (gmy-(radius/2)), radius, radius, (nTheta)-90, (360/numSlices))	
-		pieRegion := Floor(cycleRange(theta-thetaOffset)/(360/numSlices))+1	
-
-		; If (pieRegion == (numSlices + 1))
-		; 	pieRegion := 1
-		}
-	;Draw pie labels
-	if(drawLabel = true)
-	{
-	loop, %numSlices%
-		{
-		; if (activePieProfile.functions[A_Index+1].label = "" && )
-		; 	continue
-		labelTheta := (((A_Index-1)*(360/numSlices))+(180/numSlices+thetaOffset))
-		if labelTheta between 0.1 and 179.9
-			labelAnchor := "left"
-		else if labelTheta between 180.1 and 359.9
-			labelAnchor := "right"
-		else If (labelTheta == Mod(labelTheta,360))
-			labelAnchor := "top"
-		else
-			labelAnchor := "bottom"	
-
-		If (pieRegion = A_Index)
-			selectedLabelState := 1				
-		Else
-			selectedLabelState := 0	
-		
-		drawPieLabel(G, activePieProfile.functions[A_Index+1].label, Round(gmx+(labelRadius*Cos((labelTheta-90)*0.01745329252))), Round(gmy+(labelRadius*Sin((labelTheta-90)*0.01745329252))), selectedLabelState, labelAnchor, activePieProfile, pieDPIScale, clicked, activePieProfile.functions[A_Index+1].icon)
-		; drawPieLabel(G, activePieProfile.functions[A_Index+1].label, Round(gmx+(labelRadius*Cos((labelTheta-90)*0.01745329252))), Round(gmy+(labelRadius*Sin((labelTheta-90)*0.01745329252))), selectedLabelState, "center", activePieProfile, pieDPIScale, clicked, activePieProfile.functions[A_Index+1].icon)
-		}
-	}
-	EndDrawGDIP()
-	return pieRegion
-	}
-runPieMenu(profileNum, index)
+runPieMenu(profileNum, index, activePieNum=1)
 	{
 	;REFACTOR - Declare variables better
 	global	
-	MouseGetPos, iMouseX, iMouseY
-	
+	MouseGetPos, iMouseX, iMouseY	
+
 
 	if (substr(a_osversion, 1, 2) = "10")
 	{	
 	;detemine what monitor the mouse is in and scale factor
-	pieDPIScale := 1
+	; pieDPIScale := 1
+	Mon.pieDPIScale := 1
 	for monIndex in monitorManager.monitors
 		{
 		if (iMouseX >= monitorManager.monitors[monIndex].left and iMouseX <= monitorManager.monitors[monIndex].right)
@@ -320,7 +145,7 @@ runPieMenu(profileNum, index)
 			; msgbox, % iMouseX " is apparently between " monitorManager.monitors[monIndex].left " and " monitorManager.monitors[monIndex].right
 			if (iMouseY >= monitorManager.monitors[monIndex].top and iMouseY <= monitorManager.monitors[monIndex].bottom)
 				{
-				pieDPIScale := monitorManager.monitors[monIndex].scaleX					
+				Mon.pieDPIScale := monitorManager.monitors[monIndex].scaleX					
 				break			
 				}
 			}
@@ -329,13 +154,13 @@ runPieMenu(profileNum, index)
 	else
 	{
 		;Win7 DPI Scaling (takes value of primary monitor)
-		pieDPIScale := A_ScreenDPI / 96
+		Mon.pieDPIScale := A_ScreenDPI / 96
 	}
-	; pieDPIScale := 1
-	; msgbox, % iMouseX " and " iMouseY " pieDPI=" pieDPIScale
-	pieDPIScaleHalf := ((pieDPIScale-1)/2)+1
+	; Mon.pieDPIScale := 1
+	; msgbox, % iMouseX " and " iMouseY " pieDPI=" Mon.pieDPIScale
+	pieDPIScaleHalf := ((Mon.pieDPIScale-1)/2)+1
 	
-	bitmapPadding := [300*pieDPIScale,180*pieDPIScale]
+	bitmapPadding := [300*Mon.pieDPIScale,180*Mon.pieDPIScale]
 	SetUpGDIP(iMouseX-bitmapPadding[1], iMouseY-bitmapPadding[2], 2*bitmapPadding[1], 2*bitmapPadding[2])
 	StartDrawGDIP()
 
@@ -347,9 +172,20 @@ runPieMenu(profileNum, index)
 	LButtonPressed_LastState := false
 	LButtonPressed_static := false
 	thetaOffset := 0
-	activePieNumber := 1
+	activePieNumber := activePieNum
 	runningProfile := settings.appProfiles[profileNum].pieMenus[index]
-	offsetPie := [runningProfile.activePie[1].offset*(180/runningProfile.activePie[1].numSlices),runningProfile.activePie[2].offset*(180/runningProfile.activePie[2].numSlices),runningProfile.activePie[3].offset*(180/runningProfile.activePie[3].numSlices)]	
+
+	; offsetPie := [runningProfile.activePie[1].offset*(180/runningProfile.activePie[1].numSlices),runningProfile.activePie[2].offset*(180/runningProfile.activePie[2].numSlices),runningProfile.activePie[3].offset*(180/runningProfile.activePie[3].numSlices)]
+	; msgbox, % offsetPie[2]
+	offsetPie := []
+	for activePNum in runningProfile.activePie
+	{		
+		offsetPie.Push(runningProfile.activePie[activePNum].offset*(180/runningProfile.activePie[activePNum].numSlices))
+	}
+	; msgbox, % offsetPie[2]
+
+
+
 	pieMode := 0
 	pieRegion := 0 ;what is one this used for?
 	
@@ -362,7 +198,7 @@ runPieMenu(profileNum, index)
 	pieOpenTime := A_TickCount
 	}
 
-	drawPie(G, bitmapPadding[1], bitmapPadding[2], 0, 0, runningProfile.activePie[activePieNumber].numSlices, runningProfile.radius*pieDPIScale, runningProfile.thickness*pieDPIScale, runningProfile.activePie[1].bgColor, runningProfile.activePie[1].selColor, offsetPie[1], runningProfile.activePie[activePieNumber], pieDPIScale, ,showLabel)
+	drawPie(runningProfile, runningProfile.activePie[activePieNumber], bitmapPadding[1], bitmapPadding[2], 0, 0, offsetPie[activePieNumber], ,showLabel)
 	fPieRegion := 0
 	pieHotkey := removeCharacters(runningProfile.hotkey, "!^+#")
 	
@@ -408,7 +244,7 @@ runPieMenu(profileNum, index)
 		dist := (Sqrt((Abs(mouseX-iMouseX)**2) + (Abs(mouseY-iMouseY)**2)))
 		theta := cycleRange(calcAngle(iMouseX, iMouseY, mouseX, mouseY)+90)
 		;if inside circle
-		If (dist <= (((runningProfile.radius/2)+(runningProfile.thickness/2))*pieDPIScale) or midDist <= (((runningProfile.radius/2)+(runningProfile.thickness/2))*pieDPIScale))
+		If (dist <= (((runningProfile.radius/2)+(runningProfile.thickness/2))*Mon.pieDPIScale) or midDist <= (((runningProfile.radius/2)+(runningProfile.thickness/2))*Mon.pieDPIScale))
 		{
 		pieRegion := 0
 		}
@@ -473,13 +309,13 @@ runPieMenu(profileNum, index)
 					activePieNumber := 2
 				}
 			StartDrawGDIP()			
-			fPieRegion := drawPie(G, bitmapPadding[1], bitmapPadding[2], dist, theta, runningProfile.activePie[activePieNumber].numSlices, runningProfile.radius*pieDPIScale, runningProfile.thickness*pieDPIScale, runningProfile.activePie[activePieNumber].bgColor, runningProfile.activePie[activePieNumber].selColor, offsetPie[activePieNumber], runningProfile.activePie[activePieNumber], pieDPIScale, LButtonPressed, showLabel)
+			fPieRegion := drawPie(runningProfile, runningProfile.activePie[activePieNumber], bitmapPadding[1], bitmapPadding[2], dist, theta, offsetPie[activePieNumber], LButtonPressed, showLabel)
 			; if (LButtonPressed_LastState == true) && (LButtonPressed == false){
 			if (LButtonPressed_LastState == true) && (LButtonPressed == false) || (GetKeyState("Esc")){
 				if (GetKeyState("Esc")) {
 					break
 				}
-				runPieFunction([profileNum, index, activePieNumber, pieRegion, iMouseX, iMouseY])
+				runPieFunction([profileNum, index, activePieNumber, pieRegion])
 				if (runningProfile.holdOpenOverride == true)
 					break
 				}			
@@ -496,9 +332,195 @@ runPieMenu(profileNum, index)
 	else
 	{
 	if (f_FunctionLaunchMode != 1)
-	return [profileNum,index,activePieNumber,pieRegion, iMouseX, iMouseY]
+	return [profileNum,index,activePieNumber,pieRegion]
 	}
 	}
+
+
+drawPie(appProfile, activePieProfile, xPos, yPos, dist, theta, thetaOffset, clicked:=false, drawLabel:=true)
+	{	
+	;init local variables
+	numSlices := activePieProfile.numSlices
+	radius := appProfile.radius*Mon.pieDPIScale
+	thickness := appProfile.thickness*Mon.pieDPIScale
+	bgColor := activePieProfile.bgColor
+	selectColor := activePieProfile.selColor
+
+	nTheta := (Floor(cycleRange(theta-thetaOffset)/(360/numSlices))*(360/numSlices))+thetaOffset
+	gmx := xPos
+	gmy := yPos
+	labelRadius := 100*Mon.pieDPIScale
+	ClearDrawGDIP()
+	Gdip_SetSmoothingMode(G, 4)
+	basicPen := Gdip_CreatePen(RGBAtoHEX(bgColor), thickness)
+	basicBrush := Gdip_BrushCreateSolid(RGBAtoHEX([0,0,0,1])) ;set last value to non-zero to see rect, issue 0 means no rect is created
+	Gdip_FillRectangle(G, basicBrush, 0,0,600*Mon.pieDPIScale,360*Mon.pieDPIScale) ;bitmapPadding copy
+	Gdip_DrawEllipse(G, basicPen, (gmx-(radius / 2)), (gmy-(radius / 2)), radius, radius)
+	If (dist <= ((radius/2)+(thickness/2)))
+		{
+		selectPen := Gdip_CreatePen(RGBAtoHEX(selectColor), thickness/2)
+		Gdip_DrawEllipse(G, selectPen, (gmx-(radius / 2)+(thickness/4)), (gmy-(radius / 2)+(thickness/4)), radius-(thickness/2), radius-(thickness/2))
+		pieRegion := 0
+		}
+	Else
+		{
+		selectPen := Gdip_CreatePen(RGBAtoHEX(selectColor), thickness)
+		Gdip_DrawArc(G, selectPen, (gmx-(radius/2)), (gmy-(radius/2)), radius, radius, (nTheta)-90, (360/numSlices))	
+		pieRegion := Floor(cycleRange(theta-thetaOffset)/(360/numSlices))+1	
+
+		; If (pieRegion == (numSlices + 1))
+		; 	pieRegion := 1
+		}
+	;Draw pie labels
+	if(drawLabel = true)
+	{
+	loop, %numSlices%
+		{
+		; if (activePieProfile.functions[A_Index+1].label = "" && )
+		; 	continue
+		labelTheta := (((A_Index-1)*(360/numSlices))+(180/numSlices+thetaOffset))
+		if labelTheta between 0.1 and 179.9
+			labelAnchor := "left"
+		else if labelTheta between 180.1 and 359.9
+			labelAnchor := "right"
+		else If (labelTheta == Mod(labelTheta,360))
+			labelAnchor := "top"
+		else
+			labelAnchor := "bottom"	
+
+		If (pieRegion = A_Index)
+			selectedLabelState := 1				
+		Else
+			selectedLabelState := 0	
+		
+		drawPieLabel(activePieProfile, activePieProfile.functions[A_Index+1].label, Round(gmx+(labelRadius*Cos((labelTheta-90)*0.01745329252))), Round(gmy+(labelRadius*Sin((labelTheta-90)*0.01745329252))), selectedLabelState, labelAnchor, clicked, activePieProfile.functions[A_Index+1].icon)
+		; drawPieLabel(activePieProfile, activePieProfile.functions[A_Index+1].label, Round(gmx+(labelRadius*Cos((labelTheta-90)*0.01745329252))), Round(gmy+(labelRadius*Sin((labelTheta-90)*0.01745329252))), selectedLabelState, "center", Mon.pieDPIScale, clicked, activePieProfile.functions[A_Index+1].icon)
+		}
+	}
+	EndDrawGDIP()
+	return pieRegion
+	}
+	
+drawPieLabel(activePieProfile, labelText, xPos, yPos, selected:=0, anchor:="center", clicked:=false, labelIcon="")
+	{
+	pad := [Ceil(6*(((Mon.pieDPIScale-1)/2)+1)), Ceil(6*(((Mon.pieDPIScale-1)/2)+1))]
+	if (labelText != "")
+		iconTextPad := Ceil(6*(((Mon.pieDPIScale-1)/2)+1))
+	else
+		{
+		if (labelIcon.filePath = "")
+			return
+		iconTextPad := 0
+		}
+		
+	fontSize := Ceil(settings.global.fontSize*Mon.pieDPIScale)
+	minBoxWidth := Ceil(settings.global.minimumLabelWidth)	
+	iconSizeSquare := Ceil(settings.global.iconSize*Mon.pieDPIScale)
+	strokeThickness := settings.global.labelStrokeThickness*Mon.pieDPIScale
+	
+	safetyGreyColor := settings.global.safetyStrokeColor
+	; fontSize := 14
+	If (selected == 1)
+		{
+		If (clicked = true)
+		{
+		strokeColor := RGBAtoHEX(activePieProfile.selColor)
+		labelBGColor := RGBAtoHEX(activePieProfile.selColor)
+		textColor := RGBAtoHEX(activePieProfile.bgColor)
+		}
+		else ;slice is focused
+		{
+		strokeColor := RGBAtoHEX(activePieProfile.selColor)
+		labelBGColor := RGBAtoHEX(whitenRGB(activePieProfile.bgColor))
+		textColor := "FFFFFFFF"
+		}	
+		}
+	else
+		{		
+		strokeColor := RGBAtoHEX(safetyGreyColor)
+		labelBGColor := RGBAtoHEX(activePieProfile.bgColor)
+		textColor := "FFFFFFFF"
+		; labelBGColor := RGBAtoHEX([30, 30, 30, 255])
+		}	
+
+	textYOffset := Ceil(1*Mon.pieDPIScale)
+	
+	textOptionsTest := % "x" xPos " y" yPos " Center vCenter c00FFFFFF r4 s" fontSize
+	Gdip_SetSmoothingMode(G, 4)
+
+	
+
+	basicPen := Gdip_CreatePen(strokeColor, strokeThickness)
+	otherPen := Gdip_CreatePen("0xFFff0000" , strokeThickness)
+	basicBrush := Gdip_BrushCreateSolid(labelBGColor)
+	temptextRect := Gdip_TextToGraphics(G, labelText, textOptionsTest, "Arial")
+	textRect := StrSplit(temptextRect, "|")
+	textRect := [ Ceil(textRect[3]) , Ceil(textRect[4]) ]
+	
+	iconTextOffset := 0
+	iconContentWidth := 0
+
+	;Determine Icon Folder:
+	static iconFolder
+	If (iconFolder == ""){
+		if(substr(settings.global.pieIconFolder, 1,13) == "%A_ScriptDir%"){
+			iconFolder := A_ScriptDir . substr(settings.global.pieIconFolder, 14)
+		} else {
+			iconFolder := settings.global.pieIconFolder
+		}
+	}
+	
+
+	
+	iconFile := iconFolder . "\" . labelIcon.filePath
+	; msgbox, % iconFile
+	If (!FileExist(iconFile) || (labelIcon.filePath == ""))
+		iconFile := ""
+	if ( iconFile != ""){
+		pBitmaps := Gdip_CreateBitmapFromFile(iconFile)		
+		iconTextOffset := (iconSizeSquare+pad[1])/2
+		iconContentWidth := iconSizeSquare+iconTextPad
+	}
+	contentRect := [textRect[1]+iconContentWidth, iconSizeSquare] ;change 4 if you want different heights
+	; msgbox, % textRect[1] ;change 4 if you want different heights
+	outerRectSize := [Max(contentRect[1]+(2*pad[1]),minBoxWidth), contentRect[2]+(2*pad[2])]
+
+	rectCenter := [0,0]	;if anchor is none of these, leave as center
+	If (anchor == "bottom")
+		rectCenter := [xPos, yPos-(contentRect[2]/2)+pad[2]]		
+	If (anchor == "top")
+		rectCenter := [xPos, yPos+(contentRect[2]/2)+pad[2]]		
+	If (anchor == "left")
+		rectCenter := [xPos+pad[1]+(contentRect[1]/2), yPos]		
+	If (anchor == "right")
+		rectCenter := [xPos-pad[1]-(contentRect[1]/2), yPos]			
+	If (anchor == "center")
+		rectCenter := [xPos, yPos]	
+
+
+	iconPosition := [rectCenter[1]-(contentRect[1]/2)+(iconSizeSquare/2), rectCenter[2]]
+	textOptions := % "x" (rectCenter[1]+iconTextOffset) " y" (rectCenter[2]-(textRect[2]/2)+textYOffset) " Center vCenter c" textColor " r4 s" fontSize
+	Gdip_FillRoundedRectangle(G, basicBrush, rectCenter[1]-(outerRectSize[1]/2), rectCenter[2]-(outerRectSize[2]/2), outerRectSize[1], outerRectSize[2], 3)
+	Gdip_DrawRoundedRectangle(G, basicPen, rectCenter[1]-(outerRectSize[1]/2), rectCenter[2]-(outerRectSize[2]/2), outerRectSize[1], outerRectSize[2], 3)
+	Gdip_TextToGraphics(G, labelText, textOptions, "Arial")
+	
+	If (iconFile != ""){
+		if (labelIcon.WBOnly == true)
+			{
+			colW := activePieProfile.selColor
+			; colB := safetyGreyColor
+			If (selected = 1)
+				imageMatrix := "1|0|0|0|0|0|1|0|0|0|0|0|1|0|0|0|0|0|1|0|1|1|1|0|1"
+			Else
+				imageMatrix := "0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|1|0|" . (colW[1]/255) . "|" . (colW[2]/255) . "|" . (colW[3]/255) . "|0|1"
+			}
+		Else
+			imageMatrix := 1
+		Gdip_DrawImage(G, pBitmaps, (iconPosition[1]-(iconSizeSquare/2)), (iconPosition[2]-(iconSizeSquare/2)), iconSizeSquare, iconSizeSquare,,,,,imageMatrix)
+	}
+	return
+	}
+
 
 
 Class pieModifier{
@@ -640,7 +662,7 @@ blockBareKeys(hotkeyInput, hotkeyArray, blockState=1){
 	; 	return
 	if hotkeyArray[1] = ""
 		return
-	bareKey := removeCharacters(hotkeyInput, "!^+#")
+	bareKey := removeCharacters(hotkeyInput, "+^!#")
 
 
 	If (hasValue(bareKey, hotkeyArray) && hasValue("+" + bareKey, hotkeyArray)){
@@ -742,30 +764,6 @@ class Monitor {
   ;; InnI: Get per-monitor DPI scaling factor (https://www.autoitscript.com/forum/topic/189341-get-per-monitor-dpi-scaling-factor/?tab=comments#comment-1359832)
 
 }
-
-resizeWindow(xPos,yPos){
-	WinGetPos, winX, winY, width, height, A
-	if (xPos < winX){ ;to left of origin
-		if (yPos > winY){ ;below origin
-			WinMove, A,,xPos,, width+(winX-xPos), (yPos-winY)
-		}else{ ;above origin
-			WinMove, A,, xPos, yPos, width+(winX-xPos), height+(winY-yPos)		
-		}	
-	}else{ ;right of origin
-		if (yPos > winY){ ;mouse below origin
-			WinMove, A,,,, (xPos-winX), (yPos-winY)
-		} else { ;mouse above origin
-			WinMove, A,,,yPos, (xPos-winX), height+(winY-yPos)
-		}	
-	}	
-	Return
-}
-
-moveWindow(xPos,yPos){
-	WinGetPos, winX, winY, width, height, A
-	WinMove, A, , xPos-(width/2), yPos-(width/3)
-}
-
 
 logTime(start=True){
 	static timeArray := []
