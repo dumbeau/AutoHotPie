@@ -1,7 +1,7 @@
 # AutoHotPie (Pie-Menus-V2)
 
-When you first run it, press "r" to launch the intial demonstration menu.
 Radial menus for Windows, designed for digital artists or macro enthusiasts, sponsored by unemployment :)
+When you first run it, press "r" to launch the intial demonstration menu.
 
 Here is a video that should describe how to work with this and the settings file as I am still working on a settings GUI for this:
 https://youtu.be/IkGbTvAIKnQ
