@@ -49,6 +49,8 @@ global remapLButton := ""
 	global iMouseX	;X Position of where pie menu is opened
 	global iMouseY	;Y ^
 
+	global penClicked := false
+
 	; global pieDPIScale
 	getMonitorCoords(Mon.left , Mon.right , Mon.top , Mon.bottom )
 	; getMonitorCoords(monLeft, monRight, monTop, monBottom)
@@ -253,9 +255,15 @@ exitapp
 return
 }
 
-;Block LButton when Pie Menu is opened
+;Block LButton when Pie Menu is opened WHY DOESNT HOLDOPENOVERRIDE WORK???
+;I hate you so much... windows ink.
 #If (pieLaunchedState == 1)
-LButton::Return
+LButton::
+	; penClicked := true 
+	Return
+LButton up::	
+	; penClicked := false
+	Return
 ;For mouseClick function 
 #If (remapLButton == "Right")
 LButton::RButton

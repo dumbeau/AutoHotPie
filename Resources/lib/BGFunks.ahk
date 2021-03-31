@@ -168,6 +168,7 @@ runPieMenu(profileNum, index, activePieNum=1)
 	arm3 := false
 	armPie3 := false
 	armPie2 := false
+	pieClicked := false
 	LButtonPressed := false
 	LButtonPressed_LastState := false
 	LButtonPressed_static := false
@@ -281,7 +282,9 @@ runPieMenu(profileNum, index, activePieNum=1)
 			}
 
 		;If LButton down - Change State and launch function maybe consider getting this out of the loop
-		If (f_FunctionLaunchMode < 2) && (GetKeyState("LButton","P"))
+
+		; If (f_FunctionLaunchMode < 2) && ( penClicked == true ) 
+		If (f_FunctionLaunchMode < 2) && (GetKeyState("LButton","P"))		
 		{
 			LButtonPressed := true
 			LButtonPressed_static := true
