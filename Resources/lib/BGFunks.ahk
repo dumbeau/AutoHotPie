@@ -201,11 +201,10 @@ runPieMenu(profileNum, index, activePieNum=1)
 
 	drawPie(runningProfile, runningProfile.activePie[activePieNumber], bitmapPadding[1], bitmapPadding[2], 0, 0, offsetPie[activePieNumber], ,showLabel)
 	fPieRegion := 0
-	pieHotkey := removeCharacters(runningProfile.hotkey, "!^+#")
-	
+	pieHotkey := removeCharacters(runningProfile.hotkey, "!^+#")	
 	
 
-	if (SubStr(pieHotkey, -6) == "LButton") || (runningProfile.holdOpenOverride == true)
+	if (SubStr(pieHotkey, -6) == "LButton") || (runningProfile.holdOpenOverride > 0)
 		f_FunctionLaunchMode := 1 ;Click only launchmode
 	else
 		f_FunctionLaunchMode := settings.global.functionLaunchMode
@@ -215,7 +214,7 @@ runPieMenu(profileNum, index, activePieNum=1)
 	; msgbox, % runningProfile.hotkey " changed to " pieHotkey
 	loop
 		{		
-		if !GetKeyState(pieHotkey, "P") && (runningProfile.holdOpenOverride == false)
+		if !GetKeyState(pieHotkey, "P") && (runningProfile.holdOpenOverride == 0)
 			Break
 		if ((A_TickCount - pieOpenTime) > runningProfile.labelDelay*1000 && (showLabel == false))
 		{
@@ -313,13 +312,20 @@ runPieMenu(profileNum, index, activePieNum=1)
 				}
 			StartDrawGDIP()			
 			fPieRegion := drawPie(runningProfile, runningProfile.activePie[activePieNumber], bitmapPadding[1], bitmapPadding[2], dist, theta, offsetPie[activePieNumber], LButtonPressed, showLabel)
+			;Hold open override hover over function
+			if (runningProfile.holdOpenOverride == 2) && (fPieRegion > 0)
+			{
+				runPieFunction([profileNum, index, activePieNumber, pieRegion])
+				break
+			}
+				
 			; if (LButtonPressed_LastState == true) && (LButtonPressed == false){
 			if (LButtonPressed_LastState == true) && (LButtonPressed == false) || (GetKeyState("Esc")){
 				if (GetKeyState("Esc")) {
 					break
 				}
 				runPieFunction([profileNum, index, activePieNumber, pieRegion])
-				if (runningProfile.holdOpenOverride == true)
+				if (runningProfile.holdOpenOverride > 0)
 					break
 				}			
 			
@@ -331,7 +337,7 @@ runPieMenu(profileNum, index, activePieNum=1)
 	ClearDrawGDIP()
 	EndDrawGDIP()
 	if LButtonPressed_static
-	return false
+		return false
 	else
 	{
 	if (f_FunctionLaunchMode != 1)
