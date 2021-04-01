@@ -201,7 +201,8 @@ runPieMenu(profileNum, index, activePieNum=1)
 
 	drawPie(runningProfile, runningProfile.activePie[activePieNumber], bitmapPadding[1], bitmapPadding[2], 0, 0, offsetPie[activePieNumber], ,showLabel)
 	fPieRegion := 0
-	pieHotkey := removeCharacters(runningProfile.hotkey, "!^+#")	
+	pieHotkey := r
+	removeCharacters(runningProfile.hotkey, "!^+#")	
 	
 
 	if (SubStr(pieHotkey, -6) == "LButton") || (runningProfile.holdOpenOverride > 0)
@@ -216,6 +217,11 @@ runPieMenu(profileNum, index, activePieNum=1)
 		{		
 		if !GetKeyState(pieHotkey, "P") && (runningProfile.holdOpenOverride == 0)
 			Break
+		if (runningProfile.holdOpenOverride == 2) && (fPieRegion > 0)
+		{
+			LButtonPressed_static := false
+			Break
+		}	
 		if ((A_TickCount - pieOpenTime) > runningProfile.labelDelay*1000 && (showLabel == false))
 		{
 			showLabel := true
@@ -313,12 +319,10 @@ runPieMenu(profileNum, index, activePieNum=1)
 			StartDrawGDIP()			
 			fPieRegion := drawPie(runningProfile, runningProfile.activePie[activePieNumber], bitmapPadding[1], bitmapPadding[2], dist, theta, offsetPie[activePieNumber], LButtonPressed, showLabel)
 			;Hold open override hover over function
-			if (runningProfile.holdOpenOverride == 2) && (fPieRegion > 0)
-			{
-				runPieFunction([profileNum, index, activePieNumber, pieRegion])
-				break
-			}
-				
+			; if (runningProfile.holdOpenOverride == 2) && (fPieRegion > 0)
+			; {
+			; 	break
+			; }
 			; if (LButtonPressed_LastState == true) && (LButtonPressed == false){
 			if (LButtonPressed_LastState == true) && (LButtonPressed == false) || (GetKeyState("Esc")){
 				if (GetKeyState("Esc")) {
@@ -337,12 +341,14 @@ runPieMenu(profileNum, index, activePieNum=1)
 	ClearDrawGDIP()
 	EndDrawGDIP()
 	if LButtonPressed_static
+		{
 		return false
+		}		
 	else
-	{
-	if (f_FunctionLaunchMode != 1)
-	return [profileNum,index,activePieNumber,pieRegion]
-	}
+		{
+		if (f_FunctionLaunchMode != 1) || (runningProfile.holdOpenOverride == 2)
+		return [profileNum,index,activePieNumber,pieRegion]
+		}
 	}
 
 

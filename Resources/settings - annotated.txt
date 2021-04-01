@@ -272,7 +272,7 @@
 			"hotkey": "r",					//The key that activates the pie menu, this can include modifier symbols you can use scancodes (  ` = "{SC029}" ) as well.  Rules follow ahk's rules for hotkeys https://www.autohotkey.com/docs/KeyList.htm
 			"radius": 40,					//The radius of the pie menu				
 			"thickness":10,					//the thickness of the pie menu, the stroke is aligned along the center of the circle defined by the radius
-			"holdOpenOverride":0,			//If this is on, the pie menu will stay open and the function will be launched as soon as the slice is hovered. ideal for external macro devices.
+			"holdOpenOverride":0,			//If this is set to 2, the pie menu will stay open and the function will be launched as soon as the slice is hovered. ideal for external macro devices.  Set to 1 if you want to click on the function to launch it.
 			"labelDelay":0,					//Time (secs) for labels to appear after the pie menu is opened.
 			"enable":1,						//Determines if this pie menu is active or not
 			"activePie":					//This object contains three values, the first, second and third pie menus, then any submenus.
