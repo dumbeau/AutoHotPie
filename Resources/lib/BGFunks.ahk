@@ -201,8 +201,7 @@ runPieMenu(profileNum, index, activePieNum=1)
 
 	drawPie(runningProfile, runningProfile.activePie[activePieNumber], bitmapPadding[1], bitmapPadding[2], 0, 0, offsetPie[activePieNumber], ,showLabel)
 	fPieRegion := 0
-	pieHotkey := r
-	removeCharacters(runningProfile.hotkey, "!^+#")	
+	pieHotkey := removeCharacters(runningProfile.hotkey, "!^+#")	
 	
 
 	if (SubStr(pieHotkey, -6) == "LButton") || (runningProfile.holdOpenOverride > 0)
