@@ -363,7 +363,7 @@ drawPie(appProfile, activePieProfile, xPos, yPos, dist, theta, thetaOffset, clic
 	nTheta := (Floor(cycleRange(theta-thetaOffset)/(360/numSlices))*(360/numSlices))+thetaOffset
 	gmx := xPos
 	gmy := yPos
-	labelRadius := 100*Mon.pieDPIScale
+	labelRadius := 110*Mon.pieDPIScale
 	ClearDrawGDIP()
 	Gdip_SetSmoothingMode(G, 4)
 	basicPen := Gdip_CreatePen(RGBAtoHEX(bgColor), thickness)
@@ -501,13 +501,13 @@ drawPieLabel(activePieProfile, labelText, xPos, yPos, selected:=0, anchor:="cent
 
 	rectCenter := [0,0]	;if anchor is none of these, leave as center
 	If (anchor == "bottom")
-		rectCenter := [xPos, yPos-(contentRect[2]/2)+pad[2]]		
+		rectCenter := [xPos, yPos]		
 	If (anchor == "top")
-		rectCenter := [xPos, yPos+(contentRect[2]/2)+pad[2]]		
+		rectCenter := [xPos, yPos]		
 	If (anchor == "left")
-		rectCenter := [xPos+pad[1]+(contentRect[1]/2), yPos]		
+		rectCenter := [xPos+pad[1]+(contentRect[1]/2)-(outerRectSize[2]/2), yPos]		
 	If (anchor == "right")
-		rectCenter := [xPos-pad[1]-(contentRect[1]/2), yPos]			
+		rectCenter := [xPos-pad[1]-(contentRect[1]/2)+(outerRectSize[2]/2), yPos]			
 	If (anchor == "center")
 		rectCenter := [xPos, yPos]	
 
