@@ -764,6 +764,7 @@ var editPieMenu = {
                         let sliceNum = selectedPieMenu.functions.indexOf(element.data)-1;   
                         let sliceAngleCenterOffset = (180/numSlices)              
                         let sliceAngle = (sliceNum*(360/numSlices))+sliceAngleCenterOffset+pieAngleOffset
+                        console.log("SliceNum: " + sliceNum + "\nAngle: " + sliceAngle)
                         let sliceArcLength = 360/numSlices;
                         let labelRadius = editPieMenu.selectedPieMenu.labelRadius+pieRadius+(thickness/2);                        
                         let labelPosition = [
@@ -781,16 +782,21 @@ var editPieMenu = {
                         }
 
                         let labelAnchor
-                        if (sliceAngle > 0.1 && sliceAngle < 179.9){
+                        let testSliceAngle = cycleRange(sliceAngle);
+                        if (testSliceAngle > 0.1 && testSliceAngle < 179.9){
                             labelAnchor = [-1,0]
-                        } else if (sliceAngle > 180.1 && sliceAngle < 359.9) {
+                        } else if (testSliceAngle > 180.1 && testSliceAngle < 359.9) {
                             labelAnchor = [1,0]
-                        } else if (sliceAngle == 0 || sliceAngle == 360) {
+                        } else if (testSliceAngle == 0 || testSliceAngle == 360) {
                             labelAnchor = [0,0]
                         } else {
                             labelAnchor = [0,0]
                         }
                         let labelData = element.data
+                        
+                            // console.log(labelAnchor);
+
+                        
                         
                         let labelRect = disp.draw.label(labelData.label, labelData.icon, labelData.hotkey, labelPosition,labelAnchor,element)
                         if (isSelected == true){
