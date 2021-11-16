@@ -53,8 +53,7 @@ var profileManagement = {
             profileDropDown.appendChild(appProfileOption)        
         })   
         let enabledCheckbox = document.getElementById("profile-enabled-checkbox")        
-        enabledCheckbox.checked = this.selectedProfile.enable;
-        
+        enabledCheckbox.checked = this.selectedProfile.enable;        
 
         let deleteBtn = document.getElementById("delete-app-profile-btn") 
         if (this.selectedProfile.name == "Default Profile"){            
@@ -62,14 +61,14 @@ var profileManagement = {
         } else {
             deleteBtn.style.display = 'block'
         }
-        this.pieEnableKey.updateUIControls()   
-        this.associatedPrograms.updateUIControls()   
-        this.pieMenuOverview.updateUIControls()   
+        this.pieEnableKey.updateUIControls();   
+        this.associatedPrograms.updateUIControls();   
+        this.pieMenuOverview.updateUIControls();   
     },
 
     selectProfile: function(profileIndex){        
         this.selectedProfile = AutoHotPieSettings.appProfiles[profileIndex]
-        this.updateUIControls()
+        this.updateUIControls();
     },
     deleteProfile: function(){        
         let profileIndex = AutoHotPieSettings.appProfiles.indexOf(this.selectedProfile)        
@@ -293,7 +292,7 @@ var profileManagement = {
         },
         updateUIControls:function(){
             
-            this.overviewTable.innerHTML = "";
+            this.overviewTable.innerHTML = "";            
             profileManagement.selectedProfile.pieKeys.forEach(function(pieKey,index){
                 this.overviewTable  
                 createPieKeyRow(pieKey.pieMenus[0].selectionColor,pieKey.hotkey, pieKey.name, pieKey.globalMenu)              
@@ -399,9 +398,8 @@ var globalSettings = {
     },
     refresh:function(){        
         this.runOnStartupCheckbox.checked = AutoHotPieSettings.global.startup.runOnStartup;
-        this.useAHKPieMenuCheckbox.checked = AutoHotPieSettings.global.startup.runAHKPieMenus;        
-        // console.log(AutoHotPieSettings.global.startup.runOnStartup)
-        // console.log(AutoHotPieSettings.global.startup.runAHKPieMenus)
+        this.useAHKPieMenuCheckbox.checked = AutoHotPieSettings.global.startup.runAHKPieMenus;   
+        setRunOnLogin(AutoHotPieSettings.global.startup.runOnStartup, AutoHotPieSettings.global.startup.runAHKPieMenus);
     },
     initialize: function(){
         this.backBtn.addEventListener('click', function(){
@@ -416,6 +414,18 @@ var globalSettings = {
             AutoHotPieSettings.global.startup.runAHKPieMenus = event.target.checked
             setRunOnLogin(AutoHotPieSettings.global.startup.runOnStartup, AutoHotPieSettings.global.startup.runAHKPieMenus);
         });
+        this.importSettingsBtn.on('click',function(){             
+            let importStatus = JSONFile.import(SettingsFileName);            
+            if (importStatus){
+                //Need to set function to 
+                LoadSettingsJsonFile(SettingsFileName);
+                profileManagement.selectProfile(0);
+                globalSettings.refresh();
+            }
+        });        
+        this.exportSettingsBtn.on('click',function(){
+            JSONFile.export(SettingsFileName.replace('.json', "-" + getDate() + '.json'), AutoHotPieSettings)
+        });        
         this.updateBtn.addEventListener('click', function(){
             // updateApp();   
             openURL("https://github.com/dumbeau/AutoHotPie/releases");  
@@ -425,17 +435,19 @@ var globalSettings = {
             openURL("https://github.com/dumbeau/AutoHotPie");           
         });
         this.ahkLink.addEventListener('click', () => {
-            openURL("https://www.autohotkey.com/");           
+            openURL("https://www.autohotkey.com/");    
         });
         this.donateBtn.addEventListener('click', () => {
             openURL("https://www.paypal.com/donate?business=RBTDTCUBK4Z8S&no_recurring=1&item_name=Support+Pie+Menus+Development&currency_code=USD")
         })
-        setRunOnLogin(AutoHotPieSettings.global.startup.runOnStartup, AutoHotPieSettings.global.startup.runAHKPieMenus);
+        setRunOnLogin(AutoHotPieSettings.global.startup.runOnStartup, AutoHotPieSettings.global.startup.runAHKPieMenus);        
     },
     ahkLink: document.getElementById('ahk-link'),
     backBtn: document.getElementById('global-settings-back-btn'),    
     runOnStartupCheckbox: document.getElementById('run-on-startup-checkbox'),    
-    useAHKPieMenuCheckbox: document.getElementById('use-ahk-pie-menu-checkbox'),    
+    useAHKPieMenuCheckbox: document.getElementById('use-ahk-pie-menu-checkbox'),
+    importSettingsBtn:$('#import-settings-file-btn'),
+    exportSettingsBtn:$('#export-settings-file-btn'),
     updateBtn: document.getElementById('check-for-update-btn'),    
     versionText: document.getElementById('version-text'),    
     githubBtn: document.getElementById('github-btn'),

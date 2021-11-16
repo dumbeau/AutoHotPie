@@ -559,10 +559,10 @@ var editPieMenu = {
                 elementPlacementPos = [labelCenter[0]-(contentBox[0]/2), labelCenter[1]]
                 for (let k in labelElements){
                     let labelElement = labelElements[k];
-                    if (labelElement.type == "icon"){                        
+                    if (labelElement.type == "icon"){
+                        let iconPosition = [elementPlacementPos[0], elementPlacementPos[1]-(labelElement.rect[1]/2)]                      
                         if (labelIcon.WBOnly == true){
-                            let tintedIconCanvas;
-                            let iconPosition = [elementPlacementPos[0], elementPlacementPos[1]-(labelElement.rect[1]/2)]                
+                            let tintedIconCanvas;                                            
                             if(isSelected){
                                 tintedIconCanvas = filterIcon(labelElement.data, selectedPieMenu.backgroundColor)                
                             }else{
@@ -764,7 +764,7 @@ var editPieMenu = {
                         let sliceNum = selectedPieMenu.functions.indexOf(element.data)-1;   
                         let sliceAngleCenterOffset = (180/numSlices)              
                         let sliceAngle = (sliceNum*(360/numSlices))+sliceAngleCenterOffset+pieAngleOffset
-                        console.log("SliceNum: " + sliceNum + "\nAngle: " + sliceAngle)
+                        // console.log("SliceNum: " + sliceNum + "\nAngle: " + sliceAngle)
                         let sliceArcLength = 360/numSlices;
                         let labelRadius = editPieMenu.selectedPieMenu.labelRadius+pieRadius+(thickness/2);                        
                         let labelPosition = [
@@ -1367,6 +1367,7 @@ var editPieMenu = {
                 keysDiv: document.getElementById('send-keys-div'),
                 keyButtonGroupTemplate: document.getElementById('send-key-btn-group-template'),               
                 timeBetweenKeysDiv: $('#time-between-keys-input-div'),
+                delayKeyReleaseCheckbox: $('#delay-key-release-checkbox')
             },
             mouseClick:{
                 clickBtnGroup: document.getElementById('mouse-click-btn-group'),
@@ -1477,10 +1478,29 @@ var editPieMenu = {
             this.sliceFunction.dropdownBtn.addEventListener('click',function(event){
             });
 
-            this.sliceFunction.dropdownMenu.addEventListener('click',function(event){                
+            this.sliceFunction.dropdownMenu.addEventListener('click',function(event){       
 
-                let selectedFunc = getAHKFunc()                
-                editPieMenu.selectedSlice.function = selectedFunc.ahkFunction
+                let selectedFunc = getAHKFunc()
+                
+                // editPieMenu.selectedSlice.function = selectedFunc.ahkFunction
+                let newPieFunc = new PieFunction({
+                    function: selectedFunc.ahkFunction,                    
+                    params: PieFunction.getPieFunctionDefaultParameters(selectedFunc.ahkFunction),   
+                    label: editPieMenu.selectedSlice.label,
+                    hotkey: editPieMenu.selectedSlice.hotkey,
+                    clickable: editPieMenu.selectedSlice.clickable,
+                    returnMousePos: editPieMenu.selectedSlice.returnMousePos,
+                    icon: editPieMenu.selectedSlice.icon
+                });                
+                Object.assign(editPieMenu.selectedSlice, newPieFunc)
+
+                if (editPieMenu.selectedSlice.function == "submenu"){
+                    editPieMenu.selectedSlice.params = setSubMenuDefaults();
+                }
+
+                // editPieMenu.selectedPieMenu.functions[editPieMenu.selectedPieMenu.functions.indexOf(editPieMenu.selectedSlice)] = newPieFunc;
+                // editPieMenu.selectedSlice = newPieFunc;
+
                 function getAHKFunc(){
                     let functionConfig = AutoHotPieSettings.global.functionConfig;
                     let selectedFuncName = event.target.innerHTML;
@@ -1499,12 +1519,51 @@ var editPieMenu = {
                         ahkFunction:"none"
                     }
                 };
-                function getDefaultParameters(){                    
-                    switch (selectedFunc.optionType){                        
+                
+                function setSubMenuDefaults(){
+                    function determineAvailablePieNumber(){
+                        let occupiedPieNumbers = [0]
+                        for (let pieMenuIndex in editPieMenu.selectedPieKey.pieMenus){
+                            let pieMenu = editPieMenu.selectedPieKey.pieMenus[pieMenuIndex];                                    
+                            for (let sliceFuncIndex in pieMenu.functions){
+                                let sliceFunc = pieMenu.functions[sliceFuncIndex];                                        
+                                if(sliceFunc.function == "submenu"){                                              
+                                    if(!occupiedPieNumbers.includes(sliceFunc.params.pieMenuNumber)){  
+                                        if (typeof sliceFunc.params.pieMenuNumber == "number"){
+                                            occupiedPieNumbers.push(sliceFunc.params.pieMenuNumber)                                                    
+                                        }                                               
+                                    }
+                                }
+                            }
+                        }
+                        // console.log(occupiedPieNumbers)
+                        let vacantPieNumber = 0
+                        while(occupiedPieNumbers.includes(vacantPieNumber)){
+                            vacantPieNumber++
+                        }
+                        return vacantPieNumber
+                    };
+                    let pieNumber = determineAvailablePieNumber();
+                    let newPieMenuObj = new PieMenu({
+                        backgroundColor: editPieMenu.selectedPieMenu.backgroundColor,
+                        selectionColor: editPieMenu.selectedPieMenu.selectionColor,
+                        radius:40,
+                        thickness:editPieMenu.selectedPieMenu.thickness,
+                        labelRadius: 80,
+                        pieAngle: 0,
+                        functions: PieFunction.fill(7)
+                    });
+                    editPieMenu.selectedPieKey.pieMenus[pieNumber] = newPieMenuObj
+                    return {pieMenuNumber: pieNumber,isBack: false}
+                }
+
+                function getDefaultParameters(){                   
+                    switch (selectedFunc.optionType){ 
                         case "Send Key":                            
                             return {
                                 keys:[],
-                                keyDelay:5
+                                keyDelay:15,
+                                delayKeyRelease:false
                             }
                             break;
                         case "Mouse Click":
@@ -1558,31 +1617,24 @@ var editPieMenu = {
                             };
                             let pieNumber = determineAvailablePieNumber();
                             function createDefaultSubMenu(numSlices){
-                                let newPieMenuObj = {
+                                let newPieMenuObj = new PieMenu({
                                     backgroundColor: editPieMenu.selectedPieMenu.backgroundColor,
                                     selectionColor: editPieMenu.selectedPieMenu.selectionColor,
                                     radius:40,
                                     thickness:editPieMenu.selectedPieMenu.thickness,
                                     labelRadius: 80,
-                                    pieAngle: 0, //Should be updated later when pie angle is assessed.
-                                    functions:[]
-                                    }; 
-                                for(let i=0; i<=numSlices; i++){
-                                    newPieMenuObj.functions.push(
-                                        {
-                                        function:"none",
-                                        params:{},
-                                        label:"Slice " + i,
-                                        hotkey:"",
-                                        clickable:false,
-                                        returnMousePos:false,
-                                        icon:{							
-                                            filePath:"",
-                                            WBOnly:false
-                                            }
-                                        }
-                                    )
-                                };
+                                    pieAngle: 0,
+                                    functions: PieFunction.fill(numSlices+1)
+                                });
+                                // let newPieMenuObj = {
+                                //     backgroundColor: editPieMenu.selectedPieMenu.backgroundColor,
+                                //     selectionColor: editPieMenu.selectedPieMenu.selectionColor,
+                                //     radius:40,
+                                //     thickness:editPieMenu.selectedPieMenu.thickness,
+                                //     labelRadius: 80,
+                                //     pieAngle: 0, //Should be updated later when pie angle is assessed.
+                                //     functions: PieFunction.fill(7)
+                                //     };                                 
                                 
                                 return newPieMenuObj                            
                             };
@@ -1608,12 +1660,8 @@ var editPieMenu = {
                             break;
                     }
                 }
-                editPieMenu.selectedSlice.params = getDefaultParameters();                
-
+                
                 editPieMenu.sliceSettings.loadSelectedPieKey();
-
-                //Create default parameters
-
             });
 
             //Send Keystroke
@@ -1671,6 +1719,11 @@ var editPieMenu = {
                 (typeof(newValue) === 'number') && (editPieMenu.selectedSlice.params.keyDelay = newValue)
                 editPieMenu.pieMenuDisplay.refresh();
             });
+            this.sliceFunction.sendKey.delayKeyReleaseCheckbox.on('change', (event) => {
+                editPieMenu.selectedSlice.params.delayKeyRelease = event.target.checked
+            });
+
+
             this.sliceFunction.repeatLast.timeoutSliderDiv.on('mousedown mousemove change', (event) => {
                 let newValue = handleSliderDiv(event);
                 (typeof(newValue) === 'number') && (editPieMenu.selectedSlice.params.timeout = newValue)
@@ -1776,8 +1829,8 @@ var editPieMenu = {
             });
 
         },
-        loadSelectedPieKey:function(){
-            let selectedSlice = editPieMenu.selectedSlice;            
+        loadSelectedPieKey:function(){            
+            let selectedSlice = editPieMenu.selectedSlice;             
             this.sliceLabelTextInput.value = selectedSlice.label;
             
 
@@ -1849,9 +1902,28 @@ var editPieMenu = {
                     ahkFunction:"none"
                 }
             };
-            this.sliceFunction.dropdownMenu.innerHTML = "";  
-            //Populate dropdown options          
-            AutoHotPieSettings.global.functionConfig[0].functions.forEach(function(sliceFunction,index){            
+
+
+            this.sliceFunction.dropdownMenu.innerHTML = "";              
+            //Populate dropdown options  
+            function loadAppProfileFunctionsArray(){
+                let functionSettingsArray = [];
+                let fc = AutoHotPieSettings.global.functionConfig
+                // functionSettingsArray.push(fc[0].functions)
+                for (let fcKey in fc){
+                    let funcList = fc[fcKey];
+                    let foundAppSpecificFunctions = false;
+                    foundAppSpecificFunctions = profileManagement.selectedProfile.ahkHandles.some(r=> funcList.associatedProfiles.includes(r.replace('.exe','')));     
+                    console.log(foundAppSpecificFunctions)              
+                    
+                    if (foundAppSpecificFunctions || funcList.associatedProfiles.includes("general")) {
+                        functionSettingsArray = functionSettingsArray.concat(funcList.functions);
+                    }
+                }
+                return functionSettingsArray
+            };
+            let sliceFunctionsList = loadAppProfileFunctionsArray();        
+            sliceFunctionsList.forEach(function(sliceFunction,index){                
                 let appProfileOption = document.createElement("a");
                 appProfileOption.setAttribute("id","slice-function-item");
                 appProfileOption.setAttribute("class","dropdown-item");
@@ -1860,7 +1932,7 @@ var editPieMenu = {
             })
             
 
-            let selectedFunc = this.sliceFunction.dropdownBtn.innerHTML
+            let selectedFunc = this.sliceFunction.dropdownBtn.innerHTML            
             let ahkParamObj = {}
             switch (selectedFunc){
                 case "Send Key":
@@ -1886,10 +1958,8 @@ var editPieMenu = {
                             addKeystrokeButtonGroup(p_HotkeyObj,index)
                         }                        
                     });
-                    setSliderDivValue(editPieMenu.sliceSettings.sliceFunction.sendKey.timeBetweenKeysDiv, ahkParamObj.keyDelay, 0, 500, 2)
-
-                    
-
+                    setSliderDivValue(editPieMenu.sliceSettings.sliceFunction.sendKey.timeBetweenKeysDiv, ahkParamObj.keyDelay, 0, 200)
+                    editPieMenu.sliceSettings.sliceFunction.sendKey.delayKeyReleaseCheckbox.prop('checked', ahkParamObj.delayKeyRelease);
                     break;
                 case "Mouse Click":
                     ahkParamObj = editPieMenu.selectedSlice.params; 
@@ -1990,7 +2060,7 @@ function handleSliderDiv(event, step=1){
         console.log("Changed: " + newValue + "\nDecimal: " + decimalStepScalar)
         // console.log(newValue)
         // console.log(inputSlider.step)
-        IsDragging=false
+        IsDragging = false
         return newValue
     }
     function updateSliderValue(){

@@ -11,6 +11,7 @@
 ;Set Per monitor DPI awareness: https://www.autohotkey.com/boards/viewtopic.php?p=295182#p295182
 DllCall("SetThreadDpiAwarenessContext", "ptr", -3, "ptr")
 CoordMode, Mouse, Screen
+
 ;  DllCall("SetThreadDpiAwarenessContext", "ptr", -3, "ptr")
 ;Check AHK version and if AHK is installed.  Prompt install or update.
 
@@ -27,14 +28,14 @@ global remapLButton := ""
 	Try 
 	{
 		settingsFileName := "AHPSettings.json"
-		userDataFolder := A_AppData . "\AutoHotPie"
-		settingsFilePath := userDataFolder . "\" . settingsFileName
+		global UserDataFolder := A_AppData . "\AutoHotPie"
+		settingsFilePath := UserDataFolder . "\" . settingsFileName
 		
-		if ( FileExist(userDataFolder) ){
+		if ( FileExist(UserDataFolder) ){
 			FileRead, settings, %settingsFilePath%
 			global settings := Json.Load(settings)	
 		}else{			
-			FileCreateDir, %userDataFolder%
+			FileCreateDir, %UserDataFolder%
 			pie_openSettings()
 			exitapp
 		}
@@ -211,6 +212,12 @@ return
 
 ;Block LButton when Pie Menu is opened WHY DOESNT HOLDOPENOVERRIDE WORK???
 ;I hate you so much... windows ink.
+#IfWinActive, ahk_exe AutoHotPie.exe
+~LButton up::
+	sleep,200
+	if WinExist("ahk_exe AutoHotPie.exe")
+		exitapp
+	return
 #If (pieLaunchedState == 1)
 LButton::
 	; penClicked := true 

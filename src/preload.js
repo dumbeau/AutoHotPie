@@ -20,11 +20,52 @@ if(ipcRenderer.sendSync('isDev')){
 }
 var UserDataFolder = path.join(ipcRenderer.sendSync('getUserDataFolder'));
 
+
+function copyDirectory(source, destination) {
+  fs.mkdirSync(destination, { recursive: true });
+  
+  fs.readdirSync(source, { withFileTypes: true }).forEach((entry) => {
+    let sourcePath = path.join(source, entry.name);
+    let destinationPath = path.join(destination, entry.name);
+
+    entry.isDirectory() ? copyDirectory(sourcePath, destinationPath) : fs.copyFileSync(sourcePath, destinationPath);
+  });
+}
+
+fs.mkdirSync(path.resolve(UserDataFolder,'icons'), { recursive: true });
+copyDirectory(path.resolve(UserDataFolder,'icons'), path.resolve(PieMenuFolder, 'icons'));
+
+function loadJSONFile(JSONFile){
+  let settingsFile = path.join(UserDataFolder,JSONFile);
+  let settingsObj = JSON.parse(fs.readFileSync(path.resolve(settingsFile)))     
+  return settingsObj
+}
+
+
+// function copyDirectory(source, destination) {
+//   fs.mkdirSync(destination, { recursive: true });
+  
+//   fs.readdirSync(source, { withFileTypes: true }).forEach((entry) => {
+//     let sourcePath = path.join(source, entry.name);
+//     let destinationPath = path.join(destination, entry.name);
+
+//     entry.isDirectory() ? copyDirectory(sourcePath, destinationPath) : fs.copyFileSync(sourcePath, destinationPath);
+//   });
+// }
+// UserIconsFolder = path.resolve(UserDataFolder,'icons')
+// fs.mkdir(path.resolve(UserDataFolder,'icons'))
+// copyDirectory(UserIconsFolder, path.resolve(PieMenuFolder,'icons','User Icons'))
+
+contextBridge.exposeInMainWorld('getDate', function(){
+  return getDate();
+});
+function getDate(){
+  return ipcRenderer.sendSync('getDate');
+};
+
 contextBridge.exposeInMainWorld('JSONFile', {
-  open: function(JSONFile){    
-    let settingsFile = path.join(UserDataFolder,JSONFile);
-    let settingsObj = JSON.parse(fs.readFileSync(path.resolve(settingsFile)))     
-    return settingsObj
+  open: function(JSONFile){  
+    return loadJSONFile(JSONFile)
   },
   save: function(JSONFile, JSONData){    
     let settingsFile = path.join(UserDataFolder,JSONFile)    
@@ -33,6 +74,53 @@ contextBridge.exposeInMainWorld('JSONFile', {
         console.log("Failed to save file.\n" + err)
       }
     })
+  },
+  import: function(destJSONFileName){
+    let localFilepath = path.resolve(UserDataFolder)
+    let options = {      
+      title : "Select AutoHotPie settings file...",
+      defaultPath: localFilepath,      
+      buttonLabel : "Import Settings",      
+      filters :[
+        {extensions: ['json']}        
+      ],
+      properties: ['openFile']
+      }    
+  let filePath = ipcRenderer.sendSync('openFileDialog', options)
+  
+  if(filePath != null){
+    try{
+      let settingsFilePath = path.resolve(filePath[0]);   
+      console.log(settingsFilePath) 
+      fs.copyFileSync(settingsFilePath,path.resolve(UserDataFolder,destJSONFileName))
+      let returnObj = loadJSONFile(destJSONFileName)
+      // returnObj.global.app.sourceFileName = path.basename(filePath[0])
+      return returnObj;
+    }catch (e){
+      console.log("Failed to import settings file.\n" + filePath[0])
+      console.log(e)
+      return false
+    }
+  }    
+  },
+  export: function(defaultFileName,settingsObj){
+    defaultFileName = defaultFileName;
+    let localFilepath = path.resolve(UserDataFolder,defaultFileName);
+    let options = {
+      title : "Export AutoHotPie settings",
+      defaultPath: localFilepath,      
+      buttonLabel : "Export Settings",
+      filters :[
+        {extensions: ['json']}        
+      ],
+      properties: ['openFile']
+      }
+    let filePath = ipcRenderer.sendSync('saveFileDialog', options);
+    if (filePath != null){
+      fs.writeFile(filePath, JSON.stringify(settingsObj,null, "\t"), function (err) {
+        if (err) console.error(err)
+      })
+    }        
   }
 })
 
@@ -109,14 +197,14 @@ contextBridge.exposeInMainWorld('pieMenus', {
       return new Promise((resolve, reject) => { 
         pieRunningState = false;
         var pieRunningIntervalId = setInterval(isPieMenuRunning, 250)
-        setTimeout(pieMenuRunFailed,60000) //
+        setTimeout(pieMenuRunFailed,60000) 
         function pieMenuRunFailed(){
           clearInterval(pieRunningIntervalId)
           reject();
         }
     
         function isPieMenuRunning(){
-          let query = (runAHK) ? "PieMenu.ahk" : "PieMenu.exe";
+          let query = (runAHK) ? "AutoHotKey.exe" : "PieMenu.exe";
           let platform = process.platform;
             let cmd = '';
             switch (platform) {
@@ -125,11 +213,11 @@ contextBridge.exposeInMainWorld('pieMenus', {
                 case 'linux' : cmd = `ps -A`; break;
                 default: break;
             }
-            child_process.exec(cmd, (err, stdout, stderr) => {
-                pieRunningState = stdout.toLowerCase().indexOf(query.toLowerCase()) > -1;
+            child_process.exec(cmd, (err, stdout, stderr) => {                
+                pieRunningState = stdout.toLowerCase().indexOf(query.toLowerCase()) > -1;                
                 if (pieRunningState){
-                  resolve();     
-                }            
+                  resolve();
+                }   
                 return pieRunningState;
             });
         }
@@ -252,7 +340,7 @@ contextBridge.exposeInMainWorld('electron', {
     if(scriptFile.includes(localScriptFolderName)){
       scriptFile = scriptFile.slice(scriptFile.indexOf(localScriptFolderName))
       scriptFile = scriptFile.replace(localScriptFolderName,"%A_ScriptDir%\\" + localScriptFolderName)
-      console.log(scriptFile)
+      // console.log(scriptFile)
     }    
     return scriptFile
   }

@@ -1,7 +1,7 @@
 {
   "name": "autohotpie",
   "productName": "AutoHotPie",
-  "version": "1.0.4-alpha",
+  "version": "1.0.8-alpha",
   "description": "Universal Pie Menus for Windows",
   "main": "main.js",
   "scripts": {
@@ -13,15 +13,16 @@
     "build-installer": "electron-builder"
   },
   "build": {
-    "appId": "autohotpie-settings",
+    "appId": "AutoHotPie",
     "directories": {
       "buildResources": "resources"
     },
+    "productName":"AutoHotPie",
     "extraFiles": [
       {
         "from": "src",
         "to": "resources/src"
-      }
+      }      
     ],
     "win": {
       "target": [
@@ -37,7 +38,7 @@
       "license": "license.txt",
       "oneClick": false,
       "menuCategory": true,
-      "allowToChangeInstallationDirectory": true,
+      "allowToChangeInstallationDirectory": false,
       "deleteAppDataOnUninstall": true,
       "installerSidebar": "src/assets/installer-sidebar.bmp"
     }

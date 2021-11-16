@@ -8,17 +8,58 @@ pie_submenu(pieMenuAddress)
 }
 
 pie_sendKey(keyObject)
-	{	
-	for keyIndex, key in keyObject.keys
-		{ 
-		if (keyIndex != 1)
-			sleep, % keyObject.keyDelay
-		bareKey := removeCharacters(key, "+^!#")		
-		keyToSend := StrReplace(key, bareKey, "{" .  bareKey . "}")			
-		send, % keyToSend
+{
+	if (keyObject.delayKeyRelease){		
+		newKeyArray := []
+		; msgbox, % keyObject.keys[0] . " " . keyObject.keys[1] . " " . keyObject.keys[2] . " " . keyObject.keys[3]
+		for keyIndex, key in keyObject.keys
+		{	
+			bareKey := removeCharacters(key, "+^!#")			
+			startModifierString := ""                
+			endModifierString := ""
+			If (InStr(key,"+")){                    
+				startModifierString := startModifierString . "{shift down}"
+				endModifierString := endModifierString . "{shift up}"                    
+			}
+			If (InStr(key,"^")){
+				startModifierString := startModifierString . "{ctrl down}"
+				endModifierString := endModifierString . "{ctrl up}"						
+			}
+			If (InStr(key,"!")){
+				startModifierString := startModifierString . "{alt down}"
+				endModifierString := endModifierString . "{alt up}"					
+			}
+			newKeyArray.Push(startModifierString . "{" . bareKey . " down}")				
+			newKeyArray.Push("{" . bareKey . " up}" . endModifierString)				
 		}
-	return
+		sendKeyArray := newKeyArray
+		for keyIndex, key in sendKeyArray
+		{
+		if (keyIndex != 1)
+			sleep, % keyObject.keyDelay+1	
+		send, % key
+		}		
+		} else {		
+			sendKeyArray := keyObject.keys
+			for keyIndex, key in sendKeyArray
+			{ 
+			if (keyIndex != 1)
+				sleep, % keyObject.keyDelay
+			bareKey := removeCharacters(key, "+^!#")		
+			keyToSend := StrReplace(key, bareKey, "{" .  bareKey . "}")			
+			send, % keyToSend
+			}
+		}
+		return	
 	}
+
+	; msgbox, % keyObject.keys[1]	
+	; msgbox, % keyObject.keys[2]	
+	; msgbox, % keyObject.keys[3]	
+	; msgbox, % keyObject.keys[4]	
+	
+
+
 pie_mouseClick(params)
 	{
 		; MouseButton - str, Shift - bool, Ctrl - bool, Alt - bool, Drag - bool

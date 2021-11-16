@@ -118,12 +118,12 @@
                     <div class="d-flex justify-content-center" style="width: 100%;margin-top: 22px;">
                         <div id="pie-menu-settings-tabs" style="margin: 1px;width: 996px;">
                             <ul class="nav nav-tabs nav-justified" role="tablist" style="font-size: 20px;">
-                                <li class="nav-item" role="presentation"><a class="nav-link active" role="tab" data-bs-toggle="tab" href="#tab-8">Launch Settings</a></li>
+                                <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-8">Launch Settings</a></li>
                                 <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-9">Appearance</a></li>
-                                <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-10">Functions</a></li>
+                                <li class="nav-item" role="presentation"><a class="nav-link active" role="tab" data-bs-toggle="tab" href="#tab-10">Functions</a></li>
                             </ul>
                             <div class="tab-content">
-                                <div class="tab-pane active" role="tabpanel" id="tab-8">
+                                <div class="tab-pane" role="tabpanel" id="tab-8">
                                     <div style="margin-bottom: 15px;width: auto;padding: 27px;">
                                         <div class="d-flex align-items-center" style="margin-bottom: 9px;">
                                             <h5 class="d-xxl-flex align-items-xxl-center" style="margin-bottom: -10px;margin-right: 15px;margin-top: -11px;">Activation Mode:</h5><button class="btn btn-primary" data-bs-toggle="tooltip" data-bss-tooltip="" id="change-activation-mode-btn" type="button" style="margin-right: 21px;min-width: 100px;" title="Change the behavior of launching the pie menu, activating sub menus and launching functions.">Change Activation Mode</button>
@@ -200,7 +200,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="tab-pane" role="tabpanel" id="tab-10">
+                                <div class="tab-pane active" role="tabpanel" id="tab-10">
                                     <div style="width: auto;padding-right: 27px;padding-left: 27px;">
                                         <div class="justify-content-start" id="pie-menu-display-description" style="padding-top: 12px;padding-bottom: 12px;height: 65px;margin-top: 33px;">
                                             <div class="d-flex align-items-center"></div>
@@ -264,7 +264,7 @@
                                             </div>
                                             <div id="function-tabs">
                                                 <ul class="nav nav-tabs" role="tablist" name="hidden-tab-items">
-                                                    <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-13">Send Key</a></li>
+                                                    <li class="nav-item" role="presentation"><a class="nav-link active" role="tab" data-bs-toggle="tab" href="#tab-13">Send Key</a></li>
                                                     <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-14">Mouse Click</a></li>
                                                     <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-15">Run Script</a></li>
                                                     <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-16">Repeat Last</a></li>
@@ -273,17 +273,21 @@
                                                     <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-19">photoshop_cycleTool</a></li>
                                                     <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-20">Parameter List</a></li>
                                                     <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-21">Tab 1</a></li>
-                                                    <li class="nav-item" role="presentation"><a class="nav-link active" role="tab" data-bs-toggle="tab" href="#tab-22">Open Folder</a></li>
+                                                    <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-22">Open Folder</a></li>
                                                     <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-26">Tab</a></li>
                                                 </ul>
                                                 <div class="tab-content">
-                                                    <div class="tab-pane" role="tabpanel" id="tab-13">
+                                                    <div class="tab-pane active" role="tabpanel" id="tab-13">
                                                         <div class="d-flex align-items-center" id="send-keys-div" style="margin-bottom: 12px;">
                                                             <h5 class="d-flex align-items-xxl-center" style="margin-right: 15px;">Keys:</h5><button class="btn btn-primary" type="button" style="margin-right: 14px;" name="send-keystroke-btn-0">Assign Key</button><button class="btn btn-primary" id="send-key-add-keystroke-btn" type="button" style="margin-right: 9px;" name="send-keystroke-btn-add"><i class="icon ion-android-add" style="margin-right: 7px;"></i>Add Keystroke</button>
                                                         </div>
                                                         <div class="d-flex align-items-center" id="time-between-keys-input-div" style="height: 38px;">
                                                             <h5 class="d-flex align-items-xxl-center" style="margin-right: 15px;">Time between keystrokes:</h5><input class="form-range" type="range" style="margin-right: 15px;max-width: 384px;"><input class="bg-dark border rounded-0 border-dark" type="text" style="font-size: 16px;color: var(--bs-white);width: 61px;text-align: center;" placeholder="20" maxlength="2" inputmode="numeric">
                                                             <p style="height: 10px;margin-left: 7px;">ms</p>
+                                                        </div>
+                                                        <div class="d-flex align-items-center" style="height: 38px;">
+                                                            <h5 class="d-flex align-items-xxl-center" style="margin-right: 15px;">Delay key release:</h5>
+                                                            <div class="form-check form-switch" data-bs-toggle="tooltip" data-bss-tooltip="" data-bs-placement="bottom" title="Add key delay time between when the modifier keys are pressed and when the key is pressed."><input class="form-check-input" type="checkbox" id="delay-key-release-checkbox"><label class="form-check-label" for="formCheck-2"></label></div>
                                                         </div>
                                                     </div>
                                                     <div class="tab-pane" role="tabpanel" id="tab-14">
@@ -370,7 +374,7 @@
                                                             <div class="d-flex align-items-center"><button class="btn btn-secondary" type="button" style="margin-right: 9px;"><i class="icon ion-android-add" style="margin-right: 7px;"></i>Add Brush</button><button class="btn btn-secondary" type="button" style="margin-right: 9px;"><i class="icon ion-android-close" style="margin-right: 7px;"></i>Remove Brush</button></div>
                                                         </div>
                                                     </div>
-                                                    <div class="tab-pane active" role="tabpanel" id="tab-22">
+                                                    <div class="tab-pane" role="tabpanel" id="tab-22">
                                                         <div class="d-flex align-items-center">
                                                             <div class="d-flex justify-content-start" style="padding-top: 12px;padding-bottom: 12px;width: 100%;">
                                                                 <div class="d-flex align-items-center">
@@ -473,8 +477,8 @@
                 </div>
                 <div class="d-flex">
                     <div style="padding-left: 50px;width: 50%;">
+                        <h3 style="margin-top: 32px;">Startup</h3>
                         <div class="justify-content-start" style="padding-top: 12px;padding-bottom: 12px;">
-                            <h3 style="margin-bottom: 17px;">Startup</h3>
                             <div class="d-flex align-items-center">
                                 <div class="form-check form-switch" style="margin-left: 3px;" title="Icon will use the selection color when function is focused if icon is greyscale."><input class="form-check-input" type="checkbox" id="run-on-startup-checkbox"><label class="form-check-label" for="formCheck-5">Run AutoHotPie on Startup<br></label></div>
                             </div>
@@ -482,10 +486,12 @@
                         <div class="justify-content-start" style="padding-top: 12px;padding-bottom: 12px;">
                             <div class="form-check form-switch" style="margin-left: 3px;" title="Icon will use the selection color when function is focused if icon is greyscale."><input class="form-check-input" type="checkbox" id="use-ahk-pie-menu-checkbox"><label class="form-check-label" for="formCheck-5">Use open-source AutoHotKey pie menus<br>(requires <a id="ahk-link" style="color: var(--bs-teal);text-decoration:  underline;">AutoHotKey</a>&nbsp;to be installed)<br></label></div>
                         </div>
+                        <h3 style="margin-top: 32px;">Settings File</h3>
+                        <div class="justify-content-start" style="padding-top: 12px;padding-bottom: 12px;"><button class="btn btn-secondary" id="import-settings-file-btn" type="button">Import Settings</button><button class="btn btn-secondary" id="export-settings-file-btn" type="button" style="margin-left: 13px;">Export Settings</button></div>
                     </div>
                     <div style="padding-left: 50px;width: 50%;">
+                        <h3 style="margin-bottom: 17px;margin-top: 32px;">Support</h3>
                         <div class="justify-content-start" style="padding-top: 12px;padding-bottom: 12px;">
-                            <h3 style="margin-bottom: 17px;">Support</h3>
                             <div class="d-flex align-items-center" style="margin-bottom: 15px;"><button class="btn btn-secondary" id="check-for-update-btn" type="button" style="margin-right: 11px;width: 179px;"><i class="icon ion-android-arrow-up" style="margin-right: 12px;margin-bottom: 8px;"></i>Check for Updates</button>
                                 <p id="version-text" style="margin-bottom: 8px;">This version: v1.0.0</p>
                             </div>
@@ -596,6 +602,7 @@
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="assets/js/bs-init.js"></script>
     <script src="./renderer.js"></script>
+    <script src="./ahpClasses.js"></script>
     <script src="./profileManagement.js"></script>
     <script src="./runningPieMenu.js"></script>
     <script src="./createNewProfile.js"></script>

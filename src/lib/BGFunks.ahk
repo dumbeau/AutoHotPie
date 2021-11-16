@@ -115,7 +115,7 @@ loadPieMenus(){
 				{
 				If (profile.pieEnableKey.toggle == true)
 					{
-					Hotkey, % profile.pieEnableKey.enableKey, togglePieLabel				
+					Hotkey, % "*" . profile.pieEnableKey.enableKey, togglePieLabel				
 					}
 				else
 					{
@@ -135,7 +135,7 @@ loadPieMenus(){
 				GroupAdd, regApps, % fullAHKHandle 
 				Hotkey, IfWinActive, % fullAHKHandle
 				for k, pieKey in profile.pieKeys			
-					{
+					{						
 					; msgbox, % pieKey.hotkey
 					if (pieKey.enable == false)
 						continue							
@@ -1130,13 +1130,22 @@ Class pieEnableKey{
 			}
 		Else
 			{
-			global activeProfile := getActiveProfile()
+			global activeProfile := getActiveProfile()			
 			
-			Hotkey, IfWinActive, % activeProfile[1]
-			for menus in settings.appProfiles[activeProfile[2]].pieKeys
-			{				
-				Hotkey, % settings.appProfiles[activeProfile[2]].pieKeys[menus].hotkey, Toggle
+			for ahkHandleIndex, ahkHandle in activeProfile.ahkHandles
+			{
+				Hotkey, IfWinActive, % ahkHandle
+				for pieKeyIndex, pieKey in activeProfile.pieKeys
+				{
+					; msgbox, % pieKey.hotkey
+					Try Hotkey, % pieKey.hotkey, Toggle
+				}
 			}
+			; Hotkey, IfWinActive, % activeProfile.ahkHandles
+			; for pieKeyIndex, pieKey in activeProfile.profile.pieKeys
+			; {				
+			; 	Hotkey, % settings.appProfiles[activeProfile[2]].pieKey.hotkey, Toggle
+			; }
 				
 			return
 			}
@@ -1152,11 +1161,21 @@ Class pieEnableKey{
 		Else
 			{
 			global activeProfile := getActiveProfile()
-			Hotkey, IfWinActive, % activeProfile[1]
-			; msgbox,  % activeProfile[1]
-			for menus in settings.appProfiles[activeProfile[2]].pieKeys
-				Hotkey, % settings.appProfiles[activeProfile[2]].pieKeys[menus].hotkey, On
+			for ahkHandleIndex, ahkHandle in activeProfile.ahkHandles
+			{
+				Hotkey, IfWinActive, % ahkHandle
+				for pieKeyIndex, pieKey in activeProfile.pieKeys
+				{
+					; msgbox, % pieKey.hotkey
+					Try Hotkey, % pieKey.hotkey, On
+				}
+			}
 			return
+			; Hotkey, IfWinActive, % activeProfile[1]
+			; ; msgbox,  % activeProfile[1]
+			; for menus in settings.appProfiles[activeProfile[2]].pieKeys
+			; 	Hotkey, % settings.appProfiles[activeProfile[2]].pieKeys[menus].hotkey, On
+			; return
 			}
 		}
 	modOff(){
@@ -1174,12 +1193,21 @@ Class pieEnableKey{
 			{
 			; global activveProfile := getActiveProfile()
 			Hotkey, IfWinActive, % activeProfile[1]
-			for menus in settings.appProfiles[activeProfile[2]].pieKeys
+			for ahkHandleIndex, ahkHandle in activeProfile.ahkHandles
+			{
+				Hotkey, IfWinActive, % ahkHandle
+				for pieKeyIndex, pieKey in activeProfile.pieKeys
 				{
-				If (settings.appProfiles[activeProfile[2]].pieKeys[menus].hotkey != activePieKey)
-					Hotkey, % settings.appProfiles[activeProfile[2]].pieKeys[menus].hotkey, Off
-				}				
-			return			
+					; msgbox, % pieKey.hotkey
+					Try Hotkey, % pieKey.hotkey, Off
+				}
+			}
+			; for menus in settings.appProfiles[activeProfile[2]].pieKeys
+			; 	{
+			; 	If (settings.appProfiles[activeProfile[2]].pieKeys[menus].hotkey != activePieKey)
+			; 		Hotkey, % settings.appProfiles[activeProfile[2]].pieKeys[menus].hotkey, Off
+			; 	}				
+			; return			
 			}
 		}	
 	}
@@ -1189,7 +1217,6 @@ runPieFunction(functionObj)
 		return
 	static lastPieFunctionRanTickCount := 0
 	static lastPieFunctionRan = ""
-	
 
 	; selectedRegion := settings.appProfiles[functionObj[1]].pieKeys[functionObj[2]].pieMenus[functionObj[3]].functions[functionObj[4]+1]	
 	; if functionObj.returnMousePos = 1
@@ -1237,14 +1264,14 @@ getActiveProfile()
 		}	
 	WinGet, activeWinProc, ProcessName, A
 	WinGetClass, activeWinClass, A
-	for profiles in settings.appProfiles
+	for profileIndex, profile in settings.appProfiles ;Could refactor 
 		{
 		for ahkHandleIndex, ahkHandle in profile.ahkHandles
 			{
 			testAHKHandle := StrSplit(ahkHandle, " ", ,2)[2]
 			if (testAHKHandle == activeWinProc) || (testAHKHandle == activeWinClass)
 				{
-				return [ahkHandle, profiles]
+				return profile ; Could refactor and just pass the profile back as index 2
 				}				
 			}
 			

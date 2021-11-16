@@ -9,13 +9,13 @@ const { isDataView } = require('util/types')
 function createWindow() {
   // Create the browser window.
 
-
+  let windowWidth = (isDev()) ? 1271 : 960
   mainWindow = new BrowserWindow({
     icon: path.join(__dirname, 'src/assets/AutoHotPieIcon.ico'),
     backgroundColor: '#222222',
     minHeight: 670,
     minWidth: 960,
-    width: 960,
+    width: windowWidth,
     height: 1030,
     webPreferences: {
       enableRemoteModule: true,
@@ -66,21 +66,27 @@ function createWindow() {
   ipcMain.on('openFileDialog', (event, options) => {    
     event.returnValue = dialog.showOpenDialogSync(options);
   });
+  ipcMain.on('saveFileDialog', (event, options) => {    
+    event.returnValue = dialog.showSaveDialogSync(mainWindow, options);
+  });
   ipcMain.on('getVersionNumber', (event) => {
     event.returnValue = app.getVersion();
   });
-  ipcMain.on('isDev', (event) =>{    
+  ipcMain.on('isDev', (event) =>{
       event.returnValue = isDev();
+  });
+  ipcMain.on('getDate', (event) => {
+    var dateTime = new Date()
+    fullDate = dateTime.getFullYear() + "-" + dateTime.getUTCMonth() + "-" + dateTime.getDate();
+    event.returnValue = fullDate.slice(2).replaceAll("-","")
   });
 }
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.whenReady().then(() => {
-  
-  createWindow();   
-  
+app.whenReady().then(() => {  
+  createWindow();
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.

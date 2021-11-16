@@ -95,54 +95,67 @@ async function createNewPieMenu(options={}){
                 newCopyMenu = AutoHotPieSettings.appProfiles[0].pieKeys[0]
                 // newCopyMenu.activationMode.submenuMode = null;
             }else{
-                newCopyMenu = createDefaultAHPSettings().appProfiles[0].pieKeys[0]
+                newCopyMenu = new PieKey();
                 // newCopyMenu.activationMode.submenuMode = null;
             }
             return newCopyMenu;
         };
         copyMenu = determineCopyPieMenu();
-        let defaultPieKey
-        defaultPieKey = {	
+        let defaultPieKey = new PieKey({
             name:"Pie Menu " + (profileManagement.selectedProfile.pieKeys.length+1),
-            hotkey: "",
-            enable:true,
-            labelDelay:copyMenu.labelDelay,
-            globalMenu:false,		
-            activationMode:{
-                submenuMode: copyMenu.activationMode.submenuMode,
-                clickableFunctions:true,
-                keyReleaseDelay:true		
-            },						
-            pieMenus:
-                [
-                {
+            labelDelay:copyMenu.labelDelay,  
+            activationMode:{submenuMode: copyMenu.activationMode.submenuMode},            
+            pieMenus:[new PieMenu({
                 backgroundColor: copyMenu.pieMenus[0].backgroundColor,
                 selectionColor: copyMenu.pieMenus[0].selectionColor,
                 radius:copyMenu.pieMenus[0].radius,
                 thickness:copyMenu.pieMenus[0].thickness,
                 labelRadius: copyMenu.pieMenus[0].labelRadius,
                 pieAngle: 0,
-                functions:[]
-                }
-                ]
-            }    
+                functions: PieFunction.fill(7)                
+            })]
+        }) 
+        // defaultPieKey = {	
+        //     name:"Pie Menu " + (profileManagement.selectedProfile.pieKeys.length+1),
+        //     hotkey: "",
+        //     enable:true,
+        //     labelDelay:copyMenu.labelDelay,
+        //     globalMenu:false,		
+        //     activationMode:{
+        //         submenuMode: copyMenu.activationMode.submenuMode,
+        //         clickableFunctions:true,
+        //         keyReleaseDelay:true		
+        //     },						
+        //     pieMenus:
+        //         [
+        //         {
+        //         backgroundColor: copyMenu.pieMenus[0].backgroundColor,
+        //         selectionColor: copyMenu.pieMenus[0].selectionColor,
+        //         radius:copyMenu.pieMenus[0].radius,
+        //         thickness:copyMenu.pieMenus[0].thickness,
+        //         labelRadius: copyMenu.pieMenus[0].labelRadius,
+        //         pieAngle: 0,
+        //         functions:[]
+        //         }
+        //         ]
+        //     }    
     
-        for(let i=0; i<=6; i++){
-            defaultPieKey.pieMenus[0].functions.push(
-                {
-                function:"none",
-                params:{},
-                label:"Slice " + i,
-                hotkey:"",
-                clickable:false,
-                returnMousePos:false,
-                icon:{							
-                    filePath:"",
-                    WBOnly:true
-                    }
-                }
-            )
-        }
+        // for(let i=0; i<=6; i++){
+        //     defaultPieKey.pieMenus[0].functions.push(
+        //         {
+        //         function:"none",
+        //         params:{},
+        //         label:"Slice " + i,
+        //         hotkey:"",
+        //         clickable:false,
+        //         returnMousePos:false,
+        //         icon:{							
+        //             filePath:"",
+        //             WBOnly:true
+        //             }
+        //         }
+        //     )
+        // }
         return defaultPieKey
     };    
     newPieMenu.open();
