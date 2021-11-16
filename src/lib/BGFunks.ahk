@@ -114,14 +114,14 @@ loadPieMenus(){
 			If (profile.pieEnableKey.useEnableKey == true)
 				{
 				If (profile.pieEnableKey.toggle == true)
-					{
-					Hotkey, % "*" . profile.pieEnableKey.enableKey, togglePieLabel				
+					{					
+					Hotkey, % profile.pieEnableKey.enableKey, togglePieLabel				
 					}
 				else
 					{
-					Hotkey, % profile.pieEnableKey.enableKey, onPieLabel
+					Hotkey, % "*" . profile.pieEnableKey.enableKey, onPieLabel
 					upHotkey := profile.pieEnableKey.enableKey " up"
-					Hotkey, % upHotkey, offPieLabel
+					Hotkey, % "*" . upHotkey, offPieLabel
 					}
 				}
         }
@@ -1100,14 +1100,16 @@ drawPieLabel(activePieProfile, sliceFunction, xPos, yPos, selected:=0, anchor:="
 		}
 		if (element.type == "labelText"){
 			; msgbox, % rectCenter[1]	
-			textOptions := % "x" (elementPlacementPos[1]+(element.rect[1]/2)) " y" (rectCenter[2]-(element.rect[2]/2)+textYOffset) " Center vCenter c" SubStr(textColor,3) " r4 s" fontSize
+			; textOptions := % "x" Ceil(elementPlacementPos[1]+(element.rect[1]/2)) " y" Ceil(rectCenter[2]-(element.rect[2]/2)+textYOffset) " Center vCenter c" SubStr(textColor,3) " r4 s" fontSize
+			textOptions := % "x" Ceil(elementPlacementPos[1]) " y" Ceil(rectCenter[2]-(element.rect[2]/2)+textYOffset) " Left vCenter c" SubStr(textColor,3) " r4 s" fontSize
 			; textOptions := % "x" (rectCenter[1]) " y" (rectCenter[2]) " Center vCenter c" SubStr(textColor,3) " r4 s" fontSize
 			;add and draw text
 			Gdip_TextToGraphics(G, labelText, textOptions, labelFont)
 			;set new place pos
 		}
 		if (element.type == "hotkeyText"){
-			sliceHotkeyTextOptions := % "x" (rectCenter[1]+(contentRect[1]/2)-(element.rect[1]/2)) " y" (rectCenter[2]-(element.rect[2]/2)+textYOffset) " Center vCenter c" SubStr(sliceHotkeyTextColor,3) " r4 s" fontSize
+			; sliceHotkeyTextOptions := % "x" Ceil(rectCenter[1]+(contentRect[1]/2)-(element.rect[1]/2)) " y" Ceil(rectCenter[2]-(element.rect[2]/2)+textYOffset) " Center vCenter c" SubStr(sliceHotkeyTextColor,3) " r4 s" fontSize
+			sliceHotkeyTextOptions := % "x" Ceil(rectCenter[1]+(contentRect[1]/2)-(element.rect[1])) " y" Ceil(rectCenter[2]-(element.rect[2]/2)+textYOffset) " Left vCenter c" SubStr(sliceHotkeyTextColor,3) " r4 s" fontSize
 			Gdip_TextToGraphics(G, sliceHotkey, sliceHotkeyTextOptions, labelFont)
 			;add and draw text
 			;set new place pos
@@ -1323,6 +1325,46 @@ blockBareKeys(hotkeyInput, hotkeyArray, blockState=true){
 		}
 	return
 	}
+
+blockBareKeys_2(hotkeyInput, hotkeyArray, blockState=true){
+	; for key in hotkeyArray
+	; 	msgbox, % hotkeyArray[key]	
+	; if (hotkeyInput == "")
+	; 	return
+	if hotkeyArray[1] = ""
+		return
+	bareKey := removeCharacters(hotkeyInput, "+^!#")
+
+
+	If (hasValue(bareKey, hotkeyArray) && hasValue("+" + bareKey, hotkeyArray)){
+		; msgbox, both
+		return
+	}
+	If (bareKey == hotkeyInput)
+		return
+	If (blockState == true) ; fix this
+		{
+		; If !(hasValue(bareKey, hotkeyArray))		
+		Try	Hotkey, % "*" . bareKey, pieLabel
+		; Try Hotkey, % "+" + bareKey, pieLabel							
+		Try	Hotkey, % "*" . bareKey, On
+		; Try Hotkey, % "+" + bareKey, On
+		}
+	Else
+		{		
+		If !(hasValue(bareKey, hotkeyArray)){
+			Try Hotkey, % "*" . bareKey, Off
+			; msgbox, % hasValue(bareKey, hotkeyArray)
+		}
+		If !(hasValue("+" + bareKey, hotkeyArray)){
+			Try Hotkey, % "*" . bareKey, Off
+		}
+		; msgbox, % bareKey
+		}
+	return
+	}
+
+	
 
 class MonitorManager {
   __New() {

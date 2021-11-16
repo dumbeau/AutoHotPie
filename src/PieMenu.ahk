@@ -221,9 +221,11 @@ return
 #If (pieLaunchedState == 1)
 LButton::
 	; penClicked := true 
+	;Check pie launched state again?
 	Return
 LButton up::	
 	; penClicked := false
+	;Check pie launched state again?
 	Return
 ;For mouseClick function
 #If (remapLButton == "Right")
