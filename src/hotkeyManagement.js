@@ -166,7 +166,8 @@ var hotkeyManagement = {
             
             this.shiftBtnCheck.addEventListener("click", function(event){                    
                 hm.hotkeyObj.isShift = ep.shiftBtnCheck.checked;
-                
+                // hm.validateAHKKey(hm.hotkeyObj.ahkKey);                                
+                console.log(hm.hotkeyObj);
             });
             this.ctrlBtnCheck.addEventListener("click", function(event){
                 hm.hotkeyObj.isCtrl = ep.ctrlBtnCheck.checked;                

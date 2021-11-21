@@ -1,3 +1,5 @@
+
+
 var IsDragging = false //Used in editPieMenu for Divs with sliders and number inputs
 var editPieMenu = {
     selectedPieKey: {},
@@ -21,12 +23,15 @@ var editPieMenu = {
         if(!elementExists){
             addInteractionCanvas()
             editPieMenu.pieMenuDisplay.canvasForeground = document.getElementById('pie-menu-foreground')
+
         }
+
+        
         
         function addInteractionCanvas(){
             var canvas = document.createElement("canvas");
             canvas.id = "pie-menu-foreground"
-            canvas.style.cssText = "position:absolute;left:0;top:93";
+            canvas.style.cssText = "position:absolute;left:0;top:93";            
             document.getElementById("pie-menu-display-div").appendChild(canvas);
         };
 
@@ -80,8 +85,9 @@ var editPieMenu = {
                 disp.draw.elements(editPieMenu.pieMenuDisplay.elements);
             }            
         });
-        canvas = document.getElementById('pie-menu-center');
-        fgCanvas = document.getElementById('pie-menu-foreground');
+        canvas = document.getElementById('pie-menu-center');  
+        
+        fgCanvas = document.getElementById('pie-menu-foreground');        
         // bgCanvas = document.getElementById('pie-menu-background');
 
         
@@ -857,10 +863,37 @@ var editPieMenu = {
                 ctx.stroke();
             }            
         },
-        refresh:function(){            
+        refresh:function(){                       
             editPieMenu.pieMenuDisplay.loadPieMenuElements(editPieMenu.selectedPieMenu);
             editPieMenu.appearanceSettings.refreshPieAngle();                      
-            editPieMenu.pieMenuDisplay.draw.elements(editPieMenu.pieMenuDisplay.elements);            
+            editPieMenu.pieMenuDisplay.draw.elements(editPieMenu.pieMenuDisplay.elements); 
+            
+            function setDPI(canvas, dpi) {
+                // Set up CSS size.
+                canvas.style.width = canvas.style.width || canvas.width + 'px';
+                canvas.style.height = canvas.style.height || canvas.height + 'px';
+            
+                // Get size information.
+                var scaleFactor = dpi / 96;
+                var width = parseFloat(canvas.style.width);
+                var height = parseFloat(canvas.style.height);
+            
+                // Backup the canvas contents.
+                var oldScale = canvas.width / width;
+                var backupScale = scaleFactor / oldScale;
+                var backup = canvas.cloneNode(false);
+                backup.getContext('2d').drawImage(canvas, 0, 0);
+            
+                // Resize the canvas.
+                var ctx = canvas.getContext('2d');
+                canvas.width = Math.ceil(width * scaleFactor);
+                canvas.height = Math.ceil(height * scaleFactor);
+            
+                // Redraw the canvas image and scale future draws.
+                ctx.setTransform(backupScale, 0, 0, backupScale, 0, 0);
+                ctx.drawImage(backup, 0, 0);
+                ctx.setTransform(scaleFactor, 0, 0, scaleFactor, 0, 0);
+            }         
         },
         getMouse: function(mouseEvent){
             let canvas = editPieMenu.pieMenuDisplay.canvas
@@ -1556,112 +1589,42 @@ var editPieMenu = {
                     editPieMenu.selectedPieKey.pieMenus[pieNumber] = newPieMenuObj
                     return {pieMenuNumber: pieNumber,isBack: false}
                 }
-
-                function getDefaultParameters(){                   
-                    switch (selectedFunc.optionType){ 
-                        case "Send Key":                            
-                            return {
-                                keys:[],
-                                keyDelay:15,
-                                delayKeyRelease:false
-                            }
-                            break;
-                        case "Mouse Click":
-                            //Set Icon for mouse?
-                            return {
-							button:"right",
-							shift:false,
-							ctrl:false,
-							alt:false,
-							drag:true
-						}
-                            break;
-                        case "Run Script":
-                            return {
-                                filePath:""                                                                
-                            }
-                            break;
-                        case "Open Folder":
-                            return {
-                                filePath:""                                                                
-                            }
-                            break;
-                        case "Repeat Last":
-                            return {
-                                timeout:1
-                            }
-                            break;
-                        case "Sub Menu":
-                            //Determine unusued pie menu number
-                            function determineAvailablePieNumber(){
-                                let occupiedPieNumbers = [0]
-                                for (let pieMenuIndex in editPieMenu.selectedPieKey.pieMenus){
-                                    let pieMenu = editPieMenu.selectedPieKey.pieMenus[pieMenuIndex];                                    
-                                    for (let sliceFuncIndex in pieMenu.functions){
-                                        let sliceFunc = pieMenu.functions[sliceFuncIndex];                                        
-                                        if(sliceFunc.function == "submenu"){                                              
-                                            if(!occupiedPieNumbers.includes(sliceFunc.params.pieMenuNumber)){  
-                                                if (typeof sliceFunc.params.pieMenuNumber == "number"){
-                                                    occupiedPieNumbers.push(sliceFunc.params.pieMenuNumber)                                                    
-                                                }                                               
-                                            }
-                                        }
-                                    }
-                                }
-                                // console.log(occupiedPieNumbers)
-                                let vacantPieNumber = 0
-                                while(occupiedPieNumbers.includes(vacantPieNumber)){
-                                    vacantPieNumber++
-                                }
-                                return vacantPieNumber
-                            };
-                            let pieNumber = determineAvailablePieNumber();
-                            function createDefaultSubMenu(numSlices){
-                                let newPieMenuObj = new PieMenu({
-                                    backgroundColor: editPieMenu.selectedPieMenu.backgroundColor,
-                                    selectionColor: editPieMenu.selectedPieMenu.selectionColor,
-                                    radius:40,
-                                    thickness:editPieMenu.selectedPieMenu.thickness,
-                                    labelRadius: 80,
-                                    pieAngle: 0,
-                                    functions: PieFunction.fill(numSlices+1)
-                                });
-                                // let newPieMenuObj = {
-                                //     backgroundColor: editPieMenu.selectedPieMenu.backgroundColor,
-                                //     selectionColor: editPieMenu.selectedPieMenu.selectionColor,
-                                //     radius:40,
-                                //     thickness:editPieMenu.selectedPieMenu.thickness,
-                                //     labelRadius: 80,
-                                //     pieAngle: 0, //Should be updated later when pie angle is assessed.
-                                //     functions: PieFunction.fill(7)
-                                //     };                                 
-                                
-                                return newPieMenuObj                            
-                            };
-                            editPieMenu.selectedPieKey.pieMenus[pieNumber] = createDefaultSubMenu(6)
-                            return {pieMenuNumber: pieNumber,isBack: false}
-                            break;
-                        case "Parameter List":
-                            return {
-                                parameter:selectedFunc.parameter,
-                                list:[]                               
-                            }                            
-                            break;
-                        case "photoshop_cycleTool":
-                            return {
-                                //This might have to be updated later... fire waiting to happen.
-                                toolOptions:["moveTool","artboardTool","marqueeRectTool","marqueeEllipTool","marqueeSingleRowTool","marqueeSingleColumnTool","lassoTool","polySelTool","magneticLassoTool","quickSelectTool","magicWandTool","cropTool","perspectiveCropTool","sliceTool","sliceSelectTool","framedGroupTool","eyedropperTool","3DMaterialSelectTool","colorSamplerTool","rulerTool","textAnnotTool","countTool","spotHealingBrushTool","magicStampTool","patchSelection","recomposeSelection","redEyeTool","paintbrushTool","pencilTool","colorReplacementBrushTool","wetBrushTool","cloneStampTool","patternStampTool","historyBrushTool","artBrushTool","eraserTool","backgroundEraserTool","magicEraserTool","gradientTool","bucketTool","3DMaterialDropTool","blurTool","sharpenTool","smudgeTool","dodgeTool","burnInTool","saturationTool","penTool","freeformPenTool","curvaturePenTool","addKnotTool","deleteKnotTool","convertKnotTool","typeCreateOrEditTool","typeVerticalCreateOrEditTool","typeVerticalCreateMaskTool","typeCreateMaskTool","pathComponentSelectTool","directSelectTool","rectangleTool","roundedRectangleTool","ellipseTool","polygonTool","lineTool","customShapeTool","handTool","rotateTool","zoomTool"],
-                                tools:[]
-                            }
-                            break;
-                        default:
-                            //includes "No Options"
-                            return {}
-                            break;
-                    }
-                }
                 
                 editPieMenu.sliceSettings.loadSelectedPieKey();
+                runParameterSelection(editPieMenu.selectedSlice.function)
+                function runParameterSelection(pieFunc){
+                    switch (pieFunc){
+                        case "sendKey":
+                            assignKey().then(val => {                            
+                                editPieMenu.selectedSlice.params.keys[0] = val.ahkKey                            
+                                $('[href="#tab-2"]').tab('show');
+                                // editPieMenu.sliceSettings.sliceFunction.sendKey.keysDiv.scrollIntoView({behavior:"smooth"});
+                                window.scrollTo(0,document.body.scrollHeight);
+                                editPieMenu.sliceSettings.loadSelectedPieKey();                            
+                            }, val => {                   
+                                $('[href="#tab-2"]').tab('show');                                
+                            });
+                            return;
+                        case "runScript":
+                            let scriptFilename = electron.openScriptFile()
+                            if(scriptFilename){                    
+                                editPieMenu.selectedSlice.params.filePath = scriptFilename;   
+                                editPieMenu.sliceSettings.sliceFunction.runScript.displayText.innerHTML = scriptFilename;           
+                            }
+                            editPieMenu.sliceSettings.loadSelectedPieKey();
+                            return
+                        case "openFolder":
+                            let folderPath = electron.openFolderDialog()
+                            if(folderPath){                    
+                                editPieMenu.selectedSlice.params.filePath = folderPath;   
+                                editPieMenu.sliceSettings.sliceFunction.openFolder.displayText.innerHTML = folderPath;           
+                            }
+                            editPieMenu.sliceSettings.loadSelectedPieKey();                            
+                            return;
+                        default:
+                            return;
+                    }
+                }
             });
 
             //Send Keystroke
@@ -1796,32 +1759,6 @@ var editPieMenu = {
                 editPieMenu.sliceSettings.loadSelectedPieKey(); 
             });
 
-             //Repeat Last REMOVE
-            //  {             
-            //     let sliderDiv = this.sliceFunction.repeatLast.timeoutSliderDiv;   
-            //     let decimalStep = 1;            
-            //     let sliderRangeInput = sliderDiv.getElementsByClassName('form-range')[0]                
-            //     sliderRangeInput.setAttribute('min',0) //Change
-            //     sliderRangeInput.setAttribute('max',100) //Change
-            //     let sliderTextInput = sliderDiv.getElementsByClassName('bg-dark border rounded-0 border-dark')[0]                             
-            //     sliderRangeInput.addEventListener('change',function(event){
-            //         let newValue = Math.round(event.target.value);                    
-            //         editPieMenu.selectedSlice.params.timeout = newValue/(Math.pow(10,decimalStep)); //Change
-            //         sliderTextInput.value = newValue/(Math.pow(10,decimalStep));                  
-            //     })
-            //     sliderTextInput.setAttribute('oldvalue',0)
-            //     sliderTextInput.addEventListener('change',function(event){                    
-            //         if(!IsNumeric(event.target.value) || sliderRangeInput.min > parseInt(event.target.value) || parseInt(event.target.value) > sliderRangeInput.max){                        
-            //             sliderTextInput.value = sliderTextInput.oldvalue;
-            //             return
-            //         }
-            //         let newValue = event.target.value.toFixed(1);                    
-                    // editPieMenu.selectedSlice.params.timeout = newValue; //Change
-                    // sliderTextInput.oldvalue = newValue;
-                    // sliderRangeInput.value = newValue*(Math.pow(10,decimalStep))           
-            //     });
-            // }
-
             //Submenu
             this.sliceFunction.subMenu.editSubMenuBtn.addEventListener('click', function(){
                 editPieMenu.selectPieMenu(editPieMenu.selectedSlice.params.pieMenuNumber)
@@ -1914,8 +1851,6 @@ var editPieMenu = {
                     let funcList = fc[fcKey];
                     let foundAppSpecificFunctions = false;
                     foundAppSpecificFunctions = profileManagement.selectedProfile.ahkHandles.some(r=> funcList.associatedProfiles.includes(r.replace('.exe','')));     
-                    console.log(foundAppSpecificFunctions)              
-                    
                     if (foundAppSpecificFunctions || funcList.associatedProfiles.includes("general")) {
                         functionSettingsArray = functionSettingsArray.concat(funcList.functions);
                     }
@@ -1936,7 +1871,7 @@ var editPieMenu = {
             let ahkParamObj = {}
             switch (selectedFunc){
                 case "Send Key":
-                    ahkParamObj = editPieMenu.selectedSlice.params
+                    ahkParamObj = editPieMenu.selectedSlice.params;
                     function addKeystrokeButtonGroup(hotkeyObj, index){
                         let btnClone = editPieMenu.sliceSettings.sliceFunction.sendKey.keyButtonGroupTemplate.cloneNode(true);
                         btnClone.children[0].setAttribute('name','send-keystroke-btn-' + index)

@@ -146,7 +146,7 @@ pie_openSettings()
 		return
 	} catch e {
 		msgbox, Cannot find AutoHotPie.exe
-		return
+		return false
 	}
 	
 	}

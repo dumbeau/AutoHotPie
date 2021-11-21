@@ -2,7 +2,9 @@ var newPieMenu = {
     newPieKeyObj: {},
     pieMenuNameField: document.getElementById('new-pie-menu-name-input'),
     pieKeyBtn: document.getElementById('new-pie-key-btn'),
+    pieKeyValidationWarning: $('#pie-key-validation-warning'),
     activationModeBtn: document.getElementById('new-act-mode-btn'),
+    activationModeValidationWarning: $('#activation-mode-validation-warning'),
     selectionColorInput: document.getElementById('new-selection-color-input'),
     backgroundColorInput: document.getElementById('new-background-color-input'),
     cancelBtn: document.getElementById('new-pie-menu-cancel-btn'),
@@ -15,7 +17,8 @@ var newPieMenu = {
         this.pieKeyBtn.addEventListener("click", function(event){
             assignKey({invalidAHKKeys:profileManagement.getInvalidPieKeys()}).then(val => {
                 newPieMenu.newPieKeyObj.hotkey = val.ahkKey
-                newPieMenu.pieKeyBtn.innerHTML = val.displayKey                 
+                newPieMenu.pieKeyBtn.innerHTML = val.displayKey  
+                newPieMenu.validateInput(false)               
                 $('[href="#tab-4"]').tab('show');
             }, val => {                   
                 $('[href="#tab-4"]').tab('show');
@@ -26,6 +29,7 @@ var newPieMenu = {
             changeActivationMode().then(val => {
                 newPieActMode.submenuMode = val
                 newPieMenu.activationModeBtn.innerHTML = newPieMenu.subMenuModeDescriptions[val-1];
+                newPieMenu.validateInput(false)
                 $('[href="#tab-4"]').tab('show');                                
             },val => {
                 $('[href="#tab-4"]').tab('show');
@@ -51,16 +55,29 @@ var newPieMenu = {
         });
         this.createBtn.addEventListener("click", function(event){
             event.preventDefault()            
-            newPieMenu.validateInput();   //Validate actmode and hotkey and resolve         
+            if (newPieMenu.validateInput()){
+                resolveNewPieMenuPromise(newPieMenu.newPieKeyObj);
+            }              
         });        
 
     },
-    validateInput: function(){
+    validateInput: function(showWarnings=true){
         let newPieKeyObj = newPieMenu.newPieKeyObj;
         if(newPieKeyObj.hotkey != "" && newPieKeyObj.activationMode.submenuMode != null){
-            resolveNewPieMenuPromise(newPieKeyObj);            
+            this.pieKeyValidationWarning.hide();
+            this.activationModeValidationWarning.hide();
+            return true
+        } else if(showWarnings) {
+            //Warn user
+            if(newPieKeyObj.hotkey == "") {
+                this.pieKeyValidationWarning.show();
+            }     
+            if (newPieKeyObj.activationMode.submenuMode == null){
+                this.activationModeValidationWarning.show();
+            }
+            return false      
         } 
-        return               
+        return       
     },
     open: function(){     
         this.refresh();   
@@ -68,6 +85,8 @@ var newPieMenu = {
     },
     refresh:function(){
         let np = newPieMenu;
+        this.pieKeyValidationWarning.hide();
+        this.activationModeValidationWarning.hide();        
         if(this.newPieKeyObj.activationMode.submenuMode != null){
             this.activationModeBtn.innerHTML = this.subMenuModeDescriptions[this.newPieKeyObj.activationMode.submenuMode-1]
         } else {

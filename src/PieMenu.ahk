@@ -8,42 +8,31 @@
 #Include %A_ScriptDir%\lib\PieFunctions.ahk
 #Include %A_ScriptDir%\lib\Json.ahk
 
+
+
 ;Set Per monitor DPI awareness: https://www.autohotkey.com/boards/viewtopic.php?p=295182#p295182
 DllCall("SetThreadDpiAwarenessContext", "ptr", -3, "ptr")
 CoordMode, Mouse, Screen
+SetTitleMatchMode, RegEx ;May not need this anymore
 
-;  DllCall("SetThreadDpiAwarenessContext", "ptr", -3, "ptr")
 ;Check AHK version and if AHK is installed.  Prompt install or update.
+
 
 
 
 if (!A_IsCompiled)
 	checkAHK()
 
-
 debugMode := false
 global remapLButton := ""
 
 ;Read Json Settings file to object from AppData\Local\AutoHotPie
-	Try 
-	{
-		settingsFileName := "AHPSettings.json"
-		global UserDataFolder := A_AppData . "\AutoHotPie"
-		settingsFilePath := UserDataFolder . "\" . settingsFileName
-		
-		if ( FileExist(UserDataFolder) ){
-			FileRead, settings, %settingsFilePath%
-			global settings := Json.Load(settings)	
-		}else{			
-			FileCreateDir, %UserDataFolder%
-			pie_openSettings()
-			exitapp
-		}
-	} catch e {
-		msgbox, % "Settings file is invalid JSON.`n`nNo Pie Menus for you :(`n`nFix settings file at:`n" . settingsFilePath
-		pie_openSettings()
-		Exitapp
-	}
+
+;First try reading user AppData Folder
+;Try loading local settings files
+;Try opening AHP Settings
+global UserDataFolder, settings
+loadSettingsFile()
 
 ;Experimental
 ; if FileExist(settings.global.adobeScriptsFolder)
@@ -61,7 +50,6 @@ global remapLButton := ""
 	global Mon := {left: 0,	right: 0, top: 0,bottom: 0, pieDPIScale: 1} 
 	global G ;For Gdip+ stuff
 
-
 	global pieOpenLocX	;X Position of where pie menu is opened
 	global pieOpenLocY	;Y ^
 	global subPieLocX	;X Position of where pie menu is opened
@@ -77,11 +65,20 @@ global remapLButton := ""
 	getMonitorCoords(Mon.left , Mon.right , Mon.top , Mon.bottom )
 	; getMonitorCoords(monLeft, monRight, monTop, monBottom)
 	; SetUpGDIP(monLeft, monTop, monRight-monLeft, monBottom-monTop-0.01) ;windows were appearing over taskbar without -0.01
+
+	;Init G Text
 	SetUpGDIP(0, 0, 50, 50) ;windows were appearing over taskbar without -0.01
 	StartDrawGDIP()
 	Gdip_TextToGraphics(G, "Test", "x20 y20 Center vCenter c00FFFFFF r4 s20", "Arial")
+	Gdip_SetCompositingMode(G, 1) ;idk if this matters but it looked p nice for images even though I'm not using them
 	ClearDrawGDIP()
-	EndDrawGDIP()
+	EndDrawGDIP()	
+	;Init G2 Text
+	; SetUpGDIP2(0, 0, 50, 50) ;windows were appearing over taskbar without -0.01
+	; StartDrawGDIP2()
+	; Gdip_TextToGraphics(G2, "Test", "x20 y20 Center vCenter c00FFFFFF r4 s20", "Arial")
+	; ClearDrawGDIP2()
+	; EndDrawGDIP2()
 
 	;Set up icon menu tray options
 	if (A_IsCompiled){
@@ -90,7 +87,7 @@ global remapLButton := ""
 		Menu, Tray, Add , Restart, Rel
 		Menu, Tray, Add , Exit, QuitPieMenus
 		Menu, Tray, Tip , AutoHotPie		
-	}else{
+	} else {
 		Menu, Tray, Add , AutoHotPie Settings, openSettings
 		Menu, Tray, Add , Restart, Rel		
 	}
@@ -112,19 +109,20 @@ pieLabel: ;Fixed hotkey overlap "r and ^r", refactor this
 	else
 		hotKeyArray := []	
 	pieLaunchedState := 1
-	global activePieKey := A_ThisHotkey
-	; msgbox, % activePieKey
-	
+	global ActivePieHotkey := A_ThisHotkey	
+	; msgbox, % ActivePieHotkey
+	; msgbox, % WinActive("ahk_exe explorer.exe")
 	If (!WinActive("ahk_group regApps"))
-		{
+		{		
 		profileIndex := 1
 		activeProfile := settings.appProfiles[1]
 		Hotkey, IfWinNotActive, ahk_group regApps		
 		}
 	else ;Registered applications
-		{
+		{			
 		;Get application and key
-		WinGet, activeWinProc, ProcessName, A	
+		; WinGet, activeWinProc, ProcessName, A	
+		activeWinProc := getActiveProfileString()
 		;lookup profile and key index
 		for profileIndex, profile in settings.appProfiles
 			{
@@ -132,12 +130,15 @@ pieLabel: ;Fixed hotkey overlap "r and ^r", refactor this
 				continue			
 			; if ahk_group regApps not contains activeWindow
 			for ahkHandleIndex, ahkHandle in profile.ahkHandles
-			{
+			{				
 				testAHKHandle := StrSplit(ahkHandle, " ", ,2)[2] ;Will test multiple program, may be broken
+				; msgbox, % testAHKHandle . " " activeWinProc
 				if (testAHKHandle == activeWinProc) ;Is this the right profile?
-					{
+					{	
+						; msgbox, what					
 						activeProfile := profile						
-						Hotkey, IfWinActive, % "ahk_exe " + activeWinProc
+						; Hotkey, IfWinActive, % "ahk_exe " + activeWinProc
+						Hotkey, IfWinActive, % activeWinProc
 						break 2	
 					}
 				}
@@ -147,9 +148,8 @@ pieLabel: ;Fixed hotkey overlap "r and ^r", refactor this
 	;Push hotkey to hotkeyArray to be blocked when pie menus are running.
 	for k, pieKey in activeProfile.pieKeys
 	{		
-		hotKeyArray.Push(pieKey.hotkey)
-		; msgbox, % pieKey.hotkey
-		; if (pieKey.hotkey == activePieKey)
+		hotKeyArray.Push(pieKey.hotkey)		
+		; if (pieKey.hotkey == ActivePieHotkey)
 		; {
 		; 	for k2, pieMenu in pieKey.pieMenus
 		; 	{
@@ -163,23 +163,24 @@ pieLabel: ;Fixed hotkey overlap "r and ^r", refactor this
 		; 		}				
 		; 	}
 		; }		
-	}	
+	}		
 	; msgbox, % hotkeyArray[1]
 	; msgbox, % hotkeyArray[2]
 	; msgbox, % hotkeyArray[3]
 	; msgbox, % hotkeyArray[4]
 	
 	
-	for k, menus in activeProfile.pieKeys
-		{
-		if (menus.hotkey == activePieKey)
-			{			
-			blockBareKeys(activePieKey, hotKeyArray, true)			
+	for k, menu in activeProfile.pieKeys
+		{		
+		if (menu.hotkey == ActivePieHotkey)
+			{				
+			blockBareKeys(ActivePieHotkey, hotKeyArray, true)			
 			funcAddress := runPieMenu(profileIndex, k)
-			pieLaunchedState := 0				
-			blockBareKeys(activePieKey, hotKeyArray, false)
+			pieLaunchedState := 0
+			
+			blockBareKeys(ActivePieHotkey, hotKeyArray, false)
 				;deactivate dummy keys
-			activePieKey := ""
+			ActivePieHotkey := ""
 			runPieFunction(funcAddress)
 			break
 			}		
@@ -210,14 +211,47 @@ exitapp
 return
 }
 
+
+
+
+
 ;Block LButton when Pie Menu is opened WHY DOESNT HOLDOPENOVERRIDE WORK???
 ;I hate you so much... windows ink.
+
 #IfWinActive, ahk_exe AutoHotPie.exe
 ~LButton up::
 	sleep,200
 	if WinExist("ahk_exe AutoHotPie.exe")
 		exitapp
 	return
+~Enter up::
+	sleep,200
+	if WinExist("AutoHotPie Uninstall")
+		exitapp
+	return
+#IfWinActive, ahk_exe Un_A.exe
+~LButton up::
+	sleep,100
+	if WinExist("AutoHotPie Uninstall")
+		exitapp
+	return
+~Enter up::
+	sleep,100
+	if WinExist("AutoHotPie Uninstall")
+		exitapp
+	return
+#IfWinActive, AutoHotPie Setup
+~LButton up::
+	sleep,100
+	if WinExist("AutoHotPie Setup")
+		exitapp
+	return
+~Enter up::
+	sleep,100
+	if WinExist("AutoHotPie Setup")
+		exitapp
+	return
+
 #If (pieLaunchedState == 1)
 LButton::
 	; penClicked := true 

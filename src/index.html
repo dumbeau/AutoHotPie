@@ -264,20 +264,20 @@
                                             </div>
                                             <div id="function-tabs">
                                                 <ul class="nav nav-tabs" role="tablist" name="hidden-tab-items">
-                                                    <li class="nav-item" role="presentation"><a class="nav-link active" role="tab" data-bs-toggle="tab" href="#tab-13">Send Key</a></li>
+                                                    <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-13">Send Key</a></li>
                                                     <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-14">Mouse Click</a></li>
                                                     <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-15">Run Script</a></li>
                                                     <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-16">Repeat Last</a></li>
                                                     <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-17">Sub Menu</a></li>
                                                     <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-18">No Options</a></li>
-                                                    <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-19">photoshop_cycleTool</a></li>
+                                                    <li class="nav-item" role="presentation"><a class="nav-link active" role="tab" data-bs-toggle="tab" href="#tab-19">photoshop_cycleTool</a></li>
                                                     <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-20">Parameter List</a></li>
                                                     <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-21">Tab 1</a></li>
                                                     <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-22">Open Folder</a></li>
                                                     <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-26">Tab</a></li>
                                                 </ul>
                                                 <div class="tab-content">
-                                                    <div class="tab-pane active" role="tabpanel" id="tab-13">
+                                                    <div class="tab-pane" role="tabpanel" id="tab-13">
                                                         <div class="d-flex align-items-center" id="send-keys-div" style="margin-bottom: 12px;">
                                                             <h5 class="d-flex align-items-xxl-center" style="margin-right: 15px;">Keys:</h5><button class="btn btn-primary" type="button" style="margin-right: 14px;" name="send-keystroke-btn-0">Assign Key</button><button class="btn btn-primary" id="send-key-add-keystroke-btn" type="button" style="margin-right: 9px;" name="send-keystroke-btn-add"><i class="icon ion-android-add" style="margin-right: 7px;"></i>Add Keystroke</button>
                                                         </div>
@@ -337,7 +337,7 @@
                                                     <div class="tab-pane" role="tabpanel" id="tab-18">
                                                         <h5>This function has no options.</h5>
                                                     </div>
-                                                    <div class="tab-pane" role="tabpanel" id="tab-19">
+                                                    <div class="tab-pane active" role="tabpanel" id="tab-19">
                                                         <div class="d-flex justify-content-start align-items-center" style="padding-top: 12px;padding-bottom: 12px;">
                                                             <h5 class="text-nowrap d-xxl-flex align-items-xxl-center" style="margin-right: 14px;">Tool 1:</h5><select class="form-select" style="height: 38px;max-width: 413px;">
                                                                 <option value="12" selected="">Brush Tool</option>
@@ -418,6 +418,11 @@
                             <h5 class="d-xxl-flex align-items-xxl-center" style="margin-bottom: -10px;margin-right: 15px;margin-top: -11px;">Profile Executable:</h5><input class="bg-dark border rounded-0 border-dark form-control" type="text" id="new-profile-exe" style="font-size: 16px;color: var(--bs-white);width: 367px;text-align: left;padding-top: 1px;padding-bottom: 1px;margin-right: 18px;" placeholder="Select a program executable..." readonly="" required="">
                         </div><button class="btn btn-primary" id="select-profile-exe-btn" type="button" style="width: 130.3125px;">Select Path</button>
                     </div>
+                    <div class="d-flex justify-content-center">
+                        <h6 class="text-danger" id="new-profile-exe-path-validiation-warning">* Choose a program for this profile</h6>
+                        <div class="d-flex align-items-center"></div>
+                        <div class="d-flex align-items-center"></div>
+                    </div>
                     <div class="d-flex justify-content-center" style="padding-top: 12px;padding-bottom: 12px;margin-top: 15px;">
                         <div class="d-flex align-items-center"></div>
                         <div class="d-flex align-items-center"></div><button class="btn btn-secondary" id="create-profile-cancel-btn" type="button" style="width: 194px;margin-right: 43px;height: 48px;">Cancel</button><button class="btn btn-primary" id="create-profile-btn" type="submit" style="height: 48px;width: 194px;">Create Profile</button>
@@ -436,17 +441,19 @@
                         <div class="d-flex align-items-center" style="padding-top: 12px;padding-bottom: 12px;margin-bottom: 5px;">
                             <h5 class="d-xxl-flex align-items-xxl-center" style="margin-bottom: -10px;margin-right: 15px;margin-top: -11px;">Pie Menu Name:</h5><input class="bg-dark border rounded-0 border-dark form-control" type="text" id="new-pie-menu-name-input" style="font-size: 16px;color: var(--bs-white);width: 470px;text-align: left;padding-top: 1px;padding-bottom: 1px;" placeholder="Enter name..." required="" maxlength="40">
                         </div>
-                        <div class="d-flex justify-content-start" style="padding-top: 12px;padding-bottom: 12px;">
+                        <div class="d-flex justify-content-start align-items-center" style="padding-top: 12px;padding-bottom: 12px;">
                             <div class="d-flex align-items-center"></div>
                             <div class="d-flex align-items-center">
                                 <h5 class="d-xxl-flex align-items-xxl-center" style="margin-bottom: -10px;margin-right: 15px;margin-top: -11px;">Pie Key:</h5>
                             </div><button class="btn btn-primary" id="new-pie-key-btn" type="button" style="min-width: 190px;">Choose Keystroke...</button>
+                            <h6 class="text-danger" id="pie-key-validation-warning" style="height: 13px;padding-left: 14px;">* Choose a key</h6>
                         </div>
-                        <div class="d-flex justify-content-start" style="padding-top: 12px;padding-bottom: 12px;">
+                        <div class="d-flex justify-content-start align-items-center" style="padding-top: 12px;padding-bottom: 12px;">
                             <div class="d-flex align-items-center"></div>
                             <div class="d-flex align-items-center">
                                 <h5 class="d-xxl-flex align-items-xxl-center" style="margin-bottom: -10px;margin-right: 15px;margin-top: -11px;">Activation Mode:</h5>
                             </div><button class="btn btn-primary" id="new-act-mode-btn" type="button" style="min-width: 190px;">Choose Activation Mode</button>
+                            <h6 class="text-danger" id="activation-mode-validation-warning" style="height: 13px;padding-left: 14px;">* Choose an activation mode</h6>
                         </div>
                         <div class="d-flex justify-content-start" style="padding-top: 12px;padding-bottom: 12px;">
                             <div class="d-flex align-items-center"></div>

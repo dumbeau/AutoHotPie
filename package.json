@@ -1,7 +1,7 @@
 {
   "name": "autohotpie",
   "productName": "AutoHotPie",
-  "version": "1.0.8-alpha",
+  "version": "1.0.10-alpha",
   "description": "Universal Pie Menus for Windows",
   "main": "main.js",
   "scripts": {
@@ -40,7 +40,7 @@
       "menuCategory": true,
       "allowToChangeInstallationDirectory": false,
       "deleteAppDataOnUninstall": true,
-      "installerSidebar": "src/assets/installer-sidebar.bmp"
+      "installerSidebar": "src/assets/installer-sidebar.bmp"      
     }
   },
   "keywords": [],

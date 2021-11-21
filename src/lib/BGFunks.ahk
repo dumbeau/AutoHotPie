@@ -76,6 +76,46 @@ checkAHK()
 	}
 }
 
+loadSettingsFile(){
+	Try{
+		;Try loading from AppData Folder
+		settingsFileName := "AHPSettings.json"
+		UserDataFolder := A_AppData . "\AutoHotPie"
+		settingsFilePath := UserDataFolder . "\" . settingsFileName	
+		if ( FileExist(UserDataFolder) ){
+			FileRead, settings, %settingsFilePath%
+			settings := Json.Load(settings)							
+		} else {
+			;Try loading from local directory
+			UserDataFolder := A_ScriptDir . "\"			
+			loopFileFound := false
+			Loop, Files, %A_ScriptDir%\*.json, F
+			{				
+				settingsFilePath := A_LoopFileFullPath
+				FileRead, settings, %settingsFilePath%
+				settings := Json.Load(settings)	
+				loopFileFound := true
+				break
+			}
+			if (loopFileFound){
+				return
+			} else {
+				AHPSettingsOpened := pie_openSettings()
+				if (AHPSettingsOpened == false){
+					Msgbox, % "No valid settings file found.`n`nPlace a valid settings file here and relaunch to load manually:`n" . UserDataFolder . "`n`nFolder will be opened when this message box is closed."
+					Run, %UserDataFolder%
+					exitapp
+				}
+			}
+			
+		}
+	} catch e {
+		msgbox, % "Settings file is invalid JSON.`n`nNo Pie Menus for you :(`n`nFix settings file at:`n" . settingsFilePath
+		pie_openSettings()
+		Exitapp	
+	}
+}
+
 loadPieMenus(){
 	;Copy global profiles to other profiles
 	for k, pieKey in settings.appProfiles[1].pieKeys
@@ -94,7 +134,8 @@ loadPieMenus(){
 	
 	;Load app settings to hotkeys
     appProfiles := settings.appProfiles    
-    for k, profile in appProfiles {		
+    for k, profile in appProfiles {	
+		profile.pieEnableKey.enableState := false	;add enableState key to every profile.  Only for visual.
 		if (profile.enable == false)
 			continue
 		if (profile.ahkHandles[1] == "ahk_group regApps")
@@ -119,9 +160,9 @@ loadPieMenus(){
 					}
 				else
 					{
-					Hotkey, % "*" . profile.pieEnableKey.enableKey, onPieLabel
+					Hotkey, % profile.pieEnableKey.enableKey, onPieLabel
 					upHotkey := profile.pieEnableKey.enableKey " up"
-					Hotkey, % "*" . upHotkey, offPieLabel
+					Hotkey, % upHotkey, offPieLabel
 					}
 				}
         }
@@ -129,7 +170,8 @@ loadPieMenus(){
 		{
 		for ahkHandleIndex, ahkHandle in profile.ahkHandles
 			{
-				profile.ahkHandles[ahkHandleIndex] := "ahk_exe " . ahkHandle ;Append the ahk_exe tag to all profiles
+				; profile.ahkHandles[ahkHandleIndex] := "ahk_exe " . ahkHandle ;Append the ahk_exe tag to all profiles
+				profile.ahkHandles[ahkHandleIndex] := appendAHKTag(ahkHandle) ;Append the ahk_exe tag to all profiles
 				fullAHKHandle := profile.ahkHandles[ahkHandleIndex]
 				; msgbox, % fullAHKHandle	
 				GroupAdd, regApps, % fullAHKHandle 
@@ -268,8 +310,15 @@ whitenRGB(RGBAarray)
 	return NewRGBA
 	}
 
-getActiveMonitorDPI()
-	{
+getActiveMonitorDPI(position=false){
+	if (position == false){
+		posX := pieOpenLocX	
+		posY := pieOpenLocY	
+	} else {
+		posX := position[1]	
+		posY := position[2]		
+	}
+	
 	if (substr(a_osversion, 1, 2) = "10")
 	{	
 	;detemine what monitor the mouse is in and scale factor
@@ -277,10 +326,10 @@ getActiveMonitorDPI()
 	Mon.pieDPIScale := 1
 	for monIndex in monitorManager.monitors
 		{
-		if (pieOpenLocX >= monitorManager.monitors[monIndex].left and pieOpenLocX <= monitorManager.monitors[monIndex].right)
+		if (posX >= monitorManager.monitors[monIndex].left and posX <= monitorManager.monitors[monIndex].right)
 			{
 			; msgbox, % pieOpenLocX " is apparently between " monitorManager.monitors[monIndex].left " and " monitorManager.monitors[monIndex].right
-			if (pieOpenLocY >= monitorManager.monitors[monIndex].top and pieOpenLocY <= monitorManager.monitors[monIndex].bottom)
+			if (posY >= monitorManager.monitors[monIndex].top and posY <= monitorManager.monitors[monIndex].bottom)
 				{
 				Mon.pieDPIScale := monitorManager.monitors[monIndex].scaleX					
 				break			
@@ -295,6 +344,32 @@ getActiveMonitorDPI()
 	}
 	return Mon.pieDPIScale
 	}
+getActiveMonitorDimensions()
+	{
+	if (substr(a_osversion, 1, 2) = "10")
+	{	
+	;detemine what monitor the mouse is in and scale factor
+	; pieDPIScale := 1
+	
+	MouseGetPos, mouseX, mouseY
+	getActiveMonitorDPI([mouseX, mouseY])
+	bottomRight := [A_ScreenWidth,A_ScreenHeight]
+	for monIndex in monitorManager.monitors
+		{
+		if (mouseX >= monitorManager.monitors[monIndex].left and mouseX <= monitorManager.monitors[monIndex].right)
+			{
+			; msgbox, % pieOpenLocX " is apparently between " monitorManager.monitors[monIndex].left " and " monitorManager.monitors[monIndex].right
+			if (mouseY >= monitorManager.monitors[monIndex].top and mouseY <= monitorManager.monitors[monIndex].bottom)
+				{
+				bottomRight := [monitorManager.monitors[monIndex].right,monitorManager.monitors[monIndex].bottom]				
+				break			
+				}
+			}
+		}
+	}
+	return bottomRight
+	}
+
 
 runPieMenu(profileNum, index, activePieNum=1)
 	{
@@ -309,7 +384,7 @@ runPieMenu(profileNum, index, activePieNum=1)
 	SetUpGDIP(pieOpenLocX-bitmapPadding[1], pieOpenLocY-bitmapPadding[2], 2*bitmapPadding[1], 2*bitmapPadding[2])
 	StartDrawGDIP()
 	
-	activePieKey := settings.appProfiles[profileNum].pieKeys[index]		
+	activePieKey := settings.appProfiles[profileNum].pieKeys[index]
 	pieHotkey := removeCharacters(activePieKey.hotkey, "!^+#")
 	activePieNumber := activePieNum
 	activePie := activePieKey.pieMenus[activePieNumber]	
@@ -877,9 +952,6 @@ drawPie(appProfile, activePieProfile, xPos, yPos, dist, theta, thetaOffset, clic
 		Gdip_DrawArc(G, selectPen, (gmx-((radius)+ (thickness / 2))), (gmy-((radius)+ (thickness / 2))), 2*radius+thickness, 2*radius+thickness, (nTheta)-90, (360/numSlices))	
 		pieRegion := Floor(cycleRange(theta-thetaOffset)/(360/numSlices))+1	
 		; pieRegion := nTheta/(360/numSlices)
-
-		; If (pieRegion == (numSlices + 1))
-		; 	pieRegion := 1
 		}
 	;Draw pie slice indicators
 	
@@ -1054,10 +1126,8 @@ drawPieLabel(activePieProfile, sliceFunction, xPos, yPos, selected:=0, anchor:="
 		sliceHotkeyTextColor := RGBAtoHEX([255, 255, 255, 128])
 		;resting color
 	}
-	
-	
+		
 	outerRectSize := [Max(contentRect[1]+(2*pad[1]), minBoxWidth, contentRect[2]+(2*pad[2])), contentRect[2]+(2*pad[2])]	
-
 	
 	rectCenter := [xPos,yPos]	;if anchor is none of these, leave as center
 	If (anchor == "left"){		
@@ -1117,14 +1187,59 @@ drawPieLabel(activePieProfile, sliceFunction, xPos, yPos, selected:=0, anchor:="
 	}	
 	return
 }
+
+global pGraphics, hbm, hdc, obm, hwnd ;FIX PLS
+notifyPieEnableState(state){	
+    if (state) {
+        sFile := a_scriptdir . "\lib\PieEnableOn.png"
+    } else {
+        sFile := a_scriptdir . "\lib\PieEnableOff.png"
+    }
+	getActiveMonitorDPI() ;Assigns Mon.pieDPIScale
+
+    ; Gui, 1: -Caption +E0x80000 +LastFound +AlwaysOnTop +ToolWindow +OwnDialogs -DPIScale
+    ; Gui, 1: Show, NA        
+    gui +lastfound
+    hwnd := WinExist()
+    pNotificationImage:=Gdip_CreateBitmapFromFile(sFile)	
+	dimensions := getActiveMonitorDimensions()	
+	; msgbox, % Mon.pieDPIScale
+    Width := 32*Mon.pieDPIScale
+    Height := 32*Mon.pieDPIScale
+    screenWidth := dimensions[1]
+    screenHeight := dimensions[2]
+    bottomRightPadding := [50*Mon.pieDPIScale,70*Mon.pieDPIScale]
+    newWidth:=newHeight:=Width
+    hbm := CreateDIBSection(newWidth, newHeight)
+    hdc := CreateCompatibleDC()
+    obm := SelectObject(hdc, hbm)
+    pGraphics := Gdip_GraphicsFromHDC(hdc)
+    Gdip_SetSmoothingMode(pGraphics, 2)
+    Gdip_SetInterpolationMode(pGraphics, 2)
+    Gdip_SetCompositingMode(pGraphics, 1)
+    Gdip_GraphicsClear(pGraphics)
+    UpdateLayeredWindow(hwnd, hdc, (screenWidth-bottomRightPadding[1]), (screenHeight-bottomRightPadding[2]), newWidth, newHeight)
+    Gdip_DrawImage(pGraphics, pNotificationImage, 0, 0, width , height)
+    UpdateLayeredWindow(hwnd, hdc)     
+    SetTimer,hidePieEnbleNotification, -1500	
+    return    
+}
+hidePieEnbleNotification(){    
+    Gdip_GraphicsClear(pGraphics)    
+    UpdateLayeredWindow(hwnd, hdc) 
+    return
+}
+
+toggleEnableState(profile){			
+	notifyPieEnableState(profile.pieEnableKey.enableState)
+	profile.pieEnableKey.enableState := !profile.pieEnableKey.enableState	
+}
 	
-
-
-
 Class pieEnableKey{
 	modToggle(){
 		If (!WinActive("ahk_group regApps"))
-			{
+			{		
+			toggleEnableState(settings.appProfiles[1])							
 			Hotkey, IfWinNotActive, ahk_group regApps
 			for menus in settings.appProfiles[1].pieKeys
 				Hotkey, % settings.appProfiles[1].pieKeys[menus].hotkey, Toggle
@@ -1132,8 +1247,8 @@ Class pieEnableKey{
 			}
 		Else
 			{
-			global activeProfile := getActiveProfile()			
-			
+			global activeProfile := getActiveProfile()
+			toggleEnableState(activeProfile)
 			for ahkHandleIndex, ahkHandle in activeProfile.ahkHandles
 			{
 				Hotkey, IfWinActive, % ahkHandle
@@ -1186,7 +1301,7 @@ Class pieEnableKey{
 			Hotkey, IfWinNotActive, ahk_group regApps
 			for menus in settings.appProfiles[1].pieKeys
 				{
-				If (settings.appProfiles[1].pieKeys[menus].hotkey != activePieKey)
+				If (settings.appProfiles[1].pieKeys[menus].hotkey != ActivePieHotkey)
 					Hotkey, % settings.appProfiles[1].pieKeys[menus].hotkey, Off
 				}				
 			return
@@ -1206,7 +1321,7 @@ Class pieEnableKey{
 			}
 			; for menus in settings.appProfiles[activeProfile[2]].pieKeys
 			; 	{
-			; 	If (settings.appProfiles[activeProfile[2]].pieKeys[menus].hotkey != activePieKey)
+			; 	If (settings.appProfiles[activeProfile[2]].pieKeys[menus].hotkey != ActivePieHotkey)
 			; 		Hotkey, % settings.appProfiles[activeProfile[2]].pieKeys[menus].hotkey, Off
 			; 	}				
 			; return			
@@ -1262,7 +1377,7 @@ getActiveProfile()
 	{
 	If (!WinActive("ahk_group regApps"))
 		{
-		return ["ahk_group regApps", 1]
+		return settings.appProfiles[1]
 		}	
 	WinGet, activeWinProc, ProcessName, A
 	WinGetClass, activeWinClass, A
@@ -1273,7 +1388,30 @@ getActiveProfile()
 			testAHKHandle := StrSplit(ahkHandle, " ", ,2)[2]
 			if (testAHKHandle == activeWinProc) || (testAHKHandle == activeWinClass)
 				{
+				; msgbox, profile.name
 				return profile ; Could refactor and just pass the profile back as index 2
+				}				
+			}
+			
+		}	
+	}
+getActiveProfileString()
+	{
+	If (!WinActive("ahk_group regApps"))
+		{
+		return "ahk_group regApps"
+		}	
+	WinGet, activeWinProc, ProcessName, A
+	WinGetClass, activeWinClass, A
+	for profileIndex, profile in settings.appProfiles ;Could refactor 
+		{
+		for ahkHandleIndex, ahkHandle in profile.ahkHandles
+			{
+			testAHKHandle := StrSplit(ahkHandle, " ", ,2)[2]
+			if (testAHKHandle == activeWinProc) || (testAHKHandle == activeWinClass)
+				{
+				; msgbox, profile.name
+				return testAHKHandle ; Could refactor and just pass the profile back as index 2
 				}				
 			}
 			
@@ -1293,6 +1431,9 @@ blockBareKeys(hotkeyInput, hotkeyArray, blockState=true){
 	; 	msgbox, % hotkeyArray[key]	
 	; if (hotkeyInput == "")
 	; 	return
+	; msgbox, % "input: " . hotkeyInput
+	; msgbox, % hotkeyArray[1]
+	; msgbox, % hotkeyArray[2]	
 	if hotkeyArray[1] = ""
 		return
 	bareKey := removeCharacters(hotkeyInput, "+^!#")
@@ -1302,29 +1443,37 @@ blockBareKeys(hotkeyInput, hotkeyArray, blockState=true){
 		; msgbox, both
 		return
 	}
-	If (bareKey == hotkeyInput)
+	If (bareKey == hotkeyInput){		
 		return
+	}
+		
 	If (blockState == true) ; fix this
 		{
 		; If !(hasValue(bareKey, hotkeyArray))		
 		Try	Hotkey, % bareKey, pieLabel
-		Try Hotkey, % "+" + bareKey, pieLabel							
+		Try Hotkey, % "+" . bareKey, pieLabel							
 		Try	Hotkey, % bareKey, On
-		Try Hotkey, % "+" + bareKey, On
+		Try Hotkey, % "+" . bareKey, On
 		}
 	Else
 		{		
 		If !(hasValue(bareKey, hotkeyArray)){
-			Try Hotkey, % bareKey, Off
-			; msgbox, % hasValue(bareKey, hotkeyArray)
+			Try Hotkey, % bareKey, Off			
 		}
-		If !(hasValue("+" + bareKey, hotkeyArray)){
-			Try Hotkey, % "+" + bareKey, Off
-		}
-		; msgbox, % bareKey
+		If !(hasValue("+" . bareKey, hotkeyArray)){
+			Try Hotkey, % "+" . bareKey, Off
+		}		
 		}
 	return
 	}
+appendAHKTag(processString){
+	; msgbox, % processString
+	if (processString == "explorer.exe"){
+		return "ahk_class CabinetWClass"
+	} else {
+		return "ahk_exe " . processString
+	}
+}
 
 blockBareKeys_2(hotkeyInput, hotkeyArray, blockState=true){
 	; for key in hotkeyArray
