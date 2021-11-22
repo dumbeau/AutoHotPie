@@ -32,26 +32,28 @@ function copyDirectory(source, destination) {
   });
 }
 
-fs.mkdirSync(path.resolve(UserDataFolder,'icons'), { recursive: true });
-copyDirectory(path.resolve(UserDataFolder,'icons'), path.resolve(PieMenuFolder, 'icons'));
+// fs.mkdirSync(path.resolve(UserDataFolder,'icons'), { recursive: true });
+// copyDirectory(path.resolve(UserDataFolder,'icons'), path.resolve(PieMenuFolder, 'icons'));
 
 function loadJSONFile(JSONFile){
   let settingsFile = path.join(UserDataFolder,JSONFile);
   let settingsObj = JSON.parse(fs.readFileSync(path.resolve(settingsFile)))     
   return settingsObj
 }
+function saveJSONFile(JSONFilePath, JSONData){
+  let settingsFile
+  if (JSONFilePath.indexOf('\\') > -1){
+    settingsFile = JSONFilePath  
+  } else {
+    settingsFile = path.join(UserDataFolder, JSONFilePath)
+  }  
+    fs.writeFileSync(path.resolve(settingsFile),JSON.stringify(JSONData,null, "\t"), function(err){
+      if (err) {
+        console.log("Failed to save file.\n" + err)
+      }
+    })
+}
 
-
-// function copyDirectory(source, destination) {
-//   fs.mkdirSync(destination, { recursive: true });
-  
-//   fs.readdirSync(source, { withFileTypes: true }).forEach((entry) => {
-//     let sourcePath = path.join(source, entry.name);
-//     let destinationPath = path.join(destination, entry.name);
-
-//     entry.isDirectory() ? copyDirectory(sourcePath, destinationPath) : fs.copyFileSync(sourcePath, destinationPath);
-//   });
-// }
 // UserIconsFolder = path.resolve(UserDataFolder,'icons')
 // fs.mkdir(path.resolve(UserDataFolder,'icons'))
 // copyDirectory(UserIconsFolder, path.resolve(PieMenuFolder,'icons','User Icons'))
@@ -68,15 +70,10 @@ contextBridge.exposeInMainWorld('JSONFile', {
     return loadJSONFile(JSONFile)
   },
   save: function(JSONFile, JSONData){    
-    let settingsFile = path.join(UserDataFolder,JSONFile)    
-    fs.writeFileSync(path.resolve(settingsFile),JSON.stringify(JSONData,null, "\t"), function(err){
-      if (err) {
-        console.log("Failed to save file.\n" + err)
-      }
-    })
+    saveJSONFile(JSONFile, JSONData);
   },
   import: function(destJSONFileName){
-    let localFilepath = path.resolve(UserDataFolder)
+    let localFilepath = path.resolve(getUserPath('desktop'),folderName);
     let options = {      
       title : "Select AutoHotPie settings file...",
       defaultPath: localFilepath,      
@@ -104,8 +101,7 @@ contextBridge.exposeInMainWorld('JSONFile', {
   }    
   },
   export: function(defaultFileName,settingsObj){
-    defaultFileName = defaultFileName;
-    let localFilepath = path.resolve(UserDataFolder,defaultFileName);
+    let localFilepath = path.resolve(getUserPath('desktop'),defaultFileName);
     let options = {
       title : "Export AutoHotPie settings",
       defaultPath: localFilepath,      
@@ -238,11 +234,17 @@ contextBridge.exposeInMainWorld('closeWindow', function(func){
   ipcRenderer.send('confirmClose')
 })
 
+function getUserPath(pathString){
+  return ipcRenderer.sendSync('getPath', pathString);  
+}
+// contextBridge.exposeInMainWorld('getPath', function(pathString){
+//   return getUserPath(pathString);
+// })
 
 contextBridge.exposeInMainWorld('createWindowSizeListener', function(func){
   ipcRenderer.on('windowResized', function(event, arg){
-    func() 
-  })    
+    func()
+  })
 })
 
 contextBridge.exposeInMainWorld('electron', {
@@ -252,20 +254,46 @@ contextBridge.exposeInMainWorld('electron', {
   getVersion: function(){
     return ipcRenderer.sendSync('getVersionNumber');
   },
-  loadIconImagesToBuffer: function(){    
+  loadIconImagesToBuffer: function(){ 
+    
+    function walk(dir) {
+      return new Promise((resolve, reject) => {
+        fs.readdir(dir, (error, files) => {
+          if (error) {
+            return reject(error);
+          }
+          Promise.all(files.map((file) => {
+            return new Promise((resolve, reject) => {
+              const filepath = path.join(dir, file);
+              fs.stat(filepath, (error, stats) => {
+                if (error) {
+                  return reject(error);
+                }
+                if (stats.isDirectory()) {
+                  walk(filepath).then(resolve);
+                } else if (stats.isFile()) {
+                  resolve(filepath);
+                }
+              });
+            });
+          }))
+          .then((foldersContents) => {
+            resolve(foldersContents.reduce((all, folderContents) => all.concat(folderContents), []));
+          });
+        });
+      });
+    }
+    
     let imageBufferDiv = document.getElementById('image-buffer')
     let iconFolder = path.join(PieMenuFolder, 'icons')
     imageBufferDiv.innerHTML = '';
-    fs.readdir(iconFolder, function(err, files){
-      if (err) {      
-        return console.error(err)      
-      }
-      files.forEach(function(file, index){      
+    walk(iconFolder).then((files) => {
+      files.forEach(function(file, index){
         let img = document.createElement('img');
-        img.src = path.join(iconFolder, file)      
+        img.src = file     
         imageBufferDiv.appendChild(img);     
-      })
-    })
+      })      
+    },(err) => {return console.error(err)})
   },
   openEXE: function(){
   // WIN = new BrowserWindow({width: 800, height: 600})
@@ -370,6 +398,55 @@ contextBridge.exposeInMainWorld('electron', {
     return scriptFile
   }
   
+  },
+  createPortablePackage: function(settingsData){
+    let folderName = 'AutoHotPie-Standalone'
+    let folderPath = ''
+    let localFilepath = path.resolve(getUserPath('desktop'),folderName);
+    let options = {
+      // See place holder 1 in above image
+      title : "Create AutoHotPie portable folder",
+      defaultPath: localFilepath,
+      
+      // See place holder 3 in above image
+      buttonLabel : "Select destination folder",
+      
+      // See place holder 4 in above image
+      // filters :[
+      //   {name: 'Image', extensions: ['png','PNG']}        
+      // ],
+      properties: ['openDirectory']
+      }    
+  let filePath = ipcRenderer.sendSync('openFileDialog', options)
+  console.log(filePath)
+  if(filePath == null){
+    return false
+  }else{
+    try{
+      folderPath = path.join(filePath[0],folderName)
+      fs.mkdir(path.resolve(folderPath), {recursive:true},(err)=>{if(err){throw err;}})
+      fs.copyFileSync(path.resolve(PieMenuFolder,"PieMenu.ahk"),path.resolve(folderPath,"PieMenu.ahk"))
+      fs.copyFileSync(path.resolve(PieMenuFolder,"PieMenu.exe"),path.resolve(folderPath,"PieMenu.exe"))    
+      fs.mkdir(path.resolve(folderPath,'lib'), {recursive:true}, (err)=>{if(err){throw err;}})
+      copyDirectory(path.resolve(PieMenuFolder,"lib"),path.resolve(folderPath,'lib'))
+      fs.mkdir(path.resolve(folderPath,'icons'), {recursive:true}, (err)=>{if(err){throw err;}})
+      copyDirectory(path.resolve(PieMenuFolder,"icons"),path.resolve(folderPath,'icons'))
+      fs.mkdir(path.resolve(folderPath,'Local Scripts'), {recursive:true}, (err)=>{if(err){throw err;}})
+      copyDirectory(path.resolve(PieMenuFolder,"Local Scripts"),path.resolve(folderPath,'Local Scripts')) 
+      saveJSONFile(path.resolve(folderPath, "AHPSettings.json"), settingsData);
+      shell.openPath(folderPath);
+    } catch (e){
+      alert("Could not create the package at this destination:\n" . folderPath)
+      return false
+    }
+    return true
+  }
   }
 });
+
+contextBridge.exposeInMainWorld('menuListener', function(func){
+  ipcRenderer.on('menuSelected', function(event, arg){    
+    func(event, arg);
+  })
+})
 

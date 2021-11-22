@@ -1,5 +1,5 @@
 // Modules to control application life and create native browser window
-const {app, ipcMain, dialog, contextBridge, BrowserWindow} = require('electron')
+const {app, ipcMain, dialog, contextBridge, BrowserWindow, Menu, MenuItem, shell} = require('electron')
 const path = require('path')
 const fs = require('fs')
 const { isDataView } = require('util/types')
@@ -32,7 +32,8 @@ function createWindow() {
     mainWindow.webContents.openDevTools()
   }  
   
-  mainWindow.removeMenu()
+  
+  // mainWindow.removeMenu()
   var timeOutVar
   mainWindow.on('resize',function(e){
     clearTimeout(timeOutVar);
@@ -43,7 +44,7 @@ function createWindow() {
   });
   mainWindow.on('close', async e => {
     e.preventDefault()
-    mainWindow.webContents.send('attemptClose') //WORKING ON THIS PART RIGHT HERE!!! 
+    mainWindow.webContents.send('attemptClose')
   })
   ipcMain.on('confirmClose',function(event){    
     mainWindow.destroy();
@@ -80,6 +81,9 @@ function createWindow() {
     fullDate = dateTime.getFullYear() + "-" + dateTime.getUTCMonth() + "-" + dateTime.getDate();
     event.returnValue = fullDate.slice(2).replaceAll("-","")
   });
+  ipcMain.on('getPath',function(event, pathString){
+    event.returnValue = app.getPath(pathString);
+  });
 }
 
 // This method will be called when Electron has finished
@@ -114,3 +118,70 @@ function isDev(){
     }
   return returnValue
 }
+
+const template = [
+  {
+     label: 'File',
+     submenu: [
+        {
+          label: 'Import Settings',          
+          click: (event) => {  
+            // ipcMain.send('menuSelected', event)
+            mainWindow.webContents.send('menuSelected', 'importSettings')            
+          }    
+        },
+        {
+          label: 'Export Settings',          
+          click: () => {
+            mainWindow.webContents.send('menuSelected', 'exportSettings')            
+          }          
+        },        
+        {
+          label: 'Create portable package',          
+          click: () => {
+            mainWindow.webContents.send('menuSelected', 'createPortablePackage')
+          }            
+        },
+        {
+          type: 'separator'
+        },
+        { 
+          label: 'Save and Run',          
+          click: () => {
+            mainWindow.webContents.send('menuSelected', 'saveAndRun')
+          }
+        },
+        { 
+          label: 'Close',          
+          click: () => {
+            mainWindow.webContents.send('menuSelected', 'close')
+          }
+        }
+     ]
+  },  
+  {
+     role: 'help',
+     submenu: [
+        {
+           label: 'Check for Updates',
+           click: () => {
+            shell.openExternal('https://github.com/dumbeau/AutoHotPie/releases')             
+           }
+        },
+        {
+          label: 'View on Github',
+          click: () => {
+            shell.openExternal('https://github.com/dumbeau/AutoHotPie')             
+          }
+        },
+        {
+          label: 'Donate',
+          click: () => {
+            shell.openExternal('https://www.paypal.com/donate?business=RBTDTCUBK4Z8S&no_recurring=1&item_name=Support+Pie+Menus+Development&currency_code=USD')             
+          }
+        }
+     ]
+  }
+]
+const menu = Menu.buildFromTemplate(template)
+Menu.setApplicationMenu(menu)

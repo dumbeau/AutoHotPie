@@ -16,7 +16,7 @@ var handleAppClose = {
                     profileManagement.open();
                 }else{
                     closeWindow();
-                }                
+                }
             });                  
         })
     }
@@ -413,19 +413,7 @@ var globalSettings = {
         this.useAHKPieMenuCheckbox.addEventListener('click', function(event){
             AutoHotPieSettings.global.startup.runAHKPieMenus = event.target.checked
             setRunOnLogin(AutoHotPieSettings.global.startup.runOnStartup, AutoHotPieSettings.global.startup.runAHKPieMenus);
-        });
-        this.importSettingsBtn.on('click',function(){             
-            let importStatus = JSONFile.import(SettingsFileName);            
-            if (importStatus){
-                //Need to set function to 
-                LoadSettingsJsonFile(SettingsFileName);
-                profileManagement.selectProfile(0);
-                globalSettings.refresh();
-            }
-        });        
-        this.exportSettingsBtn.on('click',function(){
-            JSONFile.export(SettingsFileName.replace('.json', "-" + getDate() + '.json'), AutoHotPieSettings)
-        });        
+        });      
         this.updateBtn.addEventListener('click', function(){
             // updateApp();   
             openURL("https://github.com/dumbeau/AutoHotPie/releases");  
@@ -446,8 +434,6 @@ var globalSettings = {
     backBtn: document.getElementById('global-settings-back-btn'),    
     runOnStartupCheckbox: document.getElementById('run-on-startup-checkbox'),    
     useAHKPieMenuCheckbox: document.getElementById('use-ahk-pie-menu-checkbox'),
-    importSettingsBtn:$('#import-settings-file-btn'),
-    exportSettingsBtn:$('#export-settings-file-btn'),
     updateBtn: document.getElementById('check-for-update-btn'),    
     versionText: document.getElementById('version-text'),    
     githubBtn: document.getElementById('github-btn'),

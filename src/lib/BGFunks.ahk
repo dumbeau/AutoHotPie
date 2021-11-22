@@ -78,37 +78,41 @@ checkAHK()
 
 loadSettingsFile(){
 	Try{
-		;Try loading from AppData Folder
-		settingsFileName := "AHPSettings.json"
-		UserDataFolder := A_AppData . "\AutoHotPie"
-		settingsFilePath := UserDataFolder . "\" . settingsFileName	
-		if ( FileExist(UserDataFolder) ){
-			FileRead, settings, %settingsFilePath%
-			settings := Json.Load(settings)							
-		} else {
-			;Try loading from local directory
+		;Try loading from local directory
 			UserDataFolder := A_ScriptDir . "\"			
 			loopFileFound := false
 			Loop, Files, %A_ScriptDir%\*.json, F
 			{				
 				settingsFilePath := A_LoopFileFullPath
 				FileRead, settings, %settingsFilePath%
-				settings := Json.Load(settings)	
+				settings := Json.Load(settings)
+				If (ErrorLevel)					
+					break
 				loopFileFound := true
 				break
 			}
 			if (loopFileFound){
 				return
 			} else {
-				AHPSettingsOpened := pie_openSettings()
-				if (AHPSettingsOpened == false){
-					Msgbox, % "No valid settings file found.`n`nPlace a valid settings file here and relaunch to load manually:`n" . UserDataFolder . "`n`nFolder will be opened when this message box is closed."
-					Run, %UserDataFolder%
-					exitapp
-				}
+				;Try opening from User AppData folder
+				settingsFileName := "AHPSettings.json"
+				UserDataFolder := A_AppData . "\AutoHotPie"
+				settingsFilePath := UserDataFolder . "\" . settingsFileName	
+				if ( FileExist(UserDataFolder) ){
+					FileRead, settings, %settingsFilePath%
+					settings := Json.Load(settings)							
+				} else {
+					;Try to open AHP Settings
+					AHPSettingsOpened := pie_openSettings()
+					if (AHPSettingsOpened == false){
+						Msgbox, % "No valid settings file found.`n`nPlace a valid settings file here and relaunch to load manually:`n" . UserDataFolder . "`n`nFolder will be opened when this message box is closed."
+						Run, %UserDataFolder%
+						exitapp
+					}
+				}				
 			}
-			
-		}
+		;Try loading from AppData Folder
+		
 	} catch e {
 		msgbox, % "Settings file is invalid JSON.`n`nNo Pie Menus for you :(`n`nFix settings file at:`n" . settingsFilePath
 		pie_openSettings()
