@@ -92,6 +92,7 @@ loadSettingsFile(){
 				break
 			}
 			if (loopFileFound){
+				IsStandalone := true
 				return
 			} else {
 				;Try opening from User AppData folder
@@ -1126,8 +1127,8 @@ drawPieLabel(activePieProfile, sliceFunction, xPos, yPos, selected:=0, anchor:="
 	}else{
 		strokeColor := RGBAtoHEX(safetyGreyColor)
 		labelBGColor := RGBAtoHEX(activePieProfile.backgroundColor)
-		textColor := RGBAtoHEX([255, 255, 255, 255])
-		sliceHotkeyTextColor := RGBAtoHEX([255, 255, 255, 128])
+		textColor := RGBAtoHEX(activePieProfile.fontColor)
+		sliceHotkeyTextColor := RGBAtoHEX([activePieProfile.fontColor[1],activePieProfile.fontColor[2],activePieProfile.fontColor[3],128])
 		;resting color
 	}
 		

@@ -12,7 +12,8 @@ var editPieMenu = {
         this.loadSelectedPieKey();  
         this.pieMenuDisplay.loadPieMenuElements(this.selectedPieMenu);
         this.pieMenuDisplay.draw.elements(editPieMenu.pieMenuDisplay.elements)
-        $('[href="#tab-2"]').tab('show');               
+        $('[href="#tab-2"]').tab('show');
+        this.launchSettings.open();              
         return
     },
     initialize: function(){
@@ -44,26 +45,12 @@ var editPieMenu = {
                 editPieMenu.selectPieMenu(parentMenuIndex);
                 // selectParentMenuSlice(parentMenu, editPieMenu.selectedPieKey.pieMenus.indexOf(editPieMenu.selectedPieMenu))              
                 
-                
-                // function selectParentMenuSlice(parentMenu, pieMenuNumber){
-                //     for (k in parentMenu.functions){
-                //         let func = parentMenu.functions[k];
-                //         if (func.function == "submenu"){
-                //             if(func.params.pieMenuNumber == pieMenuNumber){
-                //                 console.log("Worked")
-                //                 editPieMenu.selectPieMenu(parentMenuIndex);
-                //                 editPieMenu.slice.select(3);
-                //                 return
-                //             }                                
-                //         }
-                //     }
-                // };
                 $('[href="#tab-10"]').tab('show');
             }
         });
 
         let pieKeyBtn = document.getElementById('piekey-change-btn');
-        pieKeyBtn.addEventListener('click',function(){
+        pieKeyBtn.addEventListener('click',function(){r
             assignKey({invalidAHKKeys:editPieMenu.getInvalidPieKeys()}).then(val => {
                 editPieMenu.selectedPieKey.hotkey = val.ahkKey 
                 pieKeyBtn.innerHTML = val.displayKey                 
@@ -109,6 +96,7 @@ var editPieMenu = {
         });
 
         //Initialize all other control pages.
+        this.globalAppearanceSettings.initialize();
         this.launchSettings.initialize();
         this.appearanceSettings.initialize();
         this.sliceSettings.initialize();
@@ -587,7 +575,7 @@ var editPieMenu = {
                         if(isSelected){
                             ctx.fillStyle = rgbToHex(selectedPieMenu.backgroundColor);                   
                         }else{
-                            ctx.fillStyle = rgbToHex(AutoHotPieSettings.global.globalAppearance.fontColors.white);
+                            ctx.fillStyle = rgbToHex(selectedPieMenu.fontColor);
                             // ctx.fillStyle = "rgba(255,255,255,0.5)";
                         }
                         ctx.textAlign = "center";
@@ -600,8 +588,9 @@ var editPieMenu = {
                             ctx.fillStyle = rgbToHex(selectedPieMenu.backgroundColor); 
                             // ctx.fillStyle = "rgba(255,255,255,0.5)";                  
                         }else{
-                            // ctx.fillStyle = rgbToHex(AutoHotPieSettings.global.globalAppearance.fontColors.white);
-                            ctx.fillStyle = "rgba(255,255,255,0.5)";
+                            let x = selectedPieMenu.fontColor;
+                            let newHCColor = 'rgba(' + x[0] +','+ x[1] +','+ x[2] +',0.5)'
+                            ctx.fillStyle = newHCColor;
                         }
                         ctx.textAlign = "center";
                         let textPos = [labelCenter[0]+(contentBox[0]/2)-(labelElement.rect[0]/2), labelCenter[1]+(labelElement.rect[1]/2)]
@@ -939,10 +928,38 @@ var editPieMenu = {
         }
         
     },
+    globalAppearanceSettings:{  
+        tab:$('#global-appearance-tab'),      
+        fontSelect:$('#global-font-select'),        
+        fontSizeSlider:$('#global-font-size-slider-div'),
+        initialize:function(){
+            font.get().then( (fonts) => {                    
+                editPieMenu.globalAppearanceSettings.fontSelect.empty();
+                for (fontIndex in fonts){
+                    let font = fonts[fontIndex];
+                    editPieMenu.globalAppearanceSettings.fontSelect.append(`<option value="${font}">${font}</option>`)
+                }
+                editPieMenu.globalAppearanceSettings.fontSelect.val(AutoHotPieSettings.global.globalAppearance.font)                    
+            })
+            setSliderDivValue(editPieMenu.globalAppearanceSettings.fontSizeSlider,AutoHotPieSettings.global.globalAppearance.fontSize,6,20)
+
+            this.fontSelect.on('change', (event) => {
+                AutoHotPieSettings.global.globalAppearance.font = event.target.value;
+            });
+
+            this.fontSizeSlider.on('mousedown mousemove change', (event) => {                         
+                let newValue = handleSliderDiv(event);
+                (typeof(newValue) === 'number') && (AutoHotPieSettings.global.globalAppearance.fontSize = newValue)
+                editPieMenu.pieMenuDisplay.refresh();
+            });           
+        },
+        loadSelectedPieKey:function(){},
+    },
     launchSettings:{
         activationModeBtn: document.getElementById('change-activation-mode-btn'),
         clickableFunctionsCheckbox: document.getElementById('clickable-functions-checkbox'),
-        initialize:function(){              
+        initialize:function(){  
+
             this.activationModeBtn.addEventListener('click',function(){                
                 changeActivationMode().then(val => {                    
                     let activationModeBtn = editPieMenu.launchSettings.activationModeBtn;
@@ -963,54 +980,31 @@ var editPieMenu = {
             let actMode = editPieMenu.selectedPieKey.activationMode;
             this.activationModeBtn.innerHTML = subMenuModeDescriptions[actMode.submenuMode-1];
             this.clickableFunctionsCheckbox.checked = actMode.clickableFunctions;            
+        },
+        open: function(){
+            $('[href="#tab-8"]').tab('show');
         }
     },
     appearanceSettings:{
         initialize:function(){
-            // let selectedPieMenu = editPieMenu.selectedPieMenu;  
-            {
-                let colorControlElement = this.mainMenu.selectionColorInput;
-                colorControlElement.addEventListener('change',function(){
-                    editPieMenu.selectedPieMenu.selectionColor = hexToRgb(colorControlElement.value);                    
-                    editPieMenu.pieMenuDisplay.refresh();
-                })  
-            }
-            {
-                let colorControlElement = this.mainMenu.backgroundColorInput;                
-                colorControlElement.addEventListener('change',function(){
-                    editPieMenu.selectedPieMenu.backgroundColor = hexToRgb(colorControlElement.value);                    
-                    editPieMenu.pieMenuDisplay.refresh();
-                })  
-            }
-            //Radius Slider
-            // {
-                // let sliderDiv = this.mainMenu.radiusSlider; //Change
-            //     let sliderRangeInput = sliderDiv.getElementsByClassName('form-range')[0]                
-            //     sliderRangeInput.setAttribute('min',0) //Change
-            //     sliderRangeInput.setAttribute('max',100) //Change
-            //     let sliderTextInput = sliderDiv.getElementsByClassName('bg-dark border rounded-0 border-dark')[0]                             
-            //     sliderRangeInput.addEventListener('change',function(event){
-            //         let newValue = Math.round(event.target.value);                    
-            //         editPieMenu.selectedPieMenu.radius = newValue; //Change                    
-            //         sliderTextInput.value = newValue;
-            //         // editPieMenu.appearanceSettings.mainMenu.thicknessSlider.getElementsByClassName('form-range')[0].max = newValue;                    
-            //         editPieMenu.pieMenuDisplay.refresh();
-            //     })
-            //     sliderTextInput.setAttribute('oldvalue',0)
-            //     sliderTextInput.addEventListener('change',function(event){                    
-            //         if(!IsNumeric(event.target.value) || sliderRangeInput.min > parseInt(event.target.value) || parseInt(event.target.value) > sliderRangeInput.max){                        
-            //             sliderTextInput.value = sliderTextInput.oldvalue;
-            //             return
-            //         }
-            //         let newValue = Math.round(event.target.value);                    
-            //         editPieMenu.selectedPieMenu.radius = newValue; //Change
-            //         sliderTextInput.oldvalue = newValue;
-            //         sliderRangeInput.value = newValue;
-            //         // editPieMenu.appearanceSettings.mainMenu.thicknessSlider.getElementsByClassName('form-range')[0].max = 50;
-            //         // editPieMenu.appearanceSettings.mainMenu.thicknessSlider.getElementsByClassName('form-range')[0].max = newValue;
-            //         editPieMenu.pieMenuDisplay.refresh();                    
-            //     });
-            // }            
+            
+            let colorIntervalId
+            let colorRefreshTime = 32
+            this.mainMenu.selectionColorInput.on('input change', throttle((event) => {                
+                let newValue = handleColorInput(event);                
+                (typeof(newValue) === 'object') && (editPieMenu.selectedPieMenu.selectionColor = newValue)                
+                editPieMenu.pieMenuDisplay.refresh();
+            },colorRefreshTime));
+            this.mainMenu.backgroundColorInput.on('input change', throttle((event) => {                
+                let newValue = handleColorInput(event);                
+                (typeof(newValue) === 'object') && (editPieMenu.selectedPieKey.pieMenus.forEach((pieMenu) => {pieMenu.backgroundColor = newValue}))               
+                editPieMenu.pieMenuDisplay.refresh();
+            },colorRefreshTime));
+            this.mainMenu.fontColorInput.on('input change', throttle((event) => {                
+                let newValue = handleColorInput(event);                
+                (typeof(newValue) === 'object') && (editPieMenu.selectedPieKey.pieMenus.forEach((pieMenu) => {pieMenu.fontColor = newValue}))               
+                editPieMenu.pieMenuDisplay.refresh();
+            },colorRefreshTime));          
 
             this.mainMenu.radiusSlider.on('mousedown mousemove change', (event) => {
                 let newValue = handleSliderDiv(event);
@@ -1052,42 +1046,16 @@ var editPieMenu = {
                 let newValue = handleSliderDiv(event);
                 (typeof(newValue) === 'number') && (editPieMenu.selectedPieKey.labelDelay = newValue)
                 editPieMenu.pieMenuDisplay.refresh();
-            });   
-            //Remove         
-            // {
-            //     let sliderDiv = this.mainMenu.labelDelaySlider; //Change
-            //     let sliderRangeInput = sliderDiv.getElementsByClassName('form-range')[0]                
-            //     sliderRangeInput.setAttribute('min',0) //Change
-            //     sliderRangeInput.setAttribute('max',50) //Change
-            //     let sliderTextInput = sliderDiv.getElementsByClassName('bg-dark border rounded-0 border-dark')[0]                             
-            //     sliderRangeInput.addEventListener('change',function(event){
-            //         let newValue = Math.round(event.target.value);                    
-            //         editPieMenu.selectedPieKey.labelDelay = newValue/10; //Change                    
-            //         sliderTextInput.value = newValue/10;
-            //         editPieMenu.pieMenuDisplay.refresh();
-            //     })
-            //     sliderTextInput.setAttribute('oldvalue',0)
-            //     sliderTextInput.addEventListener('change',function(event){
-                    
-            //         if(!IsNumeric(event.target.value) || sliderRangeInput.min > parseInt(event.target.value) || parseInt(event.target.value) > sliderRangeInput.max){                        
-            //             sliderTextInput.value = sliderTextInput.oldvalue;
-            //             return
-            //         }
-            //         let newValue = event.target.value.toFixed(1);                    
-            //         editPieMenu.selectedPieKey.labelDelay = newValue; //Change
-            //         sliderTextInput.oldvalue = newValue;
-            //         sliderRangeInput.value = newValue*10;           
-            //     });
-            // }
+            });  
+
 
             //Submenu controls
-            {
-                let colorControlElement = this.subMenu.selectionColorInput;
-                colorControlElement.addEventListener('change',function(){
-                    editPieMenu.selectedPieMenu.selectionColor = hexToRgb(colorControlElement.value);                    
-                    editPieMenu.pieMenuDisplay.refresh();
-                })
-            }
+            this.subMenu.selectionColorInput.on('input change', throttle((event) => {                
+                let newValue = handleColorInput(event);                
+                (typeof(newValue) === 'object') && (editPieMenu.selectedPieMenu.selectionColor = newValue)                
+                editPieMenu.pieMenuDisplay.refresh();
+            },colorRefreshTime));
+
             this.subMenu.radiusSlider.on('mousedown mousemove change', (event) => {                         
                 let newValue = handleSliderDiv(event);
                 (typeof(newValue) === 'number') && (editPieMenu.selectedPieMenu.radius = newValue)
@@ -1103,81 +1071,6 @@ var editPieMenu = {
                 (typeof(newValue) === 'number') && (editPieMenu.selectedPieMenu.labelRadius = newValue)
                 editPieMenu.pieMenuDisplay.refresh();
             });
-            // {
-            //     let sliderDiv = this.subMenu.radiusSlider; //Change
-            //     let sliderRangeInput = sliderDiv.getElementsByClassName('form-range')[0]                
-            //     sliderRangeInput.setAttribute('min',0) //Change
-            //     sliderRangeInput.setAttribute('max',100) //Change
-            //     let sliderTextInput = sliderDiv.getElementsByClassName('bg-dark border rounded-0 border-dark')[0]                             
-            //     sliderRangeInput.addEventListener('change',function(event){
-            //         let newValue = Math.round(event.target.value);                    
-            //         editPieMenu.selectedPieMenu.radius = newValue; //Change                    
-            //         sliderTextInput.value = newValue;                    
-            //         editPieMenu.pieMenuDisplay.refresh();
-            //     })
-            //     sliderTextInput.setAttribute('oldvalue',0)
-            //     sliderTextInput.addEventListener('change',function(event){                    
-            //         if(!IsNumeric(event.target.value) || sliderRangeInput.min > parseInt(event.target.value) || parseInt(event.target.value) > sliderRangeInput.max){                        
-            //             sliderTextInput.value = sliderTextInput.oldvalue;
-            //             return
-            //         }
-            //         let newValue = Math.round(event.target.value);                    
-            //         editPieMenu.selectedPieMenu.radius = newValue; //Change
-            //         sliderTextInput.oldvalue = newValue;
-            //         sliderRangeInput.value = newValue;
-            //         editPieMenu.pieMenuDisplay.refresh();                    
-            //     });
-            // }
-            // {
-            //     let sliderDiv = this.subMenu.thicknessSlider; //Change
-            //     let sliderRangeInput = sliderDiv.getElementsByClassName('form-range')[0]                
-            //     sliderRangeInput.setAttribute('min',0) //Change
-            //     sliderRangeInput.setAttribute('max',69) //Change
-            //     let sliderTextInput = sliderDiv.getElementsByClassName('bg-dark border rounded-0 border-dark')[0]                             
-            //     sliderRangeInput.addEventListener('change',function(event){
-            //         let newValue = Math.round(event.target.value);                    
-            //         editPieMenu.selectedPieMenu.thickness = newValue; //Change                    
-            //         sliderTextInput.value = newValue;
-            //         editPieMenu.pieMenuDisplay.refresh();
-            //     })
-            //     sliderTextInput.setAttribute('oldvalue',0)
-            //     sliderTextInput.addEventListener('change',function(event){                    
-            //         if(!IsNumeric(event.target.value) || sliderRangeInput.min > parseInt(event.target.value) || parseInt(event.target.value) > sliderRangeInput.max){                        
-            //             sliderTextInput.value = sliderTextInput.oldvalue;
-            //             return
-            //         }
-            //         let newValue = Math.round(event.target.value);                    
-            //         editPieMenu.selectedPieMenu.thickness = newValue; //Change
-            //         sliderTextInput.oldvalue = newValue;
-            //         sliderRangeInput.value = newValue;
-            //         editPieMenu.pieMenuDisplay.refresh();                    
-            //     });
-            // }
-            // {
-            //     let sliderDiv = this.subMenu.labelRadiusSlider; //Change
-            //     let sliderRangeInput = sliderDiv.getElementsByClassName('form-range')[0]                
-            //     sliderRangeInput.setAttribute('min',0) //Change
-            //     sliderRangeInput.setAttribute('max',150) //Change
-            //     let sliderTextInput = sliderDiv.getElementsByClassName('bg-dark border rounded-0 border-dark')[0]                             
-            //     sliderRangeInput.addEventListener('change',function(event){
-            //         let newValue = Math.round(event.target.value);                    
-            //         editPieMenu.selectedPieMenu.labelRadius = newValue; //Change                    
-            //         sliderTextInput.value = newValue;
-            //         editPieMenu.pieMenuDisplay.refresh();
-            //     })
-            //     sliderTextInput.setAttribute('oldvalue',0)
-            //     sliderTextInput.addEventListener('change',function(event){
-                    
-            //         if(!IsNumeric(event.target.value) || sliderRangeInput.min > parseInt(event.target.value) || parseInt(event.target.value) > sliderRangeInput.max){                        
-            //             sliderTextInput.value = sliderTextInput.oldvalue;
-            //             return
-            //         }
-            //         let newValue = Math.round(event.target.value);                    
-            //         editPieMenu.selectedPieMenu.labelRadius = newValue; //Change
-            //         sliderTextInput.oldvalue = newValue;
-            //         sliderRangeInput.value = newValue;
-            //     });
-            // }
             
             this.subMenu.backFunctionCheckBox.addEventListener('click',function(event){
                 if(event.target.checked){
@@ -1233,30 +1126,7 @@ var editPieMenu = {
         },        
         loadSelectedPieKey:function(){
             let selectedPieMenu = editPieMenu.selectedPieMenu;
-            // function setSliderDivValue(sliderDivElement,value, min, max){                
-            //     // let sliderRangeInput = sliderDivElement.getElementsByClassName('form-range')[0]
-            //     // let sliderTextInput = sliderDivElement.getElementsByClassName('bg-dark border rounded-0 border-dark')[0]
-            //     // sliderRangeInput.value = value;
-            //     // sliderTextInput.value = value;
-            //     // sliderTextInput.oldvalue = value;
-            //     // sliderTextInput.placeholder = value;  
-            //     let sliderRangeInput = sliderDivElement.children('.form-range');
-            //     sliderRangeInput[0].setAttribute('min',min);
-            //     sliderRangeInput[0].setAttribute('max',max);
-            //     let sliderTextInput = sliderDivElement.children('.bg-dark.border.rounded-0.border-dark');
-            //     sliderRangeInput[0].value = value;
-            //     sliderTextInput[0].value = value;
-            //     sliderTextInput[0].oldvalue = value;
-            //     sliderTextInput[0].placeholder = value;                           
-            // };
-            // function setSliderDivValueJ(sliderDivElement,value){
-            //     let sliderRangeInput = sliderDivElement.children('.form-range')
-            //     let sliderTextInput = sliderDivElement.children('.bg-dark.border.rounded-0.border-dark');
-            //     sliderRangeInput[0].value = value;
-            //     sliderTextInput[0].value = value;
-            //     sliderTextInput[0].oldvalue = value;
-            //     sliderTextInput[0].placeholder = value;
-            // };
+
             if(editPieMenu.selectedPieKey.pieMenus.indexOf(editPieMenu.selectedPieMenu) == 0){                
                 if(editPieMenu.selectedPieMenu.pieAngle != 0){
                     $('#main-angle-offset-btncheck1').prop('checked', false)
@@ -1264,9 +1134,12 @@ var editPieMenu = {
                 }else{
                     $('#main-angle-offset-btncheck1').prop('checked', true)                    
                     $('#main-angle-offset-btncheck2').prop('checked', false)                    
-                }
-                this.mainMenu.selectionColorInput.value = rgbToHex(selectedPieMenu.selectionColor)
-                this.mainMenu.backgroundColorInput.value = rgbToHex(selectedPieMenu.backgroundColor)            
+                }               
+                
+                this.mainMenu.selectionColorInput.val(rgbToHex(selectedPieMenu.selectionColor))                 
+                this.mainMenu.backgroundColorInput.val(rgbToHex(selectedPieMenu.backgroundColor))                 
+                this.mainMenu.fontColorInput.val(rgbToHex(selectedPieMenu.fontColor))                 
+                
                 setSliderDivValue(this.mainMenu.radiusSlider,selectedPieMenu.radius,1,100);
                 setSliderDivValue(this.mainMenu.thicknessSlider,selectedPieMenu.thickness,2,69);
                 setSliderDivValue(this.mainMenu.labelRadiusSlider,selectedPieMenu.labelRadius,1,150);
@@ -1280,7 +1153,7 @@ var editPieMenu = {
                     $('#sub-angle-offset-btncheck2').prop('checked', false)
                                       
                 }
-                this.subMenu.selectionColorInput.value = rgbToHex(selectedPieMenu.selectionColor)
+                this.subMenu.selectionColorInput.val(rgbToHex(selectedPieMenu.selectionColor));
                 setSliderDivValue(this.subMenu.radiusSlider,selectedPieMenu.radius,1,100);
                 setSliderDivValue(this.subMenu.thicknessSlider,selectedPieMenu.thickness,2,69);
                 setSliderDivValue(this.subMenu.labelRadiusSlider,selectedPieMenu.labelRadius,1,150);
@@ -1358,8 +1231,9 @@ var editPieMenu = {
                 mainMenuGroup.style.display = "block"                           
                 subMenuGroup.style.display = "none"                           
             },
-            selectionColorInput:document.getElementById('main-selection-color-input'),
-            backgroundColorInput:document.getElementById('main-background-color-input'),            
+            selectionColorInput:$('#main-selection-color-input'),
+            backgroundColorInput:$('#main-background-color-input'),            
+            fontColorInput:$('#menu-font-color-input'),            
             radiusSlider:$('#main-menu-radius-slider-div'),
             // radiusSlider:document.getElementById('main-menu-radius-slider-div'),
             thicknessSlider:$('#main-menu-thickness-slider-div'),
@@ -1374,7 +1248,7 @@ var editPieMenu = {
                 mainMenuGroup.style.display = "none"                           
                 subMenuGroup.style.display = "block"                
             },
-            selectionColorInput:document.getElementById('sub-menu-selection-color-input'),            
+            selectionColorInput:$('#sub-menu-selection-color-input'),            
             radiusSlider:$('#sub-menu-radius-slider-div'),
             thicknessSlider:$('#sub-menu-thickness-slider-div'),
             labelRadiusSlider:$('#sub-menu-label-radius-slider-div'),
@@ -1966,9 +1840,12 @@ var editPieMenu = {
 
 editPieMenu.initialize();
 
-function handleSliderDiv(event, step=1){
-    // MouseDownID = -1
-    
+function handleColorInput(event){  
+    let colorControl = event.currentTarget;
+    return hexToRgb(colorControl.value);
+}
+
+function handleSliderDiv(event, step=1){    
     let sliderDiv = event.currentTarget;
     let inputSlider = sliderDiv.getElementsByClassName('form-range')[0];   
     let decimalStepScalar = Math.pow(10,inputSlider.step);     
@@ -1979,7 +1856,7 @@ function handleSliderDiv(event, step=1){
     // console.log(event);
     // run first time only if possible:
     let min = inputSlider.min;
-    let max = inputSlider.max;    
+    let max = inputSlider.max;
 
     if (event.type == "mousedown" && event.target.className == "form-range"){ //Moving slider
         //start setTimeout
@@ -1992,7 +1869,7 @@ function handleSliderDiv(event, step=1){
     }
     if (event.type == "change"){ //Moved slider or entered number 
         let newValue = updateSliderValue();
-        console.log("Changed: " + newValue + "\nDecimal: " + decimalStepScalar)
+        // console.log("Changed: " + newValue + "\nDecimal: " + decimalStepScalar)
         // console.log(newValue)
         // console.log(inputSlider.step)
         IsDragging = false

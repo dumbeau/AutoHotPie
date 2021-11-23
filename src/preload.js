@@ -8,7 +8,8 @@ const { ipcRenderer , contextBridge, shell, app, BrowserWindow, ipcMain } = requ
 // var exec = require('child_process').execFile;
 const child_process = require('child_process');
 const { clearInterval } = require("timers");
-
+const fontList = require('font-list');
+// const fontScanner = require('font-scanner');
 
 
 
@@ -60,6 +61,9 @@ function saveJSONFile(JSONFilePath, JSONData){
 
 contextBridge.exposeInMainWorld('getDate', function(){
   return getDate();
+});
+contextBridge.exposeInMainWorld('getNow', function(){
+  return ipcRenderer.sendSync('getNow');
 });
 function getDate(){
   return ipcRenderer.sendSync('getDate');
@@ -426,7 +430,7 @@ contextBridge.exposeInMainWorld('electron', {
       folderPath = path.join(filePath[0],folderName)
       fs.mkdir(path.resolve(folderPath), {recursive:true},(err)=>{if(err){throw err;}})
       fs.copyFileSync(path.resolve(PieMenuFolder,"PieMenu.ahk"),path.resolve(folderPath,"PieMenu.ahk"))
-      fs.copyFileSync(path.resolve(PieMenuFolder,"PieMenu.exe"),path.resolve(folderPath,"PieMenu.exe"))    
+      // fs.copyFileSync(path.resolve(PieMenuFolder,"PieMenu.exe"),path.resolve(folderPath,"PieMenu.exe"))    
       fs.mkdir(path.resolve(folderPath,'lib'), {recursive:true}, (err)=>{if(err){throw err;}})
       copyDirectory(path.resolve(PieMenuFolder,"lib"),path.resolve(folderPath,'lib'))
       fs.mkdir(path.resolve(folderPath,'icons'), {recursive:true}, (err)=>{if(err){throw err;}})
@@ -441,6 +445,12 @@ contextBridge.exposeInMainWorld('electron', {
     }
     return true
   }
+  }
+});
+
+contextBridge.exposeInMainWorld('font',{
+  get:function(){    
+    return fontList.getFonts({disableQuoting:true});
   }
 });
 

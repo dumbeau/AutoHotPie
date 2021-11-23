@@ -138,6 +138,10 @@ pie_repeatLastFunction(timeOut) ;special function
 pie_openSettings()
 	{
 	;Different location for compiled version
+	if (IsStandAlone){
+		msgbox, "Cannot open AutoHotPie settings from standalone"
+		return false
+	}
 	try {
 		SplitPath, A_ScriptDir,, dir1
 		SplitPath, dir1,, dir2

@@ -32,6 +32,7 @@ global remapLButton := ""
 ;Try loading local settings files
 ;Try opening AHP Settings
 global UserDataFolder, settings
+global IsStandAlone := false
 loadSettingsFile()
 
 ;Experimental
@@ -82,16 +83,23 @@ loadSettingsFile()
 
 	;Set up icon menu tray options
 	if (A_IsCompiled){
+		if (!IsStandAlone){
+			Menu, Tray, Add , AutoHotPie Settings, openSettings
+		}
 		Menu, Tray, NoStandard
-		Menu, Tray, Add , AutoHotPie Settings, openSettings
+		
 		Menu, Tray, Add , Restart, Rel
 		Menu, Tray, Add , Exit, QuitPieMenus
 		Menu, Tray, Tip , AutoHotPie		
 	} else {
-		Menu, Tray, Add , AutoHotPie Settings, openSettings
+		if (!IsStandAlone){
+			Menu, Tray, Add , AutoHotPie Settings, openSettings
+		}
 		Menu, Tray, Add , Restart, Rel		
 	}
-	Menu, Tray, Default , AutoHotPie Settings
+	if (!IsStandAlone){
+		Menu, Tray, Default , AutoHotPie Settings
+	}	
 	; Menu, Tray, Click, 1
 	loadPieMenus()
 return

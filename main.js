@@ -2,7 +2,7 @@
 const {app, ipcMain, dialog, contextBridge, BrowserWindow, Menu, MenuItem, shell} = require('electron')
 const path = require('path')
 const fs = require('fs')
-const { isDataView } = require('util/types')
+// const { isDataView } = require('util/types')
 
 
 
@@ -81,6 +81,9 @@ function createWindow() {
     fullDate = dateTime.getFullYear() + "-" + dateTime.getUTCMonth() + "-" + dateTime.getDate();
     event.returnValue = fullDate.slice(2).replaceAll("-","")
   });
+  ipcMain.on('getNow', (event) => {    
+    event.returnValue = Date.now();
+  });
   ipcMain.on('getPath',function(event, pathString){
     event.returnValue = app.getPath(pathString);
   });
@@ -137,10 +140,10 @@ const template = [
           }          
         },        
         {
-          label: 'Create portable package',          
+          label: 'Create portable AHK package',          
           click: () => {
             mainWindow.webContents.send('menuSelected', 'createPortablePackage')
-          }            
+          }           
         },
         {
           type: 'separator'
