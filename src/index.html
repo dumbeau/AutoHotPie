@@ -118,13 +118,13 @@
                     <div class="d-flex justify-content-center" style="width: 100%;margin-top: 22px;">
                         <div id="pie-menu-settings-tabs" style="margin: 1px;width: 996px;">
                             <ul class="nav nav-tabs nav-justified" role="tablist" style="font-size: 20px;">
-                                <li class="nav-item" role="presentation"><a class="nav-link active" role="tab" data-bs-toggle="tab" id="global-appearance-tab" href="#tab-27">Font</a></li>
+                                <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" id="global-appearance-tab" href="#tab-27">Font</a></li>
                                 <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-8">Launch Settings</a></li>
                                 <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-9">Menu Appearance</a></li>
-                                <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-10">Functions</a></li>
+                                <li class="nav-item" role="presentation"><a class="nav-link active" role="tab" data-bs-toggle="tab" href="#tab-10">Functions</a></li>
                             </ul>
                             <div class="tab-content">
-                                <div class="tab-pane active" role="tabpanel" id="tab-27">
+                                <div class="tab-pane" role="tabpanel" id="tab-27">
                                     <div class="d-flex justify-content-center" style="padding-top: 20px;">
                                         <div id="global-menu-appearance-settings-div" style="border: 1px solid var(--bs-gray);border-radius: 14px;padding: 24px;width: 100%;max-width: 568px;">
                                             <div class="d-inline-flex d-lg-flex align-items-lg-start" style="background: rgb(34,34,34);transform: translateY(-35px);width: 58px;padding-right: 10px;padding-left: 10px;">
@@ -186,6 +186,7 @@
                                             </div>
                                             <div class="d-flex align-items-lg-start" id="main-menu-label-delay-slider-div">
                                                 <p class="text-nowrap" style="margin-right: 14px;margin-bottom: 3px;">Label Delay:</p><input class="form-range" type="range" style="margin-right: 15px;"><input class="bg-dark border rounded-0 border-dark" type="text" style="font-size: 16px;color: var(--bs-white);width: 40px;text-align: center;" placeholder="20" maxlength="3" inputmode="numeric">
+                                                <p class="text-nowrap" style="margin-bottom: 3px;margin-left: 12px;">secs</p>
                                             </div>
                                         </div>
                                     </div>
@@ -221,7 +222,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="tab-pane" role="tabpanel" id="tab-10">
+                                <div class="tab-pane active" role="tabpanel" id="tab-10">
                                     <div style="width: auto;padding-right: 27px;padding-left: 27px;">
                                         <div class="justify-content-start" id="pie-menu-display-description" style="padding-top: 12px;padding-bottom: 12px;height: 65px;margin-top: 33px;">
                                             <div class="d-flex align-items-center"></div>
@@ -241,7 +242,7 @@
                                                 <p id="slice-icon-file-display-text" style="margin-bottom: 0px;margin-left: 9px;">No icon selected</p>
                                                 <div class="d-flex justify-content-center align-items-center" id="remove-label-icon-btn" style="width: 28.5781px;height: 31px;"><i class="fa fa-remove"></i></div>
                                                 <div class="d-flex align-items-center" style="margin-left: 20px;">
-                                                    <div class="form-check" data-bs-toggle="tooltip" data-bss-tooltip="" style="margin-left: 3px;" title="Icon will use the selection color when function is focused if icon is greyscale."><input class="form-check-input" type="checkbox" id="icon-greyscale-checkbox"><label class="form-check-label" for="formCheck-5">Icon is greyscale<br></label></div>
+                                                    <div class="form-check" data-bs-toggle="tooltip" data-bss-tooltip="" style="margin-left: 3px;" title="Icon will use the selection color when function is focused if icon is greyscale."><input class="form-check-input" type="checkbox" id="icon-greyscale-checkbox"><label class="form-check-label" for="formCheck-5">Use Selection Color<br></label></div>
                                                     <div hidden=""><div class="dropend" id="icon-dropdown">
     <button class="btn btn-secondary dropdown-toggle" aria-expanded="false" data-bs-toggle="dropdown" type="button">Choose Icon</button>
     <div class="dropdown-menu">
@@ -285,20 +286,20 @@
                                             </div>
                                             <div id="function-tabs">
                                                 <ul class="nav nav-tabs" role="tablist" name="hidden-tab-items">
-                                                    <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-13">Send Key</a></li>
+                                                    <li class="nav-item" role="presentation"><a class="nav-link active" role="tab" data-bs-toggle="tab" href="#tab-13">Send Key</a></li>
                                                     <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-14">Mouse Click</a></li>
                                                     <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-15">Run Script</a></li>
                                                     <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-16">Repeat Last</a></li>
                                                     <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-17">Sub Menu</a></li>
                                                     <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-18">No Options</a></li>
-                                                    <li class="nav-item" role="presentation"><a class="nav-link active" role="tab" data-bs-toggle="tab" href="#tab-19">photoshop_cycleTool</a></li>
+                                                    <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-19">photoshop_cycleTool</a></li>
                                                     <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-20">Parameter List</a></li>
                                                     <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-21">Tab 1</a></li>
                                                     <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-22">Open Folder</a></li>
                                                     <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-26">Tab</a></li>
                                                 </ul>
                                                 <div class="tab-content">
-                                                    <div class="tab-pane" role="tabpanel" id="tab-13">
+                                                    <div class="tab-pane active" role="tabpanel" id="tab-13">
                                                         <div class="d-flex align-items-center" id="send-keys-div" style="margin-bottom: 12px;">
                                                             <h5 class="d-flex align-items-xxl-center" style="margin-right: 15px;">Keys:</h5><button class="btn btn-primary" type="button" style="margin-right: 14px;" name="send-keystroke-btn-0">Assign Key</button><button class="btn btn-primary" id="send-key-add-keystroke-btn" type="button" style="margin-right: 9px;" name="send-keystroke-btn-add"><i class="icon ion-android-add" style="margin-right: 7px;"></i>Add Keystroke</button>
                                                         </div>
@@ -308,7 +309,7 @@
                                                         </div>
                                                         <div class="d-flex align-items-center" style="height: 38px;">
                                                             <h5 class="d-flex align-items-xxl-center" style="margin-right: 15px;">Delay key release:</h5>
-                                                            <div class="form-check form-switch" data-bs-toggle="tooltip" data-bss-tooltip="" data-bs-placement="bottom" title="Add key delay time between when the modifier keys are pressed and when the key is pressed."><input class="form-check-input" type="checkbox" id="delay-key-release-checkbox"><label class="form-check-label" for="formCheck-2"></label></div>
+                                                            <div class="form-check form-switch" data-bs-toggle="tooltip" data-bss-tooltip="" data-bs-placement="bottom" title="Add key delay time between when the modifier keys are pressed and when the key is pressed."><input class="form-check-input" type="checkbox" data-bs-toggle="tooltip" data-bss-tooltip="" data-bs-placement="right" id="delay-key-release-checkbox" title="Extends the time a simulated key is held down, slower but more reliable."><label class="form-check-label" for="formCheck-2"></label></div>
                                                         </div>
                                                     </div>
                                                     <div class="tab-pane" role="tabpanel" id="tab-14">
@@ -358,7 +359,7 @@
                                                     <div class="tab-pane" role="tabpanel" id="tab-18">
                                                         <h5>This function has no options.</h5>
                                                     </div>
-                                                    <div class="tab-pane active" role="tabpanel" id="tab-19">
+                                                    <div class="tab-pane" role="tabpanel" id="tab-19">
                                                         <div class="d-flex justify-content-start align-items-center" style="padding-top: 12px;padding-bottom: 12px;" name="photoshop-tool-div">
                                                             <h5 class="text-nowrap d-xxl-flex align-items-xxl-center" style="margin-right: 14px;margin-top: 4px;">Tool 1:</h5><select class="form-select" style="height: 38px;max-width: 413px;">
                                                                 <option value="12" selected="">Brush Tool</option>

@@ -50,7 +50,7 @@ var editPieMenu = {
         });
 
         let pieKeyBtn = document.getElementById('piekey-change-btn');
-        pieKeyBtn.addEventListener('click',function(){r
+        pieKeyBtn.addEventListener('click',function(){
             assignKey({invalidAHKKeys:editPieMenu.getInvalidPieKeys()}).then(val => {
                 editPieMenu.selectedPieKey.hotkey = val.ahkKey 
                 pieKeyBtn.innerHTML = val.displayKey                 
@@ -989,7 +989,7 @@ var editPieMenu = {
         initialize:function(){
             
             let colorIntervalId
-            let colorRefreshTime = 32
+            let colorRefreshTime = 16
             this.mainMenu.selectionColorInput.on('input change', throttle((event) => {                
                 let newValue = handleColorInput(event);                
                 (typeof(newValue) === 'object') && (editPieMenu.selectedPieMenu.selectionColor = newValue)                

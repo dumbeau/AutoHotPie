@@ -1438,37 +1438,47 @@ blockBareKeys(hotkeyInput, hotkeyArray, blockState=true){
 	; 	return
 	; msgbox, % "input: " . hotkeyInput
 	; msgbox, % hotkeyArray[1]
-	; msgbox, % hotkeyArray[2]	
+	; msgbox, % hotkeyArray[2]
 	if hotkeyArray[1] = ""
 		return
-	bareKey := removeCharacters(hotkeyInput, "+^!#")
+	
+	for ahkHandleIndex, ahkHandle in activeProfile.ahkHandles
+	{
+		if (ahkHandle == "ahk_group regApps"){
+			Hotkey, IfWinNotActive, ahk_group regApps
+		} else {
+			Hotkey, IfWinActive, % fullAHKHandle
+		}
+		bareKey := removeCharacters(hotkeyInput, "+^!#")
 
-
-	If (hasValue(bareKey, hotkeyArray) && hasValue("+" + bareKey, hotkeyArray)){
-		; msgbox, both
-		return
+		If (hasValue(bareKey, hotkeyArray) && hasValue("+" + bareKey, hotkeyArray)){
+			; msgbox, both
+			return
+		}
+		If (bareKey == hotkeyInput){		
+			return
+		}
+			
+		If (blockState == true) ; fix this
+			{		
+				; If !(hasValue(bareKey, hotkeyArray))
+				
+				Try	Hotkey, % bareKey, pieLabel
+				Try Hotkey, % "+" . bareKey, pieLabel							
+				Try	Hotkey, % bareKey, On
+				Try Hotkey, % "+" . bareKey, On
+			}
+		Else
+			{
+				msgbox, Unlocking		
+				If !(hasValue(bareKey, hotkeyArray)){
+					Try Hotkey, % bareKey, Off			
+				}
+				If !(hasValue("+" . bareKey, hotkeyArray)){
+					Try Hotkey, % "+" . bareKey, Off
+				}
+			}
 	}
-	If (bareKey == hotkeyInput){		
-		return
-	}
-		
-	If (blockState == true) ; fix this
-		{
-		; If !(hasValue(bareKey, hotkeyArray))		
-		Try	Hotkey, % bareKey, pieLabel
-		Try Hotkey, % "+" . bareKey, pieLabel							
-		Try	Hotkey, % bareKey, On
-		Try Hotkey, % "+" . bareKey, On
-		}
-	Else
-		{		
-		If !(hasValue(bareKey, hotkeyArray)){
-			Try Hotkey, % bareKey, Off			
-		}
-		If !(hasValue("+" . bareKey, hotkeyArray)){
-			Try Hotkey, % "+" . bareKey, Off
-		}		
-		}
 	return
 	}
 appendAHKTag(processString){
