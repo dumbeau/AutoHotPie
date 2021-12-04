@@ -9,6 +9,9 @@ const { ipcRenderer , contextBridge, shell, app, BrowserWindow, ipcMain } = requ
 const child_process = require('child_process');
 const { clearInterval } = require("timers");
 const fontList = require('font-list');
+const nodeDir = require('node-dir');
+
+
 // const fontScanner = require('font-scanner');
 
 
@@ -55,9 +58,7 @@ function saveJSONFile(JSONFilePath, JSONData){
     })
 }
 
-// UserIconsFolder = path.resolve(UserDataFolder,'icons')
-// fs.mkdir(path.resolve(UserDataFolder,'icons'))
-// copyDirectory(UserIconsFolder, path.resolve(PieMenuFolder,'icons','User Icons'))
+
 
 contextBridge.exposeInMainWorld('getDate', function(){
   return getDate();
@@ -251,6 +252,46 @@ contextBridge.exposeInMainWorld('createWindowSizeListener', function(func){
   })
 })
 
+function loadIconImagesToBuffer(){     
+  function walk(dir) {
+    return new Promise((resolve, reject) => {
+      fs.readdir(dir, (error, files) => {
+        if (error) {
+          return reject(error);
+        }
+        Promise.all(files.map((file) => {
+          return new Promise((resolve, reject) => {
+            const filepath = path.join(dir, file);
+            fs.stat(filepath, (error, stats) => {
+              if (error) {
+                return reject(error);
+              }
+              if (stats.isDirectory()) {
+                walk(filepath).then(resolve);
+              } else if (stats.isFile()) {
+                resolve(filepath);
+              }
+            });
+          });
+        }))
+        .then((foldersContents) => {
+          resolve(foldersContents.reduce((all, folderContents) => all.concat(folderContents), []));
+        });
+      });
+    });
+  }  
+  let imageBufferDiv = document.getElementById('image-buffer')
+  let iconFolder = path.join(PieMenuFolder, 'icons')
+  imageBufferDiv.innerHTML = '';
+  walk(iconFolder).then((files) => {
+    files.forEach(function(file){
+      let img = document.createElement('img');      
+      img.src = file
+      imageBufferDiv.appendChild(img);     
+    })      
+  },(err) => {return console.error(err)})
+}
+
 contextBridge.exposeInMainWorld('electron', {
   isDev: function(){
     return ipcRenderer.sendSync('isDev');
@@ -259,45 +300,7 @@ contextBridge.exposeInMainWorld('electron', {
     return ipcRenderer.sendSync('getVersionNumber');
   },
   loadIconImagesToBuffer: function(){ 
-    
-    function walk(dir) {
-      return new Promise((resolve, reject) => {
-        fs.readdir(dir, (error, files) => {
-          if (error) {
-            return reject(error);
-          }
-          Promise.all(files.map((file) => {
-            return new Promise((resolve, reject) => {
-              const filepath = path.join(dir, file);
-              fs.stat(filepath, (error, stats) => {
-                if (error) {
-                  return reject(error);
-                }
-                if (stats.isDirectory()) {
-                  walk(filepath).then(resolve);
-                } else if (stats.isFile()) {
-                  resolve(filepath);
-                }
-              });
-            });
-          }))
-          .then((foldersContents) => {
-            resolve(foldersContents.reduce((all, folderContents) => all.concat(folderContents), []));
-          });
-        });
-      });
-    }
-    
-    let imageBufferDiv = document.getElementById('image-buffer')
-    let iconFolder = path.join(PieMenuFolder, 'icons')
-    imageBufferDiv.innerHTML = '';
-    walk(iconFolder).then((files) => {
-      files.forEach(function(file, index){
-        let img = document.createElement('img');
-        img.src = file     
-        imageBufferDiv.appendChild(img);     
-      })      
-    },(err) => {return console.error(err)})
+      loadIconImagesToBuffer();    //Might not need this
   },
   openEXE: function(){
   // WIN = new BrowserWindow({width: 800, height: 600})
@@ -448,8 +451,65 @@ contextBridge.exposeInMainWorld('electron', {
   }
 });
 
+contextBridge.exposeInMainWorld('iconManager',{
+  refreshIconLibrary: function(){
+    let UserIconsFolder = path.resolve(UserDataFolder,'icons')
+    if (!fs.existsSync(path.resolve(UserDataFolder,'icons'))){      
+      fs.mkdir(path.resolve(UserDataFolder,'icons'), (err) => {if(err){throw err;}})
+    }        
+    copyDirectory(UserIconsFolder, path.resolve(PieMenuFolder,'icons','User Icons'))
+    loadIconImagesToBuffer();
+  },
+  openIconImage: function(){
+    let localFilepath = path.join(PieMenuFolder, 'icons')
+    let options = {
+      // See place holder 1 in above image
+      title : "Select Icon Image",
+      defaultPath: localFilepath,
+      
+      // See place holder 3 in above image
+      // buttonLabel : "Open...",
+      
+      // See place holder 4 in above image
+      filters :[
+        {name: 'Image', extensions: ['png','PNG']}        
+      ],
+      properties: ['openFile']
+      }    
+    let filePath = ipcRenderer.sendSync('openFileDialog', options)
+    if(filePath == null){
+      return false
+    }else{    
+      let iconImageFile = path.basename(filePath[0])    
+      return iconImageFile
+    }  
+  },
+  openUserIconFolder: function(){
+    shell.openPath(path.resolve(UserDataFolder,'icons'));    
+  },
+  getIcons: function(){    
+    let appIconsFolder = path.resolve(PieMenuFolder,'icons');
+    return nodeDir.promiseFiles(appIconsFolder);
+  },
+  getLocalIconPath:function(iconFilepath){
+    let appIconsFolder = path.resolve(PieMenuFolder,'icons');
+    let subPat = path.join(appIconsFolder).split('\\').slice(-2); 
+    subPat = subPat[0] + '/' + subPat[1]; 
+    // let subPat = path.join(PieMenuFolder);    
+    let returnPath = iconFilepath.slice(iconFilepath.indexOf(subPat)+subPat.length+1).replaceAll('%20',' ')  
+    // console.log(returnPath)
+    return returnPath 
+  }
+});
+
+contextBridge.exposeInMainWorld('nodePath',{
+  basename:function(filepath){
+    return path.basename(filepath,'.png');
+  }
+})
+
 contextBridge.exposeInMainWorld('font',{
-  get:function(){    
+  get:function(){
     return fontList.getFonts({disableQuoting:true});
   }
 });
@@ -460,3 +520,12 @@ contextBridge.exposeInMainWorld('menuListener', function(func){
   })
 })
 
+contextBridge.exposeInMainWorld('colorPicker',{
+  create: function(options){
+    var defaults = {
+    }    
+    var setting = Object.assign({}, defaults, options);
+    console.log(Pickr.create());
+    return Pickr.create();    
+  }
+})

@@ -1469,8 +1469,7 @@ blockBareKeys(hotkeyInput, hotkeyArray, blockState=true){
 				Try Hotkey, % "+" . bareKey, On
 			}
 		Else
-			{
-				msgbox, Unlocking		
+			{				
 				If !(hasValue(bareKey, hotkeyArray)){
 					Try Hotkey, % bareKey, Off			
 				}

@@ -333,6 +333,7 @@ var editPieMenu = {
         canvas: document.getElementById('pie-menu-center'),
         canvasForeground: document.getElementById('pie-menu-foreground'),
         centerPos:[0,0],
+        loadingGraphic:$('#loading-graphic'),
         setActiveCanvas:function(layerNumber=1){
             if (layerNumber == 1){ //Main Layer
                 editPieMenu.pieMenuDisplay.activeCanvas = editPieMenu.pieMenuDisplay.canvas                
@@ -499,9 +500,10 @@ var editPieMenu = {
                     let imagesHTMLCollection = iconDiv.getElementsByTagName('img')
                     var images = [].slice.call(imagesHTMLCollection);
                     images.forEach(function(element, index){
-                        if (element.src.split('/').slice(-1)[0] == escape(filename)){
+                        let localIconPath = iconManager.getLocalIconPath(element.src).replaceAll('%20',' ');                        
+                        if (localIconPath == filename){
                             returnImage = element
-                        }                                
+                        }
                     })
                     return returnImage
                 }
@@ -929,22 +931,25 @@ var editPieMenu = {
         
     },
     globalAppearanceSettings:{  
-        tab:$('#global-appearance-tab'),      
+        tab:document.getElementById('global-appearance-tab'),      
         fontSelect:$('#global-font-select'),        
         fontSizeSlider:$('#global-font-size-slider-div'),
         initialize:function(){
-            font.get().then( (fonts) => {                    
-                editPieMenu.globalAppearanceSettings.fontSelect.empty();
-                for (fontIndex in fonts){
-                    let font = fonts[fontIndex];
-                    editPieMenu.globalAppearanceSettings.fontSelect.append(`<option value="${font}">${font}</option>`)
-                }
-                editPieMenu.globalAppearanceSettings.fontSelect.val(AutoHotPieSettings.global.globalAppearance.font)                    
-            })
+            this.tab.addEventListener('click',()=>{
+                font.get().then( (fonts) => {                    
+                    editPieMenu.globalAppearanceSettings.fontSelect.empty();
+                    for (fontIndex in fonts){
+                        let font = fonts[fontIndex];
+                        editPieMenu.globalAppearanceSettings.fontSelect.append(`<option value="${font}">${font}</option>`)
+                    }
+                    editPieMenu.globalAppearanceSettings.fontSelect.val(AutoHotPieSettings.global.globalAppearance.font)                    
+                })
+            },{once:true});           
             setSliderDivValue(editPieMenu.globalAppearanceSettings.fontSizeSlider,AutoHotPieSettings.global.globalAppearance.fontSize,6,20)
 
             this.fontSelect.on('change', (event) => {
                 AutoHotPieSettings.global.globalAppearance.font = event.target.value;
+                editPieMenu.pieMenuDisplay.refresh();
             });
 
             this.fontSizeSlider.on('mousedown mousemove change', (event) => {                         
@@ -987,8 +992,6 @@ var editPieMenu = {
     },
     appearanceSettings:{
         initialize:function(){
-            
-            let colorIntervalId
             let colorRefreshTime = 16
             this.mainMenu.selectionColorInput.on('input change', throttle((event) => {                
                 let newValue = handleColorInput(event);                
@@ -1310,18 +1313,14 @@ var editPieMenu = {
                 disp.refresh();
             });
             this.sliceLabelIconInput.chooseFileBtn.addEventListener('click',function(event){
-                let iconFilename = electron.openIconImage()
-                if(iconFilename){                    
-                    editPieMenu.selectedSlice.icon.filePath = iconFilename; 
-                    editPieMenu.selectedSlice.icon.WBOnly = determineGreyscale(getImageFromBuffer(iconFilename));                                       
-                }
                 function getImageFromBuffer(filename){   
                     let returnImage = false 
                     let imagesHTMLCollection = document.getElementById('image-buffer').getElementsByTagName('img')
                     var images = [].slice.call(imagesHTMLCollection);
                     images.forEach(function(element, index){
-                        if (element.src.split('/').slice(-1)[0] == escape(filename)){
-                            returnImage = element
+                        let localIconPath = iconManager.getLocalIconPath(element.src);
+                        if (localIconPath == filename){
+                            returnImage = element;
                         }                                
                     })
                     return returnImage
@@ -1345,11 +1344,23 @@ var editPieMenu = {
                         }                      
                     }
                     return true
-                }
-                editPieMenu.sliceSettings.loadSelectedPieKey();
-                disp.refresh();
-                return
-            })
+                } 
+                selectIconPage.selectIcon().then((returnImg) => {
+                    if(returnImg){ 
+                        // console.log(returnImg);    
+                        let newFileName = iconManager.getLocalIconPath(returnImg) 
+                        
+                        editPieMenu.selectedSlice.icon.filePath = newFileName
+                        editPieMenu.selectedSlice.icon.WBOnly = determineGreyscale(getImageFromBuffer(newFileName));                                       
+                    }                    
+                    editPieMenu.sliceSettings.loadSelectedPieKey();
+                    disp.refresh();
+                    $('[href="#tab-2"]').tab('show');
+                    return
+                },(val)=>{
+                    $('[href="#tab-2"]').tab('show');
+                });              
+            });
             this.sliceLabelIconInput.fileText
             this.sliceLabelIconInput.removeIconBtn.addEventListener('click',function(event){
                editPieMenu.selectedSlice.icon.filePath = "";
@@ -1767,7 +1778,7 @@ var editPieMenu = {
                             addKeystrokeButtonGroup(p_HotkeyObj,index)
                         }                        
                     });
-                    setSliderDivValue(editPieMenu.sliceSettings.sliceFunction.sendKey.timeBetweenKeysDiv, ahkParamObj.keyDelay, 0, 200)
+                    setSliderDivValue(editPieMenu.sliceSettings.sliceFunction.sendKey.timeBetweenKeysDiv, editPieMenu.selectedSlice.params.keyDelay, 0, 200)
                     editPieMenu.sliceSettings.sliceFunction.sendKey.delayKeyReleaseCheckbox.prop('checked', ahkParamObj.delayKeyRelease);
                     break;
                 case "Mouse Click":
@@ -1925,11 +1936,11 @@ function setSliderDivValue(sliderDivElement,value,min,max,decimalStepDigit=0){
     // sliderTextInput.value = value;
     // sliderTextInput.oldvalue = value*Math.pow(10,decimalStep);
     // sliderTextInput.placeholder = value; 
-    let sliderRangeInput = sliderDivElement.children('.form-range');
+    let sliderRangeInput = sliderDivElement.children('.form-range');    
     sliderRangeInput[0].setAttribute('min',min);
     sliderRangeInput[0].setAttribute('max',max);
     sliderRangeInput[0].setAttribute('step', decimalStepDigit);
-    sliderRangeInput[0].setAttribute('value',value*Math.pow(10,decimalStepDigit));
+    sliderRangeInput[0].value = value*Math.pow(10,decimalStepDigit).toString();
     // sliderRangeInput[0].setAttribute('decimal', displayDecimalPlace);
     
     let sliderTextInput = sliderDivElement.children('.bg-dark.border.rounded-0.border-dark');

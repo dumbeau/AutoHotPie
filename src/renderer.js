@@ -6,13 +6,12 @@
 // process.
 
 //Hide page tabs
-if (true){
-    document.getElementsByName("hidden-tab-items").forEach(function(tabs,index){
-        tabs.style.display = "none"
-    })
-}
 
-electron.loadIconImagesToBuffer('icons');
+document.getElementsByName("hidden-tab-items").forEach(function(tabs,index){
+    tabs.style.display = "none"
+})
+
+iconManager.refreshIconLibrary();
 
 function rgbToHex(rgbArray) {
     let returnString = "#"

@@ -79,7 +79,8 @@
   "dependencies": {
     "electron-squirrel-startup": "^1.0.0",
     "font-list": "^1.4.2",
-    "meow": "^10.1.2"
+    "meow": "^10.1.2",
+    "node-dir": "^0.1.17"
   },
   "devDependencies": {
     "electron": "15.3.1",

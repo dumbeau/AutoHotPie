@@ -5,7 +5,7 @@ var newPieMenu = {
     pieKeyValidationWarning: $('#pie-key-validation-warning'),
     activationModeBtn: document.getElementById('new-act-mode-btn'),
     activationModeValidationWarning: $('#activation-mode-validation-warning'),
-    selectionColorInput: document.getElementById('new-selection-color-input'),
+    selectionColorInput: document.getElementById('new-selection-color-input'),    
     backgroundColorInput: document.getElementById('new-background-color-input'),
     cancelBtn: document.getElementById('new-pie-menu-cancel-btn'),
     createBtn: document.getElementById('new-pie-menu-create-btn'),
@@ -34,9 +34,8 @@ var newPieMenu = {
             },val => {
                 $('[href="#tab-4"]').tab('show');
             });                                       
-        });
-        this.selectionColorInput.addEventListener("change", function(event){            
-            // selectionColorInput = selectionColorInput;  //WHAT WHY??
+        });        
+        this.selectionColorInput.addEventListener("change", function(event){  
             newPieMenu.newPieKeyObj.pieMenus[0].selectionColor = hexToRgb(newPieMenu.selectionColorInput.value);
         });
         this.backgroundColorInput.addEventListener("change", function(event){            
@@ -133,48 +132,7 @@ async function createNewPieMenu(options={}){
                 pieAngle: 0,
                 functions: PieFunction.fill(7)                
             })]
-        }) 
-        // defaultPieKey = {	
-        //     name:"Pie Menu " + (profileManagement.selectedProfile.pieKeys.length+1),
-        //     hotkey: "",
-        //     enable:true,
-        //     labelDelay:copyMenu.labelDelay,
-        //     globalMenu:false,		
-        //     activationMode:{
-        //         submenuMode: copyMenu.activationMode.submenuMode,
-        //         clickableFunctions:true,
-        //         keyReleaseDelay:true		
-        //     },						
-        //     pieMenus:
-        //         [
-        //         {
-        //         backgroundColor: copyMenu.pieMenus[0].backgroundColor,
-        //         selectionColor: copyMenu.pieMenus[0].selectionColor,
-        //         radius:copyMenu.pieMenus[0].radius,
-        //         thickness:copyMenu.pieMenus[0].thickness,
-        //         labelRadius: copyMenu.pieMenus[0].labelRadius,
-        //         pieAngle: 0,
-        //         functions:[]
-        //         }
-        //         ]
-        //     }    
-    
-        // for(let i=0; i<=6; i++){
-        //     defaultPieKey.pieMenus[0].functions.push(
-        //         {
-        //         function:"none",
-        //         params:{},
-        //         label:"Slice " + i,
-        //         hotkey:"",
-        //         clickable:false,
-        //         returnMousePos:false,
-        //         icon:{							
-        //             filePath:"",
-        //             WBOnly:true
-        //             }
-        //         }
-        //     )
-        // }
+        })
         return defaultPieKey
     };    
     newPieMenu.open();

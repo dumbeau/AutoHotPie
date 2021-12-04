@@ -15,7 +15,7 @@
 
 <body>
     <div id="app-tabs">
-        <ul class="nav nav-tabs" role="tablist" name="hidden-tab-items">
+        <ul class="nav nav-tabs" role="tablist" name="hidden-tab-items" style="display:none">
             <li class="nav-item" role="presentation"><a class="nav-link active" role="tab" data-bs-toggle="tab" href="#tab-1">Home</a></li>
             <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-2">Edit Pie Menu</a></li>
             <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-3">Create New Profile</a></li>
@@ -28,6 +28,7 @@
             <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-23">Clipboard Elements</a></li>
             <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-24">Running Pie Menus</a></li>
             <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-25">Function Select</a></li>
+            <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-28">Icon Manager</a></li>
         </ul>
         <div class="tab-content">
             <div class="tab-pane active" role="tabpanel" id="tab-1">
@@ -238,7 +239,7 @@
                                         </div>
                                         <div class="justify-content-start" id="icon-label-div" style="padding-top: 12px;padding-bottom: 12px;">
                                             <div class="d-flex align-items-center">
-                                                <h5 class="d-xxl-flex align-items-xxl-center" style="margin-bottom: -10px;margin-right: 15px;margin-top: -11px;">Icon:</h5><button class="btn btn-secondary" id="slice-icon-choose-file-btn" type="button" style="margin-right: 2px;min-width: 100px;">Choose File...</button>
+                                                <h5 class="d-xxl-flex align-items-xxl-center" style="margin-bottom: -10px;margin-right: 15px;margin-top: -11px;">Icon:</h5><button class="btn btn-secondary" id="slice-icon-choose-file-btn" type="button" style="margin-right: 2px;min-width: 100px;">Choose Icon...</button>
                                                 <p id="slice-icon-file-display-text" style="margin-bottom: 0px;margin-left: 9px;">No icon selected</p>
                                                 <div class="d-flex justify-content-center align-items-center" id="remove-label-icon-btn" style="width: 28.5781px;height: 31px;"><i class="fa fa-remove"></i></div>
                                                 <div class="d-flex align-items-center" style="margin-left: 20px;">
@@ -309,7 +310,7 @@
                                                         </div>
                                                         <div class="d-flex align-items-center" style="height: 38px;">
                                                             <h5 class="d-flex align-items-xxl-center" style="margin-right: 15px;">Delay key release:</h5>
-                                                            <div class="form-check form-switch" data-bs-toggle="tooltip" data-bss-tooltip="" data-bs-placement="bottom" title="Add key delay time between when the modifier keys are pressed and when the key is pressed."><input class="form-check-input" type="checkbox" data-bs-toggle="tooltip" data-bss-tooltip="" data-bs-placement="right" id="delay-key-release-checkbox" title="Extends the time a simulated key is held down, slower but more reliable."><label class="form-check-label" for="formCheck-2"></label></div>
+                                                            <div class="form-check form-switch" data-bs-toggle="tooltip" data-bss-tooltip="" data-bs-placement="right" title="Extends the time a simulated key is held down, slower but more reliable."><input class="form-check-input" type="checkbox" id="delay-key-release-checkbox" title="Extends the time a simulated key is held down, slower but more reliable."><label class="form-check-label" for="formCheck-2"></label></div>
                                                         </div>
                                                     </div>
                                                     <div class="tab-pane" role="tabpanel" id="tab-14">
@@ -608,6 +609,11 @@
                         <p class="text-nowrap text-truncate text-start" style="margin-bottom: 5px;margin-top: 5px;">what</p>
                     </div>
                 </div>
+                <div class="text-center d-xxl-flex align-items-xxl-center" id="template-select-icon-div" style="width: 150px;height: 100px;" name="selectable-icon-div">
+                    <div style="width: 100%;"><img src="assets/img/ColorRainbow.png" style="width: 32px;margin-bottom: 6px;">
+                        <p class="text-truncate" style="margin-bottom: 0px;font-size: 14px;color: var(--bs-gray-600);">Arrow Left</p>
+                    </div>
+                </div>
             </div>
             <div class="tab-pane" role="tabpanel" id="tab-24">
                 <div class="text-center d-flex flex-column justify-content-center align-items-center" style="width: 100%;height: 100vh;">
@@ -621,6 +627,77 @@
             </div>
             <div class="tab-pane" role="tabpanel" id="tab-25">
                 <p>Tab content.</p>
+            </div>
+            <div class="tab-pane" role="tabpanel" id="tab-28">
+                <div class="d-flex align-items-center" style="background: var(--bs-gray-dark);height: 102px;">
+                    <div style="width: 20%;"><button class="btn btn-secondary" id="icon-manager-back-btn" type="button" style="margin-left: 50px;"><i class="icon ion-chevron-left" style="margin-right: 12px;"></i>Back</button></div>
+                    <div style="width: 60%;">
+                        <h3 class="text-center" style="margin-bottom: 0px;">Choose Icon</h3>
+                    </div>
+                </div>
+                <div style="padding-left: 50px;padding-right: 50px;padding-top: 50px;padding-bottom: 50px;">
+                    <div class="accordion" role="tablist" id="accordion-1" style="box-shadow: 2px 4px 18px 0px rgb(0,0,0);">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" role="tab"><button class="accordion-button" data-bs-toggle="collapse" data-bs-target="#accordion-1 .item-1" aria-expanded="true" aria-controls="accordion-1 .item-1" style="font-size: 27px;">Stock Icons</button></h2>
+                            <div class="accordion-collapse collapse show item-1" role="tabpanel" data-bs-parent="#accordion-1" style="background: var(--bs-body-color);">
+                                <div class="accordion-body">
+                                    <div class="d-inline-flex align-content-start flex-wrap" id="stock-icon-library" style="overflow-y: scroll;height: 350px;width: 100%;">
+                                        <div class="text-center d-xxl-flex align-items-xxl-center" style="width: 150px;height: 100px;" name="selectable-icon-div">
+                                            <div style="width: 100%;"><img src="assets/img/ColorRainbow.png" style="width: 32px;margin-bottom: 6px;">
+                                                <p class="text-truncate" style="margin-bottom: 0px;font-size: 14px;">Arrow Left</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" role="tab"><button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#accordion-1 .item-2" aria-expanded="false" aria-controls="accordion-1 .item-2" style="font-size: 27px;">User Icons</button></h2>
+                            <div class="accordion-collapse collapse item-2" role="tabpanel" data-bs-parent="#accordion-1" style="background: var(--bs-body-color);">
+                                <div class="accordion-body">
+                                    <div class="d-inline-flex align-content-start flex-wrap" id="user-icon-library" style="overflow-y: scroll;height: 350px;width: 100%;">
+                                        <div class="text-center d-xxl-flex align-items-xxl-center" style="width: 150px;height: 100px;" name="selectable-icon-div">
+                                            <div style="width: 100%;"><img src="assets/img/ColorRainbow.png" style="width: 32px;margin-bottom: 6px;">
+                                                <p class="text-truncate" style="margin-bottom: 0px;font-size: 14px;">Arrow Left</p>
+                                            </div>
+                                        </div>
+                                        <div class="text-center d-xxl-flex align-items-xxl-center" style="width: 150px;height: 100px;" name="selectable-icon-div">
+                                            <div style="width: 100%;"><img src="assets/img/ColorRainbow.png" style="width: 32px;margin-bottom: 6px;">
+                                                <p class="text-truncate" style="margin-bottom: 0px;font-size: 14px;">Arrow Left</p>
+                                            </div>
+                                        </div>
+                                        <div class="text-center d-xxl-flex align-items-xxl-center" style="width: 150px;height: 100px;" name="selectable-icon-div">
+                                            <div style="width: 100%;"><img src="assets/img/ColorRainbow.png" style="width: 32px;margin-bottom: 6px;">
+                                                <p class="text-truncate" style="margin-bottom: 0px;font-size: 14px;">Arrow Left</p>
+                                            </div>
+                                        </div>
+                                        <div class="text-center d-xxl-flex align-items-xxl-center" style="width: 150px;height: 100px;" name="selectable-icon-div">
+                                            <div style="width: 100%;"><img src="assets/img/ColorRainbow.png" style="width: 32px;margin-bottom: 6px;">
+                                                <p class="text-truncate" style="margin-bottom: 0px;font-size: 14px;">Arrow Left</p>
+                                            </div>
+                                        </div>
+                                        <div class="text-center d-xxl-flex align-items-xxl-center" style="width: 150px;height: 100px;" name="selectable-icon-div">
+                                            <div style="width: 100%;"><img src="assets/img/ColorRainbow.png" style="width: 32px;margin-bottom: 6px;">
+                                                <p class="text-truncate" style="margin-bottom: 0px;font-size: 14px;">Arrow Left</p>
+                                            </div>
+                                        </div>
+                                        <div class="text-center d-xxl-flex align-items-xxl-center" style="width: 150px;height: 100px;" name="selectable-icon-div">
+                                            <div style="width: 100%;"><img src="assets/img/ColorRainbow.png" style="width: 32px;margin-bottom: 6px;">
+                                                <p class="text-truncate" style="margin-bottom: 0px;font-size: 14px;">Arrow Left</p>
+                                            </div>
+                                        </div>
+                                        <div class="text-center d-xxl-flex align-items-xxl-center" style="width: 150px;height: 100px;" name="selectable-icon-div">
+                                            <div style="width: 100%;"><img src="assets/img/ColorRainbow.png" style="width: 32px;margin-bottom: 6px;">
+                                                <p class="text-truncate" style="margin-bottom: 0px;font-size: 14px;">Arrow Left</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="text-center" style="padding: 6px;"><button class="btn btn-primary" id="manage-icons-btn" type="button" style="width: 218.984px;">Manage Icons</button><button class="btn btn-primary" id="refresh-icons-btn" type="button" style="width: 218.984px;margin-left: 16px;">Refresh Icons</button></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -637,6 +714,7 @@
     <script src="./confirmation.js"></script>
     <script src="./hotkeyManagement.js"></script>
     <script src="./editPieMenu.js"></script>
+    <script src="./iconManager.js"></script>
     <script src="./createNewPieMenu.js"></script>
     <script src="./changeActivationMode.js"></script>
 </body>
