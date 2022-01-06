@@ -170,7 +170,7 @@ const template = [
           }
         },
         { 
-          label: 'Close',          
+          label: 'Close without running',          
           click: () => {
             mainWindow.webContents.send('menuSelected', 'close')
           }

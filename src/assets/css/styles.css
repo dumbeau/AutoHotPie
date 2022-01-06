@@ -22,3 +22,19 @@ a {
   direction: rtl;
 }
 
+.div-hover-green:hover {
+  border: solid var(--bs-success);
+}
+
+.div-hover-green-8:hover {
+  border: var(--bs-success);
+}
+
+.div-hover-green-8 {
+  border: var(--bs-gray-800);
+}
+
+.icon-btn-div:hover {
+  background: var(--bs-gray-700);
+}
+

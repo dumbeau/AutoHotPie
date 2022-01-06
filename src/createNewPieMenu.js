@@ -5,8 +5,8 @@ var newPieMenu = {
     pieKeyValidationWarning: $('#pie-key-validation-warning'),
     activationModeBtn: document.getElementById('new-act-mode-btn'),
     activationModeValidationWarning: $('#activation-mode-validation-warning'),
-    selectionColorInput: document.getElementById('new-selection-color-input'),    
-    backgroundColorInput: document.getElementById('new-background-color-input'),
+    selectionColorInput: $('#new-selection-color-input')[0].jscolor,    
+    backgroundColorInput: $('#new-background-color-input')[0].jscolor,
     cancelBtn: document.getElementById('new-pie-menu-cancel-btn'),
     createBtn: document.getElementById('new-pie-menu-create-btn'),
     backBtn: document.getElementById('new-pie-menu-back-btn'),
@@ -34,15 +34,15 @@ var newPieMenu = {
             },val => {
                 $('[href="#tab-4"]').tab('show');
             });                                       
-        });        
-        this.selectionColorInput.addEventListener("change", function(event){  
-            newPieMenu.newPieKeyObj.pieMenus[0].selectionColor = hexToRgb(newPieMenu.selectionColorInput.value);
-        });
-        this.backgroundColorInput.addEventListener("change", function(event){            
+        }); 
+        this.selectionColorInput.onChange = function(){
+            newPieMenu.newPieKeyObj.pieMenus[0].selectionColor = hexToRgb(this.toHEXString());                        
+        };
+        this.backgroundColorInput.onChange = function(){            
             newPieMenu.newPieKeyObj.pieMenus.forEach((pieMenu) => {
-                pieMenu.backgroundColor = hexToRgb(newPieMenu.backgroundColorInput.value)
-            });                         
-        });
+                pieMenu.backgroundColor = hexToRgb(this.toHEXString());
+            });                       
+        };
         this.pieMenuNameField.addEventListener("change", function(event){
             newPieMenu.newPieKeyObj.name = event.target.value;            
         });
@@ -93,8 +93,8 @@ var newPieMenu = {
         }        
         this.pieMenuNameField.value = this.newPieKeyObj.name;  
         this.pieKeyBtn.innerHTML = "Choose Keystroke...";        
-        this.selectionColorInput.value = rgbToHex(np.newPieKeyObj.pieMenus[0].selectionColor)    
-        this.backgroundColorInput.value =  rgbToHex(np.newPieKeyObj.pieMenus[0].backgroundColor)        
+        this.selectionColorInput.processValueInput(rgbToHex(np.newPieKeyObj.pieMenus[0].selectionColor));
+        this.backgroundColorInput.processValueInput(rgbToHex(np.newPieKeyObj.pieMenus[0].backgroundColor));
     }
 }
 

@@ -1,7 +1,7 @@
 {
   "name": "autohotpie",
   "productName": "AutoHotPie",
-  "version": "1.0.11-alpha",
+  "version": "1.0.13-alpha",
   "description": "Universal Pie Menus for Windows",
   "main": "main.js",
   "scripts": {
@@ -80,7 +80,8 @@
     "electron-squirrel-startup": "^1.0.0",
     "font-list": "^1.4.2",
     "meow": "^10.1.2",
-    "node-dir": "^0.1.17"
+    "node-dir": "^0.1.17",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "electron": "15.3.1",

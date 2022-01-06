@@ -10,12 +10,12 @@ var handleAppClose = {
                 secondaryText:"Go Back"
             }).then(val => { 
                 JSONFile.save(SettingsFileName, AutoHotPieSettings)
-                closeWindow();
+                RunPieMenuApp();                 
             }, val => {
                 if (val){
                     profileManagement.open();
                 }else{
-                    closeWindow();
+                    RunPieMenuApp(); 
                 }
             });                  
         })
@@ -308,9 +308,20 @@ var profileManagement = {
                     cell1.innerHTML = '<button class="btn btn-primary" type="button" style="width: 97.3125px;" name="pie-menu-edit-btn">Edit</button>'
                     cell1.class = "text-center"
                     cell1.style = "width: 98px;"
-                    cell2.innerHTML = '<input type="color" value="' + rgbToHex(rgbArrayColor) + '" data-bs-toggle="tooltip" style="width: 55px;height: 30px;margin-top: 3px;" title="Color of pie menu." name="pie-menu-color-control" />'
-                    cell2.class = "text-center"
-                    cell2.style = "width: 98px;"
+                    // cell2.innerHTML = '<input type="button" data-jscolor value="' + rgbToHex(rgbArrayColor) + '" data-bs-toggle="tooltip" style="width: 55px;height: 30px;margin-top: 3px;" title="Color of pie menu." name="pie-menu-color-control" />'
+                    let jsColorBtn = $('#color-button-template').clone();
+                    let colorControlId = 'overview-color-control-' + index;
+
+                    jsColorBtn.attr('id',colorControlId);
+                    
+                    cell2.append(jsColorBtn[0]);
+                    let newJSColor = new JSColor('#' + colorControlId);  
+                    newJSColor.onChange = function(){
+                        profileManagement.selectedProfile.pieKeys[index].pieMenus[0].selectionColor = hexToRgb(this.toHEXString());                        
+                    };                  
+                    newJSColor.processValueInput(rgbToHex(rgbArrayColor));               
+                    cell2.class = "text-center";
+                    cell2.style = "width: 98px;padding-top: 13px;";
                     cell3.innerHTML = getKeyObjFromAhkString(pieHotKey).displayKey;
                     cell3.style = "padding-top: 13px;"
                     cell3.setAttribute("name","pie-key-display")
@@ -341,22 +352,22 @@ var profileManagement = {
         overviewTable: document.getElementById('pie-menu-overview-table'),
         newPieMenuBtn: document.getElementById('add-new-pie-menu-btn'),
         createOverviewTableListeners: function(){
-            this.overviewTable.addEventListener("change", function(event){ 
+            this.overviewTable.addEventListener("onChange", function(event){ 
+                console.log(event)  
                 let target = event.target;
                 let pieKeyIndex = $(target).closest('td').parent()[0].sectionRowIndex;
-                if (target && target.type == "color"){                
+                if (target && target.name == "color"){   
+                    // console.log(ran)             
                     profileManagement.selectedProfile.pieKeys[pieKeyIndex].pieMenus[0].selectionColor = hexToRgb(target.value);
-                }
-                // console.log(event)  
+                }               
 
                 
             });           
             this.overviewTable.addEventListener('click', function(e){
                 let target = e.target 
                 let pieKeyIndex = $(target).closest('td').parent()[0].sectionRowIndex
-                let selectedPieKey = profileManagement.selectedProfile.pieKeys[pieKeyIndex]
-                // console.log(target.checked)
-                if (target && target.nodeName == "BUTTON"){
+                let selectedPieKey = profileManagement.selectedProfile.pieKeys[pieKeyIndex]                
+                if (target && target.nodeName == "BUTTON" && target.name == "pie-menu-edit-btn"){
                     //Edit Button Pressed
                     editPieMenu.open(selectedPieKey)
                 }else if (target && target.type == "color"){
@@ -370,7 +381,7 @@ var profileManagement = {
                         cancelText:"Cancel",
                         confirmText:"Delete"
                     }
-                    confirmDialog(options).then(val => {                    
+                    confirmDialog(options).then(val => {
                         profileManagement.open() 
                         profileManagement.deletePieKey(pieKeyIndex)                  
                     }, val => {                   

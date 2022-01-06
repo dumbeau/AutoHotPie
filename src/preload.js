@@ -10,9 +10,8 @@ const child_process = require('child_process');
 const { clearInterval } = require("timers");
 const fontList = require('font-list');
 const nodeDir = require('node-dir');
+const uuidv4 = require('uuid')
 
-
-// const fontScanner = require('font-scanner');
 
 
 
@@ -78,7 +77,7 @@ contextBridge.exposeInMainWorld('JSONFile', {
     saveJSONFile(JSONFile, JSONData);
   },
   import: function(destJSONFileName){
-    let localFilepath = path.resolve(getUserPath('desktop'),folderName);
+    let localFilepath = path.resolve(getUserPath('desktop'));
     let options = {      
       title : "Select AutoHotPie settings file...",
       defaultPath: localFilepath,      
@@ -234,6 +233,11 @@ contextBridge.exposeInMainWorld('addCloseWindowListener', function(func){
   })    
 })
 
+contextBridge.exposeInMainWorld('generateUUID', function(){
+  return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
+    (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+  );
+})
 
 contextBridge.exposeInMainWorld('closeWindow', function(func){
   ipcRenderer.send('confirmClose')
@@ -520,12 +524,3 @@ contextBridge.exposeInMainWorld('menuListener', function(func){
   })
 })
 
-contextBridge.exposeInMainWorld('colorPicker',{
-  create: function(options){
-    var defaults = {
-    }    
-    var setting = Object.assign({}, defaults, options);
-    console.log(Pickr.create());
-    return Pickr.create();    
-  }
-})

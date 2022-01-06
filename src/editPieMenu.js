@@ -1,5 +1,3 @@
-
-
 var IsDragging = false //Used in editPieMenu for Divs with sliders and number inputs
 var editPieMenu = {
     selectedPieKey: {},
@@ -84,9 +82,6 @@ var editPieMenu = {
         });
         fgCanvas.addEventListener("mousedown", function(mouseEvent) {
             handleMouseDown(mouseEvent);
-            // editPieMenu.selectSlice();
-            // console.log("mousedown")
-            // editPieMenu.pieMenuDisplay.refresh(mouseEvent)
         });
         fgCanvas.addEventListener("mouseup", function(mouseEvent) {
             handleMouseUp(mouseEvent);
@@ -206,6 +201,16 @@ var editPieMenu = {
             backBtn.innerHTML = "<i class=\"icon ion-chevron-left\" style=\"margin-right: 12px;\"></i>To Parent Menu"
         }
         editPieMenu.pieMenuDisplay.refresh();       
+    },
+    forceReload: function(){
+        let currentSliceIndex = editPieMenu.selectedSlice;
+        // editPieMenu.selectedPieMenu.functions.indexOf(editPieMenu.selectedSlice);        
+        this.slice.select(0);           
+        this.slice.select(editPieMenu.selectedPieMenu.functions.indexOf(currentSliceIndex));    
+        this.loadSelectedPieKey();  
+        this.pieMenuDisplay.loadPieMenuElements(this.selectedPieMenu);
+        this.pieMenuDisplay.draw.elements(editPieMenu.pieMenuDisplay.elements);        
+        $('[href="#tab-2"]').tab('show');        
     },
     getInvalidPieKeys:function(){
         let usedAHKKeys = []
@@ -468,8 +473,8 @@ var editPieMenu = {
                     ctx.stroke();
                 }
             },
-            label: function(labelText, labelIcon, sliceHotkey, labelPos, labelAnchor=[0,0], element=null){                
-
+            label: function(labelText, labelIcon, sliceHotkey, labelPos, labelAnchor=[0,0], element=null){     
+                
                 //Initialize font canvas settings
                 ctx = editPieMenu.pieMenuDisplay.activeCanvas.getContext("2d"); 
                 ctx.font = AutoHotPieSettings.global.globalAppearance.fontSize.toString() + "px " + AutoHotPieSettings.global.globalAppearance.font;               
@@ -743,7 +748,7 @@ var editPieMenu = {
 
                 disp.setActiveCanvas(1);
                 for (k in elements){
-                    element = elements[k];
+                    let element = elements[k];
 
                     let selectedSlicePosition;
                     
@@ -789,8 +794,7 @@ var editPieMenu = {
                         } else {
                             labelAnchor = [0,0]
                         }
-                        let labelData = element.data
-                        
+                        let labelData = element.data                                               
                             // console.log(labelAnchor);
 
                         
@@ -992,22 +996,35 @@ var editPieMenu = {
     },
     appearanceSettings:{
         initialize:function(){
-            let colorRefreshTime = 16
-            this.mainMenu.selectionColorInput.on('input change', throttle((event) => {                
-                let newValue = handleColorInput(event);                
-                (typeof(newValue) === 'object') && (editPieMenu.selectedPieMenu.selectionColor = newValue)                
+            let colorRefreshTime = 16           
+
+            this.mainMenu.selectionColorInput.onInput = throttle(function(){                                  
+                    editPieMenu.selectedPieMenu.selectionColor = hexToRgb(this.toHEXString());
+                    editPieMenu.pieMenuDisplay.refresh();
+                },colorRefreshTime);
+            this.mainMenu.selectionColorInput.onChange = function(){
+                editPieMenu.selectedPieMenu.selectionColor = hexToRgb(this.toHEXString());
+                editPieMenu.pieMenuDisplay.refresh();                
+            }; 
+
+            this.mainMenu.backgroundColorInput.onInput = throttle(function(){    
+                editPieMenu.selectedPieKey.pieMenus.forEach((pieMenu) => {pieMenu.backgroundColor = hexToRgb(this.toHEXString())})
                 editPieMenu.pieMenuDisplay.refresh();
-            },colorRefreshTime));
-            this.mainMenu.backgroundColorInput.on('input change', throttle((event) => {                
-                let newValue = handleColorInput(event);                
-                (typeof(newValue) === 'object') && (editPieMenu.selectedPieKey.pieMenus.forEach((pieMenu) => {pieMenu.backgroundColor = newValue}))               
+            },colorRefreshTime);
+            this.mainMenu.backgroundColorInput.onChange = function(){
+                editPieMenu.selectedPieKey.pieMenus.forEach((pieMenu) => {pieMenu.backgroundColor = hexToRgb(this.toHEXString())})
+                editPieMenu.pieMenuDisplay.refresh();                
+            };
+
+            this.mainMenu.fontColorInput.onInput = throttle(function(){                                  
+                editPieMenu.selectedPieKey.pieMenus.forEach((pieMenu) => {pieMenu.fontColor = hexToRgb(this.toHEXString())})
                 editPieMenu.pieMenuDisplay.refresh();
-            },colorRefreshTime));
-            this.mainMenu.fontColorInput.on('input change', throttle((event) => {                
-                let newValue = handleColorInput(event);                
-                (typeof(newValue) === 'object') && (editPieMenu.selectedPieKey.pieMenus.forEach((pieMenu) => {pieMenu.fontColor = newValue}))               
-                editPieMenu.pieMenuDisplay.refresh();
-            },colorRefreshTime));          
+            },colorRefreshTime);
+            this.mainMenu.fontColorInput.onChange = function(){
+                editPieMenu.selectedPieKey.pieMenus.forEach((pieMenu) => {pieMenu.fontColor = hexToRgb(this.toHEXString())})                
+                editPieMenu.pieMenuDisplay.refresh();                
+            };
+
 
             this.mainMenu.radiusSlider.on('mousedown mousemove change', (event) => {
                 let newValue = handleSliderDiv(event);
@@ -1053,11 +1070,16 @@ var editPieMenu = {
 
 
             //Submenu controls
-            this.subMenu.selectionColorInput.on('input change', throttle((event) => {                
-                let newValue = handleColorInput(event);                
-                (typeof(newValue) === 'object') && (editPieMenu.selectedPieMenu.selectionColor = newValue)                
+            
+            this.subMenu.selectionColorInput.onInput = throttle(function(){                                  
+                editPieMenu.selectedPieMenu.selectionColor = hexToRgb(this.toHEXString());
                 editPieMenu.pieMenuDisplay.refresh();
-            },colorRefreshTime));
+            },colorRefreshTime);
+            this.subMenu.selectionColorInput.onChange = function(){
+                editPieMenu.selectedPieMenu.selectionColor = hexToRgb(this.toHEXString());
+                editPieMenu.pieMenuDisplay.refresh();                
+            };
+
 
             this.subMenu.radiusSlider.on('mousedown mousemove change', (event) => {                         
                 let newValue = handleSliderDiv(event);
@@ -1138,10 +1160,11 @@ var editPieMenu = {
                     $('#main-angle-offset-btncheck1').prop('checked', true)                    
                     $('#main-angle-offset-btncheck2').prop('checked', false)                    
                 }               
+
+                this.mainMenu.selectionColorInput.processValueInput(rgbToHex(selectedPieMenu.selectionColor))
                 
-                this.mainMenu.selectionColorInput.val(rgbToHex(selectedPieMenu.selectionColor))                 
-                this.mainMenu.backgroundColorInput.val(rgbToHex(selectedPieMenu.backgroundColor))                 
-                this.mainMenu.fontColorInput.val(rgbToHex(selectedPieMenu.fontColor))                 
+                this.mainMenu.backgroundColorInput.processValueInput(rgbToHex(selectedPieMenu.backgroundColor))                 
+                this.mainMenu.fontColorInput.processValueInput(rgbToHex(selectedPieMenu.fontColor))                 
                 
                 setSliderDivValue(this.mainMenu.radiusSlider,selectedPieMenu.radius,1,100);
                 setSliderDivValue(this.mainMenu.thicknessSlider,selectedPieMenu.thickness,2,69);
@@ -1156,7 +1179,7 @@ var editPieMenu = {
                     $('#sub-angle-offset-btncheck2').prop('checked', false)
                                       
                 }
-                this.subMenu.selectionColorInput.val(rgbToHex(selectedPieMenu.selectionColor));
+                this.subMenu.selectionColorInput.processValueInput(rgbToHex(selectedPieMenu.selectionColor));
                 setSliderDivValue(this.subMenu.radiusSlider,selectedPieMenu.radius,1,100);
                 setSliderDivValue(this.subMenu.thicknessSlider,selectedPieMenu.thickness,2,69);
                 setSliderDivValue(this.subMenu.labelRadiusSlider,selectedPieMenu.labelRadius,1,150);
@@ -1233,10 +1256,10 @@ var editPieMenu = {
                 subMenuGroup = document.getElementById('sub-menu-appearance-settings');
                 mainMenuGroup.style.display = "block"                           
                 subMenuGroup.style.display = "none"                           
-            },
-            selectionColorInput:$('#main-selection-color-input'),
-            backgroundColorInput:$('#main-background-color-input'),            
-            fontColorInput:$('#menu-font-color-input'),            
+            },            
+            selectionColorInput: $('#main-selection-color-input')[0].jscolor,            
+            backgroundColorInput:$('#main-background-color-input')[0].jscolor,            
+            fontColorInput:$('#menu-font-color-input')[0].jscolor,            
             radiusSlider:$('#main-menu-radius-slider-div'),
             // radiusSlider:document.getElementById('main-menu-radius-slider-div'),
             thicknessSlider:$('#main-menu-thickness-slider-div'),
@@ -1251,7 +1274,7 @@ var editPieMenu = {
                 mainMenuGroup.style.display = "none"                           
                 subMenuGroup.style.display = "block"                
             },
-            selectionColorInput:$('#sub-menu-selection-color-input'),            
+            selectionColorInput:$('#sub-menu-selection-color-input')[0].jscolor,            
             radiusSlider:$('#sub-menu-radius-slider-div'),
             thicknessSlider:$('#sub-menu-thickness-slider-div'),
             labelRadiusSlider:$('#sub-menu-label-radius-slider-div'),
@@ -1300,10 +1323,7 @@ var editPieMenu = {
             subMenu:{
                 editSubMenuBtn: document.getElementById('edit-sub-menu-btn')                
             },                        
-            noOptions:{},
-            photoshop_cycleTool:{},
-            photoshop_toggleLayersByName:{},
-            photoshop_cycleBrush:{}
+            noOptions:{}
         },
         
         initialize:function(){   
@@ -1396,120 +1416,162 @@ var editPieMenu = {
             this.sliceFunction.dropdownBtn.addEventListener('click',function(event){
             });
 
-            this.sliceFunction.dropdownMenu.addEventListener('click',function(event){       
-
-                let selectedFunc = getAHKFunc()
+            this.sliceFunction.dropdownMenu.addEventListener('click',function(event){
                 
-                // editPieMenu.selectedSlice.function = selectedFunc.ahkFunction
-                let newPieFunc = new PieFunction({
-                    function: selectedFunc.ahkFunction,                    
-                    params: PieFunction.getPieFunctionDefaultParameters(selectedFunc.ahkFunction),   
-                    label: editPieMenu.selectedSlice.label,
-                    hotkey: editPieMenu.selectedSlice.hotkey,
-                    clickable: editPieMenu.selectedSlice.clickable,
-                    returnMousePos: editPieMenu.selectedSlice.returnMousePos,
-                    icon: editPieMenu.selectedSlice.icon
-                });                
-                Object.assign(editPieMenu.selectedSlice, newPieFunc)
-
-                if (editPieMenu.selectedSlice.function == "submenu"){
-                    editPieMenu.selectedSlice.params = setSubMenuDefaults();
+                //Block selecting edge of menu.
+                if(event.target.nodeName == "DIV"){                    
+                    return
                 }
-
-                // editPieMenu.selectedPieMenu.functions[editPieMenu.selectedPieMenu.functions.indexOf(editPieMenu.selectedSlice)] = newPieFunc;
-                // editPieMenu.selectedSlice = newPieFunc;
-
-                function getAHKFunc(){
-                    let functionConfig = AutoHotPieSettings.global.functionConfig;
-                    let selectedFuncName = event.target.innerHTML;
-                    for(functionProfileIndex in functionConfig){
-                        let funcProfile = functionConfig[functionProfileIndex].functions;                    
-                        for(funcIndex in funcProfile){
-                            let func = funcProfile[funcIndex];
-                            if (func.name == selectedFuncName){                                
-                                return func
-                            }         
-                        }
-                    }
-                    return {
-                        name:"None",
-                        optionType:"No Options",
-                        ahkFunction:"none"
-                    }
-                };
                 
-                function setSubMenuDefaults(){
-                    function determineAvailablePieNumber(){
-                        let occupiedPieNumbers = [0]
-                        for (let pieMenuIndex in editPieMenu.selectedPieKey.pieMenus){
-                            let pieMenu = editPieMenu.selectedPieKey.pieMenus[pieMenuIndex];                                    
-                            for (let sliceFuncIndex in pieMenu.functions){
-                                let sliceFunc = pieMenu.functions[sliceFuncIndex];                                        
-                                if(sliceFunc.function == "submenu"){                                              
-                                    if(!occupiedPieNumbers.includes(sliceFunc.params.pieMenuNumber)){  
-                                        if (typeof sliceFunc.params.pieMenuNumber == "number"){
-                                            occupiedPieNumbers.push(sliceFunc.params.pieMenuNumber)                                                    
-                                        }                                               
+                if (event.target.innerHTML == "More Functions..."){
+                    functionSelectPage.selectFunction().then((val) => {                      
+                        processFunctionSelection(val, false);
+                        editPieMenu.forceReload();
+                        // $('[href="#tab-2"]').tab('show');                         
+                    }, () => {
+                        editPieMenu.forceReload();
+                        // $('[href="#tab-2"]').tab('show');
+                    });
+                    return                    
+                } else {
+                    processFunctionSelection(event.target.innerHTML, true);
+                }
+                
+                
+                function processFunctionSelection(functionNameString, configureFunctionOnSelect=false){
+                    let selectedFunc = getAHKFunc(functionNameString);                    
+                
+                    // editPieMenu.selectedSlice.function = selectedFunc.ahkFunction
+
+                    let newPieFunc;
+                    if (selectedFunc.ahkFunction == "customFunction"){ 
+                        newPieFunc = new PieFunction({
+                            function: selectedFunc.ahkFunction,                    
+                            params: PieFunction.getPieFunctionDefaultParameters(selectedFunc.id),   
+                            label: editPieMenu.selectedSlice.label,
+                            hotkey: editPieMenu.selectedSlice.hotkey,
+                            clickable: editPieMenu.selectedSlice.clickable,
+                            returnMousePos: editPieMenu.selectedSlice.returnMousePos,
+                            icon: editPieMenu.selectedSlice.icon
+                        });                     
+                    } else {
+                        newPieFunc = new PieFunction({
+                            function: selectedFunc.ahkFunction,                    
+                            params: PieFunction.getPieFunctionDefaultParameters(selectedFunc.ahkFunction),   
+                            label: editPieMenu.selectedSlice.label,
+                            hotkey: editPieMenu.selectedSlice.hotkey,
+                            clickable: editPieMenu.selectedSlice.clickable,
+                            returnMousePos: editPieMenu.selectedSlice.returnMousePos,
+                            icon: editPieMenu.selectedSlice.icon
+                        });
+                    }                 
+                    Object.assign(editPieMenu.selectedSlice, newPieFunc)
+
+                    if (editPieMenu.selectedSlice.function == "submenu"){
+                        editPieMenu.selectedSlice.params = setSubMenuDefaults();
+                    }
+
+                    // editPieMenu.selectedPieMenu.functions[editPieMenu.selectedPieMenu.functions.indexOf(editPieMenu.selectedSlice)] = newPieFunc;
+                    // editPieMenu.selectedSlice = newPieFunc;
+
+                    function getAHKFunc(p_funcNameString){
+                        let functionConfigList = AutoHotPieSettings.global.functionConfig;
+                        // let selectedFuncName = event.target.innerHTML;
+                        let selectedFuncName = p_funcNameString;
+                        //Check common functions
+                        for(let functionProfileIndex in functionConfigList.common){
+                            let p_func = functionConfigList.common[functionProfileIndex];                    
+                            if (p_func.name == selectedFuncName){                                
+                                return p_func
+                            }
+                        }
+
+                        //Check custom functions
+                        let foundCustomFunc = CustomFunction.getCustomFunctionByID(p_funcNameString);
+                        if (foundCustomFunc){
+                            return foundCustomFunc;
+                        }
+
+                        // Didn't find anything
+                        return
+                    };
+                    
+                    function setSubMenuDefaults(){
+                        function determineAvailablePieNumber(){
+                            let occupiedPieNumbers = [0]
+                            for (let pieMenuIndex in editPieMenu.selectedPieKey.pieMenus){
+                                let pieMenu = editPieMenu.selectedPieKey.pieMenus[pieMenuIndex];                                    
+                                for (let sliceFuncIndex in pieMenu.functions){
+                                    let sliceFunc = pieMenu.functions[sliceFuncIndex];                                        
+                                    if(sliceFunc.function == "submenu"){                                              
+                                        if(!occupiedPieNumbers.includes(sliceFunc.params.pieMenuNumber)){  
+                                            if (typeof sliceFunc.params.pieMenuNumber == "number"){
+                                                occupiedPieNumbers.push(sliceFunc.params.pieMenuNumber)                                                    
+                                            }
+                                        }
                                     }
                                 }
                             }
-                        }
-                        // console.log(occupiedPieNumbers)
-                        let vacantPieNumber = 0
-                        while(occupiedPieNumbers.includes(vacantPieNumber)){
-                            vacantPieNumber++
-                        }
-                        return vacantPieNumber
-                    };
-                    let pieNumber = determineAvailablePieNumber();
-                    let newPieMenuObj = new PieMenu({
-                        backgroundColor: editPieMenu.selectedPieMenu.backgroundColor,
-                        selectionColor: editPieMenu.selectedPieMenu.selectionColor,
-                        radius:40,
-                        thickness:editPieMenu.selectedPieMenu.thickness,
-                        labelRadius: 80,
-                        pieAngle: 0,
-                        functions: PieFunction.fill(7)
-                    });
-                    editPieMenu.selectedPieKey.pieMenus[pieNumber] = newPieMenuObj
-                    return {pieMenuNumber: pieNumber,isBack: false}
-                }
-                
-                editPieMenu.sliceSettings.loadSelectedPieKey();
-                runParameterSelection(editPieMenu.selectedSlice.function)
-                function runParameterSelection(pieFunc){
-                    switch (pieFunc){
-                        case "sendKey":
-                            assignKey().then(val => {                            
-                                editPieMenu.selectedSlice.params.keys[0] = val.ahkKey                            
-                                $('[href="#tab-2"]').tab('show');
-                                // editPieMenu.sliceSettings.sliceFunction.sendKey.keysDiv.scrollIntoView({behavior:"smooth"});
-                                window.scrollTo(0,document.body.scrollHeight);
+                            // console.log(occupiedPieNumbers)
+                            let vacantPieNumber = 0
+                            while(occupiedPieNumbers.includes(vacantPieNumber)){
+                                vacantPieNumber++
+                            }
+                            return vacantPieNumber
+                        };
+                        let pieNumber = determineAvailablePieNumber();
+                        let newPieMenuObj = new PieMenu({
+                            backgroundColor: editPieMenu.selectedPieMenu.backgroundColor,
+                            selectionColor: editPieMenu.selectedPieMenu.selectionColor,
+                            radius:40,
+                            thickness:editPieMenu.selectedPieMenu.thickness,
+                            labelRadius: 80,
+                            pieAngle: 0,
+                            functions: PieFunction.fill(7)
+                        });
+                        editPieMenu.selectedPieKey.pieMenus[pieNumber] = newPieMenuObj
+                        return {pieMenuNumber: pieNumber,isBack: false}
+                    }
+                    
+                    editPieMenu.sliceSettings.loadSelectedPieKey(); 
+                    if (configureFunctionOnSelect) {
+                        runParameterSelection(editPieMenu.selectedSlice.function);
+                    }
+                    function runParameterSelection(pieFunc){
+                        switch (pieFunc){
+                            case "sendKey":
+                                assignKey().then(val => {                            
+                                    editPieMenu.selectedSlice.params.keys[0] = val.ahkKey                            
+                                    $('[href="#tab-2"]').tab('show');
+                                    // editPieMenu.sliceSettings.sliceFunction.sendKey.keysDiv.scrollIntoView({behavior:"smooth"});
+                                    window.scrollTo(0,document.body.scrollHeight);
+                                    editPieMenu.sliceSettings.loadSelectedPieKey();                            
+                                }, val => {                   
+                                    $('[href="#tab-2"]').tab('show');                                
+                                });
+                                return;
+                            case "runScript":
+                                let scriptFilename = electron.openScriptFile()
+                                if(scriptFilename){                    
+                                    editPieMenu.selectedSlice.params.filePath = scriptFilename;   
+                                    editPieMenu.sliceSettings.sliceFunction.runScript.displayText.innerHTML = scriptFilename;           
+                                }
+                                editPieMenu.sliceSettings.loadSelectedPieKey();
+                                return
+                            case "openFolder":
+                                let folderPath = electron.openFolderDialog()
+                                if(folderPath){                    
+                                    editPieMenu.selectedSlice.params.filePath = folderPath;   
+                                    editPieMenu.sliceSettings.sliceFunction.openFolder.displayText.innerHTML = folderPath;           
+                                }
                                 editPieMenu.sliceSettings.loadSelectedPieKey();                            
-                            }, val => {                   
-                                $('[href="#tab-2"]').tab('show');                                
-                            });
-                            return;
-                        case "runScript":
-                            let scriptFilename = electron.openScriptFile()
-                            if(scriptFilename){                    
-                                editPieMenu.selectedSlice.params.filePath = scriptFilename;   
-                                editPieMenu.sliceSettings.sliceFunction.runScript.displayText.innerHTML = scriptFilename;           
-                            }
-                            editPieMenu.sliceSettings.loadSelectedPieKey();
-                            return
-                        case "openFolder":
-                            let folderPath = electron.openFolderDialog()
-                            if(folderPath){                    
-                                editPieMenu.selectedSlice.params.filePath = folderPath;   
-                                editPieMenu.sliceSettings.sliceFunction.openFolder.displayText.innerHTML = folderPath;           
-                            }
-                            editPieMenu.sliceSettings.loadSelectedPieKey();                            
-                            return;
-                        default:
-                            return;
+                                return;
+                            default:
+                                return;
+                        }
                     }
                 }
+                
             });
 
             //Send Keystroke
@@ -1654,8 +1716,9 @@ var editPieMenu = {
         loadSelectedPieKey:function(){            
             let selectedSlice = editPieMenu.selectedSlice;             
             this.sliceLabelTextInput.value = selectedSlice.label;
+            let selectedIsCenter = (editPieMenu.selectedPieMenu.functions.indexOf(editPieMenu.selectedSlice) == 0);
             
-
+            //Handle icon control
             if (editPieMenu.selectedSlice.icon.filePath == ""){
                 this.sliceLabelIconInput.fileText.setAttribute('class','text-muted')
                 this.sliceLabelIconInput.fileText.innerHTML = "No icon selected"
@@ -1666,6 +1729,7 @@ var editPieMenu = {
             
             this.sliceLabelIconInput.greyscaleCheckbox.checked = editPieMenu.selectedSlice.icon.WBOnly
             
+            //Handle hotkey field
             if(editPieMenu.selectedSlice.hotkey == ""){
                 this.sliceHotkeyBtn.innerHTML = "Assign Function Hotkey";
                 editPieMenu.sliceSettings.sliceRemoveHotkeyBtn.style.visibility = "hidden";
@@ -1673,11 +1737,8 @@ var editPieMenu = {
                 this.sliceHotkeyBtn.innerHTML = editPieMenu.selectedSlice.hotkey;
                 editPieMenu.sliceSettings.sliceRemoveHotkeyBtn.style.visibility = "visible";
             }
-
-
-
             
-            selectedSliceFunction = getSelectedFunction()
+            let selectedSliceFunction = getSelectedFunction();            
             if(editPieMenu.selectedPieMenu.functions.indexOf(editPieMenu.selectedSlice) == 0){            
                 //Hide Label, icon and Slice hotkey controls
                 $('#pie-menu-display-description').show()
@@ -1704,20 +1765,29 @@ var editPieMenu = {
                         }
                     }
                 }
-            };            
+            };  
 
-            function getSelectedFunction(){
-                let functionConfig = AutoHotPieSettings.global.functionConfig;
-                let selectedAHKFunc = editPieMenu.selectedSlice.function;
-                for(functionProfileIndex in functionConfig){
-                    let funcProfile = functionConfig[functionProfileIndex].functions;                    
-                    for(funcIndex in funcProfile){
-                        let func = funcProfile[funcIndex];
-                        if (func.ahkFunction == selectedAHKFunc){
-                            return func
-                        }         
-                    }
+            function getSelectedFunction(){                
+                let selectedAHKFunc = editPieMenu.selectedSlice.function;                
+                let funcList = AutoHotPieSettings.global.functionConfig.common;                    
+                for(funcIndex in funcList){
+                    let p_func = funcList[funcIndex];
+                    if (p_func.ahkFunction == selectedAHKFunc){
+                        if (p_func.ahkFunction == "customFunction"){
+                            p_func = CustomFunction.getCustomFunctionByID(editPieMenu.selectedSlice.params.id)
+                            return p_func
+                        } else {
+                            return p_func
+                        }                        
+                    }        
                 }
+                
+                
+                // let foundCustomFunc = CustomFunction.getCustomFunctionByID(p_funcNameString);
+                //     if (foundCustomFunc){
+                //         return foundCustomFunc;
+                //     }
+                
                 return {
                     name:"None",
                     optionType:"No Options",
@@ -1725,32 +1795,41 @@ var editPieMenu = {
                 }
             };
 
-
             this.sliceFunction.dropdownMenu.innerHTML = "";              
             //Populate dropdown options  
             function loadAppProfileFunctionsArray(){
                 let functionSettingsArray = [];
-                let fc = AutoHotPieSettings.global.functionConfig
+                let fc = AutoHotPieSettings.global.functionConfig.common
                 // functionSettingsArray.push(fc[0].functions)
                 for (let fcKey in fc){
-                    let funcList = fc[fcKey];
-                    let foundAppSpecificFunctions = false;
-                    foundAppSpecificFunctions = profileManagement.selectedProfile.ahkHandles.some(r=> funcList.associatedProfiles.includes(r.replace('.exe','')));     
-                    if (foundAppSpecificFunctions || funcList.associatedProfiles.includes("general")) {
-                        functionSettingsArray = functionSettingsArray.concat(funcList.functions);
+                    let p_func = fc[fcKey];                    
+                    
+                    // foundAppSpecificFunctions = profileManagement.selectedProfile.ahkHandles.some(r=> p_func.associatedProfiles.includes(r.replace('.exe','')));
+                    if(selectedIsCenter){
+                        if(p_func.commonPlacement.center){
+                            functionSettingsArray = functionSettingsArray.concat(p_func);                                                        
+                        }                                                
+                    }else{
+                        if(p_func.commonPlacement.slice){
+                            functionSettingsArray = functionSettingsArray.concat(p_func);                                                        
+                        }
                     }
                 }
                 return functionSettingsArray
             };
             let sliceFunctionsList = loadAppProfileFunctionsArray();        
             sliceFunctionsList.forEach(function(sliceFunction,index){                
-                let appProfileOption = document.createElement("a");
-                appProfileOption.setAttribute("id","slice-function-item");
-                appProfileOption.setAttribute("class","dropdown-item");
-                appProfileOption.text = sliceFunction.name;
-                editPieMenu.sliceSettings.sliceFunction.dropdownMenu.appendChild(appProfileOption);
+                addFunctionMenuItem(sliceFunction.name);           
             })
-            
+            addFunctionMenuItem("More Functions...");
+
+            function addFunctionMenuItem(optionName){
+                let menuItemOption = document.createElement("a");
+                menuItemOption.setAttribute("id","slice-function-item");
+                menuItemOption.setAttribute("class","dropdown-item");
+                menuItemOption.text = optionName;
+                editPieMenu.sliceSettings.sliceFunction.dropdownMenu.appendChild(menuItemOption);                
+            }            
 
             let selectedFunc = this.sliceFunction.dropdownBtn.innerHTML            
             let ahkParamObj = {}
@@ -1769,12 +1848,15 @@ var editPieMenu = {
                     $('#send-keys-div [class="btn-group"]').remove()
                     if (ahkParamObj.keys.length == 0){
                         $('#send-keys-div [name="send-keystroke-btn-0"]')[0].innerHTML = "Assign Key"                   
+                    } else if (ahkParamObj.keys.length > 1){
+                        $('#send-keys-div [name="send-keystroke-btn-0"]').remove();                        
+                        $('#send-keys-div [class="btn-group"]').remove();
                     }
                     ahkParamObj.keys.forEach(function(val, index){
                         let p_HotkeyObj = getKeyObjFromAhkString(val);
-                        if(index == 0){
+                        if(ahkParamObj.keys.length == 1){
                             $('#send-keys-div [name="send-keystroke-btn-0"]')[0].innerHTML = p_HotkeyObj.displayKey
-                        } else {                            
+                        } else {                              
                             addKeystrokeButtonGroup(p_HotkeyObj,index)
                         }                        
                     });
@@ -1838,7 +1920,10 @@ var editPieMenu = {
                     break;
                 case "Parameter List":
                     break;
-                case "photoshop_cycleTool":
+                case "customFunction":
+
+                    // Set custom control values!!!
+                    
                     break;
                 default:
                     break;
@@ -1880,9 +1965,6 @@ function handleSliderDiv(event, step=1){
     }
     if (event.type == "change"){ //Moved slider or entered number 
         let newValue = updateSliderValue();
-        // console.log("Changed: " + newValue + "\nDecimal: " + decimalStepScalar)
-        // console.log(newValue)
-        // console.log(inputSlider.step)
         IsDragging = false
         return newValue
     }

@@ -15,7 +15,7 @@
 
 <body>
     <div id="app-tabs">
-        <ul class="nav nav-tabs" role="tablist" name="hidden-tab-items" style="display:none">
+        <ul class="nav nav-tabs" role="tablist" name="hidden-tab-items" style="display:noned">
             <li class="nav-item" role="presentation"><a class="nav-link active" role="tab" data-bs-toggle="tab" href="#tab-1">Home</a></li>
             <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-2">Edit Pie Menu</a></li>
             <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-3">Create New Profile</a></li>
@@ -28,7 +28,9 @@
             <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-23">Clipboard Elements</a></li>
             <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-24">Running Pie Menus</a></li>
             <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-25">Function Select</a></li>
+            <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-30">Create New Script</a></li>
             <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-28">Icon Manager</a></li>
+            <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-29">Edit Script</a></li>
         </ul>
         <div class="tab-content">
             <div class="tab-pane active" role="tabpanel" id="tab-1">
@@ -91,7 +93,7 @@
                             <tbody id="pie-menu-overview-table">
                                 <tr>
                                     <td class="text-center" style="width: 98px;"><button class="btn btn-primary" type="button" style="width: 97.3125px;" name="pie-menu-edit-btn">Edit</button></td>
-                                    <td class="text-center" style="width: 89px;"><input type="color" data-bs-toggle="tooltip" data-bss-tooltip="" style="width: 55px;height: 30px;margin-top: 3px;" title="Color of pie menu." name="pie-menu-color-control"></td>
+                                    <td class="text-center" style="width: 89px;"><button class="btn btn-primary" type="button" name="pie-menu-color-control" data-jscolor="">col</button></td>
                                     <td style="padding-top: 13px;" name="pie-key-display">Ctrl + r</td>
                                     <td style="padding-top: 13px;" name="pie-key-name-display">Cell 4</td>
                                     <td style="padding-top: 13px;">
@@ -159,14 +161,14 @@
                                             <div class="d-inline-flex d-lg-flex align-items-lg-start" style="background: rgb(34,34,34);transform: translateY(-35px);width: 124px;padding-right: 10px;padding-left: 10px;">
                                                 <h5 class="d-inline-flex" style="transform: translateY(0px);margin-bottom: -10px;">Main&nbsp; Menu</h5>
                                             </div>
-                                            <div class="d-flex" style="margin-bottom: 9px;">
-                                                <p style="margin-right: 14px;margin-bottom: 3px;">Selection Color:</p><input type="color" id="main-selection-color-input" style="margin-right: 31px;">
+                                            <div class="d-flex align-items-center" style="margin-bottom: 9px;">
+                                                <p style="margin-right: 14px;margin-bottom: 3px;">Selection Color:</p><input type="text" id="main-selection-color-input" data-jscolor="" value="" style="width: 143px;">
                                             </div>
-                                            <div class="d-flex align-items-lg-start" style="margin-bottom: 9px;">
-                                                <p style="margin-right: 14px;margin-bottom: 3px;">Background Color:</p><input type="color" id="main-background-color-input">
+                                            <div class="d-flex align-items-center" style="margin-bottom: 9px;">
+                                                <p style="margin-right: 14px;margin-bottom: 3px;">Background Color:</p><input type="text" id="main-background-color-input" data-jscolor="" value="" style="width: 143px;">
                                             </div>
-                                            <div class="d-flex align-items-lg-start" style="margin-bottom: 9px;">
-                                                <p style="margin-right: 14px;margin-bottom: 3px;">Font Color:</p><input type="color" id="menu-font-color-input">
+                                            <div class="d-flex align-items-center" style="margin-bottom: 9px;">
+                                                <p style="margin-right: 14px;margin-bottom: 3px;">Font Color:</p><input type="text" id="menu-font-color-input" data-jscolor="" value="" style="width: 143px;">
                                             </div>
                                             <div class="d-flex align-items-center" id="main-menu-radius-slider-div" style="margin-bottom: 9px;">
                                                 <p style="margin-right: 14px;margin-bottom: 3px;">Radius:</p><input class="form-range" type="range" style="margin-right: 15px;"><input class="bg-dark border rounded-0 border-dark" type="text" style="font-size: 16px;color: var(--bs-white);width: 40px;text-align: center;" placeholder="20" maxlength="3" inputmode="numeric">
@@ -196,8 +198,8 @@
                                             <div class="d-inline-flex d-lg-flex align-items-lg-start" style="background: rgb(34,34,34);transform: translateY(-35px);width: 108px;padding-right: 10px;padding-left: 10px;">
                                                 <h5 class="d-inline-flex" style="transform: translateY(0px);margin-bottom: -10px;">Sub Menu</h5>
                                             </div>
-                                            <div class="d-flex align-items-lg-start" style="margin-bottom: 9px;">
-                                                <p style="margin-right: 14px;margin-bottom: 3px;">Selection Color:</p><input type="color" id="sub-menu-selection-color-input" style="margin-right: 31px;">
+                                            <div class="d-flex align-items-center" style="margin-bottom: 9px;">
+                                                <p style="margin-right: 14px;margin-bottom: 3px;">Selection Color:</p><input type="text" id="sub-menu-selection-color-input" data-jscolor="" value="" style="width: 143px;">
                                             </div>
                                             <div class="d-flex align-items-center" id="sub-menu-radius-slider-div" style="margin-bottom: 9px;">
                                                 <p style="margin-right: 14px;margin-bottom: 3px;">Radius:</p><input class="form-range" type="range" style="margin-right: 15px;"><input class="bg-dark border rounded-0 border-dark" type="text" style="font-size: 16px;color: var(--bs-white);width: 40px;text-align: center;" placeholder="20" maxlength="3" inputmode="numeric">
@@ -279,13 +281,13 @@
                                             </div>
                                         </div>
                                         <div style="border: 1px solid var(--bs-gray);border-radius: 14px;padding: 24px;width: 100%;margin-top: 24px;">
-                                            <div class="d-flex align-items-center" style="background: rgb(34,34,34);transform: translateY(-40px);padding-right: 10px;padding-left: 10px;width: 446px;">
+                                            <div class="d-flex align-items-center" style="background: rgb(34,34,34);transform: translateY(-40px);padding-right: 10px;padding-left: 10px;width: 446px; position: absolute; z-index: 3;">
                                                 <h5 class="d-xxl-flex align-items-xxl-center" style="margin-bottom: 2px;margin-right: 11px;">Function:</h5>
                                                 <div class="dropdown"><button class="btn btn-secondary dropdown-toggle" aria-expanded="false" data-bs-toggle="dropdown" id="function-dropdown-btn" type="button" style="min-width: 331px;">Dropdown </button>
-                                                    <div class="dropdown-menu dropdown-menu-dark" id="function-dropdown-menu" style="width: 331px;"><a class="dropdown-item">First Item</a><a class="dropdown-item">Second Item</a><a class="dropdown-item">Third Item</a></div>
+                                                    <div class="dropdown-menu dropdown-menu-dark" id="function-dropdown-menu" style="width: 331px;"><a class="dropdown-item">First Item</a><a class="dropdown-item">Second Item</a><a class="dropdown-item">Third Item</a><a class="dropdown-item" href="#">Menu Item</a></div>
                                                 </div>
                                             </div>
-                                            <div id="function-tabs">
+                                            <div id="function-tabs" style="padding-top: 14px;">
                                                 <ul class="nav nav-tabs" role="tablist" name="hidden-tab-items">
                                                     <li class="nav-item" role="presentation"><a class="nav-link active" role="tab" data-bs-toggle="tab" href="#tab-13">Send Key</a></li>
                                                     <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-14">Mouse Click</a></li>
@@ -295,9 +297,9 @@
                                                     <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-18">No Options</a></li>
                                                     <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-19">photoshop_cycleTool</a></li>
                                                     <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-20">Parameter List</a></li>
-                                                    <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-21">Tab 1</a></li>
+                                                    <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-21">Custom Options</a></li>
                                                     <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-22">Open Folder</a></li>
-                                                    <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-26">Tab</a></li>
+                                                    <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-26">Open URL</a></li>
                                                 </ul>
                                                 <div class="tab-content">
                                                     <div class="tab-pane active" role="tabpanel" id="tab-13">
@@ -409,7 +411,12 @@
                                                         </div>
                                                     </div>
                                                     <div class="tab-pane" role="tabpanel" id="tab-26">
-                                                        <p>Tab content.</p>
+                                                        <div class="d-flex justify-content-start" style="padding-top: 12px;padding-bottom: 12px;">
+                                                            <div class="d-flex align-items-center"></div>
+                                                            <div class="d-flex align-items-center" style="width: 100%;">
+                                                                <h5 class="d-xxl-flex align-items-xxl-center" style="margin-bottom: -10px;margin-right: 14px;margin-top: -11px;">URL:</h5><input class="bg-dark border rounded-0 border-dark flex-grow-1" type="text" style="font-size: 16px;color: var(--bs-white);padding-top: 1px;padding-bottom: 1px;text-align: left;" placeholder="Paste link URL...">
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -482,13 +489,13 @@
                             <div class="d-flex align-items-center"></div>
                             <div class="d-flex align-items-center">
                                 <h5 class="d-xxl-flex align-items-xxl-center" style="margin-bottom: -10px;margin-right: 15px;margin-top: -11px;">Selection Color:</h5>
-                            </div><input class="form-control form-control-color" type="color" id="new-selection-color-input" style="min-width: 80px;">
+                            </div><input class="form-control" type="text" id="new-selection-color-input" data-jscolor="" value="" style="width: 143px;">
                         </div>
                         <div class="d-flex justify-content-start" style="padding-top: 12px;padding-bottom: 12px;">
                             <div class="d-flex align-items-center"></div>
                             <div class="d-flex align-items-center">
-                                <h5 class="d-xxl-flex align-items-xxl-center" style="margin-bottom: -10px;margin-right: 15px;margin-top: -11px;">Background Color:</h5><input class="form-control form-control-color" type="color" id="new-background-color-input" style="min-width: 80px;">
-                            </div>
+                                <h5 class="d-xxl-flex align-items-xxl-center" style="margin-bottom: -10px;margin-right: 15px;margin-top: -11px;">Background Color:</h5>
+                            </div><input class="form-control" type="text" id="new-background-color-input" data-jscolor="" value="" style="width: 143px;">
                         </div>
                         <div class="d-flex justify-content-center" style="padding-top: 12px;padding-bottom: 12px;margin-top: 15px;">
                             <div class="d-flex align-items-center"></div>
@@ -602,7 +609,7 @@
                 </div>
             </div>
             <div class="tab-pane" role="tabpanel" id="tab-23">
-                <div class="btn-group" role="group" id="send-key-btn-group-template" style="margin-right: 14px;" name="send-keystroke-btn-group-1"><button class="btn btn-primary" type="button" name="send-keystroke-btn-1">Button 1</button><button class="btn btn-danger" type="button" style="padding-right: 6px;padding-left: 6px;" name="send-keystroke-btn-remove-1"><i class="fa fa-remove" name="send-keystroke-btn-remove-1"></i></button></div><button class="btn btn-secondary" id="app-cancel-btn" type="button" style="margin-right: 13px;"><i class="icon ion-close-round" style="margin-right: 12px;"></i>Cancel</button>
+                <div class="btn-group" role="group" id="send-key-btn-group-template" style="margin-right: 14px;" name="send-keystroke-btn-group-1"><button class="btn btn-primary" type="button" name="send-keystroke-btn-1">Button 1</button><button class="btn btn-danger" type="button" style="padding-right: 6px;padding-left: 6px;" name="send-keystroke-btn-remove-1"><i class="fa fa-remove" name="send-keystroke-btn-remove-1"></i></button></div><button class="btn btn-primary" type="button" style="margin-right: 14px;" name="send-keystroke-btn-0">Assign Key</button><button class="btn btn-secondary" id="app-cancel-btn" type="button" style="margin-right: 13px;"><i class="icon ion-close-round" style="margin-right: 12px;"></i>Cancel</button>
                 <div class="d-flex" id="program-list-item-template" style="width: 100%; display: none;">
                     <div style="width: 34.5781px;" name="program-remove-btn"><i class="fa fa-remove" style="padding: 4px;width: 100%;height: 100%;text-align: center;padding-top: 9px;"></i></div>
                     <div class="d-flex align-items-center" style="width: 100%;">
@@ -612,6 +619,18 @@
                 <div class="text-center d-xxl-flex align-items-xxl-center" id="template-select-icon-div" style="width: 150px;height: 100px;" name="selectable-icon-div">
                     <div style="width: 100%;"><img src="assets/img/ColorRainbow.png" style="width: 32px;margin-bottom: 6px;">
                         <p class="text-truncate" style="margin-bottom: 0px;font-size: 14px;color: var(--bs-gray-600);">Arrow Left</p>
+                    </div>
+                </div><button id="color-button-template" data-jscolor="" style="width:50px;height:30px"></button>
+                <div id="custom-function-div-template" class="div-hover-green-8" style="border-radius: 8px;border-width: 3px;border-style: solid;margin-top: 6px;margin-bottom: 6px;" name="custom-function-div">
+                    <div class="d-flex" style="background: var(--bs-gray-800);padding-left: 10px;padding-right: 10px;padding-top: 7px;padding-bottom: 3px;border-top-left-radius: 4px;border-top-right-radius: 4px;">
+                        <h5 style="width: 100%;">Heading</h5>
+                        <div class="d-flex" style="height: 27px;">
+                            <div class="d-flex justify-content-center align-items-center icon-btn-div" style="width: 26.8594px;" name="custom-func-edit-btn"><i class="fa fa-edit"></i></div>
+                            <div class="d-flex justify-content-center align-items-center icon-btn-div" style="width: 26.8594px;" name="custom-func-remove-btn"><i class="fa fa-remove"></i></div>
+                        </div>
+                    </div>
+                    <div>
+                        <p style="color: var(--bs-gray);padding-left: 10px;padding-right: 10px;padding-top: 7px;margin-bottom: 8px;">Paragraph</p>
                     </div>
                 </div>
             </div>
@@ -626,7 +645,168 @@
                 </div>
             </div>
             <div class="tab-pane" role="tabpanel" id="tab-25">
-                <p>Tab content.</p>
+                <div class="d-flex align-items-center" style="background: var(--bs-gray-dark);height: 102px;">
+                    <div style="width: 20%;"><button class="btn btn-secondary" id="function-select-back-btn" type="button" style="margin-left: 50px;"><i class="icon ion-chevron-left" style="margin-right: 12px;"></i>Back</button></div>
+                    <div style="width: 60%;">
+                        <h3 class="text-center" style="margin-bottom: 0px;">Select Function</h3>
+                    </div>
+                </div>
+                <div style="padding-right: 50px;padding-left: 50px;padding-top: 25px;padding-bottom: 25px;">
+                    <div>
+                        <h4 class="text-center" style="margin-top: 39px;padding: 10px;border-radius: 5px;">Common</h4>
+                    </div>
+                    <div>
+                        <div class="d-inline-flex align-content-start flex-wrap" id="common-function-div">
+                            <div class="text-center d-xxl-flex align-items-xxl-center" style="width: 125px;height: 100px;padding: 5px;" name="selectable-icon-div">
+                                <div class="d-flex align-items-center div-hover-green" style="width: 100%;background: var(--bs-gray-800);border-radius: 8px;height: 100%;">
+                                    <div style="width: 100%;"><img src="assets/img/Function%20Icons/FuncIcon-SendKey.svg" style="width: 32px;margin-bottom: 6px;">
+                                        <p style="margin-bottom: 0px;font-size: 14px;">Send Key</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-center d-xxl-flex align-items-xxl-center" style="width: 125px;height: 100px;padding: 5px;" name="selectable-icon-div">
+                                <div class="d-flex align-items-center div-hover-green" style="width: 100%;background: var(--bs-gray-800);border-radius: 8px;height: 100%;">
+                                    <div style="width: 100%;"><img src="assets/img/Function%20Icons/FuncIcon-MouseClick.svg" style="width: 32px;margin-bottom: 6px;">
+                                        <p style="margin-bottom: 0px;font-size: 14px;">Mouse Click</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-center d-xxl-flex align-items-xxl-center" style="width: 125px;height: 100px;padding: 5px;" name="selectable-icon-div">
+                                <div class="d-flex align-items-center div-hover-green" style="width: 100%;background: var(--bs-gray-800);border-radius: 8px;height: 100%;">
+                                    <div style="width: 100%;"><img src="assets/img/Function%20Icons/FuncIcon-RunFile.svg" style="width: 32px;margin-bottom: 6px;">
+                                        <p style="margin-bottom: 0px;font-size: 14px;">Run File</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-center d-xxl-flex align-items-xxl-center" style="width: 125px;height: 100px;padding: 5px;" name="selectable-icon-div">
+                                <div class="d-flex align-items-center div-hover-green" style="width: 100%;background: var(--bs-gray-800);border-radius: 8px;height: 100%;">
+                                    <div style="width: 100%;"><img src="assets/img/Function%20Icons/FuncIcon-OpenFolder.svg" style="width: 32px;margin-bottom: 6px;">
+                                        <p style="margin-bottom: 0px;font-size: 14px;">Open Folder</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-center d-xxl-flex align-items-xxl-center" style="width: 125px;height: 100px;padding: 5px;" name="selectable-icon-div">
+                                <div class="d-flex align-items-center div-hover-green" style="width: 100%;background: var(--bs-gray-800);border-radius: 8px;height: 100%;">
+                                    <div style="width: 100%;"><img src="assets/img/Function%20Icons/FuncIcon-RepeatLast.svg" style="width: 32px;margin-bottom: 6px;">
+                                        <p style="margin-bottom: 0px;font-size: 14px;">Repeat Last</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-center d-xxl-flex align-items-xxl-center" style="width: 125px;height: 100px;padding: 5px;" name="selectable-icon-div">
+                                <div class="d-flex align-items-center div-hover-green" style="width: 100%;background: var(--bs-gray-800);border-radius: 8px;height: 100%;">
+                                    <div style="width: 100%;"><img src="assets/img/Function%20Icons/FuncIcon-SubMenu.svg" style="width: 32px;margin-bottom: 6px;">
+                                        <p style="margin-bottom: 0px;font-size: 14px;">Sub Menu</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-center d-xxl-flex align-items-xxl-center" style="width: 125px;height: 100px;padding: 5px;" name="selectable-icon-div">
+                                <div class="d-flex align-items-center div-hover-green" style="width: 100%;background: var(--bs-gray-800);border-radius: 8px;height: 100%;">
+                                    <div style="width: 100%;"><img src="assets/img/Function%20Icons/FuncIcon-ResizeWindow.svg" style="width: 32px;margin-bottom: 6px;">
+                                        <p style="margin-bottom: 0px;font-size: 14px;">Resize Window</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-center d-xxl-flex align-items-xxl-center" style="width: 125px;height: 100px;padding: 5px;" name="selectable-icon-div">
+                                <div class="d-flex align-items-center div-hover-green" style="width: 100%;background: var(--bs-gray-800);border-radius: 8px;height: 100%;">
+                                    <div style="width: 100%;"><img src="assets/img/Function%20Icons/FuncIcon-MoveWindow.svg" style="width: 32px;margin-bottom: 6px;">
+                                        <p style="margin-bottom: 0px;font-size: 14px;">Move Window</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-center d-xxl-flex align-items-xxl-center" style="width: 125px;height: 100px;padding: 5px;" name="selectable-icon-div">
+                                <div class="d-flex align-items-center div-hover-green" style="width: 100%;background: var(--bs-gray-800);border-radius: 8px;height: 100%;">
+                                    <div style="width: 100%;"><img src="assets/img/Function%20Icons/FuncIcon-Link.svg" style="width: 32px;margin-bottom: 6px;">
+                                        <p style="margin-bottom: 0px;font-size: 14px;">Open URL</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-center d-xxl-flex align-items-xxl-center" style="width: 125px;height: 100px;padding: 5px;" name="selectable-icon-div">
+                                <div class="d-flex align-items-center div-hover-green" style="width: 100%;background: var(--bs-gray-800);border-radius: 8px;height: 100%;">
+                                    <div style="width: 100%;"><img src="assets/img/Function%20Icons/FuncIcon-AHPSettings.svg" style="width: 32px;margin-bottom: 6px;">
+                                        <p style="margin-bottom: 0px;font-size: 14px;">Settings</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-center d-xxl-flex align-items-xxl-center" style="width: 125px;height: 100px;padding: 5px;" name="selectable-icon-div">
+                                <div class="d-flex align-items-center div-hover-green" style="width: 100%;background: var(--bs-gray-800);border-radius: 8px;height: 100%;">
+                                    <div style="width: 100%;"><img src="assets/img/Function%20Icons/FuncIcon-None.svg" style="width: 32px;margin-bottom: 6px;">
+                                        <p style="margin-bottom: 0px;font-size: 14px;">None</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="custom-script-list-div">
+                        <div style="height: 82px;z-index: 9;position: absolute;width: 89%;"></div>
+                        <div class="text-center">
+                            <div>
+                                <h4 style="margin-top: 39px;padding: 10px;">Custom Scripts</h4>
+                            </div>
+                        </div>
+                        <div class="d-flex">
+                            <div style="width: 50%;">
+                                <div style="padding: 7px;">
+                                    <h5 class="text-center">General</h5>
+                                </div>
+                                <div id="general-custom-scripts-div" style="padding: 12px;">
+                                    <div class="div-hover-green-8" style="border-radius: 8px;border-width: 3px;border-style: solid;" name="custom-function-div">
+                                        <div style="background: var(--bs-gray-800);padding-left: 10px;padding-right: 10px;padding-top: 7px;padding-bottom: 3px;border-top-left-radius: 8px;border-top-right-radius: 8px;">
+                                            <h5>Heading</h5>
+                                        </div>
+                                        <div>
+                                            <p style="color: var(--bs-gray);padding-left: 10px;padding-right: 10px;padding-top: 7px;margin-bottom: 8px;">Paragraph</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="text-center"><button class="btn btn-secondary" id="new-script-general-btn" type="button" style="margin-right: 13px;"><i class="icon ion-android-add" style="margin-right: 12px;"></i>New Script</button></div>
+                            </div>
+                            <div style="border: 1px solid var(--bs-gray-800) ;"></div>
+                            <div style="width: 50%;">
+                                <div style="padding: 7px;">
+                                    <h5 class="text-center">Application Specific</h5>
+                                </div>
+                                <div id="app-specific-custom-scripts-div" style="padding: 12px;">
+                                    <div style="border-style: solid;border-color: var(--bs-gray-800);border-radius: 8px;">
+                                        <div style="background: var(--bs-gray-800);padding-left: 10px;padding-right: 10px;padding-top: 7px;padding-bottom: 3px;">
+                                            <h5>Heading</h5>
+                                        </div>
+                                        <div>
+                                            <p style="color: var(--bs-gray);padding-left: 10px;padding-right: 10px;padding-top: 7px;margin-bottom: 8px;">Paragraph</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="text-center"><button class="btn btn-secondary" id="new-script-app-specific-btn" type="button" style="margin-right: 13px;"><i class="icon ion-android-add" style="margin-right: 12px;"></i>New Script</button></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane" role="tabpanel" id="tab-30">
+                <div class="d-flex justify-content-start align-items-center" style="background: var(--bs-gray-dark);height: 102px;">
+                    <div style="width: 20%;"><button class="btn btn-secondary" id="create-script-back-btn" type="button" style="margin-left: 50px;"><i class="icon ion-chevron-left" style="margin-right: 12px;"></i>Back</button></div>
+                    <div style="width: 60%;">
+                        <h3 class="text-center" id="create-script-heading" style="margin-bottom: 0px;">Create New Script</h3>
+                    </div>
+                </div>
+                <div>
+                    <div class="text-center d-flex justify-content-center" style="padding: 13px;">
+                        <h4 id="new-script-program-heading" style="max-width: 500px;">New script for Illustrator.exe</h4>
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <form id="create-new-script-form" style="width: 631px;">
+                            <div class="d-flex align-items-center" style="padding-top: 12px;padding-bottom: 12px;margin-bottom: 5px;">
+                                <h5 class="d-xxl-flex align-items-xxl-center" style="margin-bottom: -10px;margin-right: 15px;margin-top: -11px;width: 146.6406px;">Script Name:</h5><input class="bg-dark border rounded-0 border-dark form-control" type="text" id="new-script-name-input" style="font-size: 16px;color: var(--bs-white);text-align: left;padding-top: 1px;padding-bottom: 1px;" placeholder="Enter name..." required="" maxlength="60">
+                            </div>
+                            <div class="d-flex" style="padding-top: 12px;padding-bottom: 12px;margin-bottom: 5px;">
+                                <h5 class="d-flex justify-content-start" style="margin-right: 21px;">Description:</h5><textarea class="form-control" id="new-script-description-input" style="background: var(--bs-gray-800);height: 86px;color: var(--bs-body-color);" placeholder="Enter description... (300 characters)" required="" maxlength="300"></textarea>
+                            </div>
+                            <div class="d-flex justify-content-center" style="padding-top: 12px;padding-bottom: 12px;margin-top: 15px;">
+                                <div class="d-flex align-items-center"></div>
+                                <div class="d-flex align-items-center"></div><button class="btn btn-secondary" id="create-new-script-cancel-btn" type="button" style="width: 194px;margin-right: 43px;height: 48px;">Cancel</button><button class="btn btn-primary" id="create-new-script-confirm" type="submit" style="height: 48px;width: 194px;">Create Script</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
             <div class="tab-pane" role="tabpanel" id="tab-28">
                 <div class="d-flex align-items-center" style="background: var(--bs-gray-dark);height: 102px;">
@@ -638,8 +818,8 @@
                 <div style="padding-left: 50px;padding-right: 50px;padding-top: 50px;padding-bottom: 50px;">
                     <div class="accordion" role="tablist" id="accordion-1" style="box-shadow: 2px 4px 18px 0px rgb(0,0,0);">
                         <div class="accordion-item">
-                            <h2 class="accordion-header" role="tab"><button class="accordion-button" data-bs-toggle="collapse" data-bs-target="#accordion-1 .item-1" aria-expanded="true" aria-controls="accordion-1 .item-1" style="font-size: 27px;">Stock Icons</button></h2>
-                            <div class="accordion-collapse collapse show item-1" role="tabpanel" data-bs-parent="#accordion-1" style="background: var(--bs-body-color);">
+                            <h2 class="accordion-header" role="tab"><button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#accordion-1 .item-1" aria-expanded="false" aria-controls="accordion-1 .item-1" style="font-size: 27px;">Stock Icons</button></h2>
+                            <div class="accordion-collapse collapse item-1" role="tabpanel" data-bs-parent="#accordion-1" style="background: var(--bs-body-color);">
                                 <div class="accordion-body">
                                     <div class="d-inline-flex align-content-start flex-wrap" id="stock-icon-library" style="overflow-y: scroll;height: 350px;width: 100%;">
                                         <div class="text-center d-xxl-flex align-items-xxl-center" style="width: 150px;height: 100px;" name="selectable-icon-div">
@@ -652,8 +832,8 @@
                             </div>
                         </div>
                         <div class="accordion-item">
-                            <h2 class="accordion-header" role="tab"><button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#accordion-1 .item-2" aria-expanded="false" aria-controls="accordion-1 .item-2" style="font-size: 27px;">User Icons</button></h2>
-                            <div class="accordion-collapse collapse item-2" role="tabpanel" data-bs-parent="#accordion-1" style="background: var(--bs-body-color);">
+                            <h2 class="accordion-header" role="tab"><button class="accordion-button" data-bs-toggle="collapse" data-bs-target="#accordion-1 .item-2" aria-expanded="true" aria-controls="accordion-1 .item-2" style="font-size: 27px;">User Icons</button></h2>
+                            <div class="accordion-collapse collapse show item-2" role="tabpanel" data-bs-parent="#accordion-1" style="background: var(--bs-body-color);">
                                 <div class="accordion-body">
                                     <div class="d-inline-flex align-content-start flex-wrap" id="user-icon-library" style="overflow-y: scroll;height: 350px;width: 100%;">
                                         <div class="text-center d-xxl-flex align-items-xxl-center" style="width: 150px;height: 100px;" name="selectable-icon-div">
@@ -699,19 +879,64 @@
                     </div>
                 </div>
             </div>
+            <div class="tab-pane" role="tabpanel" id="tab-29">
+                <p>Tab content.</p>
+                <div class="d-flex justify-content-start align-items-center" style="background: var(--bs-gray-dark);height: 102px;">
+                    <div style="width: 20%;"><button class="btn btn-secondary" id="edit-script-back-btn" type="button" style="margin-left: 50px;"><i class="icon ion-chevron-left" style="margin-right: 12px;"></i>Back</button></div>
+                    <div style="width: 60%;">
+                        <h3 class="text-center" id="create-script-heading-1" style="margin-bottom: 0px;">Edit Script</h3>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-center"></div>
+                <div class="d-flex">
+                    <div style="width: 50%;">
+                        <div style="margin-left: 46px;margin-right: 10px;">
+                            <div class="d-flex" style="width: 100%;margin-top: 19px;margin-bottom: 12px;">
+                                <div style="width: 112px;text-align: right;">
+                                    <h5 style="width: 112px;">Name:</h5>
+                                </div>
+                                <div style="width: 100%;margin-left: 11px;"><input class="bg-dark border rounded-0 border-dark" type="text" id="new-script-name-input-1" style="font-size: 16px;color: var(--bs-white);text-align: left;width: 100%;" placeholder="Enter name..." required="" maxlength="60"></div>
+                            </div>
+                            <div class="d-flex" style="width: 100%;margin-bottom: 23px;">
+                                <div style="width: 112px;text-align: right;">
+                                    <h5 style="width: 112px;">Description:</h5>
+                                </div>
+                                <div style="margin-left: 11px;width: 100%;"><textarea id="new-script-description-input-1" style="background: var(--bs-gray-800);height: 86px;color: var(--bs-body-color);width: 100%;" placeholder="Enter description... (300 characters)" required="" maxlength="300"></textarea></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div>
+                                <h3 class="text-center">Parameters</h3>
+                            </div>
+                            <div style="text-align: center;">
+                                <div class="dropdown" style="padding: 9px;"><button class="btn btn-primary dropdown-toggle" aria-expanded="false" data-bs-toggle="dropdown" type="button" style="width: 223.703px;">Add Control</button>
+                                    <div class="dropdown-menu"><a class="dropdown-item" href="#">First Item</a><a class="dropdown-item" href="#">Second Item</a><a class="dropdown-item" href="#">Third Item</a></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="width: 50%;">
+                        <div></div>
+                        <div></div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <div id="image-buffer" hidden=""></div>
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="assets/js/bs-init.js"></script>
+    <script src="./jscolor.js"></script>
     <script src="./renderer.js"></script>
     <script src="./ahpClasses.js"></script>
     <script src="./profileManagement.js"></script>
     <script src="./menuFunctions.js"></script>
     <script src="./runningPieMenu.js"></script>
     <script src="./createNewProfile.js"></script>
+    <script src="./createNewScript.js"></script>
     <script src="./confirmation.js"></script>
+    <script src="./functionSelect.js"></script>
     <script src="./hotkeyManagement.js"></script>
     <script src="./editPieMenu.js"></script>
     <script src="./iconManager.js"></script>

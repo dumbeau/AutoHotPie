@@ -13,6 +13,7 @@ document.getElementsByName("hidden-tab-items").forEach(function(tabs,index){
 
 iconManager.refreshIconLibrary();
 
+
 function rgbToHex(rgbArray) {
     let returnString = "#"
     rgbArray.forEach(function(component,index){
@@ -156,3 +157,21 @@ function throttle(func, interval) {
     };
 }
 
+
+function RunPieMenuApp(){
+    runningPieMenu.open();
+    pieMenus.run(AutoHotPieSettings.global.startup.runAHKPieMenus).then(val => {
+        console.log("Pie Menus are running!")
+        closeWindow();
+    },val => {
+        console.log("Pie Menus timed out.  No pie menus for you.")
+        closeWindow();
+    })
+}
+
+//Set JSColor default
+jscolor.presets.default = {
+	backgroundColor:'rgba(68,68,68,1)', hash:false, hideOnPaletteClick:true, shadowColor:'rgba(0,0,0,0.65)', borderRadius:2, borderWidth:0, previewSize:50, width:300, height:150, 
+    pointerThickness:1	
+};
+jscolor.install();

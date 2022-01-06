@@ -41,8 +41,8 @@ async function confirmDialog(options){
     }    
     var setting = Object.assign({}, defaults, options);
     cd.heading.innerHTML = setting.heading
-    cd.description.innerHTML = setting.description;    
-    cd.cancelBtn.innerHTML = setting.cancelText;    
+    cd.description.innerHTML = setting.description;
+    cd.cancelBtn.innerHTML = setting.cancelText;
     cd.confirmBtn.innerHTML = setting.confirmText;
     
     let visibilityState = "hidden"

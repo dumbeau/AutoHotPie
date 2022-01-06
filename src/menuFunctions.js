@@ -28,7 +28,7 @@ menuListener(function(event, arg){
             return
         }
         case 'close':
-        {
+        {            
             closeWindow();
             return
         }
