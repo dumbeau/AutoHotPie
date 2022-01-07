@@ -30,7 +30,7 @@ var newPieMenu = {
                 newPieActMode.submenuMode = val
                 newPieMenu.activationModeBtn.innerHTML = newPieMenu.subMenuModeDescriptions[val-1];
                 newPieMenu.validateInput(false)
-                $('[href="#tab-4"]').tab('show');                                
+                $('[href="#tab-4"]').tab('show');                       
             },val => {
                 $('[href="#tab-4"]').tab('show');
             });                                       
@@ -113,12 +113,13 @@ async function createNewPieMenu(options={}){
                 newCopyMenu = AutoHotPieSettings.appProfiles[0].pieKeys[0]
                 // newCopyMenu.activationMode.submenuMode = null;
             }else{
-                newCopyMenu = new PieKey();
-                // newCopyMenu.activationMode.submenuMode = null;
+                newCopyMenu = new PieKey({pieMenus:[new PieMenu()]});
+                // newCopyMenu.activationMode.submenuMode = null;                
             }
             return newCopyMenu;
         };
         copyMenu = determineCopyPieMenu();
+        console.log(copyMenu);
         let defaultPieKey = new PieKey({
             name:"Pie Menu " + (profileManagement.selectedProfile.pieKeys.length+1),
             labelDelay:copyMenu.labelDelay,  
@@ -132,9 +133,9 @@ async function createNewPieMenu(options={}){
                 pieAngle: 0,
                 functions: PieFunction.fill(7)                
             })]
-        })
+        });     
         return defaultPieKey
-    };    
+    };        
     newPieMenu.open();
 
     let myPromise = await waitForUserInput()
