@@ -181,7 +181,17 @@ pie_moveWindow() ;make this work thorugh here
 	WinMove, A, , pieOpenLocX-(width/2), pieOpenLocY-(width/3)
 	return
 	}
-
+pie_openURL(params){
+	url := params.url
+	Try
+	{
+	run, % url
+	return
+	} catch e {
+		msgbox, % "Cannot open URL at:`n`n" . url
+	return
+	}
+	}
 pie_afterfx_cursorToPlayhead()
 	{
 	return
@@ -272,6 +282,18 @@ pie_Photoshop_cycleBrush(brushNames)
     desc.putReference( appRef.charIDToTypeID( "null" ), ref )
     appRef.executeAction( appRef.charIDToTypeID( "slct" ), desc, 3 )
     return
+}
+
+pie_customFunction(functionObject){
+	Try
+	{
+		p_funcName := "customFunc_" . functionObject.id
+		p_funcParams := functionObject.params		
+		%p_funcName%(p_funcParams)
+	} catch e {
+		msgbox, %e%
+		return
+	}
 }
 
 

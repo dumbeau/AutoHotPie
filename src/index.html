@@ -15,7 +15,7 @@
 
 <body>
     <div id="app-tabs">
-        <ul class="nav nav-tabs" role="tablist" name="hidden-tab-items" style="display:noned">
+        <ul class="nav nav-tabs" role="tablist" name="hidden-tab-items" style="display:none">
             <li class="nav-item" role="presentation"><a class="nav-link active" role="tab" data-bs-toggle="tab" href="#tab-1">Home</a></li>
             <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-2">Edit Pie Menu</a></li>
             <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-3">Create New Profile</a></li>
@@ -415,7 +415,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="justify-content-start" id="slice-hotkey-div" style="padding-top: 12px;padding-bottom: 12px;">
+                                        <div class="justify-content-start" id="slice-hotkey-div" style="padding-top: 12px;padding-bottom: 12px;margin-top: 9px;">
                                             <div class="d-flex align-items-center">
                                                 <h5 class="d-xxl-flex align-items-xxl-center" style="margin-bottom: -10px;margin-right: 15px;margin-top: -11px;">Slice Hotkey:</h5><button class="btn btn-secondary" data-bs-toggle="tooltip" data-bss-tooltip="" id="change-slice-hotkey-btn" type="button" style="margin-right: 2px;min-width: 100px;" title="Assign keystroke to launch function.">'</button>
                                                 <div class="d-flex justify-content-center align-items-center" id="unset-slice-hotkey-btn" style="width: 28.5781px;height: 31px;"><i class="fa fa-remove"></i></div>
@@ -818,8 +818,8 @@
                 <div style="padding-left: 50px;padding-right: 50px;padding-top: 50px;padding-bottom: 50px;">
                     <div class="accordion" role="tablist" id="accordion-1" style="box-shadow: 2px 4px 18px 0px rgb(0,0,0);">
                         <div class="accordion-item">
-                            <h2 class="accordion-header" role="tab"><button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#accordion-1 .item-1" aria-expanded="false" aria-controls="accordion-1 .item-1" style="font-size: 27px;">Stock Icons</button></h2>
-                            <div class="accordion-collapse collapse item-1" role="tabpanel" data-bs-parent="#accordion-1" style="background: var(--bs-body-color);">
+                            <h2 class="accordion-header" role="tab"><button class="accordion-button" data-bs-toggle="collapse" data-bs-target="#accordion-1 .item-1" aria-expanded="true" aria-controls="accordion-1 .item-1" style="font-size: 27px;">Stock Icons</button></h2>
+                            <div class="accordion-collapse collapse show item-1" role="tabpanel" data-bs-parent="#accordion-1" style="background: var(--bs-body-color);">
                                 <div class="accordion-body">
                                     <div class="d-inline-flex align-content-start flex-wrap" id="stock-icon-library" style="overflow-y: scroll;height: 350px;width: 100%;">
                                         <div class="text-center d-xxl-flex align-items-xxl-center" style="width: 150px;height: 100px;" name="selectable-icon-div">
@@ -832,8 +832,8 @@
                             </div>
                         </div>
                         <div class="accordion-item">
-                            <h2 class="accordion-header" role="tab"><button class="accordion-button" data-bs-toggle="collapse" data-bs-target="#accordion-1 .item-2" aria-expanded="true" aria-controls="accordion-1 .item-2" style="font-size: 27px;">User Icons</button></h2>
-                            <div class="accordion-collapse collapse show item-2" role="tabpanel" data-bs-parent="#accordion-1" style="background: var(--bs-body-color);">
+                            <h2 class="accordion-header" role="tab"><button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#accordion-1 .item-2" aria-expanded="false" aria-controls="accordion-1 .item-2" style="font-size: 27px;">User Icons</button></h2>
+                            <div class="accordion-collapse collapse item-2" role="tabpanel" data-bs-parent="#accordion-1" style="background: var(--bs-body-color);">
                                 <div class="accordion-body">
                                     <div class="d-inline-flex align-content-start flex-wrap" id="user-icon-library" style="overflow-y: scroll;height: 350px;width: 100%;">
                                         <div class="text-center d-xxl-flex align-items-xxl-center" style="width: 150px;height: 100px;" name="selectable-icon-div">

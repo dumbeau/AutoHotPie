@@ -9,7 +9,7 @@ var runningPieMenu = {
     open:function(){
         $('[href="#tab-24"]').tab('show');
         this.loadingGIF.fadeIn(500)
-        setTimeout(function(){runningPieMenu.loadingText.fadeIn(500);},2000)
+        setTimeout(function(){runningPieMenu.loadingText.fadeIn(500);},10000)
     }
 }
 runningPieMenu.initialize();

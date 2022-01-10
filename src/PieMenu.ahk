@@ -9,7 +9,6 @@
 #Include %A_ScriptDir%\lib\Json.ahk
 
 
-
 ;Set Per monitor DPI awareness: https://www.autohotkey.com/boards/viewtopic.php?p=295182#p295182
 DllCall("SetThreadDpiAwarenessContext", "ptr", -3, "ptr")
 CoordMode, Mouse, Screen
@@ -73,13 +72,8 @@ loadSettingsFile()
 	Gdip_TextToGraphics(G, "Test", "x20 y20 Center vCenter c00FFFFFF r4 s20", "Arial")
 	Gdip_SetCompositingMode(G, 1) ;idk if this matters but it looked p nice for images even though I'm not using them
 	ClearDrawGDIP()
-	EndDrawGDIP()	
-	;Init G2 Text
-	; SetUpGDIP2(0, 0, 50, 50) ;windows were appearing over taskbar without -0.01
-	; StartDrawGDIP2()
-	; Gdip_TextToGraphics(G2, "Test", "x20 y20 Center vCenter c00FFFFFF r4 s20", "Arial")
-	; ClearDrawGDIP2()
-	; EndDrawGDIP2()
+	EndDrawGDIP()
+
 
 	;Set up icon menu tray options
 	if (A_IsCompiled){

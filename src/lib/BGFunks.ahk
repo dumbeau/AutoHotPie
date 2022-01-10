@@ -264,6 +264,28 @@ loadSliceHotkeys(activePieMenu, hotkeysOn){
 		
 }
 
+Class UserPieFunctions {
+	load(){		
+		fileChanged := false
+		;Determine if custom functions changed
+		;Check if file text and JSON string are equivalent.
+
+		if (changed){
+			this.createFile()			
+			Reload ;Restart
+		} else {
+			return
+		}
+
+	}
+	createFile(){
+		;Load from settings OBJ functionconfig
+		;replace the UserPieFunctions.ahk file with JSON text.			
+
+	}
+	
+}
+
 copyFilesAndFolders(SourcePattern, DestinationFolder, DoOverwrite = false)
 	{
     ; First copy all the files (but not the folders):
@@ -970,7 +992,7 @@ drawPie(appProfile, activePieProfile, xPos, yPos, dist, theta, thetaOffset, clic
 		{
 		; if (activePieProfile.functions[A_Index+1].label = "" && )
 		; 	continue
-		labelTheta := (((A_Index-1)*(360/numSlices))+(180/numSlices+thetaOffset))
+		labelTheta := cycleRange(((A_Index-1)*(360/numSlices))+(180/numSlices+thetaOffset))
 		; If ((dist <= radius) && drawIndicator && (activePieProfile.functions[A_Index+1].function == "submenu" or activePieProfile.functions[A_Index].function == "submenu") )
 		; 	Gdip_DrawArc(G, basicPen, (gmx-((radius)+ (thickness / 2))), (gmy-((radius)+ (thickness / 2))), 2*radius+thickness, 2*radius+thickness, labelTheta-(720/numSlices), 3*Mon.pieDPIScale)
 		If ((dist <= radius) )
@@ -991,12 +1013,11 @@ drawPie(appProfile, activePieProfile, xPos, yPos, dist, theta, thetaOffset, clic
 		}
 			
 		
-		if activePieProfile.functions[A_Index].function == "submenu"
-		{
-			;Draw subMenuIndicator
-		}
-		
-		
+		; if activePieProfile.functions[A_Index].function == "submenu"
+		; {
+		; 	;Draw subMenuIndicator
+		; }
+
 		; msgbox, % labelTheta
 		if labelTheta between 0.1 and 179.9
 			labelAnchor := "left"
@@ -1138,9 +1159,10 @@ drawPieLabel(activePieProfile, sliceFunction, xPos, yPos, selected:=0, anchor:="
 	If (anchor == "left"){		
 		rectCenter := [xPos+(outerRectSize[1]/2)-(outerRectSize[2]/2), yPos]	
 	}			
-	If (anchor == "right"){		
+	If (anchor == "right"){	
+		
 		rectCenter := [xPos-(outerRectSize[1]/2)+(outerRectSize[2]/2), yPos]		
-	}
+	}		
 		
 	
 	basicPen := Gdip_CreatePen(strokeColor, strokeThickness)

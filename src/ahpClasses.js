@@ -718,7 +718,7 @@ class AHPSettings {
                 {
                     keyCode: 107,
                     displayKey: "Numpad +",
-                    ahkKey: "NumpadPlus"
+                    ahkKey: "NumpadAdd"
                 },
                 {
                     keyCode: 108,
