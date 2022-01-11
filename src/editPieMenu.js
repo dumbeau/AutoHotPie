@@ -1298,7 +1298,10 @@ var editPieMenu = {
             tabs: document.getElementById('function-tabs'),
             sendKey:{
                 keysDiv: document.getElementById('send-keys-div'),
+                keysListDiv: $('#send-key-button-list'),
                 keyButtonGroupTemplate: document.getElementById('send-key-btn-group-template'),               
+                keyButtonTemplate: document.getElementById('send-key-btn-template'),               
+                keyAddButton: $('#send-key-add-keystroke-btn'),               
                 timeBetweenKeysDiv: $('#time-between-keys-input-div'),
                 delayKeyReleaseCheckbox: $('#delay-key-release-checkbox')
             },
@@ -1836,26 +1839,41 @@ var editPieMenu = {
             switch (selectedFunc){
                 case "Send Key":
                     ahkParamObj = editPieMenu.selectedSlice.params;
-                    function addKeystrokeButtonGroup(hotkeyObj, index){
-                        let btnClone = editPieMenu.sliceSettings.sliceFunction.sendKey.keyButtonGroupTemplate.cloneNode(true);
-                        btnClone.children[0].setAttribute('name','send-keystroke-btn-' + index)
-                        btnClone.children[0].innerHTML = hotkeyObj.displayKey;
-                        btnClone.children[1].setAttribute('name','send-keystroke-btn-remove-' + index)                        
-                        $('#send-key-add-keystroke-btn').before(btnClone);                        
+                    function addKeystrokeButtonGroup(hotkeyObj, index, isRemoveable=true){
+                        let btnClone
+                        if (isRemoveable){
+                            btnClone = editPieMenu.sliceSettings.sliceFunction.sendKey.keyButtonGroupTemplate.cloneNode(true); 
+                            btnClone.children[0].setAttribute('name','send-keystroke-btn-' + index)
+                            btnClone.children[0].innerHTML = hotkeyObj.displayKey;
+                            btnClone.children[1].setAttribute('name','send-keystroke-btn-remove-' + index);                       
+                        } else {
+                            btnClone = editPieMenu.sliceSettings.sliceFunction.sendKey.keyButtonTemplate.cloneNode(true);
+                            btnClone.setAttribute('name','send-keystroke-btn-' + index)
+                            btnClone.innerHTML = hotkeyObj.displayKey;
+                        }
+
+                        editPieMenu.sliceSettings.sliceFunction.sendKey.keysListDiv.append(btnClone);                        
                     }
 
                     //refresh key buttons
-                    $('#send-keys-div [class="btn-group"]').remove()
+
+                    // $('#send-keys-div [class="btn-group"]').remove()
+                    // $('#send-keys-div [class="btn-group"]').remove()
+                    editPieMenu.sliceSettings.sliceFunction.sendKey.keysListDiv.empty();
+
                     if (ahkParamObj.keys.length == 0){
-                        $('#send-keys-div [name="send-keystroke-btn-0"]')[0].innerHTML = "Assign Key"                   
-                    } else if (ahkParamObj.keys.length > 1){
-                        $('#send-keys-div [name="send-keystroke-btn-0"]').remove();                        
-                        $('#send-keys-div [class="btn-group"]').remove();
+                        // $('#send-keys-div [name="send-keystroke-btn-0"]')[0].innerHTML = "Assign Key" 
+                        $('#send-key-assign-key-btn').show();
+                        editPieMenu.sliceSettings.sliceFunction.sendKey.keyAddButton.hide();
+                    } else {
+                        $('#send-key-assign-key-btn').hide();
+                        editPieMenu.sliceSettings.sliceFunction.sendKey.keyAddButton.show();                      
                     }
                     ahkParamObj.keys.forEach(function(val, index){
                         let p_HotkeyObj = getKeyObjFromAhkString(val);
                         if(ahkParamObj.keys.length == 1){
-                            $('#send-keys-div [name="send-keystroke-btn-0"]')[0].innerHTML = p_HotkeyObj.displayKey
+                            addKeystrokeButtonGroup(p_HotkeyObj,index, false);
+                            // $('#send-keys-div [name="send-keystroke-btn-0"]')[0].innerHTML = p_HotkeyObj.displayKey
                         } else {                              
                             addKeystrokeButtonGroup(p_HotkeyObj,index)
                         }                        

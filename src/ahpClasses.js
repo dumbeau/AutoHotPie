@@ -1487,12 +1487,13 @@ class AHPSettings {
         }
 
         this.global.functionConfig.custom = [];
-        if(_settingsObj && _settingsObj.global.functionConfig.custom > 0){
-            this.global.functionConfig.custom = _settingsObj.global.functionConfig.custom.map((customFunc) => new CustomFunction(customFunc))
-        } else {
-            //Initialize custom functions
-            this.global.functionConfig.custom = _settingsObj.global.functionConfig.custom
-        }
+        // console.log(_settingsObj);
+        // if( (global in _settingsObj) _settingsObj.global.functionConfig.custom > 0){
+        //     this.global.functionConfig.custom = _settingsObj.global.functionConfig.custom.map((customFunc) => new CustomFunction(customFunc))
+        // } else {
+        //     //Initialize custom functions
+        //     // this.global.functionConfig.custom = _settingsObj.global.functionConfig.custom
+        // }
 
         // saveCustomFunction({ //Add test function
         //     name:"Test Function",
