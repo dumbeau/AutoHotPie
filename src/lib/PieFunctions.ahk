@@ -17,6 +17,10 @@ pie_sendKey(keyObject)
 			bareKey := removeCharacters(key, "+^!#")			
 			startModifierString := ""                
 			endModifierString := ""
+			If (InStr(key,"#")){
+				startModifierString := startModifierString . "{LWin down}"
+				endModifierString := endModifierString . "{LWin up}"					
+			}
 			If (InStr(key,"+")){                    
 				startModifierString := startModifierString . "{shift down}"
 				endModifierString := endModifierString . "{shift up}"                    
@@ -81,7 +85,7 @@ pie_mouseClick(params)
 			modsUp := modsUp . "{alt up}"
 		}
 		send, %modsDown%		
-		if (params.drag == true){	
+		if (params.drag == true){
 			lButtonWait(mouseButton)			
 		} else {			
 			MouseClick, %mouseButton%, pieOpenLocX, pieOpenLocY, ,0

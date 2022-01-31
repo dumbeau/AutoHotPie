@@ -23,6 +23,7 @@ if (!A_IsCompiled)
 	checkAHK()
 
 debugMode := false
+; debugMode := true
 global remapLButton := ""
 
 ;Read Json Settings file to object from AppData\Local\AutoHotPie
@@ -56,10 +57,11 @@ loadSettingsFile()
 	global subPieLocY	;Y ^
 	global subMenuActive	;Y ^
 	global activePieNumber	;Y ^
-	global ActivePieSliceHotkeyArray := [] ;loadSliceHotkeys()
-	global activeProfile
+	global ActivePieSliceHotkeyArray := [] ;loadSliceHotkeys()	
+	global activeProfile	
 
 	global penClicked := false
+	global pieMenuRanWithMod := false
 
 	; global pieDPIScale
 	getMonitorCoords(Mon.left , Mon.right , Mon.top , Mon.bottom )
@@ -200,6 +202,7 @@ return
 
 offPieLabel:
 	pieEnableKey.modOff()
+	; msgbox, activeProfile	
 	; msgbox, off
 return
 
@@ -261,9 +264,9 @@ LButton up::
 	;Check pie launched state again?
 	Return
 ;For mouseClick function
-#If (remapLButton == "Right")
+#If (remapLButton == "right")
 LButton::RButton
-#If (remapLButton == "Middle")
+#If (remapLButton == "middle")
 LButton::MButton
 #If ;This ends the context-sensitivity
 

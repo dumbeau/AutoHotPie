@@ -177,7 +177,7 @@ var editPieMenu = {
     },
     loadSelectedPieKey:function(){
         let pieKeyBtn = document.getElementById('piekey-change-btn');        
-        pieKeyBtn.innerHTML = getKeyObjFromAhkString(editPieMenu.selectedPieKey.hotkey).displayKey
+        pieKeyBtn.innerHTML = new Hotkey(editPieMenu.selectedPieKey.hotkey).displayKey;
         let pieKeyNameTextInput = document.getElementById('edit-piekey-name-text-input');
         pieKeyNameTextInput.value = editPieMenu.selectedPieKey.name;
         this.launchSettings.loadSelectedPieKey();
@@ -1422,9 +1422,7 @@ var editPieMenu = {
             this.sliceFunction.dropdownMenu.addEventListener('click',function(event){
                 
                 //Block selecting edge of menu.
-                if(event.target.nodeName == "DIV"){                    
-                    return
-                }
+                if(event.target.nodeName == "DIV"){return}
                 
                 if (event.target.innerHTML == "More Functions..."){
                     functionSelectPage.selectFunction().then((val) => {                      
@@ -1438,11 +1436,13 @@ var editPieMenu = {
                     return                    
                 } else {
                     processFunctionSelection(event.target.innerHTML, true);
+                    editPieMenu.forceReload();
                 }
                 
                 
                 function processFunctionSelection(functionNameString, configureFunctionOnSelect=false){
-                    let selectedFunc = getAHKFunc(functionNameString);                    
+                    let selectedFunc = getAHKFunc(functionNameString);  
+                    console.log(selectedFunc)                  
                 
                     // editPieMenu.selectedSlice.function = selectedFunc.ahkFunction
 
@@ -1473,9 +1473,6 @@ var editPieMenu = {
                     if (editPieMenu.selectedSlice.function == "submenu"){
                         editPieMenu.selectedSlice.params = setSubMenuDefaults();
                     }
-
-                    // editPieMenu.selectedPieMenu.functions[editPieMenu.selectedPieMenu.functions.indexOf(editPieMenu.selectedSlice)] = newPieFunc;
-                    // editPieMenu.selectedSlice = newPieFunc;
 
                     function getAHKFunc(p_funcNameString){
                         let functionConfigList = AutoHotPieSettings.global.functionConfig;
@@ -1536,19 +1533,25 @@ var editPieMenu = {
                         return {pieMenuNumber: pieNumber,isBack: false}
                     }
                     
-                    editPieMenu.sliceSettings.loadSelectedPieKey(); 
+                    // editPieMenu.sliceSettings.loadSelectedPieKey(); //Maybe this should be removed or moved to the else of the next statement.
                     if (configureFunctionOnSelect) {
                         runParameterSelection(editPieMenu.selectedSlice.function);
+                    } else {
+                        checkForDefaultLabel();
+                        editPieMenu.sliceSettings.loadSelectedPieKey();
                     }
                     function runParameterSelection(pieFunc){
                         switch (pieFunc){
                             case "sendKey":
                                 assignKey().then(val => {                            
-                                    editPieMenu.selectedSlice.params.keys[0] = val.ahkKey                            
+                                    editPieMenu.selectedSlice.params.keys[0] = val.ahkKey
+                                    console.log(val);                            
+                                    setDefaultLabel(val.displayKey, "SendKey.png");
                                     $('[href="#tab-2"]').tab('show');
                                     // editPieMenu.sliceSettings.sliceFunction.sendKey.keysDiv.scrollIntoView({behavior:"smooth"});
                                     window.scrollTo(0,document.body.scrollHeight);
-                                    editPieMenu.sliceSettings.loadSelectedPieKey();                            
+                                    
+                                    editPieMenu.sliceSettings.loadSelectedPieKey();   //Mayb be able to remove these if everything is loaded anyway at the end.
                                 }, val => {                   
                                     $('[href="#tab-2"]').tab('show');                                
                                 });
@@ -1557,20 +1560,66 @@ var editPieMenu = {
                                 let scriptFilename = electron.openScriptFile()
                                 if(scriptFilename){                    
                                     editPieMenu.selectedSlice.params.filePath = scriptFilename;   
-                                    editPieMenu.sliceSettings.sliceFunction.runScript.displayText.innerHTML = scriptFilename;           
-                                }
+                                    editPieMenu.sliceSettings.sliceFunction.runScript.displayText.innerHTML = scriptFilename; 
+                                    console.log(scriptFilename);        
+                                    setDefaultLabel(nodePath.basename(scriptFilename),"RunScript.png");          
+                                }                                
                                 editPieMenu.sliceSettings.loadSelectedPieKey();
                                 return
                             case "openFolder":
                                 let folderPath = electron.openFolderDialog()
-                                if(folderPath){                    
+                                if(folderPath){
                                     editPieMenu.selectedSlice.params.filePath = folderPath;   
-                                    editPieMenu.sliceSettings.sliceFunction.openFolder.displayText.innerHTML = folderPath;           
+                                    editPieMenu.sliceSettings.sliceFunction.openFolder.displayText.innerHTML = folderPath; 
+                                    setDefaultLabel(nodePath.basename(folderPath),"Folder.png");          
                                 }
-                                editPieMenu.sliceSettings.loadSelectedPieKey();                            
-                                return;
+                                editPieMenu.sliceSettings.loadSelectedPieKey();             
+                                return;                            
                             default:
                                 return;
+                        }
+                    }                   
+
+                    function setDefaultLabel(text=null, icon=null){
+                        if (text != null){
+                            editPieMenu.selectedSlice.label = text;
+                        }                        
+                        if (icon != null){
+                            editPieMenu.selectedSlice.icon = {filePath:icon,WBOnly:true};
+                        }
+                        editPieMenu.pieMenuDisplay.refresh();
+                    }
+                    function checkForDefaultLabel(){
+                        switch (editPieMenu.selectedSlice.function){
+                        case "mouseClick":
+                            setDefaultLabel("Click","FillMouse.png");                          
+                            return;
+                        case "repeatLastFunction":
+                            setDefaultLabel("Repeat Last","Repeat.png");                          
+                            return;
+                        case "submenu":
+                            setDefaultLabel("Submenu","SubmenuLine.png");                          
+                            return;
+                        case "none":
+                            setDefaultLabel("","");               
+                            return;
+                        case "resizeWindow":
+                            setDefaultLabel("Resize Window","ResizeWindow.png");               
+                            return;
+                        case "moveWindow":
+                            setDefaultLabel("Move Window","MoveWindow.png");               
+                            return;
+                        case "openURL":
+                            setDefaultLabel("Open Link","OpenURL.png");               
+                            return;
+                        case "openSettings":
+                            setDefaultLabel("AHP Settings","SettingsCog.png");               
+                            return;
+                        case "openSettings":
+                            setDefaultLabel("AHP Settings","SettingsCog.png");               
+                            return;
+                        default:
+                            return;
                         }
                     }
                 }
@@ -1593,7 +1642,7 @@ var editPieMenu = {
                     target = event.target;
                 }                
                 
-                if(target.name.slice(0,18) == "send-keystroke-btn"){
+                if(target.name && target.name.slice(0,18) == "send-keystroke-btn"){
                     //Get index
                     let keyIndex = parseInt(target.name.split("-").slice(-1)[0])
                     //Remove or edit
@@ -1681,7 +1730,7 @@ var editPieMenu = {
                 let scriptFilename = electron.openScriptFile()
                 if(scriptFilename){                    
                     editPieMenu.selectedSlice.params.filePath = scriptFilename;   
-                    editPieMenu.sliceSettings.sliceFunction.runScript.displayText.innerHTML = scriptFilename;           
+                    editPieMenu.sliceSettings.sliceFunction.runScript.displayText.innerHTML = scriptFilename;                    
                 }
                 editPieMenu.sliceSettings.loadSelectedPieKey();
                 return
@@ -1851,7 +1900,7 @@ var editPieMenu = {
                             btnClone.setAttribute('name','send-keystroke-btn-' + index)
                             btnClone.innerHTML = hotkeyObj.displayKey;
                         }
-
+                        
                         editPieMenu.sliceSettings.sliceFunction.sendKey.keysListDiv.append(btnClone);                        
                     }
 
@@ -1870,7 +1919,8 @@ var editPieMenu = {
                         editPieMenu.sliceSettings.sliceFunction.sendKey.keyAddButton.show();                      
                     }
                     ahkParamObj.keys.forEach(function(val, index){
-                        let p_HotkeyObj = getKeyObjFromAhkString(val);
+                        // let p_HotkeyObj = getKeyObjFromAhkString(val);
+                        let p_HotkeyObj = new Hotkey(val);
                         if(ahkParamObj.keys.length == 1){
                             addKeystrokeButtonGroup(p_HotkeyObj,index, false);
                             // $('#send-keys-div [name="send-keystroke-btn-0"]')[0].innerHTML = p_HotkeyObj.displayKey

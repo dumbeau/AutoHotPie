@@ -2,22 +2,7 @@
 var handleAppClose = {
     initialize:function(){
         addCloseWindowListener(e => {
-            confirmDialog({
-                heading:"Save before quitting?",
-                description:"",
-                cancelText:"Exit Without Saving",
-                confirmText:"Save and Quit",
-                secondaryText:"Go Back"
-            }).then(val => { 
-                JSONFile.save(SettingsFileName, AutoHotPieSettings)
-                RunPieMenuApp();                 
-            }, val => {
-                if (val){
-                    profileManagement.open();
-                }else{
-                    RunPieMenuApp(); 
-                }
-            });                  
+            ExitApp();                 
         })
     }
 }
@@ -31,12 +16,10 @@ var profileManagement = {
         this.associatedPrograms.initialize()
         this.pieMenuOverview.initialize()
     },
-
     open:function(){
         this.updateUIControls()
         $('[href="#tab-1"]').tab('show');        
     },
-
     updateUIControls: function(){   
         profileButton = document.getElementById("app-profile-dropdown-button")
         profileDropDown = document.getElementById("app-profile-dropdown-items")           
@@ -135,14 +118,8 @@ var profileManagement = {
             let btn = document.getElementById('save-and-run-pie-menus')
             btn.addEventListener('click', function(){ 
                 runningPieMenu.open();                   
-                JSONFile.save(SettingsFileName, AutoHotPieSettings)                
-                pieMenus.run(AutoHotPieSettings.global.startup.runAHKPieMenus).then(val => {
-                    console.log("Pie Menus are running!")
-                    closeWindow();
-                },val => {
-                    console.log("Pie Menus timed out.  No pie menus for you.")
-                    closeWindow();
-                })             
+                JSONFile.save(SettingsFileName, AutoHotPieSettings);
+                RunPieMenuApp(); 
             });
         },
         createSettingsBtnListener: function(){
@@ -162,6 +139,10 @@ var profileManagement = {
             this.addPieEnableKeyModeRadioHoldListener()
             this.addPieEnableKeyModeRadioHoldListener()
             this.addPieEnableKeyModeRadioToggleListener()
+            this.addMoreSettingsListener();  
+            this.addPieEnableKeySendOriginalFuncListener();  
+            $('#less-profile-settings-btn-text').toggle();                
+            $('#more-profile-settings-div').toggle();                                       
             this.updateUIControls()               
         },
         updateUIControls:function(){
@@ -180,12 +161,29 @@ var profileManagement = {
                 this.keyBtn.removeClass("btn btn-secondary");                
                 this.keyBtn.addClass("btn btn-secondary disabled");                                                
             }
-            this.keyBtn.html(getKeyObjFromAhkString(selectedPieEnableKey.enableKey).displayKey);
+            
+            this.keyBtn.html(new Hotkey(selectedPieEnableKey.enableKey).displayKey);
             this.modeRadioHold.checked = !(selectedPieEnableKey.toggle);
-            this.modeRadioToggle.checked = selectedPieEnableKey.toggle;           
+            this.modeRadioToggle.checked = selectedPieEnableKey.toggle;
+            this.sendOriginalFuncCheckbox.prop('checked', selectedPieEnableKey.sendOriginalFunc);
+            if (selectedPieEnableKey.toggle == false){                
+                this.sendOriginalFuncDiv.show();
+            } else {
+                this.sendOriginalFuncDiv.hide();
+            }
+            
+
+        },
+        moreSettingsBtn:$('#more-settings-accordion'),        
+        addMoreSettingsListener: function(){            
+            this.moreSettingsBtn.on('click', () => {                
+                $('#more-profile-settings-div').toggle();                
+                $('#more-profile-settings-btn-text').toggle();                
+                $('#less-profile-settings-btn-text').toggle();                
+            });            
         },
         pieEnableDiv: $('#pie-enable-div'),
-        pieEnableCheckBox: document.getElementById("pie-enable-key-check"),
+        pieEnableCheckBox: document.getElementById("pie-enable-key-check"),        
         addPieEnableKeyCheckBoxListener: function(){
             let checkbox = this.pieEnableCheckBox          
             checkbox.addEventListener("click", function(event){
@@ -198,8 +196,7 @@ var profileManagement = {
             keyBtn = this.keyBtn
             keyBtn.on("click", function(event){
                 assignKey({invalidAHKKeys:profileManagement.getInvalidPieKeys()}).then(val => { 
-                    profileManagement.selectedProfile.pieEnableKey.enableKey = val.ahkKey
-                    // console.log(val.ahkKey)
+                    profileManagement.selectedProfile.pieEnableKey.enableKey = val.ahkKey                    
                     keyBtn.innerHTML = val.displayKey                 
                     profileManagement.open()
                 }, val => {                   
@@ -210,14 +207,24 @@ var profileManagement = {
         modeRadioHold:document.getElementById("pie-enable-key-radio-hold"),
         addPieEnableKeyModeRadioHoldListener:function(){            
             this.modeRadioHold.addEventListener("click", function(event){
-                profileManagement.selectedProfile.pieEnableKey.toggle = false               
+                profileManagement.selectedProfile.pieEnableKey.toggle = false;
+                profileManagement.pieEnableKey.updateUIControls();               
             })
         },
         modeRadioToggle: document.getElementById("pie-enable-key-radio-toggle"),
         addPieEnableKeyModeRadioToggleListener:function(){            
             this.modeRadioToggle.addEventListener("click", function(event){
-                profileManagement.selectedProfile.pieEnableKey.toggle = true       
+                profileManagement.selectedProfile.pieEnableKey.toggle = true;
+                profileManagement.pieEnableKey.updateUIControls();    
             })                   
+        },
+        sendOriginalFuncDiv: $('#send-original-key-checkbox-div'),
+        sendOriginalFuncCheckbox: $('#send-original-key-checkbox-input'),
+        addPieEnableKeySendOriginalFuncListener: function(){
+            this.sendOriginalFuncCheckbox.on('click', () => {                
+                profileManagement.selectedProfile.pieEnableKey.sendOriginalFunc = profileManagement.pieEnableKey.sendOriginalFuncCheckbox.is(":checked");
+                profileManagement.pieEnableKey.updateUIControls();
+            });
         }
     },
     associatedPrograms:{
@@ -321,8 +328,8 @@ var profileManagement = {
                     };                  
                     newJSColor.processValueInput(rgbToHex(rgbArrayColor));               
                     cell2.class = "text-center";
-                    cell2.style = "width: 98px;padding-top: 13px;";
-                    cell3.innerHTML = getKeyObjFromAhkString(pieHotKey).displayKey;
+                    cell2.style = "width: 98px;padding-top: 13px;";                    
+                    cell3.innerHTML = new Hotkey(pieHotKey).displayKey;
                     cell3.style = "padding-top: 13px;"
                     cell3.setAttribute("name","pie-key-display")
                     cell4.innerHTML = pieKeyName                    

@@ -40,6 +40,30 @@ var hotkeyManagement = {
                         keyCode: 7
                     },
                     {
+                        key: "Media Play",
+                        keyCode: 179
+                    },
+                    {
+                        key: "Media Next",
+                        keyCode: 176
+                    },
+                    {
+                        key: "Media Previous",
+                        keyCode: 177
+                    },
+                    {
+                        key: "Media Mute",
+                        keyCode: 173
+                    },
+                    {
+                        key: "Volume Up",
+                        keyCode: 175
+                    },
+                    {
+                        key: "Volume Down",
+                        keyCode: 174
+                    },
+                    {
                         key: "F13",
                         keyCode: 124
                     },
@@ -129,6 +153,10 @@ var hotkeyManagement = {
                 };
                 lp.specialKeyMenu.on('click', (e) => { 
                     processHotkeyInputEvent({
+                        metaKey:false,                        
+                        shiftKey:false,
+                        ctrlKey:false,
+                        altKey:false,                       
                         keyCode:parseInt(e.target.name)
                     });
                 });
@@ -154,6 +182,7 @@ var hotkeyManagement = {
         modBtnGroup: document.getElementById('modifier-btn-group'),
         hotkeyDisplayField: document.getElementById('hotkey-display-field'),
         invalidKeyWarningDiv: $('#invalid-key-warning-div'),
+        winBtnCheck: document.getElementById('hotkey-modifier-win-check'),
         shiftBtnCheck: document.getElementById('hotkey-modifier-shift-check'),
         ctrlBtnCheck: document.getElementById('hotkey-modifier-ctrl-check'),
         altBtnCheck: document.getElementById('hotkey-modifier-alt-check'),
@@ -162,40 +191,42 @@ var hotkeyManagement = {
         hotkeyReassignBtn: document.getElementById('hotkey-reassign-btn'),
         initialize: function(){
             let hm = hotkeyManagement
-            let ep = hotkeyManagement.editKeyPage;    
+            let ep = hotkeyManagement.editKeyPage;
             
+            
+            this.winBtnCheck.addEventListener("click", function(event){
+                hm.hotkeyObj.winKey = ep.winBtnCheck.checked;
+            });
             this.shiftBtnCheck.addEventListener("click", function(event){                    
-                hm.hotkeyObj.isShift = ep.shiftBtnCheck.checked;
-                // hm.validateAHKKey(hm.hotkeyObj.ahkKey);                                
-                console.log(hm.hotkeyObj);
+                hm.hotkeyObj.shiftKey = ep.shiftBtnCheck.checked; 
             });
             this.ctrlBtnCheck.addEventListener("click", function(event){
-                hm.hotkeyObj.isCtrl = ep.ctrlBtnCheck.checked;                
+                hm.hotkeyObj.ctrlKey = ep.ctrlBtnCheck.checked;                
             });
             this.altBtnCheck.addEventListener("click", function(event){ 
-                hm.hotkeyObj.isAlt = ep.altBtnCheck.checked;                            
+                hm.hotkeyObj.altKey = ep.altBtnCheck.checked;                            
             });
             this.hotkeyAcceptBtn.on("click", function(event){                 
-                hm.hotkeyObj.displayKey = processKeyEventToFullString()
-                function resolveAHKString(){
-                    let returnString = ""
-                    if (hm.hotkeyObj.isShift){
-                        returnString = returnString + "+"
-                    }
-                    if (hm.hotkeyObj.isCtrl){
-                        returnString = returnString + "^"                            
-                    }
-                    if (hm.hotkeyObj.isAlt){
-                        returnString = returnString + "!"
-                    }
-                    returnString = returnString + hm.hotkeyObj.ahkKey.replace(/[\!\^\+]/g,"")                        
-                    return returnString                              
-                }
-                hm.hotkeyObj.ahkKey = resolveAHKString()
+                // hm.hotkeyObj.displayKey = processKeyEventToFullString()
+                // function resolveAHKString(){
+                //     let returnString = ""
+                //     if (hm.hotkeyObj.isShift){
+                //         returnString = returnString + "+"
+                //     }
+                //     if (hm.hotkeyObj.isCtrl){
+                //         returnString = returnString + "^"                            
+                //     }
+                //     if (hm.hotkeyObj.isAlt){
+                //         returnString = returnString + "!"
+                //     }
+                //     returnString = returnString + hm.hotkeyObj.ahkKey.replace(/[\!\^\+]/g,"")                        
+                //     return returnString                              
+                // }
+                // hm.hotkeyObj.ahkKey = resolveAHKString()
                 // console.log(hotkeyObj.ahkKey)                
                 if (hotkeyManagement.validateAHKKey(hotkeyManagement.hotkeyObj.ahkKey)){
                     hotkeyManagement.resolve(hm.hotkeyObj);
-                }                                
+                }
             });
             this.hotkeyReassignBtn.addEventListener("click", function(event){
                 hm.listenForKeyPage.open()
@@ -210,9 +241,10 @@ var hotkeyManagement = {
         },
         refresh: function(){
             let hm = hotkeyManagement;
-            this.shiftBtnCheck.checked = hm.hotkeyObj.isShift;           
-            this.ctrlBtnCheck.checked = hm.hotkeyObj.isCtrl;            
-            this.altBtnCheck.checked = hm.hotkeyObj.isAlt; 
+            this.winBtnCheck.checked = hm.hotkeyObj.winKey;           
+            this.shiftBtnCheck.checked = hm.hotkeyObj.shiftKey;           
+            this.ctrlBtnCheck.checked = hm.hotkeyObj.ctrlKey;            
+            this.altBtnCheck.checked = hm.hotkeyObj.altKey; 
             this.hotkeyDisplayField.value = hm.hotkeyObj.displayKeyNoMods;
         }
     }
@@ -221,7 +253,7 @@ var hotkeyManagement = {
 // var rejectHotkeyPromise, resolveHotkeyPromise;
 
 function processHotkeyInputEvent(event){
-    hm = hotkeyManagement;    
+    hm = hotkeyManagement;
     var keyNumber = event.keyCode    
     if (event.type == "mouseup"){//Mousebutton        
         
@@ -239,10 +271,12 @@ function processHotkeyInputEvent(event){
         keyNumber = event.keyCode                    
     } 
     
-    hotkeyManagement.hotkeyObj = processHotkey(event)
+    // hotkeyManagement.hotkeyObj = processHotkey(event)
+    let allowModifiers = (hotkeyManagement.editKeyPage.modBtnGroup.style.display == "block") ? true : false;    
+    hotkeyManagement.hotkeyObj = new Hotkey(event,allowModifiers);
     
     
-    hm.editKeyPage.hotkeyAcceptBtn.focus()
+    hm.editKeyPage.hotkeyAcceptBtn.focus();
     
     //Intitalize value of input fields
 
@@ -250,80 +284,80 @@ function processHotkeyInputEvent(event){
     hotkeyManagement.validateAHKKey(hotkeyManagement.hotkeyObj.ahkKey);
     hotkeyInputField = document.getElementById('pressed-hotkey-text-input');
 };
-function processKeyEventToFullString(){ // Refactor pls
-        hotkeyObj = hotkeyManagement.hotkeyObj
-        let returnString = ""
-        if (hotkeyObj.isShift){
-            returnString = returnString + "Shift+"
-        }
-        if (hotkeyObj.isCtrl){
-            returnString = returnString + "Ctrl+"
-        }
-        if (hotkeyObj.isAlt){
-            returnString = returnString + "Alt+"
-        }                        
-        returnString = returnString + hotkeyObj.displayKeyNoMods
-        return returnString
-    }
-function processHotkey(keyEvent){
-        let keyTableArray = AutoHotPieSettings.global.htmlAhkKeyConversionTable;
-        let keyNumber = (keyEvent.code == "Enter") ? 1 : keyEvent.keyCode        
+// function processKeyEventToFullString(){ // Refactor pls
+//         hotkeyObj = hotkeyManagement.hotkeyObj
+//         let returnString = ""
+//         if (hotkeyObj.isShift){
+//             returnString = returnString + "Shift+"
+//         }
+//         if (hotkeyObj.isCtrl){
+//             returnString = returnString + "Ctrl+"
+//         }
+//         if (hotkeyObj.isAlt){
+//             returnString = returnString + "Alt+"
+//         }                        
+//         returnString = returnString + hotkeyObj.displayKeyNoMods
+//         return returnString
+//     }
+// function processHotkey(keyEvent){
+//         let keyTableArray = AutoHotPieSettings.global.htmlAhkKeyConversionTable;
+//         let keyNumber = (keyEvent.code == "Enter") ? 1 : keyEvent.keyCode        
         
-        // console.log(keyNumber)
-        let allowModifiers = (hotkeyManagement.editKeyPage.modBtnGroup.style.display == "block") ? true : false;
-        let keyObj = keyTableArray.find(x => x.keyCode === keyNumber)                    
+//         console.log(keyEvent)
+//         let allowModifiers = (hotkeyManagement.editKeyPage.modBtnGroup.style.display == "block") ? true : false;
+//         let keyObj = keyTableArray.find(x => x.keyCode === keyNumber)                    
 
-        function processKeyEventToAHKString(){
-            let returnString = ""
-            if (keyEvent.shiftKey){
-                returnString = returnString + "+"
-            }
-            if (keyEvent.ctrlKey){
-                returnString = returnString + "^"
-            }
-            if (keyEvent.altKey){
-                returnString = returnString + "!"
-            }
-            returnString = returnString + keyObj.ahkKey
-            return returnString                              
-        }
+//         function processKeyEventToAHKString(){
+//             let returnString = ""
+//             if (keyEvent.shiftKey){
+//                 returnString = returnString + "+"
+//             }
+//             if (keyEvent.ctrlKey){
+//                 returnString = returnString + "^"
+//             }
+//             if (keyEvent.altKey){
+//                 returnString = returnString + "!"
+//             }
+//             returnString = returnString + keyObj.ahkKey
+//             return returnString                              
+//         }
         
-        function processKeyEventToFullString(){
-            let returnString = ""
-            if (keyEvent.shiftKey){
-                returnString = returnString + "Shift+"
-            }
-            if (keyEvent.ctrlKey){
-                returnString = returnString + "Ctrl+"
-            }
-            if (keyEvent.altKey){
-                returnString = returnString + "Alt+"
-            }                        
-            returnString = returnString + keyObj.displayKey
-            return returnString
-        } 
-        if(allowModifiers){
-            return {
-                isShift:keyEvent.shiftKey,                        
-                isCtrl:keyEvent.ctrlKey,                        
-                isAlt:keyEvent.altKey,
-                keyCode:keyObj.keyCode,
-                displayKey:processKeyEventToFullString(),
-                displayKeyNoMods:keyObj.displayKey,
-                ahkKey:processKeyEventToAHKString()
-            }
-        }else{
-            return {
-                isShift:false,                        
-                isCtrl:false,                        
-                isAlt:false,
-                keyCode:keyObj.keyCode,
-                displayKey:keyObj.displayKey,
-                displayKeyNoMods:keyObj.displayKey,
-                ahkKey:keyObj.ahkKey
-            }
-        }
-    }
+//         function processKeyEventToFullString(){
+//             let returnString = ""
+//             if (keyEvent.shiftKey){
+//                 returnString = returnString + "Shift+"
+//             }
+//             if (keyEvent.ctrlKey){
+//                 returnString = returnString + "Ctrl+"
+//             }
+//             if (keyEvent.altKey){
+//                 returnString = returnString + "Alt+"
+//             }                        
+//             returnString = returnString + keyObj.displayKey
+//             return returnString
+//         } 
+//         if(allowModifiers){
+//             return {
+//                 isShift:keyEvent.shiftKey,                        
+//                 isCtrl:keyEvent.ctrlKey,                        
+//                 isAlt:keyEvent.altKey,
+//                 keyCode:keyObj.keyCode,
+//                 displayKey:processKeyEventToFullString(),
+//                 displayKeyNoMods:keyObj.displayKey,
+//                 ahkKey:processKeyEventToAHKString()
+//             }
+//         }else{
+//             return {
+//                 isShift:false,                        
+//                 isCtrl:false,                        
+//                 isAlt:false,
+//                 keyCode:keyObj.keyCode,
+//                 displayKey:keyObj.displayKey,
+//                 displayKeyNoMods:keyObj.displayKey,
+//                 ahkKey:keyObj.ahkKey
+//             }
+//         }
+//     }
 
 async function assignKey(options){
     var defaults = {

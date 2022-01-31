@@ -22,6 +22,7 @@
             <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-4">Create New Pie Menu</a></li>
             <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-5">Global</a></li>
             <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-6">Confirmation</a></li>
+            <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-31">Exit</a></li>
             <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-7">Choose Hotkey</a></li>
             <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-11">Listen for Key</a></li>
             <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-12">Choose Activation Mode</a></li>
@@ -48,37 +49,8 @@
                         <div class="form-check" style="margin-right: 9px;"><input class="form-check-input" type="checkbox" id="profile-enabled-checkbox"><label class="form-check-label" for="formCheck-3">Enable</label></div>
                     </div>
                 </div>
-                <div class="d-flex justify-content-center" style="padding: 9px;">
-                    <div id="pie-enable-div" style="border: 1px solid var(--bs-gray);padding: 24px;border-radius: 14px;width: 316px;margin: 13px;">
-                        <div class="d-inline-flex d-lg-flex align-items-lg-start" data-bs-toggle="tooltip" data-bss-tooltip="" style="background: rgb(34,34,34);transform: translateY(-35px);width: 176px;padding-right: 10px;padding-left: 10px;" title="Enable a keystroke to allow pie menus to be used.  Useful for having pie menus without blocking keys frequently used for typing.">
-                            <div class="form-check"><input class="form-check-input" type="checkbox" id="pie-enable-key-check"><label class="form-check-label" for="formCheck-2"></label></div>
-                            <h5 class="text-white d-inline-flex" style="transform: translateY(0px);">Pie Enable Key</h5>
-                        </div>
-                        <div class="d-flex align-items-center" style="margin-bottom: 15px;">
-                            <p style="height: 8px;margin-right: 5px;">Key:&nbsp;</p><button class="btn btn-secondary" data-bs-toggle="tooltip" data-bss-tooltip="" id="pie-enable-key-btn" type="button" style="margin-right: 21px;min-width: 100px;" title="Re-assign 'Pie Enable Key' keystroke.">'</button>
-                        </div>
-                        <div>
-                            <div class="form-check"><input class="form-check-input" type="radio" id="pie-enable-key-radio-hold" name="toggleMode" checked=""><label class="form-check-label" for="formCheck-1">Enable menus when key is held</label></div>
-                            <div class="form-check"><input class="form-check-input" type="radio" id="pie-enable-key-radio-toggle" name="toggleMode"><label class="form-check-label" for="formCheck-1">Toggle menus when key is pressed</label></div>
-                        </div>
-                    </div>
-                    <div id="assigned-programs-div" style="border: 1px solid var(--bs-gray);padding: 24px;border-radius: 14px;width: 539px;margin: 13px;">
-                        <div class="d-inline-flex d-lg-flex align-items-lg-start" style="background: rgb(34,34,34);transform: translateY(-35px);width: 188px;padding-right: 10px;padding-left: 10px;">
-                            <h5 class="d-inline-flex" style="transform: translateY(0px);">Assigned Programs</h5>
-                        </div>
-                        <div id="assigned-programs-list" style="margin-bottom: 15px;">
-                            <div class="d-flex" style="width: 100%; display: none;">
-                                <div style="width: 34.5781px;" name="program-remove-btn"><i class="fa fa-remove" style="padding: 4px;width: 100%;height: 100%;text-align: center;padding-top: 9px;" name=""></i></div>
-                                <div class="d-flex align-items-center" style="width: 100%;">
-                                    <p class="text-nowrap text-truncate text-start" style="margin-bottom: 5px;margin-top: 5px;">what</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="d-lg-flex align-items-lg-center" style="margin-bottom: 15px;"><button class="btn btn-secondary" data-bs-toggle="tooltip" data-bss-tooltip="" data-bs-placement="bottom" id="add-program-btn" type="button" style="margin-right: 9px;" title="Assign a program to this profile."><i class="icon ion-android-add" style="margin-right: 7px;"></i>Add Program</button></div>
-                    </div>
-                </div>
                 <div class="d-flex justify-content-center">
-                    <div class="table-responsive" style="padding-right: 25px;padding-left: 25px;min-width: 937px;">
+                    <div class="table-responsive" style="padding-right: 25px;padding-left: 25px;min-width: 937px;padding-top: 22px;">
                         <table class="table">
                             <thead>
                                 <tr>
@@ -106,6 +78,46 @@
                     </div>
                 </div>
                 <div class="d-flex justify-content-center"><button class="btn btn-primary" id="add-new-pie-menu-btn" type="button" style="margin-right: 9px;width: 224.922px;height: 48px;"><i class="icon ion-android-add" style="margin-right: 7px;"></i>Add New Pie Menu</button></div>
+                <div class="d-flex justify-content-center" style="margin-top: 31px;">
+                    <div id="more-settings-accordion" style="padding: 4px;">
+                        <h6 id="more-profile-settings-btn-text" style="margin-bottom: 0px;"><i class="fa fa-caret-right" style="margin-right: 10px;"></i>More Profile Settings</h6>
+                        <h6 id="less-profile-settings-btn-text" style="margin-bottom: 0px;color: var(--bs-white);"><i class="fa fa-caret-down" style="margin-right: 10px;"></i>Less Profile Settings</h6>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-center" style="padding: 9px;">
+                    <div id="more-profile-settings-div">
+                        <div class="d-flex justify-content-center" style="min-width: 937px;">
+                            <div id="pie-enable-div" style="border: 1px solid var(--bs-gray);padding: 24px;border-radius: 14px;width: 50%;margin: 13px;">
+                                <div class="d-inline-flex d-lg-flex align-items-lg-start" data-bs-toggle="tooltip" data-bss-tooltip="" style="background: rgb(34,34,34);transform: translateY(-35px);width: 205px;padding-right: 10px;padding-left: 10px;" title="Enable a keystroke to allow pie menus to be used.  Useful for having pie menus without blocking keys frequently used for typing.">
+                                    <div class="form-check"><input class="form-check-input" type="checkbox" id="pie-enable-key-check"><label class="form-check-label" for="formCheck-2"></label></div>
+                                    <h5 class="text-white d-inline-flex" style="transform: translateY(0px);">Profile Enable Key</h5>
+                                </div>
+                                <div class="d-flex align-items-center" style="margin-bottom: 15px;">
+                                    <p style="height: 8px;margin-right: 5px;">Key:&nbsp;</p><button class="btn btn-secondary" data-bs-toggle="tooltip" data-bss-tooltip="" id="pie-enable-key-btn" type="button" style="margin-right: 21px;min-width: 100px;" title="Re-assign 'Pie Enable Key' keystroke.">'</button>
+                                </div>
+                                <div>
+                                    <div class="form-check"><input class="form-check-input" type="radio" id="pie-enable-key-radio-hold" name="toggleMode" checked=""><label class="form-check-label" for="formCheck-1">Enable menus when key is held</label></div>
+                                    <div class="form-check" id="send-original-key-checkbox-div" style="padding-left: 49px;"><input class="form-check-input" type="checkbox" id="send-original-key-checkbox-input"><label class="form-check-label" for="formCheck-2">Send original key's function if no menu is ran</label></div>
+                                    <div class="form-check"><input class="form-check-input" type="radio" id="pie-enable-key-radio-toggle" name="toggleMode"><label class="form-check-label" for="formCheck-1">Toggle menus when key is pressed</label></div>
+                                </div>
+                            </div>
+                            <div id="assigned-programs-div" style="border: 1px solid var(--bs-gray);padding: 24px;border-radius: 14px;width: 50%;margin: 13px;">
+                                <div class="d-inline-flex d-lg-flex align-items-lg-start" style="background: rgb(34,34,34);transform: translateY(-35px);width: 188px;padding-right: 10px;padding-left: 10px;">
+                                    <h5 class="d-inline-flex" style="transform: translateY(0px);">Assigned Programs</h5>
+                                </div>
+                                <div id="assigned-programs-list" style="margin-bottom: 15px;">
+                                    <div class="d-flex" style="width: 100%; display: none;">
+                                        <div style="width: 34.5781px;" name="program-remove-btn"><i class="fa fa-remove" style="padding: 4px;width: 100%;height: 100%;text-align: center;padding-top: 9px;" name=""></i></div>
+                                        <div class="d-flex align-items-center" style="width: 100%;">
+                                            <p class="text-nowrap text-truncate text-start" style="margin-bottom: 5px;margin-top: 5px;">what</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-lg-flex align-items-lg-center" style="margin-bottom: 15px;"><button class="btn btn-secondary" data-bs-toggle="tooltip" data-bss-tooltip="" data-bs-placement="bottom" id="add-program-btn" type="button" style="margin-right: 9px;" title="Assign a program to this profile."><i class="icon ion-android-add" style="margin-right: 7px;"></i>Add Program</button></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="tab-pane" role="tabpanel" id="tab-2">
                 <div class="d-flex justify-content-center align-items-center" style="padding: 22px;background: var(--bs-gray-800);height: 102px;padding-right: 0;padding-left: 0;">
@@ -283,9 +295,9 @@
                                             </div>
                                             <div id="function-tabs" style="padding-top: 14px;">
                                                 <ul class="nav nav-tabs" role="tablist" name="hidden-tab-items">
-                                                    <li class="nav-item" role="presentation"><a class="nav-link active" role="tab" data-bs-toggle="tab" href="#tab-13">Send Key</a></li>
+                                                    <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-13">Send Key</a></li>
                                                     <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-14">Mouse Click</a></li>
-                                                    <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-15">Run Script</a></li>
+                                                    <li class="nav-item" role="presentation"><a class="nav-link active" role="tab" data-bs-toggle="tab" href="#tab-15">Run Script</a></li>
                                                     <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-16">Repeat Last</a></li>
                                                     <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-17">Sub Menu</a></li>
                                                     <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-18">No Options</a></li>
@@ -296,7 +308,7 @@
                                                     <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-26">Open URL</a></li>
                                                 </ul>
                                                 <div class="tab-content">
-                                                    <div class="tab-pane active" role="tabpanel" id="tab-13">
+                                                    <div class="tab-pane" role="tabpanel" id="tab-13">
                                                         <div class="d-flex align-items-center" id="send-keys-div" style="margin-bottom: 12px;">
                                                             <h5 class="d-flex align-items-xxl-center" style="margin-right: 15px;">Keys:</h5><button class="btn btn-primary" id="send-key-assign-key-btn" type="button" style="margin-right: 14px;" name="send-keystroke-btn-0">Assign Key</button>
                                                             <div id="send-key-button-list"></div><button class="btn btn-primary" id="send-key-add-keystroke-btn" type="button" style="margin-right: 9px;" name="send-keystroke-btn-add"><i class="icon ion-android-add" style="margin-right: 7px;"></i>Add Keystroke</button>
@@ -333,12 +345,12 @@
                                                             <div class="form-check" style="margin-left: 18px;"><input class="form-check-input" type="checkbox" id="mouse-drag-checkbox"><label class="form-check-label" for="formCheck-5">Drag</label></div>
                                                         </div>
                                                     </div>
-                                                    <div class="tab-pane" role="tabpanel" id="tab-15">
+                                                    <div class="tab-pane active" role="tabpanel" id="tab-15">
                                                         <div class="d-flex align-items-center">
                                                             <div class="d-flex justify-content-start" style="padding-top: 12px;padding-bottom: 12px;width: 100%;">
                                                                 <div class="d-flex align-items-center">
                                                                     <h5 class="d-xxl-flex align-items-xxl-center" style="margin-bottom: -10px;margin-right: 15px;margin-top: -11px;">File:</h5><button class="btn btn-secondary" data-bs-toggle="tooltip" data-bss-tooltip="" id="run-script-choose-btn" type="button" style="margin-right: 2px;min-width: 100px;" title="Choose a file to run or folder to open">Choose File...</button>
-                                                                    <p class="text-truncate" id="run-script-display-text" style="margin-bottom: 0px;margin-left: 9px;max-width: 711px;">No file selected</p>
+                                                                    <p class="text-truncate text-start" id="run-script-display-text" style="margin-bottom: 0px;margin-left: 9px;max-width: 711px;">No file selected</p>
                                                                     <div class="d-flex justify-content-center align-items-center" id="remove-script-btn" style="width: 28.5781px;height: 31px;"><i class="fa fa-remove"></i></div>
                                                                 </div>
                                                             </div>
@@ -524,6 +536,12 @@
                         <div class="justify-content-start" style="padding-top: 12px;padding-bottom: 12px;">
                             <div class="form-check form-switch" style="margin-left: 3px;" title="Icon will use the selection color when function is focused if icon is greyscale."><input class="form-check-input" type="checkbox" id="use-ahk-pie-menu-checkbox"><label class="form-check-label" for="formCheck-5">Use open-source AutoHotKey pie menus<br>(requires <a id="ahk-link" style="color: var(--bs-teal);text-decoration:  underline;">AutoHotKey</a>&nbsp;to be installed)<br></label></div>
                         </div>
+                        <div hidden="">
+                            <h3 style="margin-top: 32px;">User Satisfaction</h3>
+                            <div class="justify-content-start" style="padding-top: 12px;padding-bottom: 12px;">
+                                <div class="form-check form-switch" style="margin-left: 3px;" title="Icon will use the selection color when function is focused if icon is greyscale."><input class="form-check-input" type="checkbox" id="use-ahk-pie-menu-checkbox-1" checked=""><label class="form-check-label" for="use-ahk-pie-menu-checkbox-1">Share user data about how many times I draw balls with my mouse<br></label></div>
+                            </div>
+                        </div>
                     </div>
                     <div style="padding-left: 50px;width: 50%;">
                         <h3 style="margin-bottom: 17px;margin-top: 32px;">Support</h3>
@@ -542,8 +560,17 @@
                     <h1 id="confirmation-heading">Check yourself.</h1>
                     <p id="confirmation-description">Are you sure you want to change that setting?</p>
                     <div style="width: 100%;padding: 10px;"><button class="btn btn-secondary" id="secondary-confirmation-btn" type="button" style="margin-right: 24px;width: 180px;">No I did a dumb</button><button class="btn btn-secondary" id="confirmation-cancel-btn" type="button" style="margin-right: 24px;width: 180px;">No I did a dumb</button><button class="btn btn-primary" id="confirmation-confirm-btn" type="button" style="width: 180px;">I said what I said</button></div>
-                    <div id="show-again-div" style="width: 217px;">
-                        <div class="form-check d-lg-flex justify-content-lg-start" style="width: auto;"><input class="form-check-input" type="checkbox" id="show-again-checkbox"><label class="form-check-label" id="ask-again-label" for="formCheck-4" style="padding-left: 11px;">How dare you question me.</label></div>
+                    <div id="show-again-div" style="padding-top: 11px;">
+                        <div class="form-check d-lg-flex justify-content-lg-start"><input class="form-check-input" type="checkbox" id="show-again-checkbox"><label class="form-check-label" id="ask-again-label" for="formCheck-4" style="padding-left: 11px;">How dare you question me.</label></div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane" role="tabpanel" id="tab-31">
+                <div class="text-center d-flex flex-column justify-content-center align-items-center" style="width: 100%;height: 90vh;">
+                    <h1>Save before quitting?</h1>
+                    <div style="width: 100%;padding: 10px;"><button class="btn btn-secondary" id="exit-back-btn" type="button" style="margin-right: 24px;width: 180px;">Go Back</button><button class="btn btn-secondary" id="exit-dont-save-btn" type="button" style="margin-right: 24px;width: 180px;">Don't Save</button><button class="btn btn-primary" id="exit-save-btn" type="button" style="width: 180px;">Save</button></div>
+                    <div style="padding-top: 11px;">
+                        <div class="form-check d-lg-flex justify-content-lg-start"><input class="form-check-input" type="checkbox" id="run-on-exit-checkbox"><label class="form-check-label" for="show-again-checkbox-1" style="padding-left: 11px;">Run Pie Menus on exit</label></div>
                     </div>
                 </div>
             </div>
@@ -555,12 +582,14 @@
                         <h6 class="text-danger">This key is already in use, edit or choose another key.</h6>
                     </div>
                     <div class="d-flex justify-content-center align-items-center"><div id="modifier-btn-group" class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
+  <input type="checkbox" onfocus="this.blur();" class="btn-check" id="hotkey-modifier-win-check" autocomplete="off">
+    <label class="btn btn-outline-primary" for="hotkey-modifier-win-check">Win</label>
     <input type="checkbox" onfocus="this.blur();" onmouseover="" class="btn-check" id="hotkey-modifier-shift-check" autocomplete="off">
     <label class="btn btn-outline-primary"  for="hotkey-modifier-shift-check">Shift</label>
     <input type="checkbox" onfocus="this.blur();" class="btn-check" id="hotkey-modifier-ctrl-check" autocomplete="off">
     <label class="btn btn-outline-primary" for="hotkey-modifier-ctrl-check">Ctrl</label>
     <input type="checkbox" onfocus="this.blur();" class="btn-check" id="hotkey-modifier-alt-check" autocomplete="off">
-    <label class="btn btn-outline-primary" for="hotkey-modifier-alt-check">Alt</label>
+    <label class="btn btn-outline-primary" for="hotkey-modifier-alt-check">Alt</label>    
   </div><input class="bg-dark border rounded-0 border-dark" type="text" id="hotkey-display-field" style="font-size: 16px;color: var(--bs-white);width: 182px;text-align: center;padding-top: 1px;padding-bottom: 1px;height: 38px;margin-right: 19px;border-style: solid;border-bottom-right-radius: 11px;" placeholder="Enter Key..." readonly="" disabled=""><button class="btn btn-secondary" id="hotkey-reassign-btn" type="button" style="max-height: 38px;width: 120.8594px;">Reassign</button></div>
                     <div style="width: 533px;padding: 10px;margin-top: 16px;"><button class="btn btn-secondary" id="hotkey-cancel-btn" type="button" style="margin-right: 18px;width: 140px;">Cancel</button><button class="btn btn-primary" id="hotkey-accept-btn" type="button" style="width: 140px;">Accept</button></div>
                 </div>
@@ -932,6 +961,7 @@
     <script src="./renderer.js"></script>
     <script src="./ahpClasses.js"></script>
     <script src="./profileManagement.js"></script>
+    <script src="./exitConfirm.js"></script>
     <script src="./menuFunctions.js"></script>
     <script src="./runningPieMenu.js"></script>
     <script src="./createNewProfile.js"></script>

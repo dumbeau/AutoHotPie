@@ -423,6 +423,7 @@ runPieMenu(profileNum, index, activePieNum=1)
 	LButtonPressed_static := false
 	
 	sliceHotkeyPressed := false
+	pieMenuRanWithMod := true
 
 
 	;Determine pie menu angles for some reason, maybe delete
@@ -1295,6 +1296,7 @@ Class pieEnableKey{
 			}
 		}
 	modOn(){
+		pieMenuRanWithMod := false
 		If (!WinActive("ahk_group regApps"))
 			{
 			Hotkey, IfWinNotActive, ahk_group regApps
@@ -1330,12 +1332,11 @@ Class pieEnableKey{
 				{
 				If (settings.appProfiles[1].pieKeys[menus].hotkey != ActivePieHotkey)
 					Hotkey, % settings.appProfiles[1].pieKeys[menus].hotkey, Off
-				}				
-			return
+				}
 			}
 		Else
 			{
-			; global activveProfile := getActiveProfile()
+			; global activeProfile := getActiveProfile()
 			Hotkey, IfWinActive, % activeProfile[1]
 			for ahkHandleIndex, ahkHandle in activeProfile.ahkHandles
 			{
@@ -1352,7 +1353,18 @@ Class pieEnableKey{
 			; 		Hotkey, % settings.appProfiles[activeProfile[2]].pieKeys[menus].hotkey, Off
 			; 	}				
 			; return			
+			}				
+		If (getActiveProfile().pieEnableKey.sendOriginalFunc && pieMenuRanWithMod == false){
+			; Send, %A_ThisHotkey%
+			; msgbox, % "{" . StrReplace(A_ThisHotkey, " up","") . "}"
+			; msgbox, % A_ThisHotkey
+			if (StrReplace(A_ThisHotkey, " up","") == "capslock"){
+				toggleCapsLock()
+			} else {
+				send, % "{" . StrReplace(A_ThisHotkey, " up","") . "}"
 			}
+			
+		}
 		}	
 	}
 runPieFunction(functionObj)
@@ -1657,4 +1669,15 @@ lButtonWait(clickButton,sleepTime=3){
 				}			
 			}
 		}
+}
+
+toggleCapsLock(){
+	if GetKeyState("CapsLock", "T") = 1
+	{	
+	SetCapsLockState, off
+	}
+	else if GetKeyState("CapsLock", "F") = 0
+	{	
+	SetCapsLockState, on
+	}
 }

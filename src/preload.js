@@ -379,7 +379,7 @@ contextBridge.exposeInMainWorld('electron', {
     if(scriptFile.includes(localScriptFolderName)){
       scriptFile = scriptFile.slice(scriptFile.indexOf(localScriptFolderName))
       scriptFile = scriptFile.replace(localScriptFolderName,"%A_ScriptDir%\\" + localScriptFolderName)
-      // console.log(scriptFile)
+      console.log(scriptFile)
     }    
     return scriptFile
   }
@@ -507,8 +507,13 @@ contextBridge.exposeInMainWorld('iconManager',{
 });
 
 contextBridge.exposeInMainWorld('nodePath',{
-  basename:function(filepath){
-    return path.basename(filepath,'.png');
+  basename:function(filepath, removeFromResult=null){
+    if (removeFromResult == null){
+      return path.basename(filepath);    
+    } else {
+      return path.basename(filepath, removeFromResult);    
+    }
+    
   }
 })
 
@@ -522,5 +527,4 @@ contextBridge.exposeInMainWorld('menuListener', function(func){
   ipcRenderer.on('menuSelected', function(event, arg){    
     func(event, arg);
   })
-})
-
+});

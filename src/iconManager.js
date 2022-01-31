@@ -56,7 +56,7 @@ var selectIconPage = {
             files.forEach((iconFile)=>{
                 let newIconDiv = this.iconTempElement.clone()[0];
                 newIconDiv.childNodes[1].childNodes[0].src = iconFile
-                newIconDiv.childNodes[1].childNodes[2].innerHTML = nodePath.basename(iconFile)                
+                newIconDiv.childNodes[1].childNodes[2].innerHTML = nodePath.basename(iconFile,".png");                
                 if (iconFile.includes('\\User\ Icons\\')){
                     selectIconPage.userIconDiv.append(newIconDiv);                    
                 } else {

@@ -38,3 +38,11 @@ a {
   background: var(--bs-gray-700);
 }
 
+#more-settings-accordion {
+  color: var(--bs-gray-600);
+}
+
+#more-settings-accordion:hover {
+  color: var(--bs-white);
+}
+

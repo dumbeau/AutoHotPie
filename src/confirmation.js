@@ -10,13 +10,13 @@ var confirmationDialog = {
     askAgainLabel: document.getElementById("ask-again-label"),
     initialize: function(){
         this.confirmBtn.addEventListener('click',function(){
-            confirmationDialog.resolve(true);
+            confirmationDialog.resolve(true);            
         });
         this.cancelBtn.addEventListener('click',function(){
-            confirmationDialog.reject(false);            
+            confirmationDialog.reject(false);     
         });
         this.secondaryCancelBtn.on('click',function(){
-            confirmationDialog.reject(true);            
+            confirmationDialog.reject(true);  
         });         
     },
     open:function(){
@@ -40,7 +40,7 @@ async function confirmDialog(options){
         secondaryText:""
     }    
     var setting = Object.assign({}, defaults, options);
-    cd.heading.innerHTML = setting.heading
+    cd.heading.innerHTML = setting.heading;
     cd.description.innerHTML = setting.description;
     cd.cancelBtn.innerHTML = setting.cancelText;
     cd.confirmBtn.innerHTML = setting.confirmText;
@@ -48,7 +48,7 @@ async function confirmDialog(options){
     let visibilityState = "hidden"
     if (setting.askAgainBox == true) {
         visibilityState = "none"
-    }    
+    }
     cd.showAgainDiv.style.visibility = visibilityState;
     cd.askAgainLabel.innerHTML = setting.askAgainLabel;
     
