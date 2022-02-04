@@ -410,8 +410,9 @@ runPieMenu(profileNum, index, activePieNum=1)
 	bitmapPadding := [300*Mon.pieDPIScale,180*Mon.pieDPIScale]
 	SetUpGDIP(pieOpenLocX-bitmapPadding[1], pieOpenLocY-bitmapPadding[2], 2*bitmapPadding[1], 2*bitmapPadding[2])
 	StartDrawGDIP()
-	
-	activePieKey := settings.appProfiles[profileNum].pieKeys[index]
+
+	p_activeProfile := settings.appProfiles[profileNum]
+	activePieKey := p_activeProfile.pieKeys[index]
 	pieHotkey := removeCharacters(activePieKey.hotkey, "!^+#")
 	activePieNumber := activePieNum
 	activePie := activePieKey.pieMenus[activePieNumber]	
@@ -884,6 +885,7 @@ runPieMenu(profileNum, index, activePieNum=1)
 			default:
 				msgbox, Invalid submenu mode selected.  I never thought this error would ever pop up how did you mess this up?	
 		}
+
 	}
 
 getMouseTransformProperties(init:=false)
@@ -1330,7 +1332,8 @@ Class pieEnableKey{
 			Hotkey, IfWinNotActive, ahk_group regApps
 			for menus in settings.appProfiles[1].pieKeys
 				{
-				If (settings.appProfiles[1].pieKeys[menus].hotkey != ActivePieHotkey)
+				If (settings.appProfiles[1].pieKeys[menus].hotkey != ActivePieHotkey || true) ; Not sure why I added this
+					; msgbox, % settings.appProfiles[1].pieKeys[menus].hotkey
 					Hotkey, % settings.appProfiles[1].pieKeys[menus].hotkey, Off
 				}
 			}
@@ -1339,14 +1342,14 @@ Class pieEnableKey{
 			; global activeProfile := getActiveProfile()
 			Hotkey, IfWinActive, % activeProfile[1]
 			for ahkHandleIndex, ahkHandle in activeProfile.ahkHandles
-			{
+				{
 				Hotkey, IfWinActive, % ahkHandle
 				for pieKeyIndex, pieKey in activeProfile.pieKeys
-				{
+					{
 					; msgbox, % pieKey.hotkey
 					Try Hotkey, % pieKey.hotkey, Off
+					}
 				}
-			}
 			; for menus in settings.appProfiles[activeProfile[2]].pieKeys
 			; 	{
 			; 	If (settings.appProfiles[activeProfile[2]].pieKeys[menus].hotkey != ActivePieHotkey)

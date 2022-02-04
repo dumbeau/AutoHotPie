@@ -49,42 +49,6 @@ function getIndexOfObjByKeyValue(objects, key, value){
     })
 };
 
-
-// function getKeyObjFromAhkString(AhkString){ 
-//     console.log("Why is something still calling this???")
-//     let keyTableArray = AutoHotPieSettings.global.htmlAhkKeyConversionTable;
-
-//     let ahkBareKey = AhkString.replace('+','').replace('!','').replace('^','')
-//     let keyObj = keyTableArray.find(x => x.ahkKey === ahkBareKey)
-//     function checkAhkModSymbol(modSymbol){
-//         return AhkString.slice(0,3).includes(modSymbol);
-//     }
-//     function processKeyEventToFullString(){
-//         returnString = ""
-//         if (checkAhkModSymbol("+")){
-//             returnString = returnString + "Shift+"
-//         }
-//         if (checkAhkModSymbol("^")){
-//             returnString = returnString + "Ctrl+"
-//         }
-//         if (checkAhkModSymbol("!")){
-//             returnString = returnString + "Alt+"
-//         }
-//         returnString = returnString + keyObj.displayKey
-//         // console.log(returnString)
-//         return returnString
-//     }
-//     return {
-//         isShift:checkAhkModSymbol("+"),                        
-//         isCtrl:checkAhkModSymbol("^"),                        
-//         isAlt:checkAhkModSymbol("!"),
-//         keyCode:keyObj.keyCode,
-//         displayKey:processKeyEventToFullString(),
-//         displayKeyNoMods:keyObj.displayKey,
-//         ahkKey:AhkString
-//     }
-// }
-
 function calcAngle(aX,aY,bX,bY){
     let initVal = Math.atan2(bY-aY,bX-aX)*(180/Math.PI)
     if (initVal < 0){
@@ -180,3 +144,4 @@ jscolor.presets.default = {
     pointerThickness:1	
 };
 jscolor.install();
+// electron.addErrorListener();

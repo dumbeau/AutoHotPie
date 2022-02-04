@@ -125,6 +125,7 @@ var profileManagement = {
         createSettingsBtnListener: function(){
             let btn = document.getElementById('settings-btn')
             btn.addEventListener('click', function(){
+                // throw 'EVERYTHING IS BAD';
                 globalSettings.open();
             });
         }

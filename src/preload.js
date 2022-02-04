@@ -310,7 +310,7 @@ contextBridge.exposeInMainWorld('electron', {
   // WIN = new BrowserWindow({width: 800, height: 600})
   let options = {
       // See place holder 1 in above image
-      title : "Select Program File",
+      title : "Select Program Executable",
       
       // See place holder 3 in above image
       // buttonLabel : "Open...",
@@ -355,11 +355,11 @@ contextBridge.exposeInMainWorld('electron', {
   
   },
   openScriptFile: function(){
-    let localFilepath = path.join(PieMenuFolder, 'Local Scripts')
+    // let localFilepath = path.join(PieMenuFolder, 'Local Scripts')
     let options = {
       // See place holder 1 in above image
       title : "Select File",
-      defaultPath: localFilepath,
+      // defaultPath: localFilepath,
       
       // See place holder 3 in above image
       buttonLabel : "Select File",
@@ -453,6 +453,15 @@ contextBridge.exposeInMainWorld('electron', {
     return true
   }
   }
+  // addErrorListener: function(){    
+  //   window.onerror = function(error, url, line) {
+  //     // ipc.send('errorInWindow', error);
+  //     console.log('yay!');
+  //   };
+  //   window.addEventListener('error', function(e){
+  //     console.log('pls');
+  //   })
+  // }
 });
 
 contextBridge.exposeInMainWorld('iconManager',{

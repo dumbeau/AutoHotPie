@@ -61,7 +61,7 @@ loadSettingsFile()
 	global activeProfile	
 
 	global penClicked := false
-	global pieMenuRanWithMod := false
+	global pieMenuRanWithMod := false	
 
 	; global pieDPIScale
 	getMonitorCoords(Mon.left , Mon.right , Mon.top , Mon.bottom )
@@ -196,12 +196,12 @@ togglePieLabel:
 return
 
 onPieLabel:
-	pieEnableKey.modOn()
+	pieEnableKey.modOn()	
 	; msgbox, On
 return
 
 offPieLabel:
-	pieEnableKey.modOff()
+	pieEnableKey.modOff()	
 	; msgbox, activeProfile	
 	; msgbox, off
 return

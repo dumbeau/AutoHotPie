@@ -1425,24 +1425,23 @@ var editPieMenu = {
                 if(event.target.nodeName == "DIV"){return}
                 
                 if (event.target.innerHTML == "More Functions..."){
-                    functionSelectPage.selectFunction().then((val) => {                      
-                        processFunctionSelection(val, false);
-                        editPieMenu.forceReload();
+                    functionSelectPage.selectFunction().then((val) => {
+                        console.log(val)
+                        processFunctionSelection(val, true);
+                        // editPieMenu.forceReload();
                         // $('[href="#tab-2"]').tab('show');                         
                     }, () => {
                         editPieMenu.forceReload();
                         // $('[href="#tab-2"]').tab('show');
                     });
-                    return                    
+                    return
                 } else {
-                    processFunctionSelection(event.target.innerHTML, true);
-                    editPieMenu.forceReload();
+                    processFunctionSelection(event.target.innerHTML, true);         
                 }
                 
                 
                 function processFunctionSelection(functionNameString, configureFunctionOnSelect=false){
-                    let selectedFunc = getAHKFunc(functionNameString);  
-                    console.log(selectedFunc)                  
+                    let selectedFunc = getAHKFunc(functionNameString);                      
                 
                     // editPieMenu.selectedSlice.function = selectedFunc.ahkFunction
 
@@ -1534,7 +1533,7 @@ var editPieMenu = {
                     }
                     
                     // editPieMenu.sliceSettings.loadSelectedPieKey(); //Maybe this should be removed or moved to the else of the next statement.
-                    if (configureFunctionOnSelect) {
+                    if (configureFunctionOnSelect || true) {
                         runParameterSelection(editPieMenu.selectedSlice.function);
                     } else {
                         checkForDefaultLabel();
@@ -1546,7 +1545,7 @@ var editPieMenu = {
                                 assignKey().then(val => {                            
                                     editPieMenu.selectedSlice.params.keys[0] = val.ahkKey
                                     console.log(val);                            
-                                    setDefaultLabel(val.displayKey, "SendKey.png");
+                                    setDefaultLabel(val.displayKey, "");
                                     $('[href="#tab-2"]').tab('show');
                                     // editPieMenu.sliceSettings.sliceFunction.sendKey.keysDiv.scrollIntoView({behavior:"smooth"});
                                     window.scrollTo(0,document.body.scrollHeight);
@@ -1555,6 +1554,10 @@ var editPieMenu = {
                                 }, val => {                   
                                     $('[href="#tab-2"]').tab('show');                                
                                 });
+                                return;
+                            case "mouseClick":                            
+                                setDefaultLabel("Click","FillMouse.png");
+                                editPieMenu.sliceSettings.loadSelectedPieKey();
                                 return;
                             case "runScript":
                                 let scriptFilename = electron.openScriptFile()
@@ -1574,7 +1577,32 @@ var editPieMenu = {
                                     setDefaultLabel(nodePath.basename(folderPath),"Folder.png");          
                                 }
                                 editPieMenu.sliceSettings.loadSelectedPieKey();             
-                                return;                            
+                                return;
+                            case "submenu":
+                                setDefaultLabel("Submenu","SubmenuLine.png");
+                                editPieMenu.sliceSettings.loadSelectedPieKey();                              
+                                return;
+                            case "repeatLastFunction":                                
+                                setDefaultLabel("Repeat Last","Repeat.png");                          
+                                return;
+                            case "submenu":
+                                setDefaultLabel("Submenu","SubmenuLine.png");                          
+                                return;
+                            case "none":
+                                setDefaultLabel("","");
+                                return;
+                            case "resizeWindow":
+                                setDefaultLabel("Resize Window","ResizeWindow.png");               
+                                return;
+                            case "moveWindow":
+                                setDefaultLabel("Move Window","MoveWindow.png");               
+                                return;
+                            case "openURL":
+                                setDefaultLabel("Open Link","OpenURL.png");
+                                return;
+                            case "openSettings":
+                                setDefaultLabel("AHP Settings","SettingsCog.png");               
+                                return;                        
                             default:
                                 return;
                         }
@@ -1583,16 +1611,19 @@ var editPieMenu = {
                     function setDefaultLabel(text=null, icon=null){
                         if (text != null){
                             editPieMenu.selectedSlice.label = text;
-                        }                        
+                        }
                         if (icon != null){
                             editPieMenu.selectedSlice.icon = {filePath:icon,WBOnly:true};
                         }
                         editPieMenu.pieMenuDisplay.refresh();
+                        editPieMenu.sliceSettings.loadSelectedPieKey();
+                        $('[href="#tab-2"]').tab('show');
+                        // editPieMenu.forceReload();
                     }
-                    function checkForDefaultLabel(){
+                    function checkForDefaultLabel(){                        
                         switch (editPieMenu.selectedSlice.function){
-                        case "mouseClick":
-                            setDefaultLabel("Click","FillMouse.png");                          
+                        case "mouseClick":                            
+                            setDefaultLabel("Click","FillMouse.png");
                             return;
                         case "repeatLastFunction":
                             setDefaultLabel("Repeat Last","Repeat.png");                          
@@ -1621,6 +1652,7 @@ var editPieMenu = {
                         default:
                             return;
                         }
+
                     }
                 }
                 

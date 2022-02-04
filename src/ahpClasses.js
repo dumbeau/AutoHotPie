@@ -2010,17 +2010,16 @@ function LoadSettingsJsonFile(settingsFileName){
 
 function createIntialAHPSettingsProfile(){
     let AHPSettingsObj = new AHPSettings({
-        appProfiles: [new AppProfile({
-            name: "Default Profile",
-            ahkHandles: ["ahk_group regApps"],                      
-            pieKeys: [new PieKey({
-                name: "Newborn Pie Menu",
-                hotkey: "`",
-                pieMenus : [new PieMenu({
-                    functions: fillPieFunctions(7)
-                })]
-            })]
-        })]    
+        // appProfiles: [new AppProfile({
+        //     name: "Default Profile",
+        //     ahkHandles: ["ahk_group regApps"],                      
+        //     pieKeys: [new PieKey({
+        //         name: "Newborn Pie Menu",
+        //         hotkey: "`",
+        //         pieMenus : [new PieMenu({
+        //             functions: fillPieFunctions(7)
+        //         })]
+        //     })]        
     });    
     function fillPieFunctions(numFunctions=1){
         let funcArray = Array.from({length:numFunctions})

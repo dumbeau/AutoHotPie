@@ -35,7 +35,6 @@ function createWindow() {
   // mainWindow.removeMenu()
 
   
-  
   var timeOutVar
   mainWindow.on('resize',function(e){
     clearTimeout(timeOutVar);
@@ -80,7 +79,10 @@ function createWindow() {
   });
   ipcMain.on('getDate', (event) => {
     var dateTime = new Date()
-    fullDate = dateTime.getFullYear() + "-" + dateTime.getUTCMonth() + "-" + dateTime.getDate();
+    // fullDate = dateTime.getFullYear() + "-" + dateTime.getUTCMonth() + "-" + dateTime.getDate();
+
+    fullDate = dateTime.getFullYear() + ('0' + (dateTime.getMonth()+1)).slice(-2) + ('0' + dateTime.getDate()).slice(-2);
+
     event.returnValue = fullDate.slice(2).replaceAll("-","")
   });
   ipcMain.on('getNow', (event) => {    
@@ -112,7 +114,7 @@ app.whenReady().then(() => {
     // On macOS it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
     if (BrowserWindow.getAllWindows().length === 0) createWindow()
-  })
+  })  
 })
   }
 
@@ -122,6 +124,7 @@ app.whenReady().then(() => {
 app.on('window-all-closed', function (event) {
   if (process.platform !== 'darwin') app.quit()
 })
+
 
 
 // In this file you can include the rest of your app's specific main process
