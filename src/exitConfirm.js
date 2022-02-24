@@ -5,6 +5,7 @@ var exitPage = {
     dontSaveBtn: $('#exit-dont-save-btn'),
     saveQuitBtn: $('#exit-save-btn'),
     runPieMenusCheckbox: $('#run-on-exit-checkbox'),
+    alwaysRunCheckbox: $('#confirm-exit-always-run-checkbox'),
     initialize: function(){
         this.backBtn.on('click', () => {
             profileManagement.open();
@@ -17,7 +18,7 @@ var exitPage = {
             }            
         });
         this.saveQuitBtn.on('click', () => {
-            JSONFile.save(SettingsFileName, AutoHotPieSettings)
+            JSONFile.save(SettingsFileName, AutoHotPieSettings);            
             if (AutoHotPieSettings.global.startup.runOnAppQuit){
                 RunPieMenuApp();
             } else {
@@ -27,6 +28,9 @@ var exitPage = {
         this.runPieMenusCheckbox.change((e) => {            
             AutoHotPieSettings.global.startup.runOnAppQuit = this.runPieMenusCheckbox.is(":checked");            
         });
+        this.alwaysRunCheckbox.change((e) => {            
+            AutoHotPieSettings.global.startup.alwaysRunOnAppQuit = this.alwaysRunCheckbox.is(":checked");            
+        });
     },
     open: function (){
         $('[href="#tab-31"]').tab('show');
@@ -34,12 +38,18 @@ var exitPage = {
     refresh: function(){   
         // console.log(AutoHotPieSettings.global.startup.runOnAppQuit);     
         this.runPieMenusCheckbox.prop('checked', AutoHotPieSettings.global.startup.runOnAppQuit);        
+        this.alwaysRunCheckbox.prop('checked', AutoHotPieSettings.global.startup.alwaysRunOnAppQuit);        
     }
 }
 
-exitPage.initialize();
+// exitPage.initialize();
 
 function ExitApp(){
-    exitPage.open();
-    exitPage.refresh();
+    if(AutoHotPieSettings.global.startup.alwaysRunOnAppQuit){
+        JSONFile.save(SettingsFileName, AutoHotPieSettings)
+        RunPieMenuApp();
+    } else {
+        exitPage.open();
+        exitPage.refresh();
+    }    
 }

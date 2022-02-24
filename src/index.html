@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="height: 100%;">
 
 <head>
     <meta charset="utf-8">
@@ -13,10 +13,10 @@
     <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 
-<body>
-    <div id="app-tabs">
+<body style="height: 100%;">
+    <div id="app-tabs" style="height: 100%;">
         <ul class="nav nav-tabs" role="tablist" name="hidden-tab-items" style="display:none">
-            <li class="nav-item" role="presentation"><a class="nav-link active" role="tab" data-bs-toggle="tab" href="#tab-1">Home</a></li>
+            <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-1">Home</a></li>
             <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-2">Edit Pie Menu</a></li>
             <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-3">Create New Profile</a></li>
             <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-4">Create New Pie Menu</a></li>
@@ -33,9 +33,10 @@
             <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-28">Icon Manager</a></li>
             <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-29">Edit Script</a></li>
             <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-32">Error</a></li>
+            <li class="nav-item" role="presentation"><a class="nav-link active" role="tab" data-bs-toggle="tab" href="#tab-33">Loading</a></li>
         </ul>
-        <div class="tab-content">
-            <div class="tab-pane active" role="tabpanel" id="tab-1">
+        <div class="tab-content" style="height: 100%;">
+            <div class="tab-pane" role="tabpanel" id="tab-1">
                 <div class="d-flex" style="height: 71px;background: linear-gradient(270deg, var(--bs-blue), var(--bs-teal));">
                     <div class="d-flex justify-content-start align-items-center align-items-md-center" style="width: 40%;"><button class="btn btn-secondary" id="settings-btn" type="button" style="margin-right: 14px;margin-left: 50px;"><i class="icon ion-gear-a" style="margin-right: 12px;"></i>Settings</button></div>
                     <div class="d-flex justify-content-center align-items-center align-items-md-center" style="width: 20%;"></div>
@@ -134,13 +135,13 @@
                     <div class="d-flex justify-content-center" style="width: 100%;margin-top: 22px;">
                         <div id="pie-menu-settings-tabs" style="margin: 1px;width: 996px;">
                             <ul class="nav nav-tabs nav-justified" role="tablist" style="font-size: 20px;">
-                                <li class="nav-item" role="presentation"><a class="nav-link active" role="tab" data-bs-toggle="tab" id="global-appearance-tab" href="#tab-27">Font</a></li>
+                                <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" id="global-appearance-tab" href="#tab-27">Font</a></li>
                                 <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-8">Launch Settings</a></li>
                                 <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-9">Menu Appearance</a></li>
-                                <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-10">Functions</a></li>
+                                <li class="nav-item" role="presentation"><a class="nav-link active" role="tab" data-bs-toggle="tab" href="#tab-10">Functions</a></li>
                             </ul>
                             <div class="tab-content">
-                                <div class="tab-pane active" role="tabpanel" id="tab-27">
+                                <div class="tab-pane" role="tabpanel" id="tab-27">
                                     <div class="d-flex justify-content-center" style="padding-top: 20px;">
                                         <div id="global-menu-appearance-settings-div" style="border: 1px solid var(--bs-gray);border-radius: 14px;padding: 24px;width: 100%;max-width: 568px;">
                                             <div class="d-inline-flex d-lg-flex align-items-lg-start" style="background: rgb(34,34,34);transform: translateY(-35px);width: 122px;padding-right: 10px;padding-left: 10px;">
@@ -224,7 +225,7 @@
                                                 <p style="margin-right: 14px;margin-bottom: 3px;width: 133.8281px;">Label Radius:</p><input class="form-range" type="range" style="margin-right: 15px;"><input class="bg-dark border rounded-0 border-dark" type="text" style="font-size: 16px;color: var(--bs-white);width: 40px;text-align: center;" placeholder="20" maxlength="3" inputmode="numeric">
                                             </div>
                                             <div class="d-flex align-items-center" style="margin-bottom: 9px;">
-                                                <p class="text-nowrap" style="margin-right: 14px;margin-bottom: 3px;">Include Previous Menu Function:</p>
+                                                <p class="text-nowrap" style="margin-right: 14px;margin-bottom: 3px;">Include Return Slice:</p>
                                                 <div class="form-check form-switch"><input class="form-check-input" type="checkbox" id="include-back-function-checkbox"><label class="form-check-label" for="formCheck-7"></label></div>
                                             </div>
                                             <div class="d-flex align-items-center" id="sub-menu-angle-offset-div">
@@ -238,7 +239,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="tab-pane" role="tabpanel" id="tab-10">
+                                <div class="tab-pane active" role="tabpanel" id="tab-10">
                                     <div style="width: auto;padding-right: 27px;padding-left: 27px;">
                                         <div class="justify-content-start" id="pie-menu-display-description" style="padding-top: 12px;padding-bottom: 12px;height: 65px;margin-top: 33px;">
                                             <div class="d-flex align-items-center"></div>
@@ -298,7 +299,7 @@
                                                 <ul class="nav nav-tabs" role="tablist" name="hidden-tab-items">
                                                     <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-13">Send Key</a></li>
                                                     <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-14">Mouse Click</a></li>
-                                                    <li class="nav-item" role="presentation"><a class="nav-link active" role="tab" data-bs-toggle="tab" href="#tab-15">Run Script</a></li>
+                                                    <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-15">Run Script</a></li>
                                                     <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-16">Repeat Last</a></li>
                                                     <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-17">Sub Menu</a></li>
                                                     <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-18">No Options</a></li>
@@ -306,7 +307,7 @@
                                                     <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-20">Parameter List</a></li>
                                                     <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-21">Custom Options</a></li>
                                                     <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-22">Open Folder</a></li>
-                                                    <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-26">Open URL</a></li>
+                                                    <li class="nav-item" role="presentation"><a class="nav-link active" role="tab" data-bs-toggle="tab" href="#tab-26">Open URL</a></li>
                                                 </ul>
                                                 <div class="tab-content">
                                                     <div class="tab-pane" role="tabpanel" id="tab-13">
@@ -346,7 +347,7 @@
                                                             <div class="form-check" style="margin-left: 18px;"><input class="form-check-input" type="checkbox" id="mouse-drag-checkbox"><label class="form-check-label" for="formCheck-5">Drag</label></div>
                                                         </div>
                                                     </div>
-                                                    <div class="tab-pane active" role="tabpanel" id="tab-15">
+                                                    <div class="tab-pane" role="tabpanel" id="tab-15">
                                                         <div class="d-flex align-items-center">
                                                             <div class="d-flex justify-content-start" style="padding-top: 12px;padding-bottom: 12px;width: 100%;">
                                                                 <div class="d-flex align-items-center">
@@ -418,11 +419,11 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="tab-pane" role="tabpanel" id="tab-26">
+                                                    <div class="tab-pane active" role="tabpanel" id="tab-26">
                                                         <div class="d-flex justify-content-start" style="padding-top: 12px;padding-bottom: 12px;">
                                                             <div class="d-flex align-items-center"></div>
                                                             <div class="d-flex align-items-center" style="width: 100%;">
-                                                                <h5 class="d-xxl-flex align-items-xxl-center" style="margin-bottom: -10px;margin-right: 14px;margin-top: -11px;">URL:</h5><input class="bg-dark border rounded-0 border-dark flex-grow-1" type="text" style="font-size: 16px;color: var(--bs-white);padding-top: 1px;padding-bottom: 1px;text-align: left;" placeholder="Paste link URL...">
+                                                                <h5 class="d-xxl-flex align-items-xxl-center" style="margin-bottom: -10px;margin-right: 14px;margin-top: -11px;">URL:</h5><input class="bg-dark border rounded-0 border-dark flex-grow-1" type="text" id="url-text-input" style="font-size: 16px;color: var(--bs-white);padding-top: 1px;padding-bottom: 1px;text-align: left;" placeholder="Paste link URL...">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -528,7 +529,7 @@
                 </div>
                 <div class="d-flex">
                     <div style="padding-left: 50px;width: 50%;">
-                        <h3 style="margin-top: 32px;">Startup</h3>
+                        <h3 style="margin-top: 32px;">General</h3>
                         <div class="justify-content-start" style="padding-top: 12px;padding-bottom: 12px;">
                             <div class="d-flex align-items-center">
                                 <div class="form-check form-switch" style="margin-left: 3px;" title="Icon will use the selection color when function is focused if icon is greyscale."><input class="form-check-input" type="checkbox" id="run-on-startup-checkbox"><label class="form-check-label" for="formCheck-5">Run AutoHotPie on Startup<br></label></div>
@@ -536,6 +537,9 @@
                         </div>
                         <div class="justify-content-start" style="padding-top: 12px;padding-bottom: 12px;">
                             <div class="form-check form-switch" style="margin-left: 3px;" title="Icon will use the selection color when function is focused if icon is greyscale."><input class="form-check-input" type="checkbox" id="use-ahk-pie-menu-checkbox"><label class="form-check-label" for="formCheck-5">Use open-source AutoHotKey pie menus<br>(requires <a id="ahk-link" style="color: var(--bs-teal);text-decoration:  underline;">AutoHotKey</a>&nbsp;to be installed)<br></label></div>
+                        </div>
+                        <div class="justify-content-start" style="padding-top: 12px;padding-bottom: 12px;">
+                            <div class="form-check form-switch" style="margin-left: 3px;" title="Icon will use the selection color when function is focused if icon is greyscale."><input class="form-check-input" type="checkbox" id="always-run-on-quit-checkbox"><label class="form-check-label" for="use-ahk-pie-menu-checkbox-2">Always 'Save and Run pie menus' on close.<br></label></div>
                         </div>
                         <div hidden="">
                             <h3 style="margin-top: 32px;">User Satisfaction</h3>
@@ -569,9 +573,10 @@
             <div class="tab-pane" role="tabpanel" id="tab-31">
                 <div class="text-center d-flex flex-column justify-content-center align-items-center" style="width: 100%;height: 90vh;">
                     <h1>Save before quitting?</h1>
-                    <div style="width: 100%;padding: 10px;"><button class="btn btn-secondary" id="exit-back-btn" type="button" style="margin-right: 24px;width: 180px;">Go Back</button><button class="btn btn-secondary" id="exit-dont-save-btn" type="button" style="margin-right: 24px;width: 180px;">Don't Save</button><button class="btn btn-primary" id="exit-save-btn" type="button" style="width: 180px;">Save</button></div>
-                    <div style="padding-top: 11px;">
-                        <div class="form-check d-lg-flex justify-content-lg-start"><input class="form-check-input" type="checkbox" id="run-on-exit-checkbox"><label class="form-check-label" for="show-again-checkbox-1" style="padding-left: 11px;">Run Pie Menus on exit</label></div>
+                    <div style="width: 100%;padding: 10px;"><button class="btn btn-secondary" id="exit-back-btn" type="button" style="margin-right: 24px;width: 180px;">Cancel</button><button class="btn btn-secondary" id="exit-dont-save-btn" type="button" style="margin-right: 24px;width: 180px;">Don't Save</button><button class="btn btn-primary" id="exit-save-btn" type="button" style="width: 180px;">Save</button></div>
+                    <div class="d-flex" style="padding-top: 11px;">
+                        <div class="form-check d-lg-flex justify-content-lg-start"><input class="form-check-input" type="checkbox" id="run-on-exit-checkbox"><label class="form-check-label" for="run-on-exit-checkbox">Run Pie Menus on exit</label></div>
+                        <div class="form-check d-lg-flex justify-content-lg-start" style="margin-left: 30px;"><input class="form-check-input" type="checkbox" id="confirm-exit-always-run-checkbox"><label class="form-check-label" for="confirm-exit-always-run-checkbox">Don't ask again<br></label></div>
                     </div>
                 </div>
             </div>
@@ -621,13 +626,13 @@
                 <div class="d-flex" style="padding: 36px;padding-bottom: 0;">
                     <div style="width: 33.333%;padding: 5px;">
                         <div id="act-mode-2-card" style="background: var(--bs-gray-800);padding: 24px;padding-bottom: 5px;height: 100%;border-radius: 4px;border: 1px solid rgb(64,193,179) ;"><img id="act-2-img" src="assets/img/Act-Mode-2.png" style="width: 100%;"><img id="act-2-container" src="assets/img/Act-Mode-2.png" style="width: 100%;"><img id="act-2-gif" src="assets/img/Act-Mode-2-SelectFirst.gif" style="margin-bottom: 21px;width: 100%;">
-                            <h4>Key down, release on first function, hover over next.<br></h4>
+                            <h4>Release on first function, hover over next.<br></h4>
                             <p class="text-muted" style="height: auto;">Open the pie menu by holding the Pie Key.&nbsp; Release Pie Key on desired function.&nbsp; If submenu is selected, hover over next function.<br></p>
                         </div>
                     </div>
                     <div style="width: 33.333%;padding: 5px;">
                         <div id="act-mode-1-card" style="background: var(--bs-gray-800);padding: 24px;padding-bottom: 5px;height: 100%;border-radius: 4px;border: 1px solid rgb(64,193,179) ;"><img id="act-1-img" src="assets/img/Act-Mode-1.png" style="width: 100%;"><img id="act-1-container" src="assets/img/Act-Mode-1.png" style="width: 100%;"><img id="act-1-gif" src="assets/img/Act-Mode-1-HoverSub.gif" style="width: 100%;">
-                            <h4>Key down, hover over submenus, release on function.</h4>
+                            <h4>Hover over submenus, release on function.</h4>
                             <p class="text-muted" style="height: auto;">Open the pie menu by holding the Pie Key.&nbsp;&nbsp;Release Pie Key on the desired function.</p>
                         </div>
                     </div>
@@ -839,7 +844,7 @@
                     </div>
                 </div>
             </div>
-            <div class="tab-pane" role="tabpanel" id="tab-28">
+            <div class="tab-pane" role="tabpanel" id="tab-28" style="height: 100%;">
                 <div class="d-flex align-items-center" style="background: var(--bs-gray-dark);height: 102px;">
                     <div style="width: 20%;"><button class="btn btn-secondary" id="icon-manager-back-btn" type="button" style="margin-left: 50px;"><i class="icon ion-chevron-left" style="margin-right: 12px;"></i>Back</button></div>
                     <div style="width: 60%;">
@@ -852,7 +857,25 @@
                             <h2 class="accordion-header" role="tab"><button class="accordion-button" data-bs-toggle="collapse" data-bs-target="#accordion-1 .item-1" aria-expanded="true" aria-controls="accordion-1 .item-1" style="font-size: 27px;">Stock Icons</button></h2>
                             <div class="accordion-collapse collapse show item-1" role="tabpanel" data-bs-parent="#accordion-1" style="background: var(--bs-body-color);">
                                 <div class="accordion-body">
-                                    <div class="d-inline-flex align-content-start flex-wrap" id="stock-icon-library" style="overflow-y: scroll;height: 350px;width: 100%;">
+                                    <div class="d-flex justify-content-center" style="margin-bottom: 5px;">
+                                        <div style="padding: 4px;border: 1px solid var(--bs-gray-400);border-radius: 4px;"><input class="border rounded-0 border-white" type="text" id="stock-icons-search-input" style="font-size: 16px;width: 367px;text-align: left;padding-top: 1px;padding-bottom: 1px;padding-left: 8px;" placeholder="Search icons..."><i class="fa fa-search" style="color: var(--bs-gray-400);font-size: 19px;margin-right: 4px;"></i></div>
+                                    </div>
+                                    <div class="d-inline-flex align-content-start flex-wrap" id="stock-icon-library" style="overflow-y: scroll;width: 100%;height: 310px;">
+                                        <div class="text-center d-xxl-flex align-items-xxl-center" style="width: 150px;height: 100px;" name="selectable-icon-div">
+                                            <div style="width: 100%;"><img src="assets/img/ColorRainbow.png" style="width: 32px;margin-bottom: 6px;">
+                                                <p class="text-truncate" style="margin-bottom: 0px;font-size: 14px;">Arrow Left</p>
+                                            </div>
+                                        </div>
+                                        <div class="text-center d-xxl-flex align-items-xxl-center" style="width: 150px;height: 100px;" name="selectable-icon-div">
+                                            <div style="width: 100%;"><img src="assets/img/ColorRainbow.png" style="width: 32px;margin-bottom: 6px;">
+                                                <p class="text-truncate" style="margin-bottom: 0px;font-size: 14px;">Arrow Left</p>
+                                            </div>
+                                        </div>
+                                        <div class="text-center d-xxl-flex align-items-xxl-center" style="width: 150px;height: 100px;" name="selectable-icon-div">
+                                            <div style="width: 100%;"><img src="assets/img/ColorRainbow.png" style="width: 32px;margin-bottom: 6px;">
+                                                <p class="text-truncate" style="margin-bottom: 0px;font-size: 14px;">Arrow Left</p>
+                                            </div>
+                                        </div>
                                         <div class="text-center d-xxl-flex align-items-xxl-center" style="width: 150px;height: 100px;" name="selectable-icon-div">
                                             <div style="width: 100%;"><img src="assets/img/ColorRainbow.png" style="width: 32px;margin-bottom: 6px;">
                                                 <p class="text-truncate" style="margin-bottom: 0px;font-size: 14px;">Arrow Left</p>
@@ -866,7 +889,10 @@
                             <h2 class="accordion-header" role="tab"><button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#accordion-1 .item-2" aria-expanded="false" aria-controls="accordion-1 .item-2" style="font-size: 27px;">User Icons</button></h2>
                             <div class="accordion-collapse collapse item-2" role="tabpanel" data-bs-parent="#accordion-1" style="background: var(--bs-body-color);">
                                 <div class="accordion-body">
-                                    <div class="d-inline-flex align-content-start flex-wrap" id="user-icon-library" style="overflow-y: scroll;height: 350px;width: 100%;">
+                                    <div class="d-flex justify-content-center" style="margin-bottom: 5px;">
+                                        <div style="padding: 4px;border: 1px solid var(--bs-gray-400);border-radius: 4px;"><input class="border rounded-0 border-white" type="text" id="user-icons-search-input" style="font-size: 16px;width: 367px;text-align: left;padding-top: 1px;padding-bottom: 1px;padding-left: 8px;" placeholder="Search icons..."><i class="fa fa-search" style="color: var(--bs-gray-400);font-size: 19px;margin-right: 4px;"></i></div>
+                                    </div>
+                                    <div class="d-inline-flex align-content-start flex-wrap" id="user-icon-library" style="overflow-y: scroll;width: 100%;height: 310px;">
                                         <div class="text-center d-xxl-flex align-items-xxl-center" style="width: 150px;height: 100px;" name="selectable-icon-div">
                                             <div style="width: 100%;"><img src="assets/img/ColorRainbow.png" style="width: 32px;margin-bottom: 6px;">
                                                 <p class="text-truncate" style="margin-bottom: 0px;font-size: 14px;">Arrow Left</p>
@@ -903,7 +929,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="text-center" style="padding: 6px;"><button class="btn btn-primary" id="manage-icons-btn" type="button" style="width: 218.984px;">Manage Icons</button><button class="btn btn-primary" id="refresh-icons-btn" type="button" style="width: 218.984px;margin-left: 16px;">Refresh Icons</button></div>
+                                    <div class="text-center" style="padding: 6px;"><button class="btn btn-primary" id="add-icons-btn" type="button" style="width: 207.98399999999998px;"><i class="icon ion-plus" style="margin-right: 12px;"></i>Add Icons</button><button class="btn btn-primary" id="manage-icons-btn" type="button" style="width: 207.98399999999998px;margin-left: 14px;">Manage Icons</button></div>
                                 </div>
                             </div>
                         </div>
@@ -968,6 +994,13 @@
                     </div>
                 </div>
             </div>
+            <div class="tab-pane active" role="tabpanel" id="tab-33">
+                <div class="text-center d-flex flex-column justify-content-center align-items-center" style="width: 100%;height: 100vh;">
+                    <div style="height: 20%;"></div>
+                    <div class="text-center d-flex flex-column justify-content-center align-items-center" style="height: 60%;"><img id="loading-animation-2" src="assets/img/runPieMenus.gif" style="width: 300px;"></div>
+                    <div style="height: 20%;"></div>
+                </div>
+            </div>
         </div>
     </div>
     <div id="image-buffer" hidden=""></div>
@@ -987,10 +1020,12 @@
     <script src="./functionSelect.js"></script>
     <script src="./hotkeyManagement.js"></script>
     <script src="./editPieMenu.js"></script>
+    <script src="./editScript.js"></script>
     <script src="./errorPage.js"></script>
     <script src="./iconManager.js"></script>
     <script src="./createNewPieMenu.js"></script>
     <script src="./changeActivationMode.js"></script>
+    <script src="./initializePages.js"></script>
 </body>
 
 </html>

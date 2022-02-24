@@ -12,8 +12,7 @@ var editScriptPage = {
 
         this.backBtn.on('click', () => {
             editScriptPage.rejectPromise();
-        });
-        
+        });        
     },
     new: async function(associatedProgram=""){
         this.open();
@@ -24,9 +23,9 @@ var editScriptPage = {
         function waitForUserInput(){
             return new Promise((resolve, reject) => {
                 editScriptPage.resolvePromise = resolve;
-                editScriptPage.rejectPromise = reject; 
+                editScriptPage.rejectPromise = reject;
             });
         }
     }
 }
-editScriptPage.initialize();
+// editScriptPage.initialize();

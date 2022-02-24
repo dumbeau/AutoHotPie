@@ -286,10 +286,18 @@ function loadIconImagesToBuffer(){
   }  
   let imageBufferDiv = document.getElementById('image-buffer')
   let iconFolder = path.join(PieMenuFolder, 'icons')
+  let userIconsFolder = path.join(UserDataFolder, 'icons')
   imageBufferDiv.innerHTML = '';
   walk(iconFolder).then((files) => {
     files.forEach(function(file){
       let img = document.createElement('img');      
+      img.src = file
+      imageBufferDiv.appendChild(img);     
+    })      
+  },(err) => {return console.error(err)})
+  walk(userIconsFolder).then((files) => {
+    files.forEach(function(file){
+      let img = document.createElement('img');
       img.src = file
       imageBufferDiv.appendChild(img);     
     })      
@@ -329,37 +337,41 @@ contextBridge.exposeInMainWorld('electron', {
     return null
   }    
   },
-  openIconImage: function(){
-    let localFilepath = path.join(PieMenuFolder, 'icons')
-    let options = {
-      // See place holder 1 in above image
-      title : "Select Icon Image",
-      defaultPath: localFilepath,
+  // openIconImage: function(){ //May no longer be needed
+  //   let localFilepath = path.join(PieMenuFolder, 'icons')
+  //   let options = {
+  //     // See place holder 1 in above image
+  //     title : "Select Icon Image",
+  //     defaultPath: localFilepath,
       
-      // See place holder 3 in above image
-      // buttonLabel : "Open...",
+  //     // See place holder 3 in above image
+  //     // buttonLabel : "Open...",
       
-      // See place holder 4 in above image
-      filters :[
-        {name: 'Image', extensions: ['png','PNG']}        
-      ],
-      properties: ['openFile']
-      }    
-  let filePath = ipcRenderer.sendSync('openFileDialog', options)
-  if(filePath == null){
-    return false
-  }else{    
-    let iconImageFile = path.basename(filePath[0])    
-    return iconImageFile
-  }
+  //     // See place holder 4 in above image
+  //     filters :[
+  //       {name: 'Image', extensions: ['png','PNG']}        
+  //     ],
+  //     properties: ['openFile']
+  //     }    
+  // let filePath = ipcRenderer.sendSync('openFileDialog', options)
+  // if(filePath == null){
+  //   return false
+  // }else{    
+  //   let iconImageFile = path.basename(filePath[0])    
+  //   return iconImageFile
+  // }
   
-  },
+  // },
   openScriptFile: function(){
-    // let localFilepath = path.join(PieMenuFolder, 'Local Scripts')
+    let UserScriptsFolder = path.resolve(UserDataFolder,'User Scripts')
+    if (!fs.existsSync(path.resolve(UserDataFolder,'User Scripts'))){      
+      fs.mkdir(path.resolve(UserDataFolder,'User Scripts'), (err) => {if(err){throw err;}})
+    }
+    // let localFilepath = path.join(PieMenuFolder, 'User Scripts')
     let options = {
       // See place holder 1 in above image
       title : "Select File",
-      // defaultPath: localFilepath,
+      defaultPath: UserScriptsFolder,
       
       // See place holder 3 in above image
       buttonLabel : "Select File",
@@ -375,10 +387,10 @@ contextBridge.exposeInMainWorld('electron', {
     return false
   }else{    
     let scriptFile = filePath[0]
-    let localScriptFolderName = "Local Scripts"
+    let localScriptFolderName = "User Scripts"
     if(scriptFile.includes(localScriptFolderName)){
       scriptFile = scriptFile.slice(scriptFile.indexOf(localScriptFolderName))
-      scriptFile = scriptFile.replace(localScriptFolderName,"%A_ScriptDir%\\" + localScriptFolderName)
+      scriptFile = scriptFile.replace(localScriptFolderName,"%A_WorkingDir%\\" + localScriptFolderName)
       console.log(scriptFile)
     }    
     return scriptFile
@@ -386,7 +398,7 @@ contextBridge.exposeInMainWorld('electron', {
   
   },
   openFolderDialog: function(){
-    // let localFilepath = path.join(PieMenuFolder, 'Local Scripts')
+    // let localFilepath = path.join(PieMenuFolder, 'User Scripts')
     let options = {
       // See place holder 1 in above image
       title : "Select Folder",
@@ -442,8 +454,9 @@ contextBridge.exposeInMainWorld('electron', {
       copyDirectory(path.resolve(PieMenuFolder,"lib"),path.resolve(folderPath,'lib'))
       fs.mkdir(path.resolve(folderPath,'icons'), {recursive:true}, (err)=>{if(err){throw err;}})
       copyDirectory(path.resolve(PieMenuFolder,"icons"),path.resolve(folderPath,'icons'))
-      fs.mkdir(path.resolve(folderPath,'Local Scripts'), {recursive:true}, (err)=>{if(err){throw err;}})
-      copyDirectory(path.resolve(PieMenuFolder,"Local Scripts"),path.resolve(folderPath,'Local Scripts')) 
+      copyDirectory(path.resolve(UserDataFolder,"icons"),path.resolve(folderPath,'icons'))
+      fs.mkdir(path.resolve(folderPath,'User Scripts'), {recursive:true}, (err)=>{if(err){throw err;}})
+      copyDirectory(path.resolve(UserDataFolder,"User Scripts"),path.resolve(folderPath,'User Scripts')) 
       saveJSONFile(path.resolve(folderPath, "AHPSettings.json"), settingsData);
       shell.openPath(folderPath);
     } catch (e){
@@ -453,24 +466,16 @@ contextBridge.exposeInMainWorld('electron', {
     return true
   }
   }
-  // addErrorListener: function(){    
-  //   window.onerror = function(error, url, line) {
-  //     // ipc.send('errorInWindow', error);
-  //     console.log('yay!');
-  //   };
-  //   window.addEventListener('error', function(e){
-  //     console.log('pls');
-  //   })
-  // }
 });
 
-contextBridge.exposeInMainWorld('iconManager',{
+contextBridge.exposeInMainWorld('iconManager',{ // FIX MEEEEEEEEEEEEEEEEEEE
   refreshIconLibrary: function(){
     let UserIconsFolder = path.resolve(UserDataFolder,'icons')
     if (!fs.existsSync(path.resolve(UserDataFolder,'icons'))){      
       fs.mkdir(path.resolve(UserDataFolder,'icons'), (err) => {if(err){throw err;}})
     }        
-    copyDirectory(UserIconsFolder, path.resolve(PieMenuFolder,'icons','User Icons'))
+    // copyDirectory(UserIconsFolder, path.resolve(PieMenuFolder,'icons','User Icons'))
+    //Don't want to need the combined default and User Icons folder.
     loadIconImagesToBuffer();
   },
   openIconImage: function(){
@@ -497,19 +502,77 @@ contextBridge.exposeInMainWorld('iconManager',{
       return iconImageFile
     }  
   },
+  addIcons: function(){
+    // let localFilepath = path.join(PieMenuFolder, 'icons')
+    let options = {
+      // See place holder 1 in above image
+      title : "Select Icon Images...",
+      // defaultPath: localFilepath,
+      
+      // See place holder 3 in above image
+      // buttonLabel : "Open...",
+      
+      // See place holder 4 in above image
+      filters :[
+        {name: 'Image', extensions: ['png','PNG']}        
+      ],
+      properties: ['openFile','multiSelections']
+      }    
+    let icons = ipcRenderer.sendSync('openFileDialog', options)
+    if(icons == null){
+      console.log('none selected')
+      return false
+    }else{
+      console.log(icons);
+      let userIconsFolder = path.join(UserDataFolder, 'icons')
+      // let userIconsFolder = path.join(UserDataFolder, 'testIconFolder')
+      icons.forEach((icon)=>{
+        console.log(icon)
+        // fs.copyFile(icon, path.join(userIconsFolder,path.basename(icon)), (err)=>{
+        //   console.log(err);
+        // });
+        fs.copyFileSync(icon, path.join(userIconsFolder,path.basename(icon)));
+      });
+      
+      // let iconImageFile = path.basename(filePath[0])    
+      // return iconImageFile
+      return
+    }  
+  },
   openUserIconFolder: function(){
     shell.openPath(path.resolve(UserDataFolder,'icons'));    
   },
-  getIcons: function(){    
+  getDefaultIcons: function(){    
     let appIconsFolder = path.resolve(PieMenuFolder,'icons');
     return nodeDir.promiseFiles(appIconsFolder);
   },
+  getUserIcons: function(){    
+    let userIconsFolder = path.resolve(UserDataFolder,'icons');
+    return nodeDir.promiseFiles(userIconsFolder);
+  },
   getLocalIconPath:function(iconFilepath){
     let appIconsFolder = path.resolve(PieMenuFolder,'icons');
+    let userIconsFolder = path.resolve(UserDataFolder,'icons');
     let subPat = path.join(appIconsFolder).split('\\').slice(-2); 
-    subPat = subPat[0] + '/' + subPat[1]; 
-    // let subPat = path.join(PieMenuFolder);    
-    let returnPath = iconFilepath.slice(iconFilepath.indexOf(subPat)+subPat.length+1).replaceAll('%20',' ')  
+    subPat = subPat[0] + '/' + subPat[1];
+    // let subPat = path.join(PieMenuFolder);
+    let returnPath;
+    // console.log(iconFilePath); 
+    // console.log(iconFilepath.slice(8) + "\n\n" + userIconsFolder.replaceAll('\\',"/")); 
+    userIconFolderStringTest = userIconsFolder.replaceAll('\\',"/");
+    if ( iconFilepath.includes(userIconFolderStringTest)){
+      // console.log("What")
+      returnPath = "%UserIcons%" + iconFilepath.slice(iconFilepath.indexOf(userIconFolderStringTest)+userIconFolderStringTest.length).replaceAll('%20',' ');  
+      returnPath = returnPath.replaceAll('/','\\');
+      // console.log(returnPath)
+      // returnPath = iconFilepath.slice(iconFilepath.indexOf(subPat)+subPat.length+1).replaceAll('%20',' ')         
+    } else {
+      // console.log("Why doesn't this run?")
+      returnPath = iconFilepath.slice(iconFilepath.indexOf(subPat)+subPat.length+1).replaceAll('%20',' ')
+    }
+    // returnPath = iconFilepath.slice(iconFilepath.indexOf(subPat)+subPat.length+1).replaceAll('%20',' ')
+    
+    
     // console.log(returnPath)
     return returnPath 
   }

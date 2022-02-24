@@ -23,7 +23,7 @@ var confirmationDialog = {
         $('[href="#tab-6"]').tab('show');
     }        
 }
-confirmationDialog.initialize();
+// confirmationDialog.initialize();
 
 async function confirmDialog(options){    
     let cd = confirmationDialog;

@@ -126,16 +126,18 @@ function throttle(func, interval) {
     };
 }
 
-
 function RunPieMenuApp(){
     runningPieMenu.open();
-    pieMenus.run(AutoHotPieSettings.global.startup.runAHKPieMenus).then(val => {
-        console.log("Pie Menus are running!")
-        closeWindow();
-    },val => {
-        console.log("Pie Menus timed out.  No pie menus for you.")
-        closeWindow();
-    })
+    setTimeout(function(){attemptPieMenuAppRun();},5)
+    function attemptPieMenuAppRun(){
+        pieMenus.run(AutoHotPieSettings.global.startup.runAHKPieMenus).then(val => {
+            console.log("Pie Menus are running!");
+            closeWindow();
+        },val => {
+            console.log("Pie Menus timed out.  No pie menus for you.");
+            closeWindow();
+        })
+    };    
 }
 
 //Set JSColor default

@@ -35,8 +35,8 @@ async function changeActivationMode(options){
         });
     }
 }
-var subMenuModeDescriptions = ["Key down, hover over submenus, release on function.",
-                        "Key down, release on first function, hover over next.",
+var subMenuModeDescriptions = ["Hover over submenus, release on function.",
+                        "Release on first function, hover over next.",
                         "Hover over all selections."]
 
 var actModePage = {
@@ -97,4 +97,4 @@ var actModePage = {
     refresh: function(){},
     
 }
-actModePage.initialize();
+// actModePage.initialize();

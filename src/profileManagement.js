@@ -10,11 +10,11 @@ var handleAppClose = {
 var profileManagement = {
     selectedProfile:{},
     initialize:function(){       
-        this.profileList.initialize()        
-        this.selectProfile(0)
-        this.pieEnableKey.initialize()
-        this.associatedPrograms.initialize()
-        this.pieMenuOverview.initialize()
+        this.profileList.initialize();
+        this.selectProfile(0);
+        this.pieEnableKey.initialize();
+        this.associatedPrograms.initialize();
+        this.pieMenuOverview.initialize();        
     },
     open:function(){
         this.updateUIControls()
@@ -418,6 +418,7 @@ var globalSettings = {
     refresh:function(){        
         this.runOnStartupCheckbox.checked = AutoHotPieSettings.global.startup.runOnStartup;
         this.useAHKPieMenuCheckbox.checked = AutoHotPieSettings.global.startup.runAHKPieMenus;   
+        this.alwaysRunOnQuitCheckbox.checked = AutoHotPieSettings.global.startup.alwaysRunOnAppQuit;   
         setRunOnLogin(AutoHotPieSettings.global.startup.runOnStartup, AutoHotPieSettings.global.startup.runAHKPieMenus);
     },
     initialize: function(){
@@ -432,7 +433,10 @@ var globalSettings = {
         this.useAHKPieMenuCheckbox.addEventListener('click', function(event){
             AutoHotPieSettings.global.startup.runAHKPieMenus = event.target.checked
             setRunOnLogin(AutoHotPieSettings.global.startup.runOnStartup, AutoHotPieSettings.global.startup.runAHKPieMenus);
-        });      
+        });   
+        this.alwaysRunOnQuitCheckbox.addEventListener('click', function(event){
+            AutoHotPieSettings.global.startup.alwaysRunOnAppQuit = event.target.checked            
+        });    
         this.updateBtn.addEventListener('click', function(){
             // updateApp();   
             openURL("https://github.com/dumbeau/AutoHotPie/releases");  
@@ -453,11 +457,12 @@ var globalSettings = {
     backBtn: document.getElementById('global-settings-back-btn'),    
     runOnStartupCheckbox: document.getElementById('run-on-startup-checkbox'),    
     useAHKPieMenuCheckbox: document.getElementById('use-ahk-pie-menu-checkbox'),
+    alwaysRunOnQuitCheckbox: document.getElementById('always-run-on-quit-checkbox'),
     updateBtn: document.getElementById('check-for-update-btn'),    
     versionText: document.getElementById('version-text'),    
     githubBtn: document.getElementById('github-btn'),
     donateBtn: document.getElementById('paypal-donate-btn')
 }
-profileManagement.initialize();
-handleAppClose.initialize();
-globalSettings.initialize();
+// profileManagement.initialize();
+// handleAppClose.initialize();
+// globalSettings.initialize();

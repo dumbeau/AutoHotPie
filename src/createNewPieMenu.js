@@ -10,8 +10,8 @@ var newPieMenu = {
     cancelBtn: document.getElementById('new-pie-menu-cancel-btn'),
     createBtn: document.getElementById('new-pie-menu-create-btn'),
     backBtn: document.getElementById('new-pie-menu-back-btn'),
-    subMenuModeDescriptions: ["Key down, hover over submenus, release on function.",
-    "Key down, release on first function, hover over next.",
+    subMenuModeDescriptions: ["Hover over submenus, release on function.",
+    "Release on first function, hover over next.",
     "Hover over all selections."],
     initialize: function(){        
         this.pieKeyBtn.addEventListener("click", function(event){
@@ -98,7 +98,7 @@ var newPieMenu = {
     }
 }
 
-newPieMenu.initialize();
+// newPieMenu.initialize();
 
 var resolveNewPieMenuPromise, rejectNewPieMenuPromise
 
@@ -118,8 +118,7 @@ async function createNewPieMenu(options={}){
             }
             return newCopyMenu;
         };
-        copyMenu = determineCopyPieMenu();
-        console.log(copyMenu);
+        copyMenu = determineCopyPieMenu();        
         let defaultPieKey = new PieKey({
             name:"Pie Menu " + (profileManagement.selectedProfile.pieKeys.length+1),
             labelDelay:copyMenu.labelDelay,  

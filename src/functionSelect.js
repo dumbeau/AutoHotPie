@@ -116,4 +116,4 @@ var functionSelectPage = {
         }
     }
 }
-functionSelectPage.initialize();
+// functionSelectPage.initialize();

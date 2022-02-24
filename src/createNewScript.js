@@ -53,4 +53,4 @@ var createNewScriptPage = {
         }
     }
 }
-createNewScriptPage.initialize();
+// createNewScriptPage.initialize();

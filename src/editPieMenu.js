@@ -505,7 +505,8 @@ var editPieMenu = {
                     let imagesHTMLCollection = iconDiv.getElementsByTagName('img')
                     var images = [].slice.call(imagesHTMLCollection);
                     images.forEach(function(element, index){
-                        let localIconPath = iconManager.getLocalIconPath(element.src).replaceAll('%20',' ');                        
+                        // let localIconPath = iconManager.getLocalIconPath(element.src).replaceAll('%20',' ');                        
+                        let localIconPath = iconManager.getLocalIconPath(element.src)                      
                         if (localIconPath == filename){
                             returnImage = element
                         }
@@ -1128,6 +1129,7 @@ var editPieMenu = {
                     //Remove back function
                 }                
                 editPieMenu.pieMenuDisplay.refresh();
+                editPieMenu.appearanceSettings.loadSelectedPieKey();
             });
 
             this.subMenu.angleOffsetBtnGroup.addEventListener('click',function(event){   
@@ -1325,7 +1327,10 @@ var editPieMenu = {
             },
             subMenu:{
                 editSubMenuBtn: document.getElementById('edit-sub-menu-btn')                
-            },                        
+            },
+            openURL:{
+                urlTextInput:$('#url-text-input')
+            },                     
             noOptions:{}
         },
         
@@ -1425,8 +1430,7 @@ var editPieMenu = {
                 if(event.target.nodeName == "DIV"){return}
                 
                 if (event.target.innerHTML == "More Functions..."){
-                    functionSelectPage.selectFunction().then((val) => {
-                        console.log(val)
+                    functionSelectPage.selectFunction().then((val) => {                        
                         processFunctionSelection(val, true);
                         // editPieMenu.forceReload();
                         // $('[href="#tab-2"]').tab('show');                         
@@ -1543,8 +1547,7 @@ var editPieMenu = {
                         switch (pieFunc){
                             case "sendKey":
                                 assignKey().then(val => {                            
-                                    editPieMenu.selectedSlice.params.keys[0] = val.ahkKey
-                                    console.log(val);                            
+                                    editPieMenu.selectedSlice.params.keys[0] = val.ahkKey                                    
                                     setDefaultLabel(val.displayKey, "");
                                     $('[href="#tab-2"]').tab('show');
                                     // editPieMenu.sliceSettings.sliceFunction.sendKey.keysDiv.scrollIntoView({behavior:"smooth"});
@@ -1566,8 +1569,10 @@ var editPieMenu = {
                                     editPieMenu.sliceSettings.sliceFunction.runScript.displayText.innerHTML = scriptFilename; 
                                     console.log(scriptFilename);        
                                     setDefaultLabel(nodePath.basename(scriptFilename),"RunScript.png");          
-                                }                                
-                                editPieMenu.sliceSettings.loadSelectedPieKey();
+                                } else {
+                                    $('[href="#tab-2"]').tab('show');
+                                }                                                                
+                                editPieMenu.sliceSettings.loadSelectedPieKey();                                
                                 return
                             case "openFolder":
                                 let folderPath = electron.openFolderDialog()
@@ -1575,7 +1580,9 @@ var editPieMenu = {
                                     editPieMenu.selectedSlice.params.filePath = folderPath;   
                                     editPieMenu.sliceSettings.sliceFunction.openFolder.displayText.innerHTML = folderPath; 
                                     setDefaultLabel(nodePath.basename(folderPath),"Folder.png");          
-                                }
+                                } else {
+                                    $('[href="#tab-2"]').tab('show');
+                                }   
                                 editPieMenu.sliceSettings.loadSelectedPieKey();             
                                 return;
                             case "submenu":
@@ -1796,6 +1803,11 @@ var editPieMenu = {
                 $('[href="#tab-9"]').tab('show');
             });
 
+            this.sliceFunction.openURL.urlTextInput.on('input propertychange', (event) => {
+                // console.log(event)
+                editPieMenu.selectedSlice.params.url = event.target.value;                               
+            });
+
         },
         loadSelectedPieKey:function(){            
             let selectedSlice = editPieMenu.selectedSlice;             
@@ -2004,7 +2016,7 @@ var editPieMenu = {
                     // let folderControl = editPieMenu.sliceSettings.sliceFunction.openFolder;         
                     if (ahkParamObj.filePath == ""){
                         // scriptControl.displayText.setAttribute('class','text-muted');
-                        editPieMenu.sliceSettings.sliceFunction.openFolder.displayText.innerHTML = "No file selected";
+                        editPieMenu.sliceSettings.sliceFunction.openFolder.displayText.innerHTML = "No folder selected";
                     }else{
                         // scriptControl.displayText.removeAttribute('class');                              
                         editPieMenu.sliceSettings.sliceFunction.openFolder.displayText.innerHTML = editPieMenu.selectedSlice.params.filePath;                
@@ -2015,6 +2027,11 @@ var editPieMenu = {
                     setSliderDivValue(editPieMenu.sliceSettings.sliceFunction.repeatLast.timeoutSliderDiv,ahkParamObj.timeout,0, 100, 1)
                     break;
                 case "Sub Menu":
+                    break;
+                case "Open URL":
+                    ahkParamObj = editPieMenu.selectedSlice.params;
+                    console.log(ahkParamObj);
+                    editPieMenu.sliceSettings.sliceFunction.openURL.urlTextInput.val(ahkParamObj.url);
                     break;
                 case "No Options":
                     break;
@@ -2034,7 +2051,7 @@ var editPieMenu = {
     }
 }
 
-editPieMenu.initialize();
+// editPieMenu.initialize();
 
 function handleColorInput(event){  
     let colorControl = event.currentTarget;

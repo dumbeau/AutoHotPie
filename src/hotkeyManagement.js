@@ -191,9 +191,8 @@ var hotkeyManagement = {
         hotkeyReassignBtn: document.getElementById('hotkey-reassign-btn'),
         initialize: function(){
             let hm = hotkeyManagement
-            let ep = hotkeyManagement.editKeyPage;
-            
-            
+            let ep = hotkeyManagement.editKeyPage;   
+                        
             this.winBtnCheck.addEventListener("click", function(event){
                 hm.hotkeyObj.winKey = ep.winBtnCheck.checked;
             });
@@ -207,23 +206,7 @@ var hotkeyManagement = {
                 hm.hotkeyObj.altKey = ep.altBtnCheck.checked;                            
             });
             this.hotkeyAcceptBtn.on("click", function(event){                 
-                // hm.hotkeyObj.displayKey = processKeyEventToFullString()
-                // function resolveAHKString(){
-                //     let returnString = ""
-                //     if (hm.hotkeyObj.isShift){
-                //         returnString = returnString + "+"
-                //     }
-                //     if (hm.hotkeyObj.isCtrl){
-                //         returnString = returnString + "^"                            
-                //     }
-                //     if (hm.hotkeyObj.isAlt){
-                //         returnString = returnString + "!"
-                //     }
-                //     returnString = returnString + hm.hotkeyObj.ahkKey.replace(/[\!\^\+]/g,"")                        
-                //     return returnString                              
-                // }
-                // hm.hotkeyObj.ahkKey = resolveAHKString()
-                // console.log(hotkeyObj.ahkKey)                
+                
                 if (hotkeyManagement.validateAHKKey(hotkeyManagement.hotkeyObj.ahkKey)){
                     hotkeyManagement.resolve(hm.hotkeyObj);
                 }
@@ -237,6 +220,7 @@ var hotkeyManagement = {
         },
         open:function(){            
             $('[href="#tab-7"]').tab('show'); 
+
             this.refresh();       
         },
         refresh: function(){
@@ -246,11 +230,11 @@ var hotkeyManagement = {
             this.ctrlBtnCheck.checked = hm.hotkeyObj.ctrlKey;            
             this.altBtnCheck.checked = hm.hotkeyObj.altKey; 
             this.hotkeyDisplayField.value = hm.hotkeyObj.displayKeyNoMods;
+            this.hotkeyAcceptBtn.focus()
         }
     }
 }
 
-// var rejectHotkeyPromise, resolveHotkeyPromise;
 
 function processHotkeyInputEvent(event){
     hm = hotkeyManagement;
@@ -284,80 +268,6 @@ function processHotkeyInputEvent(event){
     hotkeyManagement.validateAHKKey(hotkeyManagement.hotkeyObj.ahkKey);
     hotkeyInputField = document.getElementById('pressed-hotkey-text-input');
 };
-// function processKeyEventToFullString(){ // Refactor pls
-//         hotkeyObj = hotkeyManagement.hotkeyObj
-//         let returnString = ""
-//         if (hotkeyObj.isShift){
-//             returnString = returnString + "Shift+"
-//         }
-//         if (hotkeyObj.isCtrl){
-//             returnString = returnString + "Ctrl+"
-//         }
-//         if (hotkeyObj.isAlt){
-//             returnString = returnString + "Alt+"
-//         }                        
-//         returnString = returnString + hotkeyObj.displayKeyNoMods
-//         return returnString
-//     }
-// function processHotkey(keyEvent){
-//         let keyTableArray = AutoHotPieSettings.global.htmlAhkKeyConversionTable;
-//         let keyNumber = (keyEvent.code == "Enter") ? 1 : keyEvent.keyCode        
-        
-//         console.log(keyEvent)
-//         let allowModifiers = (hotkeyManagement.editKeyPage.modBtnGroup.style.display == "block") ? true : false;
-//         let keyObj = keyTableArray.find(x => x.keyCode === keyNumber)                    
-
-//         function processKeyEventToAHKString(){
-//             let returnString = ""
-//             if (keyEvent.shiftKey){
-//                 returnString = returnString + "+"
-//             }
-//             if (keyEvent.ctrlKey){
-//                 returnString = returnString + "^"
-//             }
-//             if (keyEvent.altKey){
-//                 returnString = returnString + "!"
-//             }
-//             returnString = returnString + keyObj.ahkKey
-//             return returnString                              
-//         }
-        
-//         function processKeyEventToFullString(){
-//             let returnString = ""
-//             if (keyEvent.shiftKey){
-//                 returnString = returnString + "Shift+"
-//             }
-//             if (keyEvent.ctrlKey){
-//                 returnString = returnString + "Ctrl+"
-//             }
-//             if (keyEvent.altKey){
-//                 returnString = returnString + "Alt+"
-//             }                        
-//             returnString = returnString + keyObj.displayKey
-//             return returnString
-//         } 
-//         if(allowModifiers){
-//             return {
-//                 isShift:keyEvent.shiftKey,                        
-//                 isCtrl:keyEvent.ctrlKey,                        
-//                 isAlt:keyEvent.altKey,
-//                 keyCode:keyObj.keyCode,
-//                 displayKey:processKeyEventToFullString(),
-//                 displayKeyNoMods:keyObj.displayKey,
-//                 ahkKey:processKeyEventToAHKString()
-//             }
-//         }else{
-//             return {
-//                 isShift:false,                        
-//                 isCtrl:false,                        
-//                 isAlt:false,
-//                 keyCode:keyObj.keyCode,
-//                 displayKey:keyObj.displayKey,
-//                 displayKeyNoMods:keyObj.displayKey,
-//                 ahkKey:keyObj.ahkKey
-//             }
-//         }
-//     }
 
 async function assignKey(options){
     var defaults = {
@@ -383,6 +293,6 @@ async function assignKey(options){
     }       
 }
 
-hotkeyManagement.initialize();
+// hotkeyManagement.initialize();
 
 

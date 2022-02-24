@@ -99,8 +99,8 @@ pie_runScript(script)
 	script := script.filepath	
 	Try
 	{
-	If (SubStr(script, 1, 13) = "%A_ScriptDir%")
-		run, % A_ScriptDir . SubStr(script, 14)
+	If (SubStr(script, 1, 14) = "%A_WorkingDir%")
+		run, % A_WorkingDir . SubStr(script, 15)
 	else
 		run, % script
 	return

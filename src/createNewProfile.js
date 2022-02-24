@@ -42,4 +42,4 @@ open:function(){
     $('[href="#tab-3"]').tab('show');
     }    
 }  
-configureNewProfile.initialize()
+// configureNewProfile.initialize()

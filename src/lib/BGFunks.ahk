@@ -88,7 +88,7 @@ loadSettingsFile(){
 				settings := Json.Load(settings)
 				If (ErrorLevel)					
 					break
-				loopFileFound := true
+				loopFileFound := true				
 				break
 			}
 			if (loopFileFound){
@@ -112,6 +112,7 @@ loadSettingsFile(){
 					}
 				}				
 			}
+		SetWorkingDir, %UserDataFolder%		
 		;Try loading from AppData Folder
 		
 	} catch e {
@@ -1054,9 +1055,11 @@ drawPieLabel(activePieProfile, sliceFunction, xPos, yPos, selected:=0, anchor:="
 
 	;Determine iconFolder
 	static iconFolder
+	static userIconFolder
+	userIconFolder := A_WorkingDir . "\icons"
 	If (iconFolder == ""){
-		if(substr(settings.global.globalAppearance.pieIconFolder, 1,13) == "%A_ScriptDir%"){
-			iconFolder := A_ScriptDir . substr(settings.global.globalAppearance.pieIconFolder, 14)
+		if( substr(settings.global.globalAppearance.pieIconFolder, 1,13) == "%A_ScriptDir%" ){		
+			iconFolder := A_ScriptDir . substr(settings.global.globalAppearance.pieIconFolder, 14)			
 		} else {
 			iconFolder := settings.global.globalAppearance.pieIconFolder
 		}
@@ -1084,7 +1087,15 @@ drawPieLabel(activePieProfile, sliceFunction, xPos, yPos, selected:=0, anchor:="
 	;initialize element vars
 	labelElements := []
 	newElement := {}
-	iconFile := iconFolder . "\" . labelIcon.filepath
+	iconFile := ""
+
+	if ( InStr(labelIcon.filepath, "%UserIcons%") ){
+		iconFile := StrReplace(labelIcon.filepath,"%UserIcons%", userIconFolder)	
+		; msgbox, % iconFile
+	} else {
+		iconFile := iconFolder . "\" . labelIcon.filepath
+	}
+	
 	If (!FileExist(iconFile) || (sliceFunction.icon.filepath == ""))
 		iconFile := ""
 	if ( iconFile != ""){
