@@ -12,10 +12,10 @@ I hope putting a circle on your screen brings you as much happiness as it brings
 
 # General Usage
 
-When you open AutoHotPie for the first time, there will be a default profile.  This profile will be active whenever an application specific profile is not focused.  There will be an initial pie menu "Newborn Pie Menu".
+When you open AutoHotPie for the first time, there will be a default profile, you cannot delete this but you can disable it.  You can add new application specific profiles or add a new pie menu to the default pie menu.  I'd recommend setting up at least one pie menu in the default menu as this will be used for default settings for future application profiles.
 
 ## Pen Tablets
-In order to activate a pie menu with a pen button, go into your pen software and set a key to send '4th click / Forward' or '5th Click / Back'.  You may use any other key, but other keys may not send their 'key-up' signal when the pen button is released.
+In order to activate a pie menu with a pen button, go into your pen software and set a key to send '4th click / Forward' or '5th Click / Back'.  You may use any other key, but other keys may not send their 'key-up' signal when the pen button is released.  You can then set the Pie menu key to respond to '4th click / Forward' or '5th Click / Back' in the 'Special Keys' menu.
 
 ## External controllers or Remotes
 Most bluetooth controllers can have their buttons assigned to a keystroke in their software, however most do not send their 'key-up' signal when their button is released.  To handle this, use the 'Hover over all selections' launch mode.  The pie menu will stay open after the button is pressed, and selections can be hovered over to be selected.
