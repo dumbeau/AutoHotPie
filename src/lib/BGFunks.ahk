@@ -1099,19 +1099,19 @@ drawPieLabel(activePieProfile, sliceFunction, xPos, yPos, selected:=0, anchor:="
 	If (!FileExist(iconFile) || (sliceFunction.icon.filepath == ""))
 		iconFile := ""
 	if ( iconFile != ""){
-		newElement := {type:"icon",rect:[iconSizeSquare,iconSizeSquare],padding:[innerWidthPadding,innerWidthPadding],restColor:RGBAtoHEX(activePieProfile.selectionColor),hoveredColor:RGBAtoHEX([255,255,255,255]),selectedColor:RGBAtoHEX(activePieProfile.backgroundColor)}
+		newElement := {type:"icon",rect:[iconSizeSquare,iconSizeSquare],padding:[innerWidthPadding,innerWidthPadding],restColor:RGBAtoHEX(activePieProfile.selectionColor),hoveredColor:RGBAtoHEX(activePieProfile.backgroundColor),selectedColor:RGBAtoHEX(activePieProfile.backgroundColor)}
 		pBitmaps := Gdip_CreateBitmapFromFile(iconFile)		
 		iconFile := iconFolder . "\" . sliceFunction.icon.filepath
 		labelElements.Push(newElement)
 	}
 	if (labelText != ""){
 		labelTextWidth := Ceil(StrSplit(Gdip_TextToGraphics(G, labelText, textOptionsTest, labelFont),"|")[3])		
-		newElement := {type:"labelText",rect:[labelTextWidth,textHeight],padding:[innerWidthPadding,innerWidthPadding],restColor:RGBAtoHEX([255,255,255,255]),hoveredColor:RGBAtoHEX([255,255,255,255]),selectedColor:RGBAtoHEX(activePieProfile.backgroundColor)}	
+		newElement := {type:"labelText",rect:[labelTextWidth,textHeight],padding:[innerWidthPadding,innerWidthPadding],restColor:RGBAtoHEX([255,255,255,255]),hoveredColor:RGBAtoHEX(activePieProfile.backgroundColor),selectedColor:RGBAtoHEX(activePieProfile.backgroundColor)}	
 		labelElements.Push(newElement)
 	}
 	if (sliceHotkey != ""){
 		sliceHotkeyWidth := Ceil(StrSplit(Gdip_TextToGraphics(G, sliceHotkey, textOptionsTest, labelFont),"|")[3])		
-		newElement := {type:"hotkeyText",rect:[sliceHotkeyWidth,textHeight],padding:[innerWidthPadding,innerWidthPadding],restColor:RGBAtoHEX([255,255,255,126]),hoveredColor:RGBAtoHEX([255,255,255,126]),selectedColor:RGBAtoHEX(activePieProfile.backgroundColor)}			
+		newElement := {type:"hotkeyText",rect:[sliceHotkeyWidth,textHeight],padding:[innerWidthPadding,innerWidthPadding],restColor:RGBAtoHEX([255,255,255,126]),hoveredColor:RGBAtoHEX(activePieProfile.backgroundColor),selectedColor:RGBAtoHEX(activePieProfile.backgroundColor)}			
 		labelElements.Push(newElement)
 	}
 
@@ -1153,10 +1153,12 @@ drawPieLabel(activePieProfile, sliceFunction, xPos, yPos, selected:=0, anchor:="
 			sliceHotkeyTextColor := RGBAtoHEX(activePieProfile.backgroundColor)				
 			
 		} else {
-			strokeColor := RGBAtoHEX(safetyGreyColor)
-			labelBGColor := RGBAtoHEX(whitenRGB(activePieProfile.backgroundColor))
-			textColor := RGBAtoHEX([255, 255, 255, 255])
-			sliceHotkeyTextColor := RGBAtoHEX([255, 255, 255, 128])	
+			strokeColor := RGBAtoHEX(activePieProfile.selectionColor)
+			; labelBGColor := RGBAtoHEX(whitenRGB(activePieProfile.backgroundColor))
+			labelBGColor := RGBAtoHEX(whitenRGB(activePieProfile.selectionColor))
+			; textColor := RGBAtoHEX([255, 255, 255, 255])
+			textColor := RGBAtoHEX(activePieProfile.backgroundColor)
+			sliceHotkeyTextColor := RGBAtoHEX([activePieProfile.backgroundColor[1],activePieProfile.backgroundColor[2],activePieProfile.backgroundColor[3],128])	
 			;hover color
 		}
 	}else{
@@ -1193,13 +1195,19 @@ drawPieLabel(activePieProfile, sliceFunction, xPos, yPos, selected:=0, anchor:="
 		if (element.type == "icon"){
 			iconPosition := [rectCenter[1]-(contentRect[1]/2)+(iconSizeSquare/2), rectCenter[2]]
 			if (sliceFunction.icon.WBOnly == true)
-				{
+				{									
 				colW := activePieProfile.selectionColor
 				; colB := safetyGreyColor
 				If (selected = 1)
-					imageMatrix := "1|0|0|0|0|0|1|0|0|0|0|0|1|0|0|0|0|0|1|0|1|1|1|0|1"
+					{
+						colW := activePieProfile.backgroundColor
+						imageMatrix := "0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|1|0|" . (colW[1]/255) . "|" . (colW[2]/255) . "|" . (colW[3]/255) . "|0|1"
+					}					
 				Else
+					{
+					colW := activePieProfile.selectionColor
 					imageMatrix := "0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|1|0|" . (colW[1]/255) . "|" . (colW[2]/255) . "|" . (colW[3]/255) . "|0|1"
+					}
 				}
 			Else
 				imageMatrix := 1
