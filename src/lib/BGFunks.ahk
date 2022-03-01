@@ -408,7 +408,6 @@ runPieMenu(profileNum, index, activePieNum=1)
 	p_activeProfile := settings.appProfiles[profileNum]
 	activePieKey := p_activeProfile.pieKeys[index]
 
-
 	pieOpenLocX := 0
 	pieOpenLocY := 0
 	subPieLocX := 0
