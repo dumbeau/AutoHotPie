@@ -471,9 +471,10 @@ contextBridge.exposeInMainWorld('electron', {
 contextBridge.exposeInMainWorld('iconManager',{ // FIX MEEEEEEEEEEEEEEEEEEE
   refreshIconLibrary: function(){
     let UserIconsFolder = path.resolve(UserDataFolder,'icons')
-    if (!fs.existsSync(path.resolve(UserDataFolder,'icons'))){      
-      fs.mkdir(path.resolve(UserDataFolder,'icons'), (err) => {if(err){throw err;}})
-    }        
+    if (!fs.existsSync(UserIconsFolder)){      
+      fs.mkdir(UserIconsFolder, (err) => {if(err){throw err;}})
+    }
+
     // copyDirectory(UserIconsFolder, path.resolve(PieMenuFolder,'icons','User Icons'))
     //Don't want to need the combined default and User Icons folder.
     loadIconImagesToBuffer();
@@ -543,7 +544,7 @@ contextBridge.exposeInMainWorld('iconManager',{ // FIX MEEEEEEEEEEEEEEEEEEE
     shell.openPath(path.resolve(UserDataFolder,'icons'));    
   },
   getDefaultIcons: function(){    
-    let appIconsFolder = path.resolve(PieMenuFolder,'icons');
+    let appIconsFolder = path.resolve(PieMenuFolder,'icons');    
     return nodeDir.promiseFiles(appIconsFolder);
   },
   getUserIcons: function(){    

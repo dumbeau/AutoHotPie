@@ -111,6 +111,7 @@ pie_runScript(script)
 	}
 pie_openFolder(params){
 	directory := params.filePath
+	msgbox, % directory
 	if (FileExist(directory)){
 		Run, %directory%
 	} else {

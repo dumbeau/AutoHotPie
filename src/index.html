@@ -136,9 +136,9 @@
                         <div id="pie-menu-settings-tabs" style="margin: 1px;width: 996px;">
                             <ul class="nav nav-tabs nav-justified" role="tablist" style="font-size: 20px;">
                                 <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" id="global-appearance-tab" href="#tab-27">Font</a></li>
-                                <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-8">Launch Settings</a></li>
+                                <li class="nav-item" role="presentation"><a class="nav-link active" role="tab" data-bs-toggle="tab" href="#tab-8">Launch Settings</a></li>
                                 <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-9">Menu Appearance</a></li>
-                                <li class="nav-item" role="presentation"><a class="nav-link active" role="tab" data-bs-toggle="tab" href="#tab-10">Functions</a></li>
+                                <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-10">Functions</a></li>
                             </ul>
                             <div class="tab-content">
                                 <div class="tab-pane" role="tabpanel" id="tab-27">
@@ -158,7 +158,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="tab-pane" role="tabpanel" id="tab-8">
+                                <div class="tab-pane active" role="tabpanel" id="tab-8">
                                     <div style="margin-bottom: 15px;width: auto;padding: 27px;">
                                         <div class="d-flex align-items-center" style="margin-bottom: 9px;">
                                             <h5 class="d-xxl-flex align-items-xxl-center" style="margin-bottom: -10px;margin-right: 15px;margin-top: -11px;">Activation Mode:</h5><button class="btn btn-primary" data-bs-toggle="tooltip" data-bss-tooltip="" id="change-activation-mode-btn" type="button" style="margin-right: 21px;min-width: 100px;" title="Change the behavior of launching the pie menu, activating sub menus and launching functions.">Change Activation Mode</button>
@@ -166,6 +166,10 @@
                                         <div class="d-flex align-items-center" style="margin-bottom: 9px;">
                                             <h5 class="d-xxl-flex align-items-xxl-center" style="margin-bottom: -10px;margin-right: 15px;margin-top: -11px;">Clickable Functions:</h5>
                                             <div class="form-check form-switch" data-bs-toggle="tooltip" data-bss-tooltip="" data-bs-placement="bottom" title="Allow functions to be clicked."><input class="form-check-input" type="checkbox" id="clickable-functions-checkbox"><label class="form-check-label" for="formCheck-7"></label></div>
+                                        </div>
+                                        <div class="d-flex align-items-center" style="margin-bottom: 9px;">
+                                            <h5 class="d-xxl-flex align-items-xxl-center" style="margin-bottom: -10px;margin-right: 15px;margin-top: -11px;">Open Pie Menu in center of screen:</h5>
+                                            <div class="form-check form-switch" title="Allow functions to be clicked."><input class="form-check-input" type="checkbox" id="force-center-screen-checkbox"><label class="form-check-label" for="force-center-screen-checkbox"></label></div>
                                         </div>
                                     </div>
                                 </div>
@@ -239,7 +243,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="tab-pane active" role="tabpanel" id="tab-10">
+                                <div class="tab-pane" role="tabpanel" id="tab-10">
                                     <div style="width: auto;padding-right: 27px;padding-left: 27px;">
                                         <div class="justify-content-start" id="pie-menu-display-description" style="padding-top: 12px;padding-bottom: 12px;height: 65px;margin-top: 33px;">
                                             <div class="d-flex align-items-center"></div>
@@ -575,8 +579,8 @@
                     <h1>Save before quitting?</h1>
                     <div style="width: 100%;padding: 10px;"><button class="btn btn-secondary" id="exit-back-btn" type="button" style="margin-right: 24px;width: 180px;">Cancel</button><button class="btn btn-secondary" id="exit-dont-save-btn" type="button" style="margin-right: 24px;width: 180px;">Don't Save</button><button class="btn btn-primary" id="exit-save-btn" type="button" style="width: 180px;">Save</button></div>
                     <div class="d-flex" style="padding-top: 11px;">
-                        <div class="form-check d-lg-flex justify-content-lg-start"><input class="form-check-input" type="checkbox" id="run-on-exit-checkbox"><label class="form-check-label" for="run-on-exit-checkbox">Run Pie Menus on exit</label></div>
-                        <div class="form-check d-lg-flex justify-content-lg-start" style="margin-left: 30px;"><input class="form-check-input" type="checkbox" id="confirm-exit-always-run-checkbox"><label class="form-check-label" for="confirm-exit-always-run-checkbox">Don't ask again<br></label></div>
+                        <div class="form-check"><input class="form-check-input" type="checkbox" id="run-on-exit-checkbox"><label class="form-check-label" for="run-on-exit-checkbox">Run Pie Menus on exit</label></div>
+                        <div class="form-check" style="margin-left: 30px;"><input class="form-check-input" type="checkbox" id="confirm-exit-always-run-checkbox"><label class="form-check-label" for="confirm-exit-always-run-checkbox">Don't ask again<br></label></div>
                     </div>
                 </div>
             </div>

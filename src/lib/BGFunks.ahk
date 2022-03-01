@@ -77,6 +77,7 @@ checkAHK()
 }
 
 loadSettingsFile(){
+	FileEncoding, UTF-8
 	Try{
 		;Try loading from local directory
 			UserDataFolder := A_ScriptDir . "\"			
@@ -84,7 +85,8 @@ loadSettingsFile(){
 			Loop, Files, %A_ScriptDir%\*.json, F
 			{				
 				settingsFilePath := A_LoopFileFullPath
-				FileRead, settings, %settingsFilePath%
+				FileRead, settings, %settingsFilePath%	
+				
 				settings := Json.Load(settings)
 				If (ErrorLevel)					
 					break
@@ -100,7 +102,7 @@ loadSettingsFile(){
 				UserDataFolder := A_AppData . "\AutoHotPie"
 				settingsFilePath := UserDataFolder . "\" . settingsFileName	
 				if ( FileExist(UserDataFolder) ){
-					FileRead, settings, %settingsFilePath%
+					FileRead, settings, %settingsFilePath%					
 					settings := Json.Load(settings)							
 				} else {
 					;Try to open AHP Settings
@@ -385,35 +387,52 @@ getActiveMonitorDimensions()
 	for monIndex in monitorManager.monitors
 		{
 		if (mouseX >= monitorManager.monitors[monIndex].left and mouseX <= monitorManager.monitors[monIndex].right)
-			{
+			{			
 			; msgbox, % pieOpenLocX " is apparently between " monitorManager.monitors[monIndex].left " and " monitorManager.monitors[monIndex].right
 			if (mouseY >= monitorManager.monitors[monIndex].top and mouseY <= monitorManager.monitors[monIndex].bottom)
 				{
-				bottomRight := [monitorManager.monitors[monIndex].right,monitorManager.monitors[monIndex].bottom]				
+				monitorDimensions := [monitorManager.monitors[monIndex].left, monitorManager.monitors[monIndex].right, monitorManager.monitors[monIndex].top, monitorManager.monitors[monIndex].bottom]
+				; bottomRight := [monitorManager.monitors[monIndex].right,monitorManager.monitors[monIndex].bottom]				
 				break			
 				}
 			}
 		}
 	}
-	return bottomRight
+	; return bottomRight
+	return monitorDimensions
 	}
 
 
 runPieMenu(profileNum, index, activePieNum=1)
 	{
-	MouseGetPos, pieOpenLocX, pieOpenLocY ;global
-	subPieLocX := pieOpenLocX
-	subPieLocY := pieOpenLocY
+	p_activeProfile := settings.appProfiles[profileNum]
+	activePieKey := p_activeProfile.pieKeys[index]
 
-	getActiveMonitorDPI() ;set Mon.pieDPIScale
+
+	pieOpenLocX := 0
+	pieOpenLocY := 0
+	subPieLocX := 0
+	subPieLocY := 0
+	if (activePieKey.activationmode.openMenuInCenter){
+		p3_dimensions := mouseToCenterScreen()
+		pieOpenLocX := p3_dimensions[1]
+		pieOpenLocY := p3_dimensions[2]
+		subPieLocX := p3_dimensions[1]
+		subPieLocY := p3_dimensions[2]
+	} else {
+		MouseGetPos, pieOpenLocX, pieOpenLocY ;global	
+		subPieLocX := pieOpenLocX
+		subPieLocY := pieOpenLocY
+	}
+	
+	getActiveMonitorDPI() ;set Mon.pieDPIScale	
 	
 	;FIX: Needs to be dynamic based on graphics size.
 	bitmapPadding := [300*Mon.pieDPIScale,180*Mon.pieDPIScale]
 	SetUpGDIP(pieOpenLocX-bitmapPadding[1], pieOpenLocY-bitmapPadding[2], 2*bitmapPadding[1], 2*bitmapPadding[2])
 	StartDrawGDIP()
 
-	p_activeProfile := settings.appProfiles[profileNum]
-	activePieKey := p_activeProfile.pieKeys[index]
+	
 	pieHotkey := removeCharacters(activePieKey.hotkey, "!^+#")
 	activePieNumber := activePieNum
 	activePie := activePieKey.pieMenus[activePieNumber]	
@@ -435,7 +454,7 @@ runPieMenu(profileNum, index, activePieNum=1)
 	; for k, pieMenu in activePieKey.pieMenus
 	; {		
 	; 	offsetPie.Push(pieMenu.pieAngle)
-	; }
+	; }	
 
 
 	pieRegion := 0	
@@ -459,9 +478,10 @@ runPieMenu(profileNum, index, activePieNum=1)
 	{
 		hoverToSelectActive := false
 	}
-	hoveredIntoSubMenu := false
-
+	hoveredIntoSubMenu := false		
+	
 	drawPie(activePieKey, activePie, bitmapPadding[1], bitmapPadding[2], 0, 0, activePie.pieAngle, ,showLabel , hoverToSelectActive)
+	
 	mouse := getMouseTransformProperties(true)
 
 		Switch activePieSubmenuMode
@@ -1251,7 +1271,8 @@ notifyPieEnableState(state){
     gui +lastfound
     hwnd := WinExist()
     pNotificationImage:=Gdip_CreateBitmapFromFile(sFile)	
-	dimensions := getActiveMonitorDimensions()	
+	p_dimensions := getActiveMonitorDimensions()
+	dimensions := [p_dimensions[2],p_dimensions[4]]
 	; msgbox, % Mon.pieDPIScale
     Width := 32*Mon.pieDPIScale
     Height := 32*Mon.pieDPIScale
@@ -1620,6 +1641,15 @@ MonitorEnumProc(hMonitor, hdcMonitor, lprcMonitor, dwData) {
 	Return, 1
 }
 
+mouseToCenterScreen(){
+	p2_dimensions := getActiveMonitorDimensions()
+	; msgbox, % p2_dimensions[1]
+	; msgbox, % p2_dimensions[2]
+	
+	MouseMove, p2_dimensions[1]+((p2_dimensions[2]-p2_dimensions[1])/2), p2_dimensions[3]+((p2_dimensions[4]-p2_dimensions[3])/2), 0
+	return [p2_dimensions[1]+((p2_dimensions[2]-p2_dimensions[1])/2), p2_dimensions[3]+((p2_dimensions[4]-p2_dimensions[3])/2)]
+}
+
 class Monitor {
   __New(handle, left, top, right, bottom) {
     ;When compiled with true/pm these values are based on real pixel coordinates without scaling.
@@ -1639,6 +1669,7 @@ class Monitor {
     this.dpiY := dpi.y
     this.scaleX := this.dpiX / 96
    	this.scaleY := this.dpiY / 96
+	this.center := [this.x + (this.width/2),this.y + (this.height/2)]
   }
   
   getDpiForMonitor() {

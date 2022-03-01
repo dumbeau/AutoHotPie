@@ -968,6 +968,7 @@ var editPieMenu = {
     launchSettings:{
         activationModeBtn: document.getElementById('change-activation-mode-btn'),
         clickableFunctionsCheckbox: document.getElementById('clickable-functions-checkbox'),
+        openMenuInCenterCheckbox: $('#force-center-screen-checkbox'),
         initialize:function(){  
 
             this.activationModeBtn.addEventListener('click',function(){                
@@ -984,12 +985,17 @@ var editPieMenu = {
             let clickableFunctionsCheckbox = this.clickableFunctionsCheckbox
             clickableFunctionsCheckbox.addEventListener('click',function(){                
                 editPieMenu.selectedPieKey.activationMode.clickableFunctions = clickableFunctionsCheckbox.checked;
-            });         
+            });  
+            
+            this.openMenuInCenterCheckbox.change((e)=>{
+                editPieMenu.selectedPieKey.activationMode.openMenuInCenter = this.openMenuInCenterCheckbox.is(":checked");                            
+            });
         },
         loadSelectedPieKey:function(){
             let actMode = editPieMenu.selectedPieKey.activationMode;
             this.activationModeBtn.innerHTML = subMenuModeDescriptions[actMode.submenuMode-1];
-            this.clickableFunctionsCheckbox.checked = actMode.clickableFunctions;            
+            this.clickableFunctionsCheckbox.checked = actMode.clickableFunctions;
+            this.openMenuInCenterCheckbox.prop('checked', editPieMenu.selectedPieKey.activationMode.openMenuInCenter);        
         },
         open: function(){
             $('[href="#tab-8"]').tab('show');

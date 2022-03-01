@@ -1719,6 +1719,7 @@ class PieKey {
             activationMode: {
                 submenuMode: 1,
                 clickableFunctions: true,
+                openMenuInCenter:false,
                 keyReleaseDelay: true
                 },
             pieMenus: []

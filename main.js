@@ -31,6 +31,7 @@ function createWindow() {
   if (isDev()){
     mainWindow.webContents.openDevTools()
   }
+  // mainWindow.webContents.openDevTools() //Use if debug exe needed
   
   // mainWindow.removeMenu()
 

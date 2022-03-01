@@ -40,7 +40,7 @@ class JSON
 	 *                           JSON.parse() 'reviver' parameter
 	 */
 	class Load extends JSON.Functor
-	{
+	{		
 		Call(self, ByRef text, reviver:="")
 		{
 			this.rev := IsObject(reviver) ? reviver : false
@@ -48,6 +48,9 @@ class JSON
 		; we can enumerate them in the order they appear in the document/text instead
 		; of alphabetically. Skip if no reviver function is specified.
 			this.keys := this.rev ? {} : false
+			
+
+			
 
 			static quot := Chr(34), bashq := "\" . quot
 			     , json_value := quot . "{[01234567890-tfn"
@@ -61,7 +64,10 @@ class JSON
 			next := json_value
 			pos := 0
 
-			while ((ch := SubStr(text, ++pos, 1)) != "") {
+			
+
+			while ((ch := SubStr(text, ++pos, 1)) != "") {				
+
 				if InStr(" `t`r`n", ch)
 					continue
 				if !InStr(next, ch, 1)
@@ -77,7 +83,7 @@ class JSON
 					ObjRemoveAt(stack, 1)
 					next := stack[1]==root ? "" : stack[1].IsArray ? ",]" : ",}"
 
-				} else {
+				} else {					
 					if InStr("{[", ch) {
 					; Check if Array() is overridden and if its return value has
 					; the 'IsArray' property. If so, Array() will be called normally,
@@ -101,9 +107,9 @@ class JSON
 					} else {
 						if (ch == quot) {
 							i := pos
-							while (i := InStr(text, quot,, i+1)) {
+							while (i := InStr(text, quot,, i+1)) {								
 								value := StrReplace(SubStr(text, pos+1, i-pos-1), "\\", "\u005c")
-
+															
 								static tail := A_AhkVersion<"2" ? 0 : -1
 								if (SubStr(value, tail) != "\")
 									break
@@ -130,6 +136,7 @@ class JSON
 								uffff := Abs("0x" . SubStr(value, i+2, 4))
 								if (A_IsUnicode || uffff < 0x100)
 									value := SubStr(value, 1, i-1) . Chr(uffff) . SubStr(value, i+6)
+									; msgbox, % value								
 							}
 
 							if (is_key) {

@@ -21,16 +21,15 @@ var selectIconPage = {
         iconSearchInput: $('#stock-icons-search-input'),
         iconDiv: $('#stock-icon-library'),
         refreshDisplay: function(searchString=""){
+            let iconDivs = this.iconDiv.find('div');
+            console.log(iconDivs);
             if(searchString==""){
-                //Show all
-                let iconDivs = this.iconDiv.find('div');
+                //Show all                
                 iconDivs.show();
-            } else {     
-                let iconDivs = this.iconDiv.find('div');
+            } else {                
                 iconDivs.show();                
                 let searchPattern = new RegExp(searchString, 'i')
-                let foundIconDivs = this.iconDiv.contents().filter( (index,value)=>{
-                    
+                let foundIconDivs = this.iconDiv.contents().filter( (index,value)=>{                    
                     return !searchPattern.test(value.childNodes[1].childNodes[2].innerHTML);                    
                 });
                 foundIconDivs.hide();
@@ -43,16 +42,14 @@ var selectIconPage = {
         iconSearchInput: $('#user-icons-search-input'),
         iconDiv: $('#user-icon-library'),
         refreshDisplay: function(searchString=""){
+            let iconDivs = this.iconDiv.find('div');
             if(searchString==""){
-                //Show all
-                let iconDivs = this.iconDiv.find('div');
+                //Show all                
                 iconDivs.show();
-            } else {     
-                let iconDivs = this.iconDiv.find('div');
+            } else {
                 iconDivs.show();                
                 let searchPattern = new RegExp(searchString, 'i')
-                let foundIconDivs = this.iconDiv.contents().filter( (index,value)=>{
-                    
+                let foundIconDivs = this.iconDiv.contents().filter( (index,value)=>{                    
                     return !searchPattern.test(value.childNodes[1].childNodes[2].innerHTML);                    
                 });                
                 foundIconDivs.hide();
@@ -144,23 +141,22 @@ var selectIconPage = {
         this.stock.icons = [];
         this.user.icons = [];
         iconManager.getDefaultIcons().then((files) => {        
-            files.forEach((iconFile)=>{
+            files.forEach((iconFile)=>{                
                 let iconOption = new IconOption(iconFile);
-                selectIconPage.stock.iconDiv.append(iconOption.eelementDiv);
+                selectIconPage.stock.iconDiv.append(iconOption.elementDiv);
                 selectIconPage.stock.icons.push(iconOption);
-                this.stock.refreshDisplay();                
+                // selectIconPage.stock.refreshDisplay();                
             })
         },(err)=>{console.log(err)});
 
         //Refresh user icons
         this.user.iconDiv.html('');
         iconManager.getUserIcons().then((files) => {            
-            files.forEach((iconFile)=>{
-                // console.log(iconFile);
+            files.forEach((iconFile)=>{                
                 let iconOption = new IconOption(iconFile);
                 selectIconPage.user.iconDiv.append(iconOption.elementDiv);
                 selectIconPage.user.icons.push(iconOption);
-                this.user.refreshDisplay();
+                // selectIconPage.user.refreshDisplay();
             })
         },(err)=>{console.log(err)});      
     },
