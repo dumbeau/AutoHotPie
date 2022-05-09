@@ -1,6 +1,6 @@
 # AutoHotPie (Pie-Menus-V2)
 
-Radial menus for Windows, designed for digital artists or macro enthusiasts, sponsored by unemployment :)
+Radial menus for Windows, designed for digital artists and macro enthusiasts, sponsored by unemployment :)
 ![2022-AHP-Update---Square-220224-2](https://user-images.githubusercontent.com/36665762/155584629-fd483863-2005-420f-ab3e-44369fe01884.gif)
 
 # Installation
@@ -12,8 +12,7 @@ I hope putting a circle on your screen brings you as much happiness as it brings
 
 # General Usage
 
-When you open AutoHotPie for the first time, there will be a default profile, you cannot delete this but you can disable it.  You can add new application specific profiles or add a new pie menu to the default pie menu.  I'd recommend setting up at least one pie menu in the default menu as this will be used for default settings for future application profiles.
-
+Add pie menus to any application.  Similar to Blender pie menus or Maya marking menus.
 ## Pen Tablets
 In order to activate a pie menu with a pen button, go into your pen software and set a key to send '4th click / Forward' or '5th Click / Back'.  You may use any other key, but other keys may not send their 'key-up' signal when the pen button is released.  You can then set the Pie menu key to respond to '4th click / Forward' or '5th Click / Back' in the 'Special Keys' menu.
 
