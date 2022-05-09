@@ -8,12 +8,14 @@ const { ipcRenderer , contextBridge, shell, app, BrowserWindow, ipcMain } = requ
 // var exec = require('child_process').execFile;
 const child_process = require('child_process');
 const { clearInterval } = require("timers");
-const fontList = require('font-list');
+
+// Font Lbraries
+// const fontList = require('font-list');
+const fontManager = require('electron-font-manager')
+// const fontManager = require("fontmanager-redux");
+
 const nodeDir = require('node-dir');
 const uuidv4 = require('uuid')
-
-
-
 
 var PieMenuFolder
 if(ipcRenderer.sendSync('isDev')){
@@ -23,6 +25,9 @@ if(ipcRenderer.sendSync('isDev')){
 }
 var UserDataFolder = path.join(ipcRenderer.sendSync('getUserDataFolder'));
 
+if (!fs.existsSync(path.resolve(UserDataFolder,'User Scripts'))){      
+  fs.mkdir(path.resolve(UserDataFolder,'User Scripts'), (err) => {if(err){throw err;}})
+}
 
 function copyDirectory(source, destination) {
   fs.mkdirSync(destination, { recursive: true });
@@ -515,7 +520,7 @@ contextBridge.exposeInMainWorld('iconManager',{ // FIX MEEEEEEEEEEEEEEEEEEE
       
       // See place holder 4 in above image
       filters :[
-        {name: 'Image', extensions: ['png','PNG']}        
+        {name: 'Image', extensions: ['png','PNG']}
       ],
       properties: ['openFile','multiSelections']
       }    
@@ -591,13 +596,23 @@ contextBridge.exposeInMainWorld('nodePath',{
 })
 
 contextBridge.exposeInMainWorld('font',{
-  get:function(){
-    return fontList.getFonts({disableQuoting:true});
+  // list: [],
+  get: function(){
+    let fontFamilies = fontManager.getAvailableFontFamilies();
+    // this.list = fontFamilies;    
+    return fontFamilies
+  },
+  getMembers: function(familiy){
+    let memebers = fontManager.getAvailableMembersOfFontFamily(familiy);
+    console.log(memebers);
+    return memebers        
   }
 });
 
+
+
 contextBridge.exposeInMainWorld('menuListener', function(func){
-  ipcRenderer.on('menuSelected', function(event, arg){    
+  ipcRenderer.on('menuSelected', function(event, arg){
     func(event, arg);
   })
 });

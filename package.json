@@ -1,7 +1,7 @@
 {
   "name": "autohotpie",
   "productName": "AutoHotPie",
-  "version": "1.0.17-alpha",
+  "version": "1.0.18-alpha",
   "description": "Universal Pie Menus for Windows",
   "main": "main.js",
   "scripts": {
@@ -41,7 +41,7 @@
       "allowToChangeInstallationDirectory": false,
       "deleteAppDataOnUninstall": false,
       "installerSidebar": "src/assets/installer-sidebar.bmp",
-      "include": "build/uninstaller.nsh"    
+      "include": "build/uninstaller.nsh"
     }
   },
   "keywords": [],
@@ -78,8 +78,8 @@
     }
   },
   "dependencies": {
+    "electron-font-manager": "gmeeker/electron-font-manager",
     "electron-squirrel-startup": "^1.0.0",
-    "font-list": "^1.4.2",
     "meow": "^10.1.2",
     "node-dir": "^0.1.17",
     "uuid": "^8.3.2"

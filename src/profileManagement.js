@@ -401,7 +401,7 @@ var profileManagement = {
                 createNewPieMenu().then(val => { 
                     let arrLength = profileManagement.selectedProfile.pieKeys.push(val)                           
                     editPieMenu.open(profileManagement.selectedProfile.pieKeys[arrLength-1]);
-                }, val => {                   
+                }, val => {              
                     profileManagement.open();
                 }); 
             });

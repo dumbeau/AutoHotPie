@@ -19,10 +19,10 @@ var selectIconPage = {
     stock:{
         icons:[],        
         iconSearchInput: $('#stock-icons-search-input'),
+        noneFoundHeader: $('#stock-icons-not-found-header'),
         iconDiv: $('#stock-icon-library'),
         refreshDisplay: function(searchString=""){
-            let iconDivs = this.iconDiv.find('div');
-            console.log(iconDivs);
+            let iconDivs = this.iconDiv.find('div');            
             if(searchString==""){
                 //Show all                
                 iconDivs.show();
@@ -33,13 +33,21 @@ var selectIconPage = {
                     return !searchPattern.test(value.childNodes[1].childNodes[2].innerHTML);                    
                 });
                 foundIconDivs.hide();
+            } 
+
+            if (this.iconDiv.children(':visible').length == 0){
+                this.noneFoundHeader.show();
+            } else {
+                this.noneFoundHeader.hide();
             }
+            
             return
         }
     },
     user:{        
         icons:[],
         iconSearchInput: $('#user-icons-search-input'),
+        noneFoundHeader: $('#user-icons-not-found-header'),
         iconDiv: $('#user-icon-library'),
         refreshDisplay: function(searchString=""){
             let iconDivs = this.iconDiv.find('div');
@@ -54,6 +62,12 @@ var selectIconPage = {
                 });                
                 foundIconDivs.hide();
             }
+
+            if (this.iconDiv.children(':visible').length == 0){
+                this.noneFoundHeader.show();
+            } else {
+                this.noneFoundHeader.hide();
+            }
             return
         },
         addUserIconsBtn: $('#add-icons-btn'),
@@ -65,7 +79,9 @@ var selectIconPage = {
     open:function(){
         $('[href="#tab-28"]').tab('show');
         this.stock.iconSearchInput.val("");            
-        this.user.iconSearchInput.val("") ;           
+        this.stock.noneFoundHeader.hide();            
+        this.user.iconSearchInput.val("");
+        this.user.noneFoundHeader.hide();                 
     },
     initialize:function(){
         function handleIconSelection(event){
@@ -145,8 +161,9 @@ var selectIconPage = {
                 let iconOption = new IconOption(iconFile);
                 selectIconPage.stock.iconDiv.append(iconOption.elementDiv);
                 selectIconPage.stock.icons.push(iconOption);
-                // selectIconPage.stock.refreshDisplay();                
+                
             })
+            // selectIconPage.stock.refreshDisplay();
         },(err)=>{console.log(err)});
 
         //Refresh user icons
@@ -155,9 +172,9 @@ var selectIconPage = {
             files.forEach((iconFile)=>{                
                 let iconOption = new IconOption(iconFile);
                 selectIconPage.user.iconDiv.append(iconOption.elementDiv);
-                selectIconPage.user.icons.push(iconOption);
-                // selectIconPage.user.refreshDisplay();
+                selectIconPage.user.icons.push(iconOption);                
             })
+            // selectIconPage.user.refreshDisplay();
         },(err)=>{console.log(err)});      
     },
     selectIcon: async function(){        

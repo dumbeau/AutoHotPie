@@ -186,6 +186,7 @@ pieLabel: ;Fixed hotkey overlap "r and ^r", refactor this
 				;deactivate dummy keys
 			ActivePieHotkey := ""
 			runPieFunction(funcAddress)
+			EmptyMem()
 			break
 			}		
 		}

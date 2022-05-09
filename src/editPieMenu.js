@@ -165,7 +165,42 @@ var editPieMenu = {
                     if(clickedElement.type == "addSliceBtn"){                        
                         editPieMenu.slice.add(clickedElement.data)
                     } else if(clickedElement.type == "deleteSliceBtn"){
-                        editPieMenu.slice.delete(clickedElement.data)
+                        if (editPieMenu.selectedPieMenu.functions.length > 2){
+                            editPieMenu.slice.delete(clickedElement.data)
+                        } else {
+                            let options = {
+                                heading:"Are you sure you want to delete the last slice?",
+                                cancelText:"Cancel",
+                                confirmText:"Yes",
+                                description:"A pie with NO SLICES???",
+                            }
+                            confirmDialog(options).then(val => {
+                                let options = {
+                                    heading:"Wait, seriously???",
+                                    cancelText:"Cancel",
+                                    confirmText:"Do it",
+                                    description:"I promise you, you don't want that.",
+                                }
+                                confirmDialog(options).then(val => {
+                                    let options = {
+                                        heading:"No... I cannot allow this.",
+                                        cancelText:"Cancel",
+                                        confirmText:"Cancel harder",
+                                        description:"Think about what you've done.",
+                                    }
+                                    confirmDialog(options).then(val=>{
+                                        $('[href="#tab-2"]').tab('show');
+                                    },val=>{
+                                        $('[href="#tab-2"]').tab('show');
+                                    })
+                                }, val => {                   
+                                    $('[href="#tab-2"]').tab('show');
+                                });                                
+                            }, val => {                   
+                                $('[href="#tab-2"]').tab('show');
+                            }); 
+                        }
+                        
                     }                    
                 }
             }
@@ -476,9 +511,24 @@ var editPieMenu = {
             label: function(labelText, labelIcon, sliceHotkey, labelPos, labelAnchor=[0,0], element=null){     
                 
                 //Initialize font canvas settings
-                ctx = editPieMenu.pieMenuDisplay.activeCanvas.getContext("2d"); 
-                ctx.font = AutoHotPieSettings.global.globalAppearance.fontSize.toString() + "px " + AutoHotPieSettings.global.globalAppearance.font;               
-    
+                ctx = editPieMenu.pieMenuDisplay.activeCanvas.getContext("2d");                
+                let fontStyle
+                // console.log(AutoHotPieSettings.global.globalAppearance.font) 
+
+                // if (AutoHotPieSettings.global.globalAppearance.font == ""){
+                //     fontStyle = "";
+                // } else {
+                //     fontStyle = AutoHotPieSettings.global.globalAppearance.font.cssName.style + " ";
+                // }   
+                // ctx.font = fontStyle + AutoHotPieSettings.global.globalAppearance.fontSize.toString() + "px " + AutoHotPieSettings.global.globalAppearance.font.cssName.family; 
+                ctx.font = AutoHotPieSettings.global.globalAppearance.fontSize.toString() + "px " + AutoHotPieSettings.global.globalAppearance.font; 
+                // ctx.font = "Bold " + AutoHotPieSettings.global.globalAppearance.fontSize.toString() + "px Gilroy"; 
+                
+                // ctx.font.style = AutoHotPieSettings.global.globalAppearance.font.style
+
+                // ctx.font.style
+                // console.log(ctx.font + " : " + AutoHotPieSettings.global.globalAppearance.font.style);             
+   
                 //Determine Content Box using text and icon
                 // let iconFolder = AutoHotPieSettings.global.pieIconFolder
                 selectedPieMenu = editPieMenu.selectedPieMenu
@@ -606,55 +656,7 @@ var editPieMenu = {
                         ctx.fillText(labelElement.data, textPos[0], textPos[1]);
                         }
                     }
-                
-                
-
-                
-                
-
-                
-                
-                
-    
-                
-                // let textBox = ctx.measureText(labelText)    
-                
-                // let textBounds = [textBox.width, textBox.fontBoundingBoxAscent + textBox.fontBoundingBoxDescent]
-
-
-                // let contentBox = [];
-                // if(iconImg){
-                //     iconTextPadding = 6;
-                //     contentBox = [textBounds[0]+iconTextPadding+iconSize,Math.max(textBounds[1],iconSize)]
-                // }else{
-                //     contentBox = [textBounds[0],Math.max(textBounds[1],iconSize)]
-                //     // contentBox = [textBounds[0],textBounds[1]]
-                // }                        
-                
-                
-              
-                               
-                
-               
-    
-                // if (iconImg){                    
-                //     // iconPosition = [labelPosCenter[0]-(iconSize/2),labelPosCenter[1]-(iconSize/2)]
-                //     iconPosition = [contentBoxTopLeft[0],contentBoxTopLeft[1]]
-                                                                        
-                //     if (labelIcon.WBOnly == true){
-                //         let tintedIconCanvas;                     
-                //         if(isSelected){
-                //             tintedIconCanvas = filterIcon(iconImg, selectedPieMenu.backgroundColor)                
-                //         }else{
-                //             tintedIconCanvas = filterIcon(iconImg, selectedPieMenu.selectionColor)
-                //         }
-                //         // Initaliase a 2-dimensional drawing context
-                //         ctx.drawImage(tintedIconCanvas, iconPosition[0],iconPosition[1], iconSize, iconSize);
-                //     } else {                                
-                //         ctx.drawImage(iconImg, iconPosition[0],iconPosition[1], iconSize, iconSize);
-                //     }                            
-                // }
-
+                    
                 function filterIcon(img, color) {
                     // Create an empty canvas element
                     var buffer = document.createElement("canvas");
@@ -937,29 +939,28 @@ var editPieMenu = {
     },
     globalAppearanceSettings:{  
         tab:document.getElementById('global-appearance-tab'),      
-        fontSelect:$('#global-font-select'),        
-        fontSizeSlider:$('#global-font-size-slider-div'),
+        fontFamilySelect:$('#global-font-select'),
+        fontSizeSlider: $('#global-font-size-slider-div'),
         initialize:function(){
             this.tab.addEventListener('click',()=>{
-                font.get().then( (fonts) => {                    
-                    editPieMenu.globalAppearanceSettings.fontSelect.empty();
-                    for (fontIndex in fonts){
-                        let font = fonts[fontIndex];
-                        editPieMenu.globalAppearanceSettings.fontSelect.append(`<option value="${font}">${font}</option>`)
-                    }
-                    editPieMenu.globalAppearanceSettings.fontSelect.val(AutoHotPieSettings.global.globalAppearance.font)                    
-                })
-            },{once:true});           
-            setSliderDivValue(editPieMenu.globalAppearanceSettings.fontSizeSlider,AutoHotPieSettings.global.globalAppearance.fontSize,6,20)
 
-            this.fontSelect.on('change', (event) => {
-                AutoHotPieSettings.global.globalAppearance.font = event.target.value;
-                editPieMenu.pieMenuDisplay.refresh();
+                let fonts = font.get();
+                fonts.forEach( (font) => {
+                    editPieMenu.globalAppearanceSettings.fontFamilySelect.append(`<option value="${font}">${font}</option>`)
+                });
+                editPieMenu.globalAppearanceSettings.fontFamilySelect.val(AutoHotPieSettings.global.globalAppearance.font)
+
+            },{once:true});            
+            setSliderDivValue(editPieMenu.globalAppearanceSettings.fontSizeSlider,AutoHotPieSettings.global.globalAppearance.fontSize,6,30)
+
+            this.fontFamilySelect.on('change', (event) => {                
+                AutoHotPieSettings.global.globalAppearance.font = editPieMenu.globalAppearanceSettings.fontFamilySelect.val();       
+                editPieMenu.pieMenuDisplay.refresh();                
             });
 
             this.fontSizeSlider.on('mousedown mousemove change', (event) => {                         
                 let newValue = handleSliderDiv(event);
-                (typeof(newValue) === 'number') && (AutoHotPieSettings.global.globalAppearance.fontSize = newValue)
+                (typeof(newValue) === 'number') && (AutoHotPieSettings.global.globalAppearance.fontSize = newValue)                
                 editPieMenu.pieMenuDisplay.refresh();
             });           
         },

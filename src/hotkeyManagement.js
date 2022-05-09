@@ -64,6 +64,10 @@ var hotkeyManagement = {
                         keyCode: 174
                     },
                     {
+                        key: "Print Screen",
+                        keyCode: 44
+                    },
+                    {
                         key: "F13",
                         keyCode: 124
                     },
@@ -110,38 +114,6 @@ var hotkeyManagement = {
                     {
                         key: "F24",
                         keyCode: 135
-                    },
-                    {
-                        key: "F25",
-                        keyCode: 136
-                    },
-                    {
-                        key: "F26",
-                        keyCode: 137
-                    },
-                    {
-                        key: "F27",
-                        keyCode: 138
-                    },
-                    {
-                        key: "F28",
-                        keyCode: 139
-                    },
-                    {
-                        key: "F29",
-                        keyCode: 140
-                    },
-                    {
-                        key: "F30",
-                        keyCode: 141
-                    },
-                    {
-                        key: "F31",
-                        keyCode: 142
-                    },
-                    {
-                        key: "F32",
-                        keyCode: 143
                     }
                 ]   
                 lp.specialKeyMenu.empty();
@@ -246,14 +218,18 @@ function processHotkeyInputEvent(event){
             return} //Don't allow LMB click
         keyNumber = event.button + 3
         event.code = "mousebutton"
-        event.keyCode = event.button + 3
-    }else{ //Keystroke
+        event.keyCode = event.button + 3 
+    } else { //Keystroke
         var ignoreKeys = ['Control','Shift','Alt']
         if (ignoreKeys.includes(event.key)){
             hm.listenForKeyPage.hotkeyInputField.focus();
             return}
-        keyNumber = event.keyCode                    
+        keyNumber = event.keyCode
+        
     } 
+    
+    console.log(keyNumber)
+    console.log(event.code)
     
     // hotkeyManagement.hotkeyObj = processHotkey(event)
     let allowModifiers = (hotkeyManagement.editKeyPage.modBtnGroup.style.display == "block") ? true : false;    

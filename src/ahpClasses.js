@@ -394,8 +394,8 @@ class AHPSettings {
                     },
                     {
                         keyCode: 42,
-                        displayKey: "PrintScreen",
-                        ahkKey: "PrintScreen"
+                        displayKey: "",
+                        ahkKey: ""
                     },
                     {
                         keyCode: 43,
@@ -404,8 +404,8 @@ class AHPSettings {
                     },
                     {
                         keyCode: 44,
-                        displayKey: "",
-                        ahkKey: ""
+                        displayKey: "PrintScreen",
+                        ahkKey: "PrintScreen"                        
                     },
                     {
                         keyCode: 45,
@@ -664,53 +664,53 @@ class AHPSettings {
                     },
                     {
                         keyCode: 96,
-                        displayKey: "",
-                        ahkKey: ""
+                        displayKey: "Numpad 0",
+                        ahkKey: "Numpad0"
                     },
                     {
                         keyCode: 97,
-                        displayKey: "",
-                        ahkKey: ""
+                        displayKey: "Numpad 1",
+                        ahkKey: "Numpad1"
                     },
                     {
                         keyCode: 98,
-                        displayKey: "",
-                        ahkKey: ""
+                        displayKey: "Numpad 2",
+                        ahkKey: "Numpad2"
                     },
                     {
                         keyCode: 99,
-                        displayKey: "",
-                        ahkKey: ""
+                        displayKey: "Numpad 3",
+                        ahkKey: "Numpad3"
                     },
                     {
                         keyCode: 100,
-                        displayKey: "",
-                        ahkKey: ""
+                        displayKey: "Numpad 4",
+                        ahkKey: "Numpad4"
                     },
                     {
                         keyCode: 101,
-                        displayKey: "",
-                        ahkKey: ""
+                        displayKey: "Numpad 5",
+                        ahkKey: "Numpad5"
                     },
                     {
                         keyCode: 102,
-                        displayKey: "",
-                        ahkKey: ""
+                        displayKey: "Numpad 6",
+                        ahkKey: "Numpad6"
                     },
                     {
                         keyCode: 103,
-                        displayKey: "",
-                        ahkKey: ""
+                        displayKey: "Numpad 7",
+                        ahkKey: "Numpad7"
                     },
                     {
                         keyCode: 104,
-                        displayKey: "",
-                        ahkKey: ""
+                        displayKey: "Numpad 8",
+                        ahkKey: "Numpad8"
                     },
                     {
                         keyCode: 105,
-                        displayKey: "",
-                        ahkKey: ""
+                        displayKey: "Numpad 9",
+                        ahkKey: "Numpad9"
                     },
                     {
                         keyCode: 106,
@@ -904,8 +904,8 @@ class AHPSettings {
                     },
                     {
                         keyCode: 144,
-                        displayKey: "",
-                        ahkKey: ""
+                        displayKey: "NumLock",
+                        ahkKey: "NumLock"
                     },
                     {
                         keyCode: 145,
@@ -1464,15 +1464,17 @@ class AHPSettings {
                     }
                 ]
             }
-        }        
-        deepMerge(deepMerge(this, defaults),_settingsObj)
+        }
+
+        deepMerge(deepMerge(this, defaults),_settingsObj)        
+
         let resetGlobalKeys = {
             functionConfig:{},
             htmlAhkKeyConversionTable:{},
         }
         Object.assign(this.global, resetGlobalKeys)        
         deepMerge(this, overrides)
-
+        
         this.appProfiles = [];
         if(_settingsObj && _settingsObj.appProfiles.length > 0){
             this.appProfiles = _settingsObj.appProfiles.map((appProfile) => new AppProfile(appProfile))
@@ -1868,7 +1870,7 @@ class Hotkey {
           
         
         } else if (_keyObj && ("keyCode" in _keyObj)){ //If keyEvent
-            
+            console.log(_keyObj)
             // let keyConversionObj = keyTableArray.find(x => x.keyCode === keyNumber); 
             
             if(allowModifiers){
@@ -1881,8 +1883,13 @@ class Hotkey {
                 this.isShift = false;
                 this.isCtrl = false;
                 this.isAlt = false;
-            }            
-            this.keyCode = _keyObj.keyCode
+            } 
+            if (_keyObj.code == "Enter"){
+                this.keyCode = 1
+            } else {
+                this.keyCode = _keyObj.keyCode
+            }
+            
             // this.displayKeyNoMods = null;
             // this.displayKey = null;
             // this.ahkKey = null;

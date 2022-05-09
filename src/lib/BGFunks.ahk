@@ -34,6 +34,8 @@
 	return
 	}
 
+
+
 removeCharacters(var, chars="+^!#")
 	{
 	   stringreplace,var,var,%A_space%,_,a
@@ -57,7 +59,7 @@ checkAHK()
 	AHKVersion := StrReplace(A_AHKVersion, ".","")
 	; msgbox, % AHKVersion < 113202
 	; If ( A_IsCompiled AND A_AhkPath="" AND (AHKVersion < 113201)) 
-	If (AHKVersion < 113200) 
+	If (AHKVersion < 113310) 
 	{
 	 MsgBox, 4, ,Autohotkey needs to be installed/updated to run the Pie Menu apps, Install Autohotkey?
 	 IfMsgBox, Yes
@@ -305,6 +307,14 @@ copyFilesAndFolders(SourcePattern, DestinationFolder, DoOverwrite = false)
     return ErrorCount
 	}
 
+
+EmptyMem(){
+    pid:= DllCall("GetCurrentProcessId")
+    h:=DllCall("OpenProcess", "UInt", 0x001F0FFF, "Int", 0, "Int", pid)
+    DllCall("SetProcessWorkingSetSize", "UInt", h, "Int", -1, "Int", -1)
+    DllCall("CloseHandle", "Int", h)
+}
+
 cycleRange(var, range=360){
 	var := var - (range*Floor((var / range)))
 	return var
@@ -428,6 +438,7 @@ runPieMenu(profileNum, index, activePieNum=1)
 	
 	;FIX: Needs to be dynamic based on graphics size.
 	bitmapPadding := [300*Mon.pieDPIScale,180*Mon.pieDPIScale]
+	
 	SetUpGDIP(pieOpenLocX-bitmapPadding[1], pieOpenLocY-bitmapPadding[2], 2*bitmapPadding[1], 2*bitmapPadding[2])
 	StartDrawGDIP()
 
@@ -621,7 +632,7 @@ runPieMenu(profileNum, index, activePieNum=1)
 				{					
 					updatePie := false
 					loop
-					{
+					{						
 
 						if (hoverToSelectActive == false)
 						{
@@ -759,7 +770,7 @@ runPieMenu(profileNum, index, activePieNum=1)
 								}		
 							
 							}						
-						LButtonPressed_LastState := LButtonPressed
+						LButtonPressed_LastState := LButtonPressed						
 						sleep, 1																
 					} ;Loop end
 					StartDrawGDIP()	
@@ -904,7 +915,7 @@ runPieMenu(profileNum, index, activePieNum=1)
 			}
 			default:
 				msgbox, Invalid submenu mode selected.  I never thought this error would ever pop up how did you mess this up?	
-		}
+		}	
 
 	}
 
@@ -1031,8 +1042,7 @@ drawPie(appProfile, activePieProfile, xPos, yPos, dist, theta, thetaOffset, clic
 				Gdip_DrawArc(G, basicPen, (gmx-((radius)+ (thickness / 2))), (gmy-((radius)+ (thickness / 2))), 2*radius+thickness, 2*radius+thickness, (labelTheta-90)-(180/numSlices), 3*Mon.pieDPIScale)
 				Gdip_DrawArc(G, basicPen, (gmx-((radius)+ (thickness / 2))), (gmy-((radius)+ (thickness / 2))), 2*radius+thickness, 2*radius+thickness, (labelTheta-90)+(180/numSlices), 3*Mon.pieDPIScale)
 				Gdip_DrawArc(G, basicPenThin, (gmx-((radius)+ (thickness / 2))), (gmy-((radius)+ (thickness / 2))), 2*radius+thickness, 2*radius+thickness, (labelTheta-90)-(180/numSlices), (360/numSlices)+(2*Mon.pieDPIScale))
-			}
-			
+			}			
 		}
 			
 		
@@ -1057,7 +1067,6 @@ drawPie(appProfile, activePieProfile, xPos, yPos, dist, theta, thetaOffset, clic
 			selectedLabelState := 0	
 		
 		drawPieLabel(activePieProfile, activePieProfile.functions[A_Index+1], Round(gmx+(labelRadius*Cos((labelTheta-90)*0.01745329252))), Round(gmy+(labelRadius*Sin((labelTheta-90)*0.01745329252))), selectedLabelState, labelAnchor, clicked, activePieProfile.functions[A_Index+1].icon)
-		; drawPieLabel(activePieProfile, activePieProfile.functions[A_Index+1].label, Round(gmx+(labelRadius*Cos((labelTheta-90)*0.01745329252))), Round(gmy+(labelRadius*Sin((labelTheta-90)*0.01745329252))), selectedLabelState, "center", Mon.pieDPIScale, clicked, activePieProfile.functions[A_Index+1].icon)
 		}
 	}
 	
@@ -1174,7 +1183,7 @@ drawPieLabel(activePieProfile, sliceFunction, xPos, yPos, selected:=0, anchor:="
 		} else {
 			strokeColor := RGBAtoHEX(activePieProfile.selectionColor)
 			; labelBGColor := RGBAtoHEX(whitenRGB(activePieProfile.backgroundColor))
-			labelBGColor := RGBAtoHEX(whitenRGB(activePieProfile.selectionColor))
+			labelBGColor := RGBAtoHEX(activePieProfile.selectionColor)
 			; textColor := RGBAtoHEX([255, 255, 255, 255])
 			textColor := RGBAtoHEX(activePieProfile.backgroundColor)
 			sliceHotkeyTextColor := RGBAtoHEX([activePieProfile.backgroundColor[1],activePieProfile.backgroundColor[2],activePieProfile.backgroundColor[3],128])	
