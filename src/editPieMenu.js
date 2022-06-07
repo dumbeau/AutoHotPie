@@ -368,7 +368,7 @@ var editPieMenu = {
             editPieMenu.pieMenuDisplay.refresh();
             editPieMenu.slice.select(0);
         }
-    },
+    },    
     pieMenuDisplay:{
         canvas: document.getElementById('pie-menu-center'),
         canvasForeground: document.getElementById('pie-menu-foreground'),
@@ -484,8 +484,7 @@ var editPieMenu = {
 
                 thickness = selectedPieMenu.thickness;
                 pieRadius = selectedPieMenu.radius+(thickness/2);
-                centerPos = position;
-
+                centerPos = position;              
 
 
                 ctx.lineWidth = thickness                  
@@ -493,6 +492,16 @@ var editPieMenu = {
                 ctx.beginPath();
                 ctx.arc(centerPos[0], centerPos[1], pieRadius, 0, 2 * Math.PI);
                 ctx.stroke();
+
+                if(editPieMenu.selectedPieKey.activationMode.escapeRadius.enable){
+                    ctx.lineWidth = 2                  
+                    ctx.strokeStyle = rgbToHex([255,0,0,0])                
+                    // ctx.strokeStyle = rgbToHex(selectedPieMenu.backgroundColor)                
+                    ctx.beginPath();
+                    let escapeRad = editPieMenu.selectedPieKey.activationMode.escapeRadius.radius
+                    ctx.arc(centerPos[0], centerPos[1], escapeRad, 0, 2 * Math.PI);
+                    ctx.stroke();
+                }
 
                 pieCircleElement.region = {rect:null,arc:[0,360,0,pieRadius]}                
                 
@@ -859,7 +868,7 @@ var editPieMenu = {
                 ctx.moveTo(rect[0]+iconPadding,(rect[1]+rect[3])-iconPadding);
                 ctx.lineTo((rect[0]+rect[2])-iconPadding,rect[1]+iconPadding);
                 ctx.stroke();
-            }            
+            }       
         },
         refresh:function(){                       
             editPieMenu.pieMenuDisplay.loadPieMenuElements(editPieMenu.selectedPieMenu);
@@ -967,10 +976,17 @@ var editPieMenu = {
         loadSelectedPieKey:function(){},
     },
     launchSettings:{
-        activationModeBtn: document.getElementById('change-activation-mode-btn'),
+        tab: document.getElementById('launch-settings-tab'),
+        activationModeBtn: document.getElementById('change-activation-mode-btn'),        
+        escapeRadiusCheckbox: $('#enable-escape-radius-checkbox'),
+        escapeRadiusSlider: $('#escape-radius-slider'),
         clickableFunctionsCheckbox: document.getElementById('clickable-functions-checkbox'),
         openMenuInCenterCheckbox: $('#force-center-screen-checkbox'),
         initialize:function(){  
+
+            this.tab.addEventListener('click',()=>{
+                editPieMenu.launchSettings.loadSelectedPieKey();
+            });
 
             this.activationModeBtn.addEventListener('click',function(){                
                 changeActivationMode().then(val => {                    
@@ -983,9 +999,27 @@ var editPieMenu = {
                 });                
             });
 
+            this.escapeRadiusCheckbox.change((e)=>{
+                let boxEnabled = this.escapeRadiusCheckbox.is(":checked");
+                editPieMenu.selectedPieKey.activationMode.escapeRadius.enable = boxEnabled;
+                editPieMenu.pieMenuDisplay.refresh();
+                // if (boxEnabled){
+                //     this.escapeRadiusSlider.show();
+                // } else {
+                //     this.escapeRadiusSlider.hide();
+                // }
+            });
+
+            //may be hidden
+            this.escapeRadiusSlider.on('mousedown mousemove change', (event) => {
+                let newValue = handleSliderDiv(event);
+                (typeof(newValue) === 'number') && (editPieMenu.selectedPieKey.activationMode.escapeRadius.radius = newValue)
+                editPieMenu.pieMenuDisplay.refresh();
+            });
+
             let clickableFunctionsCheckbox = this.clickableFunctionsCheckbox
             clickableFunctionsCheckbox.addEventListener('click',function(){                
-                editPieMenu.selectedPieKey.activationMode.clickableFunctions = clickableFunctionsCheckbox.checked;
+                editPieMenu.selectedPieKey.activationMode.clickableFunctions = clickableFunctionsCheckbox.checked;                                
             });  
             
             this.openMenuInCenterCheckbox.change((e)=>{
@@ -996,10 +1030,25 @@ var editPieMenu = {
             let actMode = editPieMenu.selectedPieKey.activationMode;
             this.activationModeBtn.innerHTML = subMenuModeDescriptions[actMode.submenuMode-1];
             this.clickableFunctionsCheckbox.checked = actMode.clickableFunctions;
-            this.openMenuInCenterCheckbox.prop('checked', editPieMenu.selectedPieKey.activationMode.openMenuInCenter);        
+            this.escapeRadiusCheckbox.prop('checked', editPieMenu.selectedPieKey.activationMode.escapeRadius.enable);        
+            this.openMenuInCenterCheckbox.prop('checked', editPieMenu.selectedPieKey.activationMode.openMenuInCenter);
+            function getEscapeRadiusMinimum(){    
+                let minDistanceFromEdge = 5;       
+                let maxDistance = 0;          
+                editPieMenu.selectedPieKey.pieMenus.forEach( (menu) => {
+                    let testVal = menu.radius + menu.thickness + minDistanceFromEdge;
+                    if (testVal > maxDistance){
+                        maxDistance = testVal;
+                    }                                        
+                });
+                return maxDistance
+            }
+            let escapeRadiusMinimum = getEscapeRadiusMinimum();
+            console.log(escapeRadiusMinimum)
+            setSliderDivValue(this.escapeRadiusSlider,Math.max(escapeRadiusMinimum,editPieMenu.selectedPieKey.activationMode.escapeRadius.radius),getEscapeRadiusMinimum(),500);        
         },
         open: function(){
-            $('[href="#tab-8"]').tab('show');
+            $('[href="#tab-8"]').tab('show');            
         }
     },
     appearanceSettings:{
@@ -1036,13 +1085,15 @@ var editPieMenu = {
 
             this.mainMenu.radiusSlider.on('mousedown mousemove change', (event) => {
                 let newValue = handleSliderDiv(event);
-                (typeof(newValue) === 'number') && (editPieMenu.selectedPieMenu.radius = newValue)
+                (typeof(newValue) === 'number') && (editPieMenu.selectedPieMenu.radius = newValue);
+                editPieMenu.launchSettings.loadSelectedPieKey();                                
                 editPieMenu.pieMenuDisplay.refresh();
             });
             this.mainMenu.thicknessSlider.on('mousedown mousemove change', (event) => {                         
                 let newValue = handleSliderDiv(event);
                 editPieMenu.selectedPieMenu.thickness = (newValue) ? newValue : editPieMenu.selectedPieMenu.thickness;
-                (typeof(newValue) === 'number') && (editPieMenu.selectedPieMenu.thickness = newValue)
+                (typeof(newValue) === 'number') && (editPieMenu.selectedPieMenu.thickness = newValue);
+                editPieMenu.launchSettings.loadSelectedPieKey();
                 editPieMenu.pieMenuDisplay.refresh();
             });            
 
@@ -1092,11 +1143,13 @@ var editPieMenu = {
             this.subMenu.radiusSlider.on('mousedown mousemove change', (event) => {                         
                 let newValue = handleSliderDiv(event);
                 (typeof(newValue) === 'number') && (editPieMenu.selectedPieMenu.radius = newValue)
+                editPieMenu.launchSettings.loadSelectedPieKey();
                 editPieMenu.pieMenuDisplay.refresh();
             });
             this.subMenu.thicknessSlider.on('mousedown mousemove change', (event) => {                         
                 let newValue = handleSliderDiv(event);
                 (typeof(newValue) === 'number') && (editPieMenu.selectedPieMenu.thickness = newValue)
+                editPieMenu.launchSettings.loadSelectedPieKey();
                 editPieMenu.pieMenuDisplay.refresh();
             });
             this.subMenu.labelRadiusSlider.on('mousedown mousemove change', (event) => {                         
@@ -2036,8 +2089,7 @@ var editPieMenu = {
                 case "Sub Menu":
                     break;
                 case "Open URL":
-                    ahkParamObj = editPieMenu.selectedSlice.params;
-                    console.log(ahkParamObj);
+                    ahkParamObj = editPieMenu.selectedSlice.params;                    
                     editPieMenu.sliceSettings.sliceFunction.openURL.urlTextInput.val(ahkParamObj.url);
                     break;
                 case "No Options":

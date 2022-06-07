@@ -29,11 +29,11 @@ var selectIconPage = {
             } else {                
                 iconDivs.show();                
                 let searchPattern = new RegExp(searchString, 'i')
-                let foundIconDivs = this.iconDiv.contents().filter( (index,value)=>{                    
-                    return !searchPattern.test(value.childNodes[1].childNodes[2].innerHTML);                    
+                let foundIconDivs = this.iconDiv.contents().filter( (index,value)=>{
+                    return !searchPattern.test(value.childNodes[1].childNodes[2].innerHTML);
                 });
                 foundIconDivs.hide();
-            } 
+            }
 
             if (this.iconDiv.children(':visible').length == 0){
                 this.noneFoundHeader.show();
@@ -52,14 +52,14 @@ var selectIconPage = {
         refreshDisplay: function(searchString=""){
             let iconDivs = this.iconDiv.find('div');
             if(searchString==""){
-                //Show all                
+                //Show all
                 iconDivs.show();
             } else {
                 iconDivs.show();                
                 let searchPattern = new RegExp(searchString, 'i')
                 let foundIconDivs = this.iconDiv.contents().filter( (index,value)=>{                    
                     return !searchPattern.test(value.childNodes[1].childNodes[2].innerHTML);                    
-                });                
+                });
                 foundIconDivs.hide();
             }
 

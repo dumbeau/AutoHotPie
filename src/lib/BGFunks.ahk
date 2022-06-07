@@ -448,14 +448,16 @@ runPieMenu(profileNum, index, activePieNum=1)
 	activePie := activePieKey.pieMenus[activePieNumber]	
 
 	;Init Click related variables
-	pieClicked := false
+	; pieClicked := false ;This is not used anywhere
+
 	LButtonPressed := false
 	LButtonPressed_LastState := false
 	LButtonPressed_static := false
+	pieFunctionClicked := false ;Has a pie function been clicked on
 	
+		
 	sliceHotkeyPressed := false
 	pieMenuRanWithMod := true
-
 
 	;Determine pie menu angles for some reason, maybe delete
 	; thetaOffset := 0
@@ -522,6 +524,18 @@ runPieMenu(profileNum, index, activePieNum=1)
 						;Set Slice Hotkeys
 						; loadSliceHotkeys(activePieMenu, true)
 
+						;Escape radius
+						If (activePieKey.activationMode.escapeRadius.enable && (mouse.distance > activePieKey.activationMode.escapeRadius.radius)) || (enableEscapeKeyMenuCancel && GetKeyState("Esc", "P")) 
+						{														
+							exitPieMenu(activePie)							
+							loop ;Wait for hotkey to be released
+							{
+								if !GetKeyState(pieHotkey, "P")
+									Break
+							}							
+							return false						
+						}								
+
 
 						If (mouse.distance < selectionRadius)
 						{
@@ -534,7 +548,9 @@ runPieMenu(profileNum, index, activePieNum=1)
 								pieRegion := 1
 						}
 
-						loadSliceHotkeys(activePie, true)						
+						If (A_Index == 1)
+							loadSliceHotkeys(activePie, true)	;doesn't this only need to happen once?  TEST
+
 						if ( hasValue(A_ThisHotkey, ActivePieSliceHotkeyArray)){
 							for k3, func in activePie.functions
 							{
@@ -608,7 +624,8 @@ runPieMenu(profileNum, index, activePieNum=1)
 								}
 								if (sliceHotkeyPressed == true){
 									break
-								}																
+								}
+								pieFunctionClicked := true															
 								runPieFunction(activePie.functions[pieRegion+1])
 								}	
 
@@ -625,7 +642,10 @@ runPieMenu(profileNum, index, activePieNum=1)
 
 					; return false
 					; msgbox, % activePie.functions[pieRegion+1].label						
-					return activePie.functions[pieRegion+1]	
+					if pieFunctionClicked
+						return false
+					else										
+						return activePie.functions[pieRegion+1]	
 					; return [profileNum,index,activePieNumber,pieRegion]						
 				}
 			case 2: ; Select first menu and hover over the next
@@ -656,7 +676,18 @@ runPieMenu(profileNum, index, activePieNum=1)
 							mouse := getMouseTransformProperties()
 
 						;Load Slice Hotkeys						
-												
+						
+						;Escape Radius cancel
+						If (activePieKey.activationMode.escapeRadius.enable && (mouse.distance > activePieKey.activationMode.escapeRadius.radius)) || (enableEscapeKeyMenuCancel && GetKeyState("Esc", "P")) 
+						{														
+							exitPieMenu(activePie)							
+							loop ;Wait for hotkey to be released
+							{
+								If !GetKeyState(pieHotkey, "P")
+									Break
+							}							
+							return false						
+						}
 						
 							
 						selectionRadius := ((activePie.radius)*Mon.pieDPIScale)						
@@ -673,7 +704,9 @@ runPieMenu(profileNum, index, activePieNum=1)
 						}
 
 						;Use LSlice Hotkey
-						loadSliceHotkeys(activePie, true)						
+						If (A_Index == 1)
+							loadSliceHotkeys(activePie, true) ;TEST
+
 						if ( hasValue(A_ThisHotkey ,ActivePieSliceHotkeyArray)){
 							for k3, func in activePie.functions
 							{
@@ -722,7 +755,7 @@ runPieMenu(profileNum, index, activePieNum=1)
 							pieLabelShown := false
 
 							If ( (activePie.functions[pieRegion+1].function == "submenu") && (fPieRegion == 0) && (hoverToSelectActive == true) or ((activePie.functions[pieRegion+1].function == "submenu") && (updatePie == true)))
-							{								
+							{		
 								activePieNumber := activePie.functions[pieRegion+1].params.pieMenuNumber+1																								
 								activePie := activePieKey.pieMenus[activePieNumber]
 								loadSliceHotkeys(activePie, true)
@@ -765,12 +798,14 @@ runPieMenu(profileNum, index, activePieNum=1)
 								}
 								if (activePie.functions[pieRegion+1].function == "submenu" )
 									updatePie := true
-								else									
-									runPieFunction(activePie.functions[pieRegion+1])				
-								}		
-							
+								else
+								{
+									pieFunctionClicked := true
+									runPieFunction(activePie.functions[pieRegion+1])									
+								}	
+								}
 							}						
-						LButtonPressed_LastState := LButtonPressed						
+						LButtonPressed_LastState := LButtonPressed
 						sleep, 1																
 					} ;Loop end
 					StartDrawGDIP()	
@@ -779,7 +814,10 @@ runPieMenu(profileNum, index, activePieNum=1)
 					; msgbox, % JSON.Dump(mouse)
 					loadSliceHotkeys(activePie, false)
 					
-					return activePie.functions[pieRegion+1]
+					if pieFunctionClicked
+						return false
+					else										
+						return activePie.functions[pieRegion+1]	
 				}
 			case 3: ; Hover over all
 				{
@@ -787,7 +825,175 @@ runPieMenu(profileNum, index, activePieNum=1)
 				}
 			case 4: ; Click all
 				{
-					submenuMode :=  "click all"
+					loop
+					{
+						sliceHotkeyPressed := false
+						updatePie := false
+						 
+						; if !GetKeyState(pieHotkey, "P")
+						; 	Break
+						
+						if ((A_TickCount - pieOpenTime) > activePieKey.labelDelay*1000 && (showLabel == false))
+						{
+							showLabel := true
+							pieLabelShown := true
+						}					
+						
+									
+						if (LButtonPressed == false)
+							mouse := getMouseTransformProperties()
+
+						;Escape Radius cancel
+						If (activePieKey.activationMode.escapeRadius.enable && (mouse.distance > activePieKey.activationMode.escapeRadius.radius)) || (enableEscapeKeyMenuCancel && GetKeyState("Esc", "P")) 
+						{														
+							exitPieMenu(activePie)							
+							loop ;Wait for hotkey to be released
+							{
+								If !GetKeyState(pieHotkey, "P")
+									Break
+							}							
+							return false						
+						}					
+						
+							;Just restarts menu considering pie key is held down.							
+							
+						selectionRadius := ((activePie.radius)*Mon.pieDPIScale)						
+						numSlices := activePie.functions.Length()+1
+
+						;Set Slice Hotkeys
+						; loadSliceHotkeys(activePieMenu, true)
+
+						If (mouse.distance < selectionRadius)
+						{
+							pieRegion := 0
+						}
+						else
+						{
+							pieRegion := Floor(cycleRange(mouse.theta-activePie.pieAngle)/(360/(activePie.functions.Length()-1)))+1	
+							If (pieRegion >= (activePie.functions.Length()+1))
+								pieRegion := 1
+						}
+
+						loadSliceHotkeys(activePie, true)						
+						if ( hasValue(A_ThisHotkey, ActivePieSliceHotkeyArray)){
+							for k3, func in activePie.functions
+							{
+								if (A_ThisHotkey == func.hotkey){
+									if (func.function == "submenu"){
+										updatePie := true
+										pieRegion := k3-1										
+										; hoveredIntoSubMenu := false						
+										break
+									}										
+									else{
+										; updatePie := true
+										pieRegion := k3-1	
+										sliceHotkeyPressed := true									
+										break				
+									}										
+								}
+							}
+						}
+
+						If (GetKeyState("LButton","P"))
+						{
+							LButtonPressed := true
+							LButtonPressed_static := true
+						}
+						else
+							LButtonPressed := false	
+
+
+						If (pieRegion != fPieRegion) or (LButtonPressed_LastState != LButtonPressed) or (pieLabelShown == true) or (updatePie) or sliceHotkeyPressed ;If region or mouseclick changes
+							{
+							pieLabelShown := false
+						
+
+							; If (( activePie.functions[pieRegion+1].function == "submenu" ) && fPieRegion == 0) or (activePie.functions[pieRegion+1].function == "submenu" && LButtonPressed) or (updatePie)
+							; If (activePie.functions[pieRegion+1].function == "submenu" && LButtonPressed) or (updatePie)
+							; If (updatePie) or ((LButtonPressed_LastState == true) && (LButtonPressed == false))
+							If (updatePie)
+							{
+								
+								activePieNumber := activePie.functions[pieRegion+1].params.pieMenuNumber+1
+								activePie := activePieKey.pieMenus[activePieNumber]
+
+								sliceAngle := ((pieRegion+1)*(360/numSlices))+(180/numSlices+thetaOffset)
+								; msgbox, % sliceAngle
+								; extendedPos := extendAlongAngle([mouse.x, mouse.y], sliceAngle, (activePieKey.submenu.radius+activePieKey.mainMenu.radius)*Mon.pieDPIScale)
+
+								extendedPos := [mouse.x, mouse.y]
+								mouse.distance := 0
+
+								; if (updatePie && LButtonPressed == false) {
+								; 	extendedPos := [mouse.x, mouse.y]
+								; 	mouse.distance := 0										
+								; } else {																		
+								; 	extendedPos := extendAlongAngle([mouse.x, mouse.y], mouse.theta, (activePie.radius*0.9)*Mon.pieDPIScale)
+								; 	; msgbox, % mouse.distance
+								; }
+
+								; extendedPos := extendAlongAngle([mouse.x, mouse.y], mouse.theta, 150)
+								subPieLocX := extendedPos[1]
+								subPieLocY := extendedPos[2]								
+
+								StartDrawGDIP()
+								ClearDrawGDIP()
+								EndDrawGDIP()								
+								SetUpGDIP(subPieLocX-bitmapPadding[1], subPieLocY-bitmapPadding[2], 2*bitmapPadding[1], 2*bitmapPadding[2])
+							}													
+
+							StartDrawGDIP()		
+
+							fPieRegion := drawPie(activePieKey, activePie, bitmapPadding[1], bitmapPadding[2], mouse.distance, mouse.theta, activePie.pieAngle, LButtonPressed, showLabel, false)
+							
+							; if (LButtonPressed_LastState == true) && (LButtonPressed == false){
+							if (LButtonPressed_LastState == true) && (LButtonPressed == false) || (GetKeyState("Esc") || (sliceHotkeyPressed)){
+								if (GetKeyState("Esc")) {
+									break
+								}
+								if (sliceHotkeyPressed == true){									
+									break
+								}
+								if (activePie.functions[pieRegion+1].function == "submenu")
+								{
+									
+									activePieNumber := activePie.functions[pieRegion+1].params.pieMenuNumber+1
+									activePie := activePieKey.pieMenus[activePieNumber]
+									
+
+									extendedPos := [mouse.x, mouse.y]
+									mouse.distance := 0
+									subPieLocX := extendedPos[1]
+									subPieLocY := extendedPos[2]
+									mouse := getMouseTransformProperties()
+									SetUpGDIP(subPieLocX-bitmapPadding[1], subPieLocY-bitmapPadding[2], 2*bitmapPadding[1], 2*bitmapPadding[2])									
+								} else {
+									pieFunctionClicked := true
+									break									
+								}
+								; runPieFunction(activePie.functions[pieRegion+1])
+								; 	break
+								}
+
+							
+							}
+						LButtonPressed_LastState := LButtonPressed
+						sleep, 1											
+					} ;loop end
+					StartDrawGDIP()	
+					ClearDrawGDIP()
+					EndDrawGDIP()
+					; msgbox, % JSON.Dump(mouse)
+					loadSliceHotkeys(activePie, false)
+
+					; return false
+					; msgbox, % activePie.functions[pieRegion+1].label
+					if pieFunctionClicked
+						return false
+					else										
+						return activePie.functions[pieRegion+1]	
+					; return [profileNum,index,activePieNumber,pieRegion]						
 				}
 			case 5: ; Leave and return or circle and return for more menus.  Selecting a submenu will make subsequent menus hover activated.
 				{
@@ -915,9 +1121,20 @@ runPieMenu(profileNum, index, activePieNum=1)
 			}
 			default:
 				msgbox, Invalid submenu mode selected.  I never thought this error would ever pop up how did you mess this up?	
-		}	
-
+		}
 	}
+
+exitPieMenu(p_activePie)
+{
+	StartDrawGDIP()	
+	ClearDrawGDIP()
+	EndDrawGDIP()
+	loadSliceHotkeys(p_activePie, false)
+	return false	
+}
+
+
+
 
 getMouseTransformProperties(init:=false)
 	{

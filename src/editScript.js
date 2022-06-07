@@ -18,7 +18,7 @@ var editScriptPage = {
         this.open();
         let subHeadingText = (associatedProgram != "") ? ("New script for" + associatedProgram) : "";
         this.subHeading.html(subHeadingText);
-        let myPromise = await waitForUserInput()
+        let myPromise = await waitForUserInput();
         return myPromise
         function waitForUserInput(){
             return new Promise((resolve, reject) => {

@@ -136,7 +136,7 @@
                         <div id="pie-menu-settings-tabs" style="margin: 1px;width: 996px;">
                             <ul class="nav nav-tabs nav-justified" role="tablist" style="font-size: 20px;">
                                 <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" id="global-appearance-tab" href="#tab-27">Font</a></li>
-                                <li class="nav-item" role="presentation"><a class="nav-link active" role="tab" data-bs-toggle="tab" href="#tab-8">Launch Settings</a></li>
+                                <li class="nav-item" role="presentation"><a class="nav-link active" role="tab" data-bs-toggle="tab" id="launch-settings-tab" href="#tab-8">Launch Settings</a></li>
                                 <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-9">Menu Appearance</a></li>
                                 <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-10">Functions</a></li>
                             </ul>
@@ -160,15 +160,28 @@
                                 </div>
                                 <div class="tab-pane active" role="tabpanel" id="tab-8">
                                     <div style="margin-bottom: 15px;width: auto;padding: 27px;">
-                                        <div class="d-flex align-items-center" style="margin-bottom: 9px;">
-                                            <h5 class="d-xxl-flex align-items-xxl-center" style="margin-bottom: -10px;margin-right: 15px;margin-top: -11px;">Activation Mode:</h5><button class="btn btn-primary" data-bs-toggle="tooltip" data-bss-tooltip="" id="change-activation-mode-btn" type="button" style="margin-right: 21px;min-width: 100px;" title="Change the behavior of launching the pie menu, activating sub menus and launching functions.">Change Activation Mode</button>
+                                        <div class="d-flex align-items-center" style="margin-bottom: 9px;padding-left: 158px;">
+                                            <h5 class="d-xxl-flex align-items-xxl-center" style="margin-bottom: -10px;margin-right: 15px;margin-top: -11px;">Activation Mode:</h5><button class="btn btn-primary" data-bs-toggle="tooltip" data-bss-tooltip="" data-bs-placement="right" id="change-activation-mode-btn" type="button" style="margin-right: 21px;min-width: 100px;" title="Change the behavior of launching the pie menu, activating sub menus and launching functions.">Change Activation Mode</button>
                                         </div>
                                         <div class="d-flex align-items-center" style="margin-bottom: 9px;">
-                                            <h5 class="d-xxl-flex align-items-xxl-center" style="margin-bottom: -10px;margin-right: 15px;margin-top: -11px;">Clickable Functions:</h5>
-                                            <div class="form-check form-switch" data-bs-toggle="tooltip" data-bss-tooltip="" data-bs-placement="bottom" title="Allow functions to be clicked."><input class="form-check-input" type="checkbox" id="clickable-functions-checkbox"><label class="form-check-label" for="formCheck-7"></label></div>
+                                            <div class="d-flex justify-content-end" style="width: 323.844px;">
+                                                <h5 class="d-xxl-flex align-items-xxl-center" style="margin-bottom: -10px;margin-top: -11px;margin-right: 15px;">Enable Escape Radius:</h5>
+                                            </div>
+                                            <div class="form-check form-switch" title="Allow functions to be clicked."><input class="form-check-input" type="checkbox" id="enable-escape-radius-checkbox"><label class="form-check-label" for="force-center-screen-checkbox-1"></label></div>
+                                        </div>
+                                        <div class="d-flex align-items-center" id="escape-radius-slider" style="margin-bottom: 9px;margin-left: 212px;margin-right: 17px;">
+                                            <p class="text-nowrap" style="margin-right: 14px;margin-bottom: 3px;width: 143.9219px;">Escape radius:</p><input class="form-range" type="range" style="margin-right: 15px;"><input class="bg-dark border rounded-0 border-dark" type="text" style="font-size: 16px;color: var(--bs-white);width: 40px;text-align: center;" placeholder="20" maxlength="3" inputmode="numeric">
                                         </div>
                                         <div class="d-flex align-items-center" style="margin-bottom: 9px;">
-                                            <h5 class="d-xxl-flex align-items-xxl-center" style="margin-bottom: -10px;margin-right: 15px;margin-top: -11px;">Open Pie Menu in center of screen:</h5>
+                                            <div class="d-flex justify-content-end" style="width: 323.844px;">
+                                                <h5 class="d-xxl-flex align-items-xxl-center" style="margin-bottom: -10px;margin-top: -11px;margin-right: 15px;">Clickable Functions:</h5>
+                                            </div>
+                                            <div class="form-check form-switch" data-bs-toggle="tooltip" data-bss-tooltip="" data-bs-placement="right" title="Allow functions to be clicked."><input class="form-check-input" type="checkbox" id="clickable-functions-checkbox"><label class="form-check-label" for="formCheck-7"></label></div>
+                                        </div>
+                                        <div class="d-flex align-items-center" style="margin-bottom: 9px;">
+                                            <div class="d-flex justify-content-end" style="width: 323.844px;">
+                                                <h5 class="d-xxl-flex align-items-xxl-center" style="margin-bottom: -10px;margin-top: -11px;margin-right: 15px;">Open Pie Menu in center of screen:</h5>
+                                            </div>
                                             <div class="form-check form-switch" title="Allow functions to be clicked."><input class="form-check-input" type="checkbox" id="force-center-screen-checkbox"><label class="form-check-label" for="force-center-screen-checkbox"></label></div>
                                         </div>
                                     </div>
@@ -540,6 +553,11 @@
                             </div>
                         </div>
                         <div class="justify-content-start" style="padding-top: 12px;padding-bottom: 12px;">
+                            <div class="d-flex align-items-center">
+                                <div class="form-check form-switch" style="margin-left: 3px;" title="Icon will use the selection color when function is focused if icon is greyscale."><input class="form-check-input" type="checkbox" id="escape-cancel-menu-checkbox"><label class="form-check-label" for="run-on-startup-checkbox-1">Escape key exits pie menu<br></label></div>
+                            </div>
+                        </div>
+                        <div class="justify-content-start" style="padding-top: 12px;padding-bottom: 12px;">
                             <div class="form-check form-switch" style="margin-left: 3px;" title="Icon will use the selection color when function is focused if icon is greyscale."><input class="form-check-input" type="checkbox" id="use-ahk-pie-menu-checkbox"><label class="form-check-label" for="formCheck-5">Use open-source AutoHotKey pie menus<br>(requires <a id="ahk-link" style="color: var(--bs-teal);text-decoration:  underline;">AutoHotKey</a>&nbsp;to be installed)<br></label></div>
                         </div>
                         <div class="justify-content-start" style="padding-top: 12px;padding-bottom: 12px;">
@@ -628,22 +646,30 @@
                     <div style="width: 20%;"></div>
                 </div>
                 <div class="d-flex" style="padding: 36px;padding-bottom: 0;">
-                    <div style="width: 33.333%;padding: 5px;">
-                        <div id="act-mode-2-card" style="background: var(--bs-gray-800);padding: 24px;padding-bottom: 5px;height: 100%;border-radius: 4px;border: 1px solid rgb(64,193,179) ;"><img id="act-2-img" src="assets/img/Act-Mode-2.png" style="width: 100%;"><img id="act-2-container" src="assets/img/Act-Mode-2.png" style="width: 100%;"><img id="act-2-gif" src="assets/img/Act-Mode-2-SelectFirst.gif" style="margin-bottom: 21px;width: 100%;">
+                    <div style="width: 50%;padding: 5px;">
+                        <div id="act-mode-2-card" style="background: var(--bs-gray-800);padding: 24px;padding-bottom: 5px;height: 100%;border-radius: 4px;border: 1px solid rgb(64,193,179) ;"><img id="act-2-img" src="assets/img/ActModeImages/ActMode1.svg" style="width: 100%;"><img id="act-2-container" src="assets/img/ActModeImages/ActMode1.svg" style="width: 100%;aspect-ratio: 73/30;"><img id="act-2-gif" src="assets/img/ActModeImages/Act-Mode-2-SelectFirst.gif" style="width: 100%;">
                             <h4>Release on first function, hover over next.<br></h4>
                             <p class="text-muted" style="height: auto;">Open the pie menu by holding the Pie Key.&nbsp; Release Pie Key on desired function.&nbsp; If submenu is selected, hover over next function.<br></p>
                         </div>
                     </div>
-                    <div style="width: 33.333%;padding: 5px;">
-                        <div id="act-mode-1-card" style="background: var(--bs-gray-800);padding: 24px;padding-bottom: 5px;height: 100%;border-radius: 4px;border: 1px solid rgb(64,193,179) ;"><img id="act-1-img" src="assets/img/Act-Mode-1.png" style="width: 100%;"><img id="act-1-container" src="assets/img/Act-Mode-1.png" style="width: 100%;"><img id="act-1-gif" src="assets/img/Act-Mode-1-HoverSub.gif" style="width: 100%;">
+                    <div style="width: 50%;padding: 5px;">
+                        <div id="act-mode-1-card" style="background: var(--bs-gray-800);padding: 24px;padding-bottom: 5px;height: 100%;border-radius: 4px;border: 1px solid rgb(64,193,179) ;"><img id="act-1-img" src="assets/img/ActModeImages/ActMode2.svg" style="width: 100%;"><img id="act-1-container" src="assets/img/ActModeImages/ActMode2.svg" style="width: 100%;aspect-ratio: 73/30;"><img id="act-1-gif" src="assets/img/ActModeImages/Act-Mode-1-HoverSub.gif" style="width: 100%;">
                             <h4>Hover over submenus, release on function.</h4>
                             <p class="text-muted" style="height: auto;">Open the pie menu by holding the Pie Key.&nbsp;&nbsp;Release Pie Key on the desired function.</p>
                         </div>
                     </div>
-                    <div style="width: 33.333%;padding: 5px;">
-                        <div id="act-mode-3-card" style="background: var(--bs-gray-800);padding: 24px;padding-bottom: 5px;height: 100%;border-radius: 4px;border: 1px solid rgb(64,193,179) ;"><img id="act-3-img" src="assets/img/Act-Mode-3.png" style="width: 100%;"><img id="act-3-container" src="assets/img/Act-Mode-3.png" style="width: 100%;"><img id="act-3-gif" src="assets/img/Act-Mode-3-Hover.gif" style="margin-bottom: 21px;width: 100%;">
+                </div>
+                <div class="d-flex" style="padding: 36px;padding-bottom: 0;padding-top: 0px;">
+                    <div style="width: 50%;padding: 5px;">
+                        <div id="act-mode-3-card" style="background: var(--bs-gray-800);padding: 24px;padding-bottom: 5px;height: 100%;border-radius: 4px;border: 1px solid rgb(64,193,179) ;"><img id="act-3-img" src="assets/img/ActModeImages/ActMode3.svg" style="width: 100%;"><img id="act-3-container" src="assets/img/ActModeImages/ActMode3.svg" style="width: 100%;aspect-ratio: 73/30;"><img id="act-3-gif" src="assets/img/ActModeImages/Act-Mode-3-Hover.gif" style="width: 100%;">
                             <h4>Hover over all selections.<br></h4>
                             <p class="text-muted" style="height: auto;">Press Pie Key to open Pie Menu, hover over the desired function.&nbsp; This is ideal for external controllers that send key-down and key-up events.<br></p>
+                        </div>
+                    </div>
+                    <div style="width: 50%;padding: 5px;">
+                        <div id="act-mode-4-card" style="background: var(--bs-gray-800);padding: 24px;padding-bottom: 5px;height: 100%;border-radius: 4px;border: 1px solid rgb(64,193,179) ;"><img id="act-4-img" src="assets/img/ActModeImages/ActMode4.svg" style="width: 100%;"><img id="act-4-container" src="assets/img/ActModeImages/ActMode4.svg" style="width: 100%;aspect-ratio: 73/30;"><img id="act-4-gif" src="assets/img/ActModeImages/Act-Mode-4-Click.gif" style="width: 100%;">
+                            <h4>Click selections<br></h4>
+                            <p class="text-muted" style="height: auto;">Press Pie Key to open Pie Menu, then click on slices.<br></p>
                         </div>
                     </div>
                 </div>

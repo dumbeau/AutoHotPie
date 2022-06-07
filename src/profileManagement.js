@@ -417,6 +417,7 @@ var globalSettings = {
     },
     refresh:function(){        
         this.runOnStartupCheckbox.checked = AutoHotPieSettings.global.startup.runOnStartup;
+        this.enableEscapeKeyMenuCancelCheckbox.checked = AutoHotPieSettings.global.enableEscapeKeyMenuCancel;
         this.useAHKPieMenuCheckbox.checked = AutoHotPieSettings.global.startup.runAHKPieMenus;   
         this.alwaysRunOnQuitCheckbox.checked = AutoHotPieSettings.global.startup.alwaysRunOnAppQuit;   
         setRunOnLogin(AutoHotPieSettings.global.startup.runOnStartup, AutoHotPieSettings.global.startup.runAHKPieMenus);
@@ -430,6 +431,10 @@ var globalSettings = {
             // console.log(AutoHotPieSettings.global.startup.runOnStartup);
             setRunOnLogin(AutoHotPieSettings.global.startup.runOnStartup, AutoHotPieSettings.global.startup.runAHKPieMenus);
         });
+        this.enableEscapeKeyMenuCancelCheckbox.addEventListener('click', function(event){
+            AutoHotPieSettings.global.enableEscapeKeyMenuCancel = event.target.checked            
+        });
+
         this.useAHKPieMenuCheckbox.addEventListener('click', function(event){
             AutoHotPieSettings.global.startup.runAHKPieMenus = event.target.checked
             setRunOnLogin(AutoHotPieSettings.global.startup.runOnStartup, AutoHotPieSettings.global.startup.runAHKPieMenus);
@@ -455,7 +460,8 @@ var globalSettings = {
     },
     ahkLink: document.getElementById('ahk-link'),
     backBtn: document.getElementById('global-settings-back-btn'),    
-    runOnStartupCheckbox: document.getElementById('run-on-startup-checkbox'),    
+    runOnStartupCheckbox: document.getElementById('run-on-startup-checkbox'),
+    enableEscapeKeyMenuCancelCheckbox: document.getElementById('escape-cancel-menu-checkbox'),
     useAHKPieMenuCheckbox: document.getElementById('use-ahk-pie-menu-checkbox'),
     alwaysRunOnQuitCheckbox: document.getElementById('always-run-on-quit-checkbox'),
     updateBtn: document.getElementById('check-for-update-btn'),    

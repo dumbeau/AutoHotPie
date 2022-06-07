@@ -7,6 +7,7 @@ class AHPSettings {
         let defaults = {
             global:{
                 pieTips: true,
+                enableEscapeKeyMenuCancel: false,
                 app:{
                     sourceFileName:SettingsFileName,
                     version: electron.getVersion()
@@ -1540,7 +1541,7 @@ class AHPSettings {
     //Save - related to instance
     //Static Load(fileSettingsObj?)
     //Static Import(filePath?)
-    //Export - related to instance    
+    //Export - related to instance
 }
 
 class CustomFunction {
@@ -1721,6 +1722,10 @@ class PieKey {
             activationMode: {
                 submenuMode: 1,
                 clickableFunctions: true,
+                escapeRadius: {
+                    enable: false,
+                    radius: 150
+                },
                 openMenuInCenter:false,
                 keyReleaseDelay: true
                 },
