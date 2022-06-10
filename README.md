@@ -2,6 +2,7 @@
 
 Radial menus for Windows, designed for digital artists and macro enthusiasts, sponsored by unemployment :)
 ![2022-AHP-Update---Square-220224-2](https://user-images.githubusercontent.com/36665762/155584629-fd483863-2005-420f-ab3e-44369fe01884.gif)
+[discord for questions](https://discord.gg/yszsupzR7d)
 
 # Installation
 
