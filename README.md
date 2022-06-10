@@ -22,4 +22,4 @@ Most bluetooth controllers can have their buttons assigned to a keystroke in the
 
 # Questions?
 
-[discord](https://discord.gg/yszsupzR7d)
+[Discord](https://discord.gg/yszsupzR7d)
