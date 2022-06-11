@@ -85,7 +85,7 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "electron": "15.3.1",
+    "electron": "19.0.4",
     "electron-builder": "^22.13.1"
   }
 }

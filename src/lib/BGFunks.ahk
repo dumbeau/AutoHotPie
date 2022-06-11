@@ -525,7 +525,7 @@ runPieMenu(profileNum, index, activePieNum=1)
 						; loadSliceHotkeys(activePieMenu, true)
 
 						;Escape radius
-						If (activePieKey.activationMode.escapeRadius.enable && (mouse.distance > activePieKey.activationMode.escapeRadius.radius)) || (enableEscapeKeyMenuCancel && GetKeyState("Esc", "P")) 
+						If (activePieKey.activationMode.escapeRadius.enable && (mouse.distance > activePieKey.activationMode.escapeRadius.radius)) || (settings.global.enableEscapeKeyMenuCancel && GetKeyState("Esc", "P")) 
 						{														
 							exitPieMenu(activePie)							
 							loop ;Wait for hotkey to be released
@@ -678,7 +678,7 @@ runPieMenu(profileNum, index, activePieNum=1)
 						;Load Slice Hotkeys						
 						
 						;Escape Radius cancel
-						If (activePieKey.activationMode.escapeRadius.enable && (mouse.distance > activePieKey.activationMode.escapeRadius.radius)) || (enableEscapeKeyMenuCancel && GetKeyState("Esc", "P")) 
+						If (activePieKey.activationMode.escapeRadius.enable && (mouse.distance > activePieKey.activationMode.escapeRadius.radius)) || (settings.global.enableEscapeKeyMenuCancel && GetKeyState("Esc", "P")) 
 						{														
 							exitPieMenu(activePie)							
 							loop ;Wait for hotkey to be released
@@ -844,7 +844,7 @@ runPieMenu(profileNum, index, activePieNum=1)
 							mouse := getMouseTransformProperties()
 
 						;Escape Radius cancel
-						If (activePieKey.activationMode.escapeRadius.enable && (mouse.distance > activePieKey.activationMode.escapeRadius.radius)) || (enableEscapeKeyMenuCancel && GetKeyState("Esc", "P")) 
+						If (activePieKey.activationMode.escapeRadius.enable && (mouse.distance > activePieKey.activationMode.escapeRadius.radius)) || (settings.global.enableEscapeKeyMenuCancel && GetKeyState("Esc", "P")) 
 						{														
 							exitPieMenu(activePie)							
 							loop ;Wait for hotkey to be released
@@ -969,7 +969,6 @@ runPieMenu(profileNum, index, activePieNum=1)
 									mouse := getMouseTransformProperties()
 									SetUpGDIP(subPieLocX-bitmapPadding[1], subPieLocY-bitmapPadding[2], 2*bitmapPadding[1], 2*bitmapPadding[2])									
 								} else {
-									pieFunctionClicked := true
 									break									
 								}
 								; runPieFunction(activePie.functions[pieRegion+1])
@@ -989,10 +988,16 @@ runPieMenu(profileNum, index, activePieNum=1)
 
 					; return false
 					; msgbox, % activePie.functions[pieRegion+1].label
-					if pieFunctionClicked
-						return false
-					else										
+					; if (pieFunctionClicked)
+					; {
+					; 	msgbox, why
+					; 	return false
+					; }	
+					; else
+					; {
 						return activePie.functions[pieRegion+1]	
+					; }										
+						
 					; return [profileNum,index,activePieNumber,pieRegion]						
 				}
 			case 5: ; Leave and return or circle and return for more menus.  Selecting a submenu will make subsequent menus hover activated.
@@ -1125,7 +1130,7 @@ runPieMenu(profileNum, index, activePieNum=1)
 	}
 
 exitPieMenu(p_activePie)
-{
+{	
 	StartDrawGDIP()	
 	ClearDrawGDIP()
 	EndDrawGDIP()
