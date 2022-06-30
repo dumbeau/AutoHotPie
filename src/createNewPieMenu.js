@@ -122,7 +122,7 @@ async function createNewPieMenu(options={}){
         let defaultPieKey = new PieKey({
             name:"Pie Menu " + (profileManagement.selectedProfile.pieKeys.length+1),
             labelDelay:copyMenu.labelDelay,  
-            activationMode:{submenuMode: copyMenu.activationMode.submenuMode},            
+            activationMode:copyMenu.activationMode,     
             pieMenus:[new PieMenu({
                 backgroundColor: copyMenu.pieMenus[0].backgroundColor,
                 selectionColor: copyMenu.pieMenus[0].selectionColor,

@@ -605,6 +605,7 @@ var editPieMenu = {
                 //Set positioning variables
                 let labelSize = [Math.max(contentBox[0]+(2*outerBoxPadding),minLabelWidth,contentBox[1]+(2*outerBoxPadding)),contentBox[1]+(2*outerBoxPadding)]
                 let labelCenter = [labelPos[0]-( labelAnchor[0]*(labelSize[0]/2) )+(labelAnchor[0]*(labelSize[1]/2)), labelPos[1]+( labelAnchor[1]*(labelSize[1]/2) ) ] //May need -                
+                let labelRoundness = selectedPieMenu.labelRoundness;
                 //Draw label background rect
                 if(isSelected){
                     ctx.fillStyle = rgbToHex(selectedPieMenu.selectionColor);            
@@ -614,7 +615,10 @@ var editPieMenu = {
                     ctx.strokeStyle = rgbToHex(AutoHotPieSettings.global.globalAppearance.safetyStrokeColor);
                 }                
                 ctx.lineWidth = 1;    
-                roundRect(ctx, labelCenter[0]-(labelSize[0]/2), labelCenter[1]-(labelSize[1]/2), labelSize[0], labelSize[1],1,true,true);
+                // roundRect(ctx, labelCenter[0]-(labelSize[0]/2), labelCenter[1]-(labelSize[1]/2), labelSize[0], labelSize[1],1,true,true);
+                // roundRect(ctx, labelCenter[0]-(labelSize[0]/2), labelCenter[1]-(labelSize[1]/2), labelSize[0], labelSize[1], selectedPieMenu.labelRoundess ,true,true);
+                
+                roundRect(ctx, labelCenter[0]-(labelSize[0]/2), labelCenter[1]-(labelSize[1]/2), labelSize[0], labelSize[1], (labelSize[1]/2)*(labelRoundness/100),true,true);
                 
                 //Draw label elements
                 elementPlacementPos = [labelCenter[0]-(contentBox[0]/2), labelCenter[1]]
@@ -977,11 +981,19 @@ var editPieMenu = {
     },
     launchSettings:{
         tab: document.getElementById('launch-settings-tab'),
-        activationModeBtn: document.getElementById('change-activation-mode-btn'),        
+        activationModeBtn: document.getElementById('change-activation-mode-btn'),  
+        pieKeyAction: {
+            div: $('#hotkey-action-div'), 
+            select: $('#hotkey-action-select')
+        },      
         escapeRadiusCheckbox: $('#enable-escape-radius-checkbox'),
         escapeRadiusSlider: $('#escape-radius-slider'),
         clickableFunctionsCheckbox: document.getElementById('clickable-functions-checkbox'),
         openMenuInCenterCheckbox: $('#force-center-screen-checkbox'),
+        decoupleMouse:{
+            div: $('#decouple-mouse-div'),
+            checkbox: $('#decouple-mouse-checkbox')
+        },
         initialize:function(){  
 
             this.tab.addEventListener('click',()=>{
@@ -993,10 +1005,16 @@ var editPieMenu = {
                     let activationModeBtn = editPieMenu.launchSettings.activationModeBtn;
                     editPieMenu.selectedPieKey.activationMode.submenuMode = val;
                     activationModeBtn.innerHTML = subMenuModeDescriptions[val-1];
+                    editPieMenu.loadSelectedPieKey();
                     $('[href="#tab-2"]').tab('show');                                
                 },val => {
+                    editPieMenu.loadSelectedPieKey();                    
                     $('[href="#tab-2"]').tab('show');
                 });                
+            });
+
+            this.pieKeyAction.select.on('change', (e) => {
+                editPieMenu.selectedPieKey.activationMode.pieKeyAction = e.target.value;                
             });
 
             this.escapeRadiusCheckbox.change((e)=>{
@@ -1025,13 +1043,22 @@ var editPieMenu = {
             this.openMenuInCenterCheckbox.change((e)=>{
                 editPieMenu.selectedPieKey.activationMode.openMenuInCenter = this.openMenuInCenterCheckbox.is(":checked");                            
             });
+
+            this.decoupleMouse.checkbox.change((e)=>{
+                editPieMenu.selectedPieKey.activationMode.decoupleMouse = this.decoupleMouse.checkbox.is(":checked");                            
+            });
         },
         loadSelectedPieKey:function(){
             let actMode = editPieMenu.selectedPieKey.activationMode;
             this.activationModeBtn.innerHTML = subMenuModeDescriptions[actMode.submenuMode-1];
+            if(actMode.submenuMode > 2){
+                this.pieKeyAction.div.show();                
+                this.pieKeyAction.select.val(actMode.pieKeyAction);
+            } else {this.pieKeyAction.div.hide();}
             this.clickableFunctionsCheckbox.checked = actMode.clickableFunctions;
             this.escapeRadiusCheckbox.prop('checked', editPieMenu.selectedPieKey.activationMode.escapeRadius.enable);        
             this.openMenuInCenterCheckbox.prop('checked', editPieMenu.selectedPieKey.activationMode.openMenuInCenter);
+            this.decoupleMouse.checkbox.prop('checked', editPieMenu.selectedPieKey.activationMode.decoupleMouse);
             function getEscapeRadiusMinimum(){    
                 let minDistanceFromEdge = 5;       
                 let maxDistance = 0;          
@@ -1102,6 +1129,13 @@ var editPieMenu = {
                 (typeof(newValue) === 'number') && (editPieMenu.selectedPieMenu.labelRadius = newValue)
                 editPieMenu.pieMenuDisplay.refresh();
             });
+
+            this.mainMenu.labelRoundnessSlider.on('mousedown mousemove change', (event) => {                         
+                let newValue = handleSliderDiv(event);                
+                (typeof(newValue) === 'number') && (editPieMenu.selectedPieMenu.labelRoundness = newValue)
+                editPieMenu.pieMenuDisplay.refresh();
+            });
+
             //Main Angle Offset
             this.mainMenu.angleOffsetBtnGroup.addEventListener('click',function(event){ 
                 event.stopPropagation()
@@ -1230,7 +1264,8 @@ var editPieMenu = {
                 
                 setSliderDivValue(this.mainMenu.radiusSlider,selectedPieMenu.radius,1,100);
                 setSliderDivValue(this.mainMenu.thicknessSlider,selectedPieMenu.thickness,2,69);
-                setSliderDivValue(this.mainMenu.labelRadiusSlider,selectedPieMenu.labelRadius,1,150);
+                setSliderDivValue(this.mainMenu.labelRadiusSlider,selectedPieMenu.labelRadius,1,150);                
+                setSliderDivValue(this.mainMenu.labelRoundnessSlider,selectedPieMenu.labelRoundness,0,100);
                 setSliderDivValue(this.mainMenu.labelDelaySlider,editPieMenu.selectedPieKey.labelDelay,0,50,1);
             }else{
                 if(editPieMenu.selectedPieMenu.pieAngle != 0){
@@ -1326,6 +1361,7 @@ var editPieMenu = {
             // radiusSlider:document.getElementById('main-menu-radius-slider-div'),
             thicknessSlider:$('#main-menu-thickness-slider-div'),
             labelRadiusSlider:$('#main-menu-label-radius-slider-div'),
+            labelRoundnessSlider:$('#label-roundness-slider'),
             angleOffsetBtnGroup:document.getElementById('main-angle-offset-btn-group'),
             labelDelaySlider:$('#main-menu-label-delay-slider-div')
         },

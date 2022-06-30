@@ -1721,12 +1721,14 @@ class PieKey {
             globalMenu: false,
             activationMode: {
                 submenuMode: 1,
+                pieKeyAction: "None",
                 clickableFunctions: true,
                 escapeRadius: {
                     enable: false,
                     radius: 150
                 },
                 openMenuInCenter:false,
+                decoupleMouse:false,
                 keyReleaseDelay: true
                 },
             pieMenus: []
@@ -1747,6 +1749,7 @@ class PieMenu {
             radius: 20,
             thickness: 10,
             labelRadius: 80,
+            labelRoundness: 10,
             pieAngle: 0,
             functions: [],
         }  

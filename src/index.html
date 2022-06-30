@@ -136,8 +136,8 @@
                         <div id="pie-menu-settings-tabs" style="margin: 1px;width: 996px;">
                             <ul class="nav nav-tabs nav-justified" role="tablist" style="font-size: 20px;">
                                 <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" id="global-appearance-tab" href="#tab-27">Font</a></li>
-                                <li class="nav-item" role="presentation"><a class="nav-link active" role="tab" data-bs-toggle="tab" id="launch-settings-tab" href="#tab-8">Launch Settings</a></li>
-                                <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-9">Menu Appearance</a></li>
+                                <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" id="launch-settings-tab" href="#tab-8">Launch Settings</a></li>
+                                <li class="nav-item" role="presentation"><a class="nav-link active" role="tab" data-bs-toggle="tab" href="#tab-9">Menu Appearance</a></li>
                                 <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-10">Functions</a></li>
                             </ul>
                             <div class="tab-content">
@@ -158,10 +158,19 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="tab-pane active" role="tabpanel" id="tab-8">
+                                <div class="tab-pane" role="tabpanel" id="tab-8">
                                     <div style="margin-bottom: 15px;width: auto;padding: 27px;">
                                         <div class="d-flex align-items-center" style="margin-bottom: 9px;padding-left: 158px;">
                                             <h5 class="d-xxl-flex align-items-xxl-center" style="margin-bottom: -10px;margin-right: 15px;margin-top: -11px;">Activation Mode:</h5><button class="btn btn-primary" data-bs-toggle="tooltip" data-bss-tooltip="" data-bs-placement="right" id="change-activation-mode-btn" type="button" style="margin-right: 21px;min-width: 100px;" title="Change the behavior of launching the pie menu, activating sub menus and launching functions.">Change Activation Mode</button>
+                                        </div>
+                                        <div id="hotkey-action-div">
+                                            <div class="d-flex justify-content-start align-items-center" id="hotkey-action-div" name="photoshop-tool-div" style="margin-bottom: 9px;padding-left: 109px;">
+                                                <h5 class="text-nowrap d-xxl-flex align-items-xxl-center" style="margin-right: 14px;margin-top: 4px;">In-menu hotkey action:</h5><select id="hotkey-action-select" class="form-select" style="height: 38px;max-width: 413px;width: 165px;">
+                                                    <option value="Exit Menu" selected="">Exit Menu</option>
+                                                    <option value="Select">Select</option>
+                                                    <option value="None">None</option>
+                                                </select>
+                                            </div>
                                         </div>
                                         <div class="d-flex align-items-center" style="margin-bottom: 9px;">
                                             <div class="d-flex justify-content-end" style="width: 323.844px;">
@@ -169,8 +178,10 @@
                                             </div>
                                             <div class="form-check form-switch" title="Allow functions to be clicked."><input class="form-check-input" type="checkbox" id="enable-escape-radius-checkbox"><label class="form-check-label" for="force-center-screen-checkbox-1"></label></div>
                                         </div>
-                                        <div class="d-flex align-items-center" id="escape-radius-slider" style="margin-bottom: 9px;margin-left: 212px;margin-right: 17px;">
-                                            <p class="text-nowrap" style="margin-right: 14px;margin-bottom: 3px;width: 143.9219px;">Escape radius:</p><input class="form-range" type="range" style="margin-right: 15px;"><input class="bg-dark border rounded-0 border-dark" type="text" style="font-size: 16px;color: var(--bs-white);width: 40px;text-align: center;" placeholder="20" maxlength="3" inputmode="numeric">
+                                        <div id="escape-radius-slider-div">
+                                            <div class="d-flex align-items-center" id="escape-radius-slider" style="margin-bottom: 9px;margin-left: 212px;margin-right: 17px;">
+                                                <p class="text-nowrap" style="margin-right: 14px;margin-bottom: 3px;width: 143.9219px;">Escape radius:</p><input class="form-range" type="range" style="margin-right: 15px;"><input class="bg-dark border rounded-0 border-dark" type="text" style="font-size: 16px;color: var(--bs-white);width: 40px;text-align: center;" placeholder="20" maxlength="3" inputmode="numeric">
+                                            </div>
                                         </div>
                                         <div class="d-flex align-items-center" style="margin-bottom: 9px;">
                                             <div class="d-flex justify-content-end" style="width: 323.844px;">
@@ -184,9 +195,17 @@
                                             </div>
                                             <div class="form-check form-switch" title="Allow functions to be clicked."><input class="form-check-input" type="checkbox" id="force-center-screen-checkbox"><label class="form-check-label" for="force-center-screen-checkbox"></label></div>
                                         </div>
+                                        <div id="decouple-mouse-div">
+                                            <div class="d-flex align-items-center" style="margin-bottom: 9px;">
+                                                <div class="d-flex justify-content-end" style="width: 323.844px;">
+                                                    <h5 class="d-xxl-flex align-items-xxl-center" style="margin-bottom: -10px;margin-top: -11px;margin-right: 15px;">Decouple mouse:</h5>
+                                                </div>
+                                                <div class="form-check form-switch" data-bs-toggle="tooltip" data-bss-tooltip="" data-bs-placement="right" title="When enabled, only slice hotkeys will activate functions."><input class="form-check-input" type="checkbox" id="decouple-mouse-checkbox"><label class="form-check-label" for="force-center-screen-checkbox-1"></label></div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="tab-pane" role="tabpanel" id="tab-9">
+                                <div class="tab-pane active" role="tabpanel" id="tab-9">
                                     <div class="d-flex justify-content-center" style="width: auto;padding-top: 20px;">
                                         <div id="main-menu-appearance-settings" style="border: 1px solid var(--bs-gray);border-radius: 14px;padding: 24px;width: 100%;max-width: 568px;">
                                             <div class="d-inline-flex d-lg-flex align-items-lg-start" style="background: rgb(34,34,34);transform: translateY(-35px);width: 124px;padding-right: 10px;padding-left: 10px;">
@@ -209,6 +228,9 @@
                                             </div>
                                             <div class="d-flex align-items-lg-start" id="main-menu-label-radius-slider-div" style="margin-bottom: 9px;">
                                                 <p style="margin-right: 14px;margin-bottom: 3px;width: 133.8281px;">Label Radius:</p><input class="form-range" type="range" style="margin-right: 15px;"><input class="bg-dark border rounded-0 border-dark" type="text" style="font-size: 16px;color: var(--bs-white);width: 40px;text-align: center;" placeholder="20" maxlength="3" inputmode="numeric">
+                                            </div>
+                                            <div class="d-flex align-items-lg-start" id="label-roundness-slider" style="margin-bottom: 9px;">
+                                                <p style="margin-right: 14px;margin-bottom: 3px;width: 194.8281px;">Label Roundness:</p><input class="form-range" type="range" style="margin-right: 15px;"><input class="bg-dark border rounded-0 border-dark" type="text" style="font-size: 16px;color: var(--bs-white);width: 40px;text-align: center;" placeholder="20" maxlength="3" inputmode="numeric">
                                             </div>
                                             <div class="d-flex align-items-center" style="margin-bottom: 9px;">
                                                 <p style="margin-right: 14px;margin-bottom: 3px;">Angle:</p><div id="main-angle-offset-btn-group" class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
@@ -320,11 +342,11 @@
                                                     <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-16">Repeat Last</a></li>
                                                     <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-17">Sub Menu</a></li>
                                                     <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-18">No Options</a></li>
-                                                    <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-19">photoshop_cycleTool</a></li>
+                                                    <li class="nav-item" role="presentation"><a class="nav-link active" role="tab" data-bs-toggle="tab" href="#tab-19">photoshop_cycleTool</a></li>
                                                     <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-20">Parameter List</a></li>
                                                     <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-21">Custom Options</a></li>
                                                     <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-22">Open Folder</a></li>
-                                                    <li class="nav-item" role="presentation"><a class="nav-link active" role="tab" data-bs-toggle="tab" href="#tab-26">Open URL</a></li>
+                                                    <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-26">Open URL</a></li>
                                                 </ul>
                                                 <div class="tab-content">
                                                     <div class="tab-pane" role="tabpanel" id="tab-13">
@@ -388,7 +410,7 @@
                                                     <div class="tab-pane" role="tabpanel" id="tab-18">
                                                         <h5>This function has no options.</h5>
                                                     </div>
-                                                    <div class="tab-pane" role="tabpanel" id="tab-19">
+                                                    <div class="tab-pane active" role="tabpanel" id="tab-19">
                                                         <div class="d-flex justify-content-start align-items-center" style="padding-top: 12px;padding-bottom: 12px;" name="photoshop-tool-div">
                                                             <h5 class="text-nowrap d-xxl-flex align-items-xxl-center" style="margin-right: 14px;margin-top: 4px;">Tool 1:</h5><select class="form-select" style="height: 38px;max-width: 413px;">
                                                                 <option value="12" selected="">Brush Tool</option>
@@ -436,7 +458,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="tab-pane active" role="tabpanel" id="tab-26">
+                                                    <div class="tab-pane" role="tabpanel" id="tab-26">
                                                         <div class="d-flex justify-content-start" style="padding-top: 12px;padding-bottom: 12px;">
                                                             <div class="d-flex align-items-center"></div>
                                                             <div class="d-flex align-items-center" style="width: 100%;">

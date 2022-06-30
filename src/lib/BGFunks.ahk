@@ -423,7 +423,7 @@ runPieMenu(profileNum, index, activePieNum=1)
 	subPieLocX := 0
 	subPieLocY := 0
 	if (activePieKey.activationmode.openMenuInCenter){
-		p3_dimensions := mouseToCenterScreen()
+		p3_dimensions := mouseToCenterScreen(!activePieKey.activationMode.decoupleMouse)
 		pieOpenLocX := p3_dimensions[1]
 		pieOpenLocY := p3_dimensions[2]
 		subPieLocX := p3_dimensions[1]
@@ -454,6 +454,8 @@ runPieMenu(profileNum, index, activePieNum=1)
 	LButtonPressed_LastState := false
 	LButtonPressed_static := false
 	pieFunctionClicked := false ;Has a pie function been clicked on
+	pieKeyReleased := false
+	pieKeyAction := activePieKey.activationMode.pieKeyAction
 	
 		
 	sliceHotkeyPressed := false
@@ -494,7 +496,7 @@ runPieMenu(profileNum, index, activePieNum=1)
 	
 	drawPie(activePieKey, activePie, bitmapPadding[1], bitmapPadding[2], 0, 0, activePie.pieAngle, ,showLabel , hoverToSelectActive)
 	
-	mouse := getMouseTransformProperties(true)
+	mouse := getMouseTransformProperties(true, activePieKey.activationMode.decoupleMouse)
 
 		Switch activePieSubmenuMode
 		{
@@ -515,8 +517,7 @@ runPieMenu(profileNum, index, activePieNum=1)
 						
 									
 						if (LButtonPressed = false)
-							mouse := getMouseTransformProperties()
-						
+							mouse := getMouseTransformProperties(false, activePieKey.activationMode.decoupleMouse)						
 							
 						selectionRadius := ((activePie.radius)*Mon.pieDPIScale)						
 						numSlices := activePie.functions.Length()+1
@@ -656,13 +657,17 @@ runPieMenu(profileNum, index, activePieNum=1)
 
 						if (hoverToSelectActive == false)
 						{
-							if (!GetKeyState(pieHotkey, "P"))							
+							if (!GetKeyState(pieHotkey, "P")) ;May have to remove modifier flags.						
 								{									
 									if (activePie.functions[pieRegion+1].function != "submenu")
 										break
 									hoverToSelectActive := true
 									updatePie := true
 								}
+						} else {
+							if (!GetKeyState(removeCharacters(pieHotkey, "+^!#"), "P")){
+								pieKeyReleased := true
+							}
 						}
 						
 						if ((A_TickCount - pieOpenTime) > activePieKey.labelDelay*1000 && (showLabel == false))
@@ -673,17 +678,17 @@ runPieMenu(profileNum, index, activePieNum=1)
 						
 									
 						if (LButtonPressed = false)
-							mouse := getMouseTransformProperties()
+							mouse := getMouseTransformProperties(false, activePieKey.activationMode.decoupleMouse)
 
 						;Load Slice Hotkeys						
 						
-						;Escape Radius cancel
-						If (activePieKey.activationMode.escapeRadius.enable && (mouse.distance > activePieKey.activationMode.escapeRadius.radius)) || (settings.global.enableEscapeKeyMenuCancel && GetKeyState("Esc", "P")) 
-						{														
-							exitPieMenu(activePie)							
+						;Escape Radius cancel, ESC or pieKey exit
+						If (activePieKey.activationMode.escapeRadius.enable && (mouse.distance > activePieKey.activationMode.escapeRadius.radius)) || (settings.global.enableEscapeKeyMenuCancel && GetKeyState("Esc", "P")) || (pieKeyAction == "Exit Menu" && GetKeyState(removeCharacters(pieHotkey, "+^!#"), "P") && hoverToSelectActive && pieKeyReleased) 
+						{							
+							exitPieMenu(activePie)					
 							loop ;Wait for hotkey to be released
 							{
-								If !GetKeyState(pieHotkey, "P")
+								If !GetKeyState(removeCharacters(pieHotkey, "+^!#"), "P")
 									Break
 							}							
 							return false						
@@ -728,7 +733,7 @@ runPieMenu(profileNum, index, activePieNum=1)
 							}
 						}
 
-						If (GetKeyState("LButton","P"))		
+						If (GetKeyState("LButton","P") || (pieKeyAction == "Select" && GetKeyState(removeCharacters(pieHotkey, "+^!#"), "P") && hoverToSelectActive && pieKeyReleased))
 						{
 							LButtonPressed := true
 							LButtonPressed_static := true
@@ -828,10 +833,10 @@ runPieMenu(profileNum, index, activePieNum=1)
 					loop
 					{
 						sliceHotkeyPressed := false
-						updatePie := false
+						updatePie := false						
 						 
-						; if !GetKeyState(pieHotkey, "P")
-						; 	Break
+						if !GetKeyState(removeCharacters(pieHotkey, "+^!#"), "P")
+							pieKeyReleased := true
 						
 						if ((A_TickCount - pieOpenTime) > activePieKey.labelDelay*1000 && (showLabel == false))
 						{
@@ -841,15 +846,16 @@ runPieMenu(profileNum, index, activePieNum=1)
 						
 									
 						if (LButtonPressed == false)
-							mouse := getMouseTransformProperties()
+							mouse := getMouseTransformProperties(false, activePieKey.activationMode.decoupleMouse)
 
-						;Escape Radius cancel
-						If (activePieKey.activationMode.escapeRadius.enable && (mouse.distance > activePieKey.activationMode.escapeRadius.radius)) || (settings.global.enableEscapeKeyMenuCancel && GetKeyState("Esc", "P")) 
-						{														
+						;Escape Radius cancel, ESC or pieKey exit
+						If (activePieKey.activationMode.escapeRadius.enable && (mouse.distance > activePieKey.activationMode.escapeRadius.radius)) || (settings.global.enableEscapeKeyMenuCancel && GetKeyState("Esc", "P")) || (pieKeyAction == "Exit Menu" && GetKeyState(removeCharacters(pieHotkey, "+^!#"), "P") && pieKeyReleased) 
+						{
+							
 							exitPieMenu(activePie)							
 							loop ;Wait for hotkey to be released
 							{
-								If !GetKeyState(pieHotkey, "P")
+								If !GetKeyState(removeCharacters(pieHotkey, "+^!#"), "P")
 									Break
 							}							
 							return false						
@@ -895,7 +901,7 @@ runPieMenu(profileNum, index, activePieNum=1)
 							}
 						}
 
-						If (GetKeyState("LButton","P"))
+						If (GetKeyState("LButton","P") || (pieKeyAction == "Select" && GetKeyState(removeCharacters(pieHotkey, "+^!#"), "P") && pieKeyReleased))
 						{
 							LButtonPressed := true
 							LButtonPressed_static := true
@@ -913,8 +919,7 @@ runPieMenu(profileNum, index, activePieNum=1)
 							; If (activePie.functions[pieRegion+1].function == "submenu" && LButtonPressed) or (updatePie)
 							; If (updatePie) or ((LButtonPressed_LastState == true) && (LButtonPressed == false))
 							If (updatePie)
-							{
-								
+							{								
 								activePieNumber := activePie.functions[pieRegion+1].params.pieMenuNumber+1
 								activePie := activePieKey.pieMenus[activePieNumber]
 
@@ -956,8 +961,7 @@ runPieMenu(profileNum, index, activePieNum=1)
 									break
 								}
 								if (activePie.functions[pieRegion+1].function == "submenu")
-								{
-									
+								{									
 									activePieNumber := activePie.functions[pieRegion+1].params.pieMenuNumber+1
 									activePie := activePieKey.pieMenus[activePieNumber]
 									
@@ -966,7 +970,7 @@ runPieMenu(profileNum, index, activePieNum=1)
 									mouse.distance := 0
 									subPieLocX := extendedPos[1]
 									subPieLocY := extendedPos[2]
-									mouse := getMouseTransformProperties()
+									mouse := getMouseTransformProperties(false, activePieKey.activationMode.decoupleMouse)
 									SetUpGDIP(subPieLocX-bitmapPadding[1], subPieLocY-bitmapPadding[2], 2*bitmapPadding[1], 2*bitmapPadding[2])									
 								} else {
 									break									
@@ -1025,7 +1029,7 @@ runPieMenu(profileNum, index, activePieNum=1)
 
 
 						if (LButtonPressed = false)
-							mouse := getMouseTransformProperties()	
+							mouse := getMouseTransformProperties(false, activePieKey.activationMode.decoupleMouse)
 
 						;Calculate Distance and Angle
 
@@ -1141,7 +1145,7 @@ exitPieMenu(p_activePie)
 
 
 
-getMouseTransformProperties(init:=false)
+getMouseTransformProperties(init:=false, forceZeroDistance:=false)
 	{
 	static mouseX, mouseY, velocityTheta
 	if (init == true)
@@ -1174,8 +1178,18 @@ getMouseTransformProperties(init:=false)
 	returnObj["midX"] := midMouseX
 	returnObj["midY"] := midMouseY	
 	returnObj["theta"] := theta
-	returnObj["midDistance"] := midDist
-	returnObj["distance"] := dist
+	;If Mouse decouple
+	If (forceZeroDistance)
+	{
+		returnObj["midDistance"] := 0
+		returnObj["distance"] := 0
+	}
+	Else
+	{
+		returnObj["midDistance"] := midDist
+		returnObj["distance"] := dist
+	}
+
 	returnObj["velocity"] := velocity
 	returnObj["velocityTheta"] := velocityTheta	
 	return returnObj
@@ -1188,7 +1202,6 @@ extendAlongAngle(iPos, theta, distance)
 		; msgbox, % iPos[1] . " " . iPos[2] . "`n" . fPosX . " " . fPosY
 		return [fPosX, fPosY]
 	}
-
 
 drawPie(appProfile, activePieProfile, xPos, yPos, dist, theta, thetaOffset, clicked:=false, drawLabel:=true, drawIndicator:=true)
 	{	
@@ -1434,8 +1447,9 @@ drawPieLabel(activePieProfile, sliceFunction, xPos, yPos, selected:=0, anchor:="
 	basicPen := Gdip_CreatePen(strokeColor, strokeThickness)
 	otherPen := Gdip_CreatePen("0xFFff0000" , strokeThickness)
 	basicBrush := Gdip_BrushCreateSolid(labelBGColor)
-	Gdip_FillRoundedRectangle(G, basicBrush, rectCenter[1]-(outerRectSize[1]/2), rectCenter[2]-(outerRectSize[2]/2), outerRectSize[1], outerRectSize[2], 3)
-	Gdip_DrawRoundedRectangle(G, basicPen, rectCenter[1]-(outerRectSize[1]/2), rectCenter[2]-(outerRectSize[2]/2), outerRectSize[1], outerRectSize[2], 3)
+	Gdip_DrawRoundedRectangle(G, basicPen, rectCenter[1]-(outerRectSize[1]/2), rectCenter[2]-(outerRectSize[2]/2), outerRectSize[1], outerRectSize[2], (outerRectSize[2]/2)*(activePieProfile.labelRoundness/100))
+	Gdip_FillRoundedRectangle(G, basicBrush, rectCenter[1]-(outerRectSize[1]/2), rectCenter[2]-(outerRectSize[2]/2), outerRectSize[1], outerRectSize[2], (outerRectSize[2]/2)*(activePieProfile.labelRoundness/100))
+	
 	; basicBrush := Gdip_BrushCreateSolid(RGBAtoHEX([255,0,0,255])) ;Draw rectcenter locations
 	; Gdip_FillRoundedRectangle(G, basicBrush, xPos,yPos, 2, 2, 0)
 
@@ -1871,12 +1885,14 @@ MonitorEnumProc(hMonitor, hdcMonitor, lprcMonitor, dwData) {
 	Return, 1
 }
 
-mouseToCenterScreen(){
+mouseToCenterScreen(mouseMouse:=true){
 	p2_dimensions := getActiveMonitorDimensions()
 	; msgbox, % p2_dimensions[1]
 	; msgbox, % p2_dimensions[2]
 	
-	MouseMove, p2_dimensions[1]+((p2_dimensions[2]-p2_dimensions[1])/2), p2_dimensions[3]+((p2_dimensions[4]-p2_dimensions[3])/2), 0
+	If (mouseMouse)
+		MouseMove, p2_dimensions[1]+((p2_dimensions[2]-p2_dimensions[1])/2), p2_dimensions[3]+((p2_dimensions[4]-p2_dimensions[3])/2), 0
+	
 	return [p2_dimensions[1]+((p2_dimensions[2]-p2_dimensions[1])/2), p2_dimensions[3]+((p2_dimensions[4]-p2_dimensions[3])/2)]
 }
 
