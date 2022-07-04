@@ -2,6 +2,7 @@ var hotkeyManagement = {
     resolve: null,
     reject: null,
     invalidAHKKeys:[],
+    invalidKeyCodes:[],
     hotkeyObj:{},
     validateAHKKey:function(ahkKey){
         let isKeyValid = (!this.invalidAHKKeys.includes(ahkKey)) ? true : false;
@@ -25,114 +26,9 @@ var hotkeyManagement = {
         cancelBtn: document.getElementById('hotkey-listen-cancel-btn'),
         specialKeyBtn: $('#special-key-menu').children('button'),
         specialKeyMenu: $('#special-key-menu').children('div'),
-        initialize: function(){
-            let lp = hotkeyManagement.listenForKeyPage;
+        initialize: function(){           
 
-            initializeSpecialKeyMenu();
-            function initializeSpecialKeyMenu(){
-                specialKeys = [
-                    {
-                        key: "Back / 4th Click",
-                        keyCode: 6
-                    },
-                    {
-                        key: "Forward / 5th Click",
-                        keyCode: 7
-                    },
-                    {
-                        key: "Media Play",
-                        keyCode: 179
-                    },
-                    {
-                        key: "Media Next",
-                        keyCode: 176
-                    },
-                    {
-                        key: "Media Previous",
-                        keyCode: 177
-                    },
-                    {
-                        key: "Media Mute",
-                        keyCode: 173
-                    },
-                    {
-                        key: "Volume Up",
-                        keyCode: 175
-                    },
-                    {
-                        key: "Volume Down",
-                        keyCode: 174
-                    },
-                    {
-                        key: "Print Screen",
-                        keyCode: 44
-                    },
-                    {
-                        key: "F13",
-                        keyCode: 124
-                    },
-                    {
-                        key: "F14",
-                        keyCode: 125
-                    },
-                    {
-                        key: "F15",
-                        keyCode: 126
-                    },
-                    {
-                        key: "F16",
-                        keyCode: 127
-                    },
-                    {
-                        key: "F17",
-                        keyCode: 128
-                    },
-                    {
-                        key: "F18",
-                        keyCode: 129
-                    },
-                    {
-                        key: "F19",
-                        keyCode: 130
-                    },
-                    {
-                        key: "F20",
-                        keyCode: 131
-                    },
-                    {
-                        key: "F21",
-                        keyCode: 132
-                    },
-                    {
-                        key: "F22",
-                        keyCode: 133
-                    },
-                    {
-                        key: "F23",
-                        keyCode: 134
-                    },
-                    {
-                        key: "F24",
-                        keyCode: 135
-                    }
-                ]   
-                lp.specialKeyMenu.empty();
-                specialKeys.forEach(element => {
-                    addButtonItem(element);                                
-                });
-                function addButtonItem(specialKeyObj){
-                    lp.specialKeyMenu.append($("<a class=\"dropdown-item\" name=" + specialKeyObj.keyCode + ">" + specialKeyObj.key + "</a>"))
-                };
-                lp.specialKeyMenu.on('click', (e) => { 
-                    processHotkeyInputEvent({
-                        metaKey:false,                        
-                        shiftKey:false,
-                        ctrlKey:false,
-                        altKey:false,                       
-                        keyCode:parseInt(e.target.name)
-                    });
-                });
-            }
+            
             this.hotkeyInputField.style.opacity = 0;
             this.hotkeyClickField.addEventListener("mouseup", function(event){
                 processHotkeyInputEvent(event);                          
@@ -146,7 +42,7 @@ var hotkeyManagement = {
         }, 
         open:function(){            
             $('[href="#tab-11"]').tab('show');
-            this.hotkeyInputField.focus(); 
+            this.hotkeyInputField.focus();             
         },
         
     },
@@ -228,8 +124,8 @@ function processHotkeyInputEvent(event){
         
     } 
     
-    console.log(keyNumber)
-    console.log(event.code)
+    // console.log(keyNumber)
+    // console.log(event.code)
     
     // hotkeyManagement.hotkeyObj = processHotkey(event)
     let allowModifiers = (hotkeyManagement.editKeyPage.modBtnGroup.style.display == "block") ? true : false;    
@@ -248,17 +144,147 @@ function processHotkeyInputEvent(event){
 async function assignKey(options){
     var defaults = {
         allowModifiers:true,
-        invalidAHKKeys:[],
+        allowScrollInputs:false,
+        invalidAHKKeys:[],   
         warningText:"This key is already in use, edit or choose another key."
-    }    
+    }     
+    
     var setting = Object.assign({}, defaults, options);
+    if (!setting.allowScrollInputs) {
+        setting.invalidAHKKeys.push('WheelUp','WheelDown');       
+    }
+    
     let hm = hotkeyManagement;
-    hotkeyManagement.invalidAHKKeys = setting.invalidAHKKeys;    
+    hotkeyManagement.invalidAHKKeys = setting.invalidAHKKeys;
+    hotkeyManagement.invalidKeyCodes = [];    
+    setting.invalidAHKKeys.forEach( (key) => {        
+        hotkeyManagement.invalidKeyCodes.push(new Hotkey(key).keyCode);
+    });
+    
+    
     // hm.editKeyPage.invalidKeyWarningDiv.html(setting.warningText);    
-    // hm.editKeyPage.invalidKeyWarningDiv.hidden = false;    
+    // hm.editKeyPage.invalidKeyWarningDiv.hidden = false;   
+    
     hotkeyManagement.editKeyPage.modBtnGroup.style.display = (setting.allowModifiers) ? 'block' : 'none';
+    refreshSpecialKeyMenu();
+    function refreshSpecialKeyMenu(){
+        let lp = hotkeyManagement.listenForKeyPage;        
+        specialKeys = [
+            {
+                key: "Back / 4th Click",
+                keyCode: 6
+            },
+            {
+                key: "Forward / 5th Click",
+                keyCode: 7
+            },
+            {
+                key: "Scroll Wheel Up",
+                keyCode: 146
+            },
+            {
+                key: "Scroll Wheel Down",
+                keyCode: 147
+            },                    
+            {
+                key: "Media Play",
+                keyCode: 179
+            },
+            {
+                key: "Media Next",
+                keyCode: 176
+            },
+            {
+                key: "Media Previous",
+                keyCode: 177
+            },
+            {
+                key: "Media Mute",
+                keyCode: 173
+            },
+            {
+                key: "Volume Up",
+                keyCode: 175
+            },
+            {
+                key: "Volume Down",
+                keyCode: 174
+            },
+            {
+                key: "Print Screen",
+                keyCode: 44
+            },
+            {
+                key: "F13",
+                keyCode: 124
+            },
+            {
+                key: "F14",
+                keyCode: 125
+            },
+            {
+                key: "F15",
+                keyCode: 126
+            },
+            {
+                key: "F16",
+                keyCode: 127
+            },
+            {
+                key: "F17",
+                keyCode: 128
+            },
+            {
+                key: "F18",
+                keyCode: 129
+            },
+            {
+                key: "F19",
+                keyCode: 130
+            },
+            {
+                key: "F20",
+                keyCode: 131
+            },
+            {
+                key: "F21",
+                keyCode: 132
+            },
+            {
+                key: "F22",
+                keyCode: 133
+            },
+            {
+                key: "F23",
+                keyCode: 134
+            },
+            {
+                key: "F24",
+                keyCode: 135
+            }
+        ]   
+        lp.specialKeyMenu.empty();
+        specialKeys.forEach(element => {
+            if (!hotkeyManagement.invalidKeyCodes.includes(element.keyCode)){                
+                addButtonItem(element);
+            }                    
+        });
+        function addButtonItem(specialKeyObj){
+            lp.specialKeyMenu.append($("<a class=\"dropdown-item\" name=" + specialKeyObj.keyCode + ">" + specialKeyObj.key + "</a>"))
+        };
+        lp.specialKeyMenu.on('click', (e) => { 
+            processHotkeyInputEvent({
+                metaKey:false,                        
+                shiftKey:false,
+                ctrlKey:false,
+                altKey:false,                       
+                keyCode:parseInt(e.target.name)
+            });
+        });
+    }
     
     hotkeyManagement.listenForKeyPage.open();
+
     let myPromise = await waitForUserInput()
     return myPromise
     function waitForUserInput(){

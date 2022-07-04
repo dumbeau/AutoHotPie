@@ -915,13 +915,13 @@ class AHPSettings {
                     },
                     {
                         keyCode: 146,
-                        displayKey: "",
-                        ahkKey: ""
+                        displayKey: "Wheel Up",
+                        ahkKey: "WheelUp"
                     },
                     {
                         keyCode: 147,
-                        displayKey: "",
-                        ahkKey: ""
+                        displayKey: "Wheel Down",
+                        ahkKey: "WheelDown"
                     },
                     {
                         keyCode: 148,

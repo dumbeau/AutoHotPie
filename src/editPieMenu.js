@@ -1132,7 +1132,10 @@ var editPieMenu = {
 
             this.mainMenu.labelRoundnessSlider.on('mousedown mousemove change', (event) => {                         
                 let newValue = handleSliderDiv(event);                
-                (typeof(newValue) === 'number') && (editPieMenu.selectedPieMenu.labelRoundness = newValue)
+                // (typeof(newValue) === 'number') && (editPieMenu.selectedPieMenu.labelRoundness = newValue)
+                if (typeof(newValue) === 'number') {
+                    editPieMenu.selectedPieKey.pieMenus.forEach((pieMenu) => {pieMenu.labelRoundness = newValue})
+                }        
                 editPieMenu.pieMenuDisplay.refresh();
             });
 
@@ -1266,6 +1269,7 @@ var editPieMenu = {
                 setSliderDivValue(this.mainMenu.thicknessSlider,selectedPieMenu.thickness,2,69);
                 setSliderDivValue(this.mainMenu.labelRadiusSlider,selectedPieMenu.labelRadius,1,150);                
                 setSliderDivValue(this.mainMenu.labelRoundnessSlider,selectedPieMenu.labelRoundness,0,100);
+                editPieMenu.selectedPieKey.pieMenus.forEach( (pieMenu) => {pieMenu.labelRoundness = editPieMenu.selectedPieKey.pieMenus[0].labelRoundness});
                 setSliderDivValue(this.mainMenu.labelDelaySlider,editPieMenu.selectedPieKey.labelDelay,0,50,1);
             }else{
                 if(editPieMenu.selectedPieMenu.pieAngle != 0){
@@ -1497,7 +1501,7 @@ var editPieMenu = {
             });
             sliceLabelIconGreyscaleCheckbox = document.getElementById('icon-greyscale-checkbox');
             this.sliceHotkeyBtn.addEventListener('click',function(event){
-                assignKey({allowModifiers:false,invalidAHKKeys:editPieMenu.getInvalidSliceHotkeys()}).then(val => {
+                assignKey({allowModifiers:false,allowScrollInputs:true,invalidAHKKeys:editPieMenu.getInvalidSliceHotkeys()}).then(val => {
                     editPieMenu.selectedSlice.hotkey = val.ahkKey 
                     editPieMenu.sliceSettings.sliceHotkeyBtn.innerHTML = val.displayKey   
                     editPieMenu.sliceSettings.loadSelectedPieKey();

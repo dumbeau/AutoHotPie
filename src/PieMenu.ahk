@@ -15,15 +15,11 @@ CoordMode, Mouse, Screen
 SetTitleMatchMode, RegEx ;May not need this anymore
 
 ;Check AHK version and if AHK is installed.  Prompt install or update.
-
-
-
-
 if (!A_IsCompiled)
 	checkAHK()
 
-debugMode := false
-; debugMode := true
+global DebugMode := false
+; DebugMode := true
 global remapLButton := ""
 
 ;Read Json Settings file to object from AppData\Local\AutoHotPie
@@ -42,62 +38,59 @@ loadSettingsFile()
 ; 	} ;Check if folder exists.
 
 ;Initialize Variables and GDI+ Screen bitmap
-	;Tariq Porter, you will forever have a special place in my heart.
+;Tariq Porter, you will forever have a special place in my heart.
 	
-	global monLeft := 0
-	global monRight := 0
-	global monTop := 0
-	global monBottom := 0
-	global Mon := {left: 0,	right: 0, top: 0,bottom: 0, pieDPIScale: 1} 
-	global G ;For Gdip+ stuff
+global monLeft := 0
+global monRight := 0
+global monTop := 0
+global monBottom := 0
+global Mon := {left: 0,	right: 0, top: 0,bottom: 0, pieDPIScale: 1} 
+global G ;For Gdip+ stuff
 
-	global pieOpenLocX	;X Position of where pie menu is opened
-	global pieOpenLocY	;Y ^
-	global subPieLocX	;X Position of where pie menu is opened
-	global subPieLocY	;Y ^
-	global subMenuActive	;Y ^
-	global activePieNumber	;Y ^
-	global ActivePieSliceHotkeyArray := [] ;loadSliceHotkeys()	
-	global activeProfile	
+global pieOpenLocX	;X Position of where pie menu is opened
+global pieOpenLocY	;Y ^
+global subPieLocX	;X Position of where pie menu is opened
+global subPieLocY	;Y ^
+global subMenuActive	;Y ^
+global activePieNumber	;Y ^
+global ActivePieSliceHotkeyArray := [] ;loadSliceHotkeys()	
+global PressedSliceHotkeyName := ""
+global activeProfile	
 
-	global penClicked := false
-	global pieMenuRanWithMod := false	
+global penClicked := false
+global pieMenuRanWithMod := false	
 
-	; global pieDPIScale
-	getMonitorCoords(Mon.left , Mon.right , Mon.top , Mon.bottom )
-	; getMonitorCoords(monLeft, monRight, monTop, monBottom)
-	; SetUpGDIP(monLeft, monTop, monRight-monLeft, monBottom-monTop-0.01) ;windows were appearing over taskbar without -0.01
+; global pieDPIScale
+getMonitorCoords(Mon.left , Mon.right , Mon.top , Mon.bottom )
 
-	;Init G Text
-	SetUpGDIP(0, 0, 50, 50) ;windows were appearing over taskbar without -0.01
-	StartDrawGDIP()
-	Gdip_TextToGraphics(G, "Test", "x20 y20 Center vCenter c00FFFFFF r4 s20", "Arial")
-	Gdip_SetCompositingMode(G, 1) ;idk if this matters but it looked p nice for images even though I'm not using them
-	ClearDrawGDIP()
-	EndDrawGDIP()
+;Init G Text
+SetUpGDIP(0, 0, 50, 50) ;windows were appearing over taskbar without -0.01
+StartDrawGDIP()
+Gdip_TextToGraphics(G, "Test", "x20 y20 Center vCenter c00FFFFFF r4 s20", "Arial")
+Gdip_SetCompositingMode(G, 1) ;idk if this matters but it looked p nice for images even though I'm not using them
+ClearDrawGDIP()
+EndDrawGDIP()
 
-
-	;Set up icon menu tray options
-	if (A_IsCompiled){
-		if (!IsStandAlone){
-			Menu, Tray, Add , AutoHotPie Settings, openSettings
-		}
-		Menu, Tray, NoStandard
-		
-		Menu, Tray, Add , Restart, Rel
-		Menu, Tray, Add , Exit, QuitPieMenus
-		Menu, Tray, Tip , AutoHotPie		
-	} else {
-		if (!IsStandAlone){
-			Menu, Tray, Add , AutoHotPie Settings, openSettings
-		}
-		Menu, Tray, Add , Restart, Rel		
-	}
+;Set up icon menu tray options
+if (A_IsCompiled){
 	if (!IsStandAlone){
-		Menu, Tray, Default , AutoHotPie Settings
-	}	
-	; Menu, Tray, Click, 1
-	loadPieMenus()
+		Menu, Tray, Add , AutoHotPie Settings, openSettings
+	}
+	Menu, Tray, NoStandard
+	
+	Menu, Tray, Add , Restart, Rel
+	Menu, Tray, Add , Exit, QuitPieMenus
+	Menu, Tray, Tip , AutoHotPie		
+} else {
+	if (!IsStandAlone){
+		Menu, Tray, Add , AutoHotPie Settings, openSettings
+	}
+	Menu, Tray, Add , Restart, Rel		
+}
+if (!IsStandAlone){
+	Menu, Tray, Default , AutoHotPie Settings
+}	
+loadPieMenus()
 return
 
 
@@ -105,15 +98,19 @@ return
 ;End Initialization
 
 pieLabel: ;Fixed hotkey overlap "r and ^r", refactor this
+	; Issue with MOI3d, pie menus don't want to show in that application specifically, so this display refresh thing sometimes works.
 	; SetUpGDIP(monLeft, monTop, monRight-monLeft, monBottom-monTop, "Hide")
-	; SetUpGDIP(monLeft, monTop, monRight-monLeft, monBottom-monTop, "Show")
-	;Re-initialize variables	
-	if (pieLaunchedState == 1)
+	; SetUpGDIP(monLeft, monTop, monRight-monLeft, monBottom-monTop, "Show")		
+	;Re-initialize variables
+	if (pieLaunchedState == 1){
+		PressedSliceHotkeyName := A_ThisHotkey ;This line made me feel things again :)
 		return
+	}		
 	else
 		hotKeyArray := []	
 	pieLaunchedState := 1
-	global ActivePieHotkey := A_ThisHotkey	
+	global ActivePieHotkey := A_ThisHotkey
+	
 	; msgbox, % ActivePieHotkey
 	; msgbox, % WinActive("ahk_exe explorer.exe")
 	If (!WinActive("ahk_group regApps"))
@@ -185,12 +182,13 @@ pieLabel: ;Fixed hotkey overlap "r and ^r", refactor this
 			blockBareKeys(ActivePieHotkey, hotKeyArray, false)
 				;deactivate dummy keys
 			ActivePieHotkey := ""
-			runPieFunction(funcAddress)
+			; msgbox, % funcAddress.label			
+			runPieFunction(funcAddress)			
 			EmptyMem()
 			break
 			}		
 		}
-	return	
+	return
 
 togglePieLabel:
 	pieEnableKey.modToggle()
@@ -208,9 +206,11 @@ offPieLabel:
 return
 
 blockLabel:
+PressedSliceHotkeyName := A_ThisHotkey
+; msgbox, % PressedSliceHotkeyName
 return
 
-#If debugMode = true
+#If DebugMode = true
 {
 escape::
 exitapp
