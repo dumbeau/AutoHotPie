@@ -517,7 +517,7 @@ runPieMenu(profileNum, index, activePieNum=1)
 						}					
 						
 									
-						if (LButtonPressed = false)
+						if (LButtonPressed == false)
 							mouse := getMouseTransformProperties(false, activePieKey.activationMode.decoupleMouse)						
 							
 						selectionRadius := ((activePie.radius)*Mon.pieDPIScale)						
@@ -577,7 +577,7 @@ runPieMenu(profileNum, index, activePieNum=1)
 							}
 						}
 
-						If (GetKeyState("LButton","P"))		
+						If ((GetKeyState("LButton","P") && activePieKey.activationMode.clickableFunctions))		
 						{
 							LButtonPressed := true
 							LButtonPressed_static := true
@@ -625,10 +625,7 @@ runPieMenu(profileNum, index, activePieNum=1)
 							fPieRegion := drawPie(activePieKey, activePie, bitmapPadding[1], bitmapPadding[2], mouse.distance, mouse.theta, activePie.pieAngle, LButtonPressed, showLabel, false)
 							
 							; if (LButtonPressed_LastState == true) && (LButtonPressed == false){
-							if (LButtonPressed_LastState == true) && (LButtonPressed == false) || (GetKeyState("Esc") || (sliceHotkeyPressed)){
-								if (GetKeyState("Esc")) {
-									break
-								}
+							if ((LButtonPressed_LastState == true) && (LButtonPressed == false)) || (sliceHotkeyPressed){
 								if (sliceHotkeyPressed == true){
 									break
 								}
@@ -747,7 +744,7 @@ runPieMenu(profileNum, index, activePieNum=1)
 							}
 						}
 
-						If (GetKeyState("LButton","P") || (pieKeyAction == "Select" && GetKeyState(removeCharacters(pieHotkey, "+^!#"), "P") && hoverToSelectActive && pieKeyReleased))
+						If ((GetKeyState("LButton","P") && activePieKey.activationMode.clickableFunctions) || (pieKeyAction == "Select" && GetKeyState(removeCharacters(pieHotkey, "+^!#"), "P") && hoverToSelectActive && pieKeyReleased))
 						{
 							LButtonPressed := true
 							LButtonPressed_static := true
@@ -824,10 +821,7 @@ runPieMenu(profileNum, index, activePieNum=1)
 							fPieRegion := drawPie(activePieKey, activePie, bitmapPadding[1], bitmapPadding[2], mouse.distance, mouse.theta, activePie.pieAngle, LButtonPressed, showLabel, hoverToSelectActive)
 							
 							; if (LButtonPressed_LastState == true) && (LButtonPressed == false){
-							if (LButtonPressed_LastState == true) && (LButtonPressed == false) || (GetKeyState("Esc") || sliceHotkeyPressed){
-								if (GetKeyState("Esc")) {									
-									break
-								}
+							if (LButtonPressed_LastState == true) && (LButtonPressed == false) || (sliceHotkeyPressed){
 								if (sliceHotkeyPressed == true){									
 									break
 								}
@@ -984,10 +978,7 @@ runPieMenu(profileNum, index, activePieNum=1)
 							fPieRegion := drawPie(activePieKey, activePie, bitmapPadding[1], bitmapPadding[2], mouse.distance, mouse.theta, activePie.pieAngle, LButtonPressed, showLabel, false)
 							
 							; if (LButtonPressed_LastState == true) && (LButtonPressed == false){
-							if (LButtonPressed_LastState == true) && (LButtonPressed == false) || (GetKeyState("Esc") || (sliceHotkeyPressed)){
-								if (GetKeyState("Esc")) {
-									break
-								}
+							if ((LButtonPressed_LastState == true) && (LButtonPressed == false)) || (sliceHotkeyPressed){
 								if (sliceHotkeyPressed == true){									
 									break
 								}
