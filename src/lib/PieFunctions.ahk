@@ -68,7 +68,7 @@ pie_mouseClick(params)
 	{
 		; MouseButton - str, Shift - bool, Ctrl - bool, Alt - bool, Drag - bool
 		;["LButton",1,0,0,0,0]
-		remapLButton := params.button
+		RemapLButton := params.button
 		modsDown := ""
 		modsUp := ""
 		mouseButton := params.button
@@ -88,10 +88,10 @@ pie_mouseClick(params)
 		if (params.drag == true){
 			lButtonWait(mouseButton)			
 		} else {			
-			MouseClick, %mouseButton%, pieOpenLocX, pieOpenLocY, ,0
+			MouseClick, %mouseButton%, PieOpenLocX, PieOpenLocY, ,0
 		}
 		send, %modsUp%
-		remapLButton := ""
+		RemapLButton := ""
 		return
 	}
 pie_runScript(script)
@@ -125,7 +125,7 @@ pie_focusApplication(applications)
 
 pie_eyedropper(mode)
 	{
-	PixelGetColor, pixelcol, pieOpenLocX, pieOpenLocY, RGB
+	PixelGetColor, pixelcol, PieOpenLocX, PieOpenLocY, RGB
 	pixelcol := SubStr(pixelcol, 3, 6)
 	clipboard = %pixelcol%
 	Return		
@@ -161,8 +161,8 @@ pie_openSettings()
 pie_resizeWindow() ;make this work thorugh here
 	{
 	; msgbox, % PieMenuPosition[1]
-	xPos := pieOpenLocX
-	yPos := pieOpenLocY
+	xPos := PieOpenLocX
+	yPos := PieOpenLocY
 	WinGetPos, winX, winY, width, height, A
 	if (xPos < winX){ ;to left of origin
 		if (yPos > winY){ ;below origin
@@ -182,7 +182,7 @@ pie_resizeWindow() ;make this work thorugh here
 pie_moveWindow() ;make this work thorugh here
 	{
 	WinGetPos, winX, winY, width, height, A
-	WinMove, A, , pieOpenLocX-(width/2), pieOpenLocY-(width/3)
+	WinMove, A, , PieOpenLocX-(width/2), PieOpenLocY-(width/3)
 	return
 	}
 pie_openURL(params){
@@ -205,10 +205,10 @@ pie_afterfx_runPieScript()
 	return
 	}
 
-; photoshopTools := ["moveTool","artboardTool","marqueeRectTool","marqueeEllipTool","marqueeSingleRowTool","marqueeSingleColumnTool","lassoTool","polySelTool","magneticLassoTool","quickSelectTool","magicWandTool","cropTool","perspectiveCropTool","sliceTool","sliceSelectTool","framedGroupTool","eyedropperTool","3DMaterialSelectTool","colorSamplerTool","rulerTool","textAnnotTool","countTool","spotHealingBrushTool","magicStampTool","patchSelection","recomposeSelection","redEyeTool","paintbrushTool","pencilTool","colorReplacementBrushTool","wetBrushTool","cloneStampTool","patternStampTool","historyBrushTool","artBrushTool","eraserTool","backgroundEraserTool","magicEraserTool","gradientTool","bucketTool","3DMaterialDropTool","blurTool","sharpenTool","smudgeTool","dodgeTool","burnInTool","saturationTool","penTool","freeformPenTool","curvaturePenTool","addKnotTool","deleteKnotTool","convertKnotTool","typeCreateOrEditTool","typeVerticalCreateOrEditTool","typeVerticalCreateMaskTool","typeCreateMaskTool","pathComponentSelectTool","directSelectTool","rectangleTool","roundedRectangleTool","ellipseTool","polygonTool","lineTool","customShapeTool","handTool","rotateTool","zoomTool"]		
+
 pie_Photoshop_cycleTool(cycleTools) ;cycle through array of tools.  The array can have only one value as well.
 	{
-	; msgbox, hi
+	; photoshopTools := ["moveTool","artboardTool","marqueeRectTool","marqueeEllipTool","marqueeSingleRowTool","marqueeSingleColumnTool","lassoTool","polySelTool","magneticLassoTool","quickSelectTool","magicWandTool","cropTool","perspectiveCropTool","sliceTool","sliceSelectTool","framedGroupTool","eyedropperTool","3DMaterialSelectTool","colorSamplerTool","rulerTool","textAnnotTool","countTool","spotHealingBrushTool","magicStampTool","patchSelection","recomposeSelection","redEyeTool","paintbrushTool","pencilTool","colorReplacementBrushTool","wetBrushTool","cloneStampTool","patternStampTool","historyBrushTool","artBrushTool","eraserTool","backgroundEraserTool","magicEraserTool","gradientTool","bucketTool","3DMaterialDropTool","blurTool","sharpenTool","smudgeTool","dodgeTool","burnInTool","saturationTool","penTool","freeformPenTool","curvaturePenTool","addKnotTool","deleteKnotTool","convertKnotTool","typeCreateOrEditTool","typeVerticalCreateOrEditTool","typeVerticalCreateMaskTool","typeCreateMaskTool","pathComponentSelectTool","directSelectTool","rectangleTool","roundedRectangleTool","ellipseTool","polygonTool","lineTool","customShapeTool","handTool","rotateTool","zoomTool"]			
 	appRef := ComObjActive( "Photoshop.Application" )
 	; msgbox, % cycleTools.Length() "  " appRef.CurrentTool "  " cycleTools[1]
 	if cycleTools.Length() = 1
@@ -236,7 +236,7 @@ pie_Photoshop_cycleTool(cycleTools) ;cycle through array of tools.  The array ca
 	return
 	}
 
-pie_Photoshop_sampleColor()
+pie_Photoshop_sampleColor() 
 	{
 	appRef := ComObjActive( "Photoshop.Application" )
 	prevTool := appRef.CurrentTool
@@ -247,8 +247,8 @@ pie_Photoshop_sampleColor()
 	return
 	}
 
-; toggles on/off a layer by name
-pie_Photoshop_toggleLayerByName(layerNames)
+
+pie_Photoshop_toggleLayerByName(layerNames) ; toggles on/off a layer by name
 {
 	appRef := ComObjActive( "Photoshop.Application" )
     ref := ComObjCreate( "Photoshop.ActionReference" )

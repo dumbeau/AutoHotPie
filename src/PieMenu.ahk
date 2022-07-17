@@ -20,45 +20,36 @@ if (!A_IsCompiled)
 
 global DebugMode := false
 ; DebugMode := true
-global remapLButton := ""
+global RemapLButton := ""
 
 ;Read Json Settings file to object from AppData\Local\AutoHotPie
 
-;First try reading user AppData Folder
-;Try loading local settings files
-;Try opening AHP Settings
-global UserDataFolder, settings
+global UserDataFolder, Settings
 global IsStandAlone := false
-loadSettingsFile()
-
-;Experimental
-; if FileExist(settings.global.adobeScriptsFolder)
-; 	{
-; 	copyFilesAndFolders(A_ScriptDir . "\Local Scripts\AdobePieScripts", settings.global.adobeScriptsFolder, True)
-; 	} ;Check if folder exists.
+loadSettingsFile() ;loads JSON to Settings global variable
 
 ;Initialize Variables and GDI+ Screen bitmap
 ;Tariq Porter, you will forever have a special place in my heart.
 	
-global monLeft := 0
-global monRight := 0
-global monTop := 0
-global monBottom := 0
 global Mon := {left: 0,	right: 0, top: 0,bottom: 0, pieDPIScale: 1} 
-global G ;For Gdip+ stuff
+global G ; For GDIP
+global pGraphics, hbm, hdc, obm, hwnd ;For Gdip+ stuff, may not be needed.
 
-global pieOpenLocX	;X Position of where pie menu is opened
-global pieOpenLocY	;Y ^
-global subPieLocX	;X Position of where pie menu is opened
-global subPieLocY	;Y ^
-global subMenuActive	;Y ^
-global activePieNumber	;Y ^
+
+global PieOpenLocX	;X Position of where pie menu is opened
+global PieOpenLocY	;Y ^
+global SubPieLocX	;X Position of where pie menu is opened
+global SubPieLocY	;Y ^
+global ActivePieHotkey
+global ActivePieNumber
 global ActivePieSliceHotkeyArray := [] ;loadSliceHotkeys()	
 global PressedSliceHotkeyName := ""
-global activeProfile	
+global PressedPieKeyAgain := false
+global ActiveProfile
+global PieLaunchedState := false	
 
-global penClicked := false
-global pieMenuRanWithMod := false	
+global PenClicked := false
+global PieMenuRanWithMod := false	
 
 ; global pieDPIScale
 getMonitorCoords(Mon.left , Mon.right , Mon.top , Mon.bottom )
@@ -67,7 +58,7 @@ getMonitorCoords(Mon.left , Mon.right , Mon.top , Mon.bottom )
 SetUpGDIP(0, 0, 50, 50) ;windows were appearing over taskbar without -0.01
 StartDrawGDIP()
 Gdip_TextToGraphics(G, "Test", "x20 y20 Center vCenter c00FFFFFF r4 s20", "Arial")
-Gdip_SetCompositingMode(G, 1) ;idk if this matters but it looked p nice for images even though I'm not using them
+Gdip_SetCompositingMode(G, 1) ;idk if this matters but it looked p nice for images
 ClearDrawGDIP()
 EndDrawGDIP()
 
@@ -76,8 +67,7 @@ if (A_IsCompiled){
 	if (!IsStandAlone){
 		Menu, Tray, Add , AutoHotPie Settings, openSettings
 	}
-	Menu, Tray, NoStandard
-	
+	Menu, Tray, NoStandard	
 	Menu, Tray, Add , Restart, Rel
 	Menu, Tray, Add , Exit, QuitPieMenus
 	Menu, Tray, Tip , AutoHotPie		
@@ -89,34 +79,33 @@ if (A_IsCompiled){
 }
 if (!IsStandAlone){
 	Menu, Tray, Default , AutoHotPie Settings
-}	
+}
 loadPieMenus()
-return
-
-
-
-;End Initialization
+return ;End Initialization
 
 pieLabel: ;Fixed hotkey overlap "r and ^r", refactor this
 	; Issue with MOI3d, pie menus don't want to show in that application specifically, so this display refresh thing sometimes works.
 	; SetUpGDIP(monLeft, monTop, monRight-monLeft, monBottom-monTop, "Hide")
 	; SetUpGDIP(monLeft, monTop, monRight-monLeft, monBottom-monTop, "Show")		
 	;Re-initialize variables
-	if (pieLaunchedState == 1){
+	if (PieLaunchedState == true){
 		PressedSliceHotkeyName := A_ThisHotkey ;This line made me feel things again :)
+		;Handle same piekey pressed again?				
 		return
 	}		
 	else
 		hotKeyArray := []	
-	pieLaunchedState := 1
-	global ActivePieHotkey := A_ThisHotkey
+	PieLaunchedState := true
+	ActivePieHotkey := A_ThisHotkey
+
+
 	
 	; msgbox, % ActivePieHotkey
 	; msgbox, % WinActive("ahk_exe explorer.exe")
 	If (!WinActive("ahk_group regApps"))
 		{		
 		profileIndex := 1
-		activeProfile := settings.appProfiles[1]
+		ActiveProfile := Settings.appProfiles[1]
 		Hotkey, IfWinNotActive, ahk_group regApps		
 		}
 	else ;Registered applications
@@ -125,7 +114,7 @@ pieLabel: ;Fixed hotkey overlap "r and ^r", refactor this
 		; WinGet, activeWinProc, ProcessName, A	
 		activeWinProc := getActiveProfileString()
 		;lookup profile and key index
-		for profileIndex, profile in settings.appProfiles
+		for profileIndex, profile in Settings.appProfiles
 			{
 			if profileIndex == 1
 				continue			
@@ -137,7 +126,7 @@ pieLabel: ;Fixed hotkey overlap "r and ^r", refactor this
 				if (testAHKHandle == activeWinProc) ;Is this the right profile?
 					{	
 						; msgbox, what					
-						activeProfile := profile						
+						ActiveProfile := profile						
 						; Hotkey, IfWinActive, % "ahk_exe " + activeWinProc
 						Hotkey, IfWinActive, % activeWinProc
 						break 2	
@@ -147,7 +136,7 @@ pieLabel: ;Fixed hotkey overlap "r and ^r", refactor this
 		}	
 	
 	;Push hotkey to hotkeyArray to be blocked when pie menus are running.
-	for k, pieKey in activeProfile.pieKeys
+	for k, pieKey in ActiveProfile.pieKeys
 	{		
 		hotKeyArray.Push(pieKey.hotkey)		
 		; if (pieKey.hotkey == ActivePieHotkey)
@@ -171,13 +160,13 @@ pieLabel: ;Fixed hotkey overlap "r and ^r", refactor this
 	; msgbox, % hotkeyArray[4]
 	
 	
-	for k, menu in activeProfile.pieKeys
+	for k, menu in ActiveProfile.pieKeys
 		{		
 		if (menu.hotkey == ActivePieHotkey)
 			{				
 			blockBareKeys(ActivePieHotkey, hotKeyArray, true)			
 			funcAddress := runPieMenu(profileIndex, k)
-			pieLaunchedState := 0
+			PieLaunchedState := false
 			
 			blockBareKeys(ActivePieHotkey, hotKeyArray, false)
 				;deactivate dummy keys
@@ -201,7 +190,7 @@ return
 
 offPieLabel:
 	pieEnableKey.modOff()
-	; msgbox, activeProfile	
+	; msgbox, ActiveProfile	
 	; msgbox, off
 return
 
@@ -218,8 +207,8 @@ return
 }
 
 
-;Block LButton when Pie Menu is opened WHY DOESNT HOLDOPENOVERRIDE WORK???
 ;I hate you so much... windows ink.
+;220705 - windows ink still makes me sad.
 
 #IfWinActive, ahk_exe AutoHotPie.exe
 ~LButton up::
@@ -255,19 +244,19 @@ return
 		exitapp
 	return
 
-#If (pieLaunchedState == 1)
+#If (PieLaunchedState == 1)
 LButton::
-	; penClicked := true 
+	; PenClicked := true 
 	;Check pie launched state again?
 	Return
 LButton up::	
-	; penClicked := false
+	; PenClicked := false
 	;Check pie launched state again?
 	Return
 ;For mouseClick function
-#If (remapLButton == "right")
+#If (RemapLButton == "right")
 LButton::RButton
-#If (remapLButton == "middle")
+#If (RemapLButton == "middle")
 LButton::MButton
 #If ;This ends the context-sensitivity
 
