@@ -434,19 +434,17 @@ runPieMenu(profileNum, index, activePieNum=1)
 		SubPieLocX := PieOpenLocX
 		SubPieLocY := PieOpenLocY
 	}
-	
-	getActiveMonitorDPI() ;set Mon.pieDPIScale	
-	
-	;FIX: Needs to be dynamic based on graphics size.
-	bitmapPadding := [300*Mon.pieDPIScale,180*Mon.pieDPIScale]
-	
-	SetUpGDIP(PieOpenLocX-bitmapPadding[1], PieOpenLocY-bitmapPadding[2], 2*bitmapPadding[1], 2*bitmapPadding[2])
-	StartDrawGDIP()
 
-	
 	pieHotkey := removeCharacters(activePieKey.hotkey, "!^+#")
 	ActivePieNumber := activePieNum
 	activePie := activePieKey.pieMenus[ActivePieNumber]	
+
+	getActiveMonitorDPI() ;set Mon.pieDPIScale	
+
+	getBitmapPadding(activePie)
+	
+	SetUpGDIP(PieOpenLocX-BitmapPadding[1], PieOpenLocY-BitmapPadding[2], 2*BitmapPadding[1], 2*BitmapPadding[2])
+	StartDrawGDIP()
 
 	;Init Click related variables
 	; pieClicked := false ;This is not used anywhere
@@ -495,7 +493,7 @@ runPieMenu(profileNum, index, activePieNum=1)
 	}
 	hoveredIntoSubMenu := false		
 	
-	drawPie(activePieKey, activePie, bitmapPadding[1], bitmapPadding[2], 0, 0, activePie.pieAngle, ,showLabel , hoverToSelectActive)
+	drawPie(activePieKey, activePie, BitmapPadding[1], BitmapPadding[2], 0, 0, activePie.pieAngle, ,showLabel , hoverToSelectActive)
 	
 	mouse := getMouseTransformProperties(true, activePieKey.activationMode.decoupleMouse)
 
@@ -595,6 +593,7 @@ runPieMenu(profileNum, index, activePieNum=1)
 								loadSliceHotkeys(activePie, false)
 								ActivePieNumber := activePie.functions[pieRegion+1].params.pieMenuNumber+1
 								activePie := activePieKey.pieMenus[ActivePieNumber]
+								getBitmapPadding(activePie)
 								loadSliceHotkeys(activePie, true)
 
 								sliceAngle := ((pieRegion+1)*(360/numSlices))+(180/numSlices+thetaOffset)
@@ -617,12 +616,12 @@ runPieMenu(profileNum, index, activePieNum=1)
 								StartDrawGDIP()	
 								ClearDrawGDIP()
 								EndDrawGDIP()
-								SetUpGDIP(SubPieLocX-bitmapPadding[1], SubPieLocY-bitmapPadding[2], 2*bitmapPadding[1], 2*bitmapPadding[2])	
+								SetUpGDIP(SubPieLocX-BitmapPadding[1], SubPieLocY-BitmapPadding[2], 2*BitmapPadding[1], 2*BitmapPadding[2])	
 							}
 
 							StartDrawGDIP()							
 
-							fPieRegion := drawPie(activePieKey, activePie, bitmapPadding[1], bitmapPadding[2], mouse.distance, mouse.theta, activePie.pieAngle, LButtonPressed, showLabel, false)
+							fPieRegion := drawPie(activePieKey, activePie, BitmapPadding[1], BitmapPadding[2], mouse.distance, mouse.theta, activePie.pieAngle, LButtonPressed, showLabel, false)
 							
 							; if (LButtonPressed_LastState == true) && (LButtonPressed == false){
 							if ((LButtonPressed_LastState == true) && (LButtonPressed == false)) || (sliceHotkeyPressed){
@@ -789,6 +788,7 @@ runPieMenu(profileNum, index, activePieNum=1)
 								ActivePieNumber := activePie.functions[pieRegion+1].params.pieMenuNumber+1
 								; msgbox, % ActivePieNumber . "`nupdatePie= " . updatePie																						
 								activePie := activePieKey.pieMenus[ActivePieNumber]
+								getBitmapPadding(activePie)
 								loadSliceHotkeys(activePie, true)
 
 								sliceAngle := ((pieRegion+1)*(360/numSlices))+(180/numSlices+thetaOffset)
@@ -811,13 +811,13 @@ runPieMenu(profileNum, index, activePieNum=1)
 								StartDrawGDIP()	
 								ClearDrawGDIP()
 								EndDrawGDIP()
-								SetUpGDIP(SubPieLocX-bitmapPadding[1], SubPieLocY-bitmapPadding[2], 2*bitmapPadding[1], 2*bitmapPadding[2])	
+								SetUpGDIP(SubPieLocX-BitmapPadding[1], SubPieLocY-BitmapPadding[2], 2*BitmapPadding[1], 2*BitmapPadding[2])	
 							}							
 							updatePie := false	;oh this is actually useful							
 
 							StartDrawGDIP()
 							pieRegion := fPieRegion	
-							fPieRegion := drawPie(activePieKey, activePie, bitmapPadding[1], bitmapPadding[2], mouse.distance, mouse.theta, activePie.pieAngle, LButtonPressed, showLabel, hoverToSelectActive)
+							fPieRegion := drawPie(activePieKey, activePie, BitmapPadding[1], BitmapPadding[2], mouse.distance, mouse.theta, activePie.pieAngle, LButtonPressed, showLabel, hoverToSelectActive)
 							
 							; if (LButtonPressed_LastState == true) && (LButtonPressed == false){
 							if (LButtonPressed_LastState == true) && (LButtonPressed == false) || (sliceHotkeyPressed){
@@ -946,6 +946,7 @@ runPieMenu(profileNum, index, activePieNum=1)
 							{								
 								ActivePieNumber := activePie.functions[pieRegion+1].params.pieMenuNumber+1
 								activePie := activePieKey.pieMenus[ActivePieNumber]
+								getBitmapPadding(activePie)
 
 								sliceAngle := ((pieRegion+1)*(360/numSlices))+(180/numSlices+thetaOffset)
 								; msgbox, % sliceAngle
@@ -969,12 +970,12 @@ runPieMenu(profileNum, index, activePieNum=1)
 								StartDrawGDIP()
 								ClearDrawGDIP()
 								EndDrawGDIP()								
-								SetUpGDIP(SubPieLocX-bitmapPadding[1], SubPieLocY-bitmapPadding[2], 2*bitmapPadding[1], 2*bitmapPadding[2])
+								SetUpGDIP(SubPieLocX-BitmapPadding[1], SubPieLocY-BitmapPadding[2], 2*BitmapPadding[1], 2*BitmapPadding[2])
 							}													
 
 							StartDrawGDIP()		
 
-							fPieRegion := drawPie(activePieKey, activePie, bitmapPadding[1], bitmapPadding[2], mouse.distance, mouse.theta, activePie.pieAngle, LButtonPressed, showLabel, false)
+							fPieRegion := drawPie(activePieKey, activePie, BitmapPadding[1], BitmapPadding[2], mouse.distance, mouse.theta, activePie.pieAngle, LButtonPressed, showLabel, false)
 							
 							; if (LButtonPressed_LastState == true) && (LButtonPressed == false){
 							if ((LButtonPressed_LastState == true) && (LButtonPressed == false)) || (sliceHotkeyPressed){
@@ -985,6 +986,7 @@ runPieMenu(profileNum, index, activePieNum=1)
 								{									
 									ActivePieNumber := activePie.functions[pieRegion+1].params.pieMenuNumber+1
 									activePie := activePieKey.pieMenus[ActivePieNumber]
+									getBitmapPadding(activePie)
 									
 
 									extendedPos := [mouse.x, mouse.y]
@@ -992,7 +994,7 @@ runPieMenu(profileNum, index, activePieNum=1)
 									SubPieLocX := extendedPos[1]
 									SubPieLocY := extendedPos[2]
 									mouse := getMouseTransformProperties(false, activePieKey.activationMode.decoupleMouse)
-									SetUpGDIP(SubPieLocX-bitmapPadding[1], SubPieLocY-bitmapPadding[2], 2*bitmapPadding[1], 2*bitmapPadding[2])									
+									SetUpGDIP(SubPieLocX-BitmapPadding[1], SubPieLocY-BitmapPadding[2], 2*BitmapPadding[1], 2*BitmapPadding[2])									
 								} else {
 									break									
 								}
@@ -1124,7 +1126,7 @@ runPieMenu(profileNum, index, activePieNum=1)
 								}				
 							StartDrawGDIP()		
 								
-							fPieRegion := drawPie(runningPieKey, activePie, bitmapPadding[1], bitmapPadding[2], mouse.distance, theta, offsetPieAngle, LButtonPressed, showLabel)
+							fPieRegion := drawPie(runningPieKey, activePie, BitmapPadding[1], BitmapPadding[2], mouse.distance, theta, offsetPieAngle, LButtonPressed, showLabel)
 
 							if (LButtonPressed_LastState == true) && (LButtonPressed == false) || (GetKeyState("Esc")){
 								if (GetKeyState("Esc")) {
@@ -1250,11 +1252,11 @@ drawPie(appProfile, activePieProfile, xPos, yPos, dist, theta, thetaOffset, clic
 	ClearDrawGDIP()
 	Gdip_SetSmoothingMode(G, 4)
 	basicPen := Gdip_CreatePen(RGBAtoHEX(bgColor), thickness)
-	basicPenThin := Gdip_CreatePen(RGBAtoHEX(bgColor), thickness/2)
+	basicPenThin := Gdip_CreatePen(RGBAtoHEX(bgColor), thickness/2)	
 	basicBrush := Gdip_BrushCreateSolid(RGBAtoHEX([0,0,0,1])) ;set last value to non-zero to see rect, issue 0 means no rect is created
 	; Gdip_DrawEllipse(G, basicPen, (gmx-(radius / 2)), (gmy-(radius / 2)), radius, radius)
 	
-	Gdip_FillRectangle(G, basicBrush, 0,0,600*Mon.pieDPIScale,360*Mon.pieDPIScale) ;bitmapPadding copy	
+	Gdip_FillRectangle(G, basicBrush, 0,0,BitmapPadding[1]*2,BitmapPadding[2]*2) ;BitmapPadding copy	
 	; Gdip_DrawEllipse(G, basicPen, (gmx-((radius)+ (thickness / 2))), (gmy-((radius)+ (thickness / 2))), 2*radius+thickness, 2*radius+thickness)	
 	Gdip_DrawEllipse(G, basicPen, (gmx-((radius)+ (thickness / 2))), (gmy-((radius)+ (thickness / 2))), 2*radius+thickness, 2*radius+thickness)	
 
@@ -1275,12 +1277,13 @@ drawPie(appProfile, activePieProfile, xPos, yPos, dist, theta, thetaOffset, clic
 		; pieRegion := nTheta/(360/numSlices)
 		}
 	;Draw pie slice indicators
-	
+
 	
 	
 	;Draw pie labels
 
-	if(drawLabel = true)
+	; if(drawLabel == true)
+	if(true)
 	{
 	loop, %numSlices%
 		{
@@ -1297,7 +1300,7 @@ drawPie(appProfile, activePieProfile, xPos, yPos, dist, theta, thetaOffset, clic
 				Gdip_DrawArc(G, basicPen, (gmx-((radius)+ (thickness / 2))), (gmy-((radius)+ (thickness / 2))), 2*radius+thickness, 2*radius+thickness, (labelTheta-90)+(180/numSlices), 3*(Mon.pieDPIScale))
 			}
 
-			if (activePieProfile.functions[A_Index+1].function == "submenu")
+			if (activePieProfile.functions[A_Index+1].function == "submenu") ;Shouldn't make mark when you don't hover over the mode.
 			{
 				Gdip_DrawArc(G, basicPen, (gmx-((radius)+ (thickness / 2))), (gmy-((radius)+ (thickness / 2))), 2*radius+thickness, 2*radius+thickness, (labelTheta-90)-(180/numSlices), 3*Mon.pieDPIScale)
 				Gdip_DrawArc(G, basicPen, (gmx-((radius)+ (thickness / 2))), (gmy-((radius)+ (thickness / 2))), 2*radius+thickness, 2*radius+thickness, (labelTheta-90)+(180/numSlices), 3*Mon.pieDPIScale)
@@ -1321,12 +1324,12 @@ drawPie(appProfile, activePieProfile, xPos, yPos, dist, theta, thetaOffset, clic
 		else
 			labelAnchor := "bottom"	
 
-		If (pieRegion = A_Index)
+		If (pieRegion == A_Index)
 			selectedLabelState := 1				
 		Else
 			selectedLabelState := 0	
-		
-		drawPieLabel(activePieProfile, activePieProfile.functions[A_Index+1], Round(gmx+(labelRadius*Cos((labelTheta-90)*0.01745329252))), Round(gmy+(labelRadius*Sin((labelTheta-90)*0.01745329252))), selectedLabelState, labelAnchor, clicked, activePieProfile.functions[A_Index+1].icon)
+		if(drawLabel == true)
+			drawPieLabel(activePieProfile, activePieProfile.functions[A_Index+1], Round(gmx+(labelRadius*Cos((labelTheta-90)*0.01745329252))), Round(gmy+(labelRadius*Sin((labelTheta-90)*0.01745329252))), selectedLabelState, labelAnchor, clicked, activePieProfile.functions[A_Index+1].icon)
 		}
 	}
 	
@@ -1908,6 +1911,14 @@ MonitorEnumProc(hMonitor, hdcMonitor, lprcMonitor, dwData) {
   this.monitors.push(New Monitor(hMonitor, l, t, r, b))
   
 	Return, 1
+}
+
+getBitmapPadding(activePieObj){
+	safetyPadding := [280,50]
+	circleGraphicsRadius := (activePieObj.radius + activePieObj.thickness + activePieObj.labelRadius)	
+	BitmapPadding := [circleGraphicsRadius + safetyPadding[1],circleGraphicsRadius + safetyPadding[2]]		
+	BitmapPadding := [BitmapPadding[1]*Mon.pieDPIScale,BitmapPadding[2]*Mon.pieDPIScale]	
+	return BitmapPadding
 }
 
 mouseToCenterScreen(mouseMouse:=true){

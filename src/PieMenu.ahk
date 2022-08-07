@@ -34,6 +34,7 @@ loadSettingsFile() ;loads JSON to Settings global variable
 global Mon := {left: 0,	right: 0, top: 0,bottom: 0, pieDPIScale: 1} 
 global G ; For GDIP
 global pGraphics, hbm, hdc, obm, hwnd ;For Gdip+ stuff, may not be needed.
+global BitmapPadding
 
 
 global PieOpenLocX	;X Position of where pie menu is opened
