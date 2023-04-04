@@ -19,6 +19,7 @@
             <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-1">Home</a></li>
             <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-2">Edit Pie Menu</a></li>
             <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-3">Create New Profile</a></li>
+            <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-34">Focus Timer</a></li>
             <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-4">Create New Pie Menu</a></li>
             <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-5">Global</a></li>
             <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-6">Confirmation</a></li>
@@ -71,7 +72,7 @@
                                     <td style="padding-top: 13px;" name="pie-key-display">Ctrl + r</td>
                                     <td style="padding-top: 13px;" name="pie-key-name-display">Cell 4</td>
                                     <td style="padding-top: 13px;">
-                                        <div class="form-check" style="width: 19px;padding-left: 39px;"><input class="form-check-input" type="checkbox" data-bs-toggle="tooltip" data-bss-tooltip="" data-bs-placement="left" id="formCheck-1" title="Make Pie Menu and hotkey active in all profiles."><label class="form-check-label" for="formCheck-1"></label></div>
+                                        <div class="form-check" style="width: 19px;padding-left: 39px;"><input class="form-check-input" type="checkbox" data-bs-toggle="tooltip" data-bss-tooltip="" data-bs-placement="left" id="formCheck-1" title="Use this Pie Menu across all profiles."><label class="form-check-label" for="formCheck-1"></label></div>
                                     </td>
                                     <td style="padding-top: 13px;"><i class="fa fa-remove" data-bs-toggle="tooltip" data-bss-tooltip="" style="padding: 4px;" title="Remove this pie menu." name="delete-pie-menu-icon-btn"></i></td>
                                 </tr>
@@ -135,17 +136,17 @@
                     <div class="d-flex justify-content-center" style="width: 100%;margin-top: 22px;">
                         <div id="pie-menu-settings-tabs" style="margin: 1px;width: 996px;">
                             <ul class="nav nav-tabs nav-justified" role="tablist" style="font-size: 20px;">
-                                <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" id="global-appearance-tab" href="#tab-27">Font</a></li>
+                                <li class="nav-item" role="presentation"><a class="nav-link active" role="tab" data-bs-toggle="tab" id="global-appearance-tab" href="#tab-27">Global</a></li>
                                 <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" id="launch-settings-tab" href="#tab-8">Launch Settings</a></li>
-                                <li class="nav-item" role="presentation"><a class="nav-link active" role="tab" data-bs-toggle="tab" href="#tab-9">Menu Appearance</a></li>
+                                <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-9">Menu Appearance</a></li>
                                 <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-10">Functions</a></li>
                             </ul>
                             <div class="tab-content">
-                                <div class="tab-pane" role="tabpanel" id="tab-27">
+                                <div class="tab-pane active" role="tabpanel" id="tab-27">
                                     <div class="d-flex justify-content-center" style="padding-top: 20px;">
                                         <div id="global-menu-appearance-settings-div" style="border: 1px solid var(--bs-gray);border-radius: 14px;padding: 24px;width: 100%;max-width: 568px;">
-                                            <div class="d-inline-flex d-lg-flex align-items-lg-start" style="background: rgb(34,34,34);transform: translateY(-35px);width: 122px;padding-right: 10px;padding-left: 10px;">
-                                                <h5 class="d-inline-flex" style="transform: translateY(0px);margin-bottom: -10px;">Global Font</h5>
+                                            <div class="d-inline-flex d-lg-flex align-items-lg-start" style="background: rgb(34,34,34);transform: translateY(-35px);width: 59px;padding-right: 10px;padding-left: 10px;">
+                                                <h5 class="d-inline-flex" style="transform: translateY(0px);margin-bottom: -10px;">Font</h5>
                                             </div>
                                             <div class="d-flex align-items-center" style="margin-bottom: 13px;">
                                                 <h5 class="d-xxl-flex align-items-xxl-center" style="margin-bottom: -10px;margin-right: 15px;margin-top: -11px;">Font:</h5><select id="global-font-select" class="form-select" style="height: 38px;max-width: 413px;">
@@ -153,6 +154,16 @@
                                                 </select>
                                             </div>
                                             <div class="d-flex align-items-lg-start" id="global-font-size-slider-div" style="margin-top: 17px;">
+                                                <h5 class="d-xxl-flex align-items-xxl-center" style="width: 76.0469px;">Size:</h5><input class="form-range" type="range" style="margin-right: 15px;"><input class="bg-dark border rounded-0 border-dark" type="text" style="font-size: 16px;color: var(--bs-white);width: 40px;text-align: center;" placeholder="20" maxlength="3" inputmode="numeric">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-center" style="padding-top: 20px;">
+                                        <div id="global-menu-appearance-settings-div" style="border: 1px solid var(--bs-gray);border-radius: 14px;padding: 24px;width: 100%;max-width: 568px;">
+                                            <div class="d-inline-flex d-lg-flex align-items-lg-start" style="background: rgb(34,34,34);transform: translateY(-35px);width: 66px;padding-right: 10px;padding-left: 10px;">
+                                                <h5 class="d-inline-flex" style="transform: translateY(0px);margin-bottom: -10px;">Icons</h5>
+                                            </div>
+                                            <div class="d-flex align-items-lg-start" id="global-icon-size-slider-div">
                                                 <h5 class="d-xxl-flex align-items-xxl-center" style="width: 76.0469px;">Size:</h5><input class="form-range" type="range" style="margin-right: 15px;"><input class="bg-dark border rounded-0 border-dark" type="text" style="font-size: 16px;color: var(--bs-white);width: 40px;text-align: center;" placeholder="20" maxlength="3" inputmode="numeric">
                                             </div>
                                         </div>
@@ -205,7 +216,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="tab-pane active" role="tabpanel" id="tab-9">
+                                <div class="tab-pane" role="tabpanel" id="tab-9">
                                     <div class="d-flex justify-content-center" style="width: auto;padding-top: 20px;">
                                         <div id="main-menu-appearance-settings" style="border: 1px solid var(--bs-gray);border-radius: 14px;padding: 24px;width: 100%;max-width: 568px;">
                                             <div class="d-inline-flex d-lg-flex align-items-lg-start" style="background: rgb(34,34,34);transform: translateY(-35px);width: 124px;padding-right: 10px;padding-left: 10px;">
@@ -342,11 +353,13 @@
                                                     <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-16">Repeat Last</a></li>
                                                     <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-17">Sub Menu</a></li>
                                                     <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-18">No Options</a></li>
-                                                    <li class="nav-item" role="presentation"><a class="nav-link active" role="tab" data-bs-toggle="tab" href="#tab-19">photoshop_cycleTool</a></li>
+                                                    <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-19">photoshop_cycleTool</a></li>
                                                     <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-20">Parameter List</a></li>
                                                     <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-21">Custom Options</a></li>
                                                     <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-22">Open Folder</a></li>
+                                                    <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-35">Menu Select</a></li>
                                                     <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-26">Open URL</a></li>
+                                                    <li class="nav-item" role="presentation"><a class="nav-link active" role="tab" data-bs-toggle="tab" href="#tab-36">Switch Application</a></li>
                                                 </ul>
                                                 <div class="tab-content">
                                                     <div class="tab-pane" role="tabpanel" id="tab-13">
@@ -383,15 +396,14 @@
     <input type="checkbox" onfocus="this.blur();" class="btn-check" id="click-modifier-alt-check" autocomplete="off">
     <label class="btn btn-primary" name="alt" for="hotkey-modifier-alt-check">Alt</label>
   </div>
-                                                            <div class="form-check" style="margin-left: 18px;"><input class="form-check-input" type="checkbox" id="mouse-drag-checkbox"><label class="form-check-label" for="formCheck-5">Drag</label></div>
+                                                            <div class="form-check" style="margin-left: 18px;"><input class="form-check-input" type="checkbox" id="mouse-drag-checkbox"><label class="form-check-label" for="formCheck-5">Make next LMB click is 'Click and Hold'</label></div>
                                                         </div>
                                                     </div>
                                                     <div class="tab-pane" role="tabpanel" id="tab-15">
                                                         <div class="d-flex align-items-center">
                                                             <div class="d-flex justify-content-start" style="padding-top: 12px;padding-bottom: 12px;width: 100%;">
-                                                                <div class="d-flex align-items-center">
-                                                                    <h5 class="d-xxl-flex align-items-xxl-center" style="margin-bottom: -10px;margin-right: 15px;margin-top: -11px;">File:</h5><button class="btn btn-secondary" data-bs-toggle="tooltip" data-bss-tooltip="" id="run-script-choose-btn" type="button" style="margin-right: 2px;min-width: 100px;" title="Choose a file to run or folder to open">Choose File...</button>
-                                                                    <p class="text-truncate text-start" id="run-script-display-text" style="margin-bottom: 0px;margin-left: 9px;max-width: 711px;">No file selected</p>
+                                                                <div class="d-flex align-items-center" style="width: 100%;">
+                                                                    <h5 class="d-xxl-flex align-items-xxl-center" style="margin-bottom: -10px;margin-right: 15px;margin-top: -11px;">File:</h5><button class="btn btn-secondary" data-bs-toggle="tooltip" data-bss-tooltip="" id="run-script-choose-btn" type="button" style="margin-right: 2px;min-width: 100px;" title="Choose a file to run or folder to open">Choose File...</button><input class="bg-dark border rounded-0 border-dark flex-grow-1" type="text" id="run-script-text-input" style="font-size: 16px;color: var(--bs-white);text-align: left;padding-top: 1px;padding-bottom: 1px;padding-left: 8px;margin-left: 8px;margin-right: 5px;" placeholder="Enter Run command or file" maxlength="40">
                                                                     <div class="d-flex justify-content-center align-items-center" id="remove-script-btn" style="width: 28.5781px;height: 31px;"><i class="fa fa-remove"></i></div>
                                                                 </div>
                                                             </div>
@@ -410,7 +422,7 @@
                                                     <div class="tab-pane" role="tabpanel" id="tab-18">
                                                         <h5>This function has no options.</h5>
                                                     </div>
-                                                    <div class="tab-pane active" role="tabpanel" id="tab-19">
+                                                    <div class="tab-pane" role="tabpanel" id="tab-19">
                                                         <div class="d-flex justify-content-start align-items-center" style="padding-top: 12px;padding-bottom: 12px;" name="photoshop-tool-div">
                                                             <h5 class="text-nowrap d-xxl-flex align-items-xxl-center" style="margin-right: 14px;margin-top: 4px;">Tool 1:</h5><select class="form-select" style="height: 38px;max-width: 413px;">
                                                                 <option value="12" selected="">Brush Tool</option>
@@ -458,12 +470,37 @@
                                                             </div>
                                                         </div>
                                                     </div>
+                                                    <div class="tab-pane" role="tabpanel" id="tab-35">
+                                                        <div></div>
+                                                        <div class="d-flex justify-content-start" id="menu-select-item-div" style="padding-top: 6px;padding-bottom: 6px;">
+                                                            <div class="d-flex align-items-center"></div>
+                                                            <div class="d-flex align-items-center">
+                                                                <h5 class="d-xxl-flex align-items-xxl-center" style="margin-bottom: -10px;margin-right: 14px;margin-top: -11px;" name="menu-item-label">Menu item 1</h5><input class="bg-dark border rounded-0 border-dark" type="text" style="font-size: 16px;color: var(--bs-white);width: 367px;text-align: center;padding-top: 1px;padding-bottom: 1px;" placeholder="Enter menu item name" name="menu-item-name-text-input">
+                                                            </div>
+                                                        </div>
+                                                        <div class="d-flex justify-content-start" style="padding-top: 12px;padding-bottom: 12px;">
+                                                            <div class="d-flex align-items-center"></div>
+                                                            <div class="d-flex align-items-center"><button class="btn btn-secondary" id="menu-select-add-item-btn" type="button" style="margin-right: 9px;"><i class="icon ion-android-add" style="margin-right: 7px;"></i>Add Menu Item</button></div>
+                                                            <div class="d-flex align-items-center"><button class="btn btn-secondary" id="menu-select-delete-item-btn" type="button" style="margin-right: 9px;"><i class="icon ion-android-close" style="margin-right: 7px;"></i>Delete Menu Item</button></div>
+                                                        </div>
+                                                    </div>
                                                     <div class="tab-pane" role="tabpanel" id="tab-26">
                                                         <div class="d-flex justify-content-start" style="padding-top: 12px;padding-bottom: 12px;">
                                                             <div class="d-flex align-items-center"></div>
                                                             <div class="d-flex align-items-center" style="width: 100%;">
                                                                 <h5 class="d-xxl-flex align-items-xxl-center" style="margin-bottom: -10px;margin-right: 14px;margin-top: -11px;">URL:</h5><input class="bg-dark border rounded-0 border-dark flex-grow-1" type="text" id="url-text-input" style="font-size: 16px;color: var(--bs-white);padding-top: 1px;padding-bottom: 1px;text-align: left;" placeholder="Paste link URL...">
                                                             </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="tab-pane active" role="tabpanel" id="tab-36">
+                                                        <div class="d-flex justify-content-start" style="padding-top: 12px;padding-bottom: 12px;width: 100%;">
+                                                            <div class="d-flex align-items-center" style="width: 100%;">
+                                                                <h5 class="d-xxl-flex align-items-xxl-center" style="margin-bottom: -10px;margin-right: 15px;margin-top: -11px;">Application:</h5><button class="btn btn-primary" data-bs-toggle="tooltip" data-bss-tooltip="" id="switch-app-get-focused-exe-button" type="button" style="margin-right: 12px;min-width: 100px;" title="Focus the application to use.">Get Focused</button><button class="btn btn-secondary" id="switch-app-find-exe-button" type="button" style="margin-right: 2px;min-width: 100px;" title="Choose a file to run or folder to open">Choose exe...</button><input class="bg-dark border rounded-0 border-dark flex-grow-1" type="text" id="switch-app-exe-text-input" style="font-size: 16px;color: var(--bs-white);text-align: left;padding-top: 1px;padding-bottom: 1px;padding-left: 8px;margin-left: 8px;margin-right: 5px;" maxlength="40" placeholder="some-application.exe">
+                                                                <div class="d-flex justify-content-center align-items-center" id="remove-application-exe-button" style="width: 28.5781px;height: 31px;"><i class="fa fa-remove"></i></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="d-flex justify-content-start" style="padding-top: 12px;padding-bottom: 12px;width: 100%;">
+                                                            <div class="form-check"><input class="form-check-input" type="checkbox" id="multiple-instance-app-checkbox"><label class="form-check-label" for="mouse-drag-checkbox-1">Multiple Instance Application</label></div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -496,11 +533,12 @@
                             <h5 class="d-xxl-flex align-items-xxl-center" style="margin-bottom: -10px;margin-right: 15px;margin-top: -11px;">Profile Name:</h5><input class="bg-dark border rounded-0 border-dark form-control" type="text" id="new-profile-name" style="font-size: 16px;color: var(--bs-white);width: 470px;text-align: left;padding-top: 1px;padding-bottom: 1px;" placeholder="Enter Label Text" required="" maxlength="30">
                         </div>
                     </div>
-                    <div class="d-flex justify-content-center" style="padding-top: 12px;padding-bottom: 12px;margin-top: 15px;">
+                    <div class="d-flex justify-content-center" style="padding-top: 12px;padding-bottom: 12px;margin-top: 15px;"><button class="btn btn-primary" id="get-focused-app-button" type="button" style="width: 131.3125px;min-width: 206px;">Get Focused Application</button></div>
+                    <div class="d-flex justify-content-center" style="padding-top: 12px;padding-bottom: 12px;">
                         <div class="d-flex align-items-center"></div>
                         <div class="d-flex align-items-center">
-                            <h5 class="d-xxl-flex align-items-xxl-center" style="margin-bottom: -10px;margin-right: 15px;margin-top: -11px;">Profile Executable:</h5><input class="bg-dark border rounded-0 border-dark form-control" type="text" id="new-profile-exe" style="font-size: 16px;color: var(--bs-white);width: 367px;text-align: left;padding-top: 1px;padding-bottom: 1px;margin-right: 18px;" placeholder="Select a program executable..." readonly="" required="">
-                        </div><button class="btn btn-primary" id="select-profile-exe-btn" type="button" style="width: 130.3125px;">Select Path</button>
+                            <h5 class="d-xxl-flex align-items-xxl-center" style="margin-bottom: -10px;margin-right: 15px;margin-top: -11px;">Profile Executable:</h5><input class="bg-dark border rounded-0 border-dark form-control" type="text" id="new-profile-exe-field" style="font-size: 16px;color: var(--bs-white);width: 367px;text-align: left;padding-top: 1px;padding-bottom: 1px;margin-right: 18px;" placeholder="Select a program executable..." readonly="" required="">
+                        </div><button class="btn btn-secondary" id="select-profile-exe-btn" type="button" style="width: 130.3125px;">Select Path</button>
                     </div>
                     <div class="d-flex justify-content-center">
                         <h6 class="text-danger" id="new-profile-exe-path-validiation-warning">* Choose a program for this profile</h6>
@@ -512,6 +550,16 @@
                         <div class="d-flex align-items-center"></div><button class="btn btn-secondary" id="create-profile-cancel-btn" type="button" style="width: 194px;margin-right: 43px;height: 48px;">Cancel</button><button class="btn btn-primary" id="create-profile-btn" type="submit" style="height: 48px;width: 194px;">Create Profile</button>
                     </div>
                 </form>
+            </div>
+            <div class="tab-pane" role="tabpanel" id="tab-34">
+                <div class="d-flex justify-content-center align-items-center" style="height: 90vh;width: 100%;">
+                    <div style="width: 450px;">
+                        <div></div>
+                        <div class="text-center" style="margin-bottom: 29px;"><img id="focus-timer-gif" src="assets/img/Timer.gif" style="width: 200px;">
+                            <h5 class="text-light" style="margin-top: 49px;">Focus the window of a desired application.</h5>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="tab-pane" role="tabpanel" id="tab-4">
                 <div class="d-flex justify-content-start align-items-center" style="background: var(--bs-gray-dark);height: 102px;">
@@ -721,6 +769,19 @@
                         <p style="color: var(--bs-gray);padding-left: 10px;padding-right: 10px;padding-top: 7px;margin-bottom: 8px;">Paragraph</p>
                     </div>
                 </div>
+                <div class="d-flex justify-content-start" id="menu-select-item-div-template" style="padding-top: 6px;padding-bottom: 6px;">
+                    <div class="d-flex align-items-center"></div>
+                    <div class="d-flex align-items-center">
+                        <h5 class="d-xxl-flex align-items-xxl-center" style="margin-bottom: -10px;margin-right: 14px;margin-top: -11px;">Menu item NUM:</h5><input class="bg-dark border rounded-0 border-dark" type="text" style="font-size: 16px;color: var(--bs-white);width: 367px;text-align: center;padding-top: 1px;padding-bottom: 1px;margin-right: 10px;" placeholder="Enter menu item name">
+                    </div><button class="btn btn-danger" type="button" style="margin-right: 9px;"><i class="icon ion-android-close"></i></button>
+                </div>
+                <div class="text-center d-xxl-flex align-items-xxl-center" style="width: 125px;height: 100px;padding: 5px;" name="selectable-icon-div">
+                    <div class="d-flex align-items-center div-hover-green" style="width: 100%;background: var(--bs-gray-800);border-radius: 8px;height: 100%;">
+                        <div style="width: 100%;"><img src="assets/img/Function%20Icons/FuncIcon-MenuSelect.svg" style="width: 32px;margin-bottom: 6px;">
+                            <p style="margin-bottom: 0px;font-size: 14px;">Menu Select</p>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="tab-pane" role="tabpanel" id="tab-24">
                 <div class="text-center d-flex flex-column justify-content-center align-items-center" style="width: 100%;height: 100vh;">
@@ -805,6 +866,13 @@
                                 <div class="d-flex align-items-center div-hover-green" style="width: 100%;background: var(--bs-gray-800);border-radius: 8px;height: 100%;">
                                     <div style="width: 100%;"><img src="assets/img/Function%20Icons/FuncIcon-Link.svg" style="width: 32px;margin-bottom: 6px;">
                                         <p style="margin-bottom: 0px;font-size: 14px;">Open URL</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-center d-xxl-flex align-items-xxl-center" style="width: 125px;height: 100px;padding: 5px;" name="selectable-icon-div">
+                                <div class="d-flex align-items-center div-hover-green" style="width: 100%;background: var(--bs-gray-800);border-radius: 8px;height: 100%;">
+                                    <div style="width: 100%;"><img src="assets/img/Function%20Icons/FuncIcon-SwitchApplication.svg" style="width: 32px;margin-bottom: 6px;">
+                                        <p style="margin-bottom: 0px;font-size: 14px;">Switch App</p>
                                     </div>
                                 </div>
                             </div>
@@ -1065,25 +1133,25 @@
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="assets/js/bs-init.js"></script>
-    <script src="./jscolor.js"></script>
-    <script src="./renderer.js"></script>
-    <script src="./ahpClasses.js"></script>
-    <script src="./profileManagement.js"></script>
-    <script src="./exitConfirm.js"></script>
-    <script src="./menuFunctions.js"></script>
-    <script src="./runningPieMenu.js"></script>
-    <script src="./createNewProfile.js"></script>
-    <script src="./createNewScript.js"></script>
-    <script src="./confirmation.js"></script>
-    <script src="./functionSelect.js"></script>
-    <script src="./hotkeyManagement.js"></script>
-    <script src="./editPieMenu.js"></script>
-    <script src="./editScript.js"></script>
-    <script src="./errorPage.js"></script>
-    <script src="./iconManager.js"></script>
-    <script src="./createNewPieMenu.js"></script>
-    <script src="./changeActivationMode.js"></script>
-    <script src="./initializePages.js"></script>
+    <script src="jscolor.js"></script>
+    <script src="renderer.js"></script>
+    <script src="ahpClasses.js"></script>
+    <script src="profileManagement.js"></script>
+    <script src="exitConfirm.js"></script>
+    <script src="menuFunctions.js"></script>
+    <script src="runningPieMenu.js"></script>
+    <script src="createNewProfile.js"></script>
+    <script src="createNewScript.js"></script>
+    <script src="confirmation.js"></script>
+    <script src="functionSelect.js"></script>
+    <script src="hotkeyManagement.js"></script>
+    <script src="editPieMenu.js"></script>
+    <script src="editScript.js"></script>
+    <script src="errorPage.js"></script>
+    <script src="iconManager.js"></script>
+    <script src="createNewPieMenu.js"></script>
+    <script src="changeActivationMode.js"></script>
+    <script src="initializePages.js"></script>
 </body>
 
 </html>

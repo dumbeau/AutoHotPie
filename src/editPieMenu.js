@@ -432,7 +432,7 @@ var editPieMenu = {
         ],
         loadPieMenuElements:function(pieMenuObj){
             elements = this.elements;
-            elements.length = 0; //Clear elements                        
+            elements.length = 0; //Clear elements 
 
             //Add pie circle  
                       
@@ -607,13 +607,16 @@ var editPieMenu = {
                 let labelCenter = [labelPos[0]-( labelAnchor[0]*(labelSize[0]/2) )+(labelAnchor[0]*(labelSize[1]/2)), labelPos[1]+( labelAnchor[1]*(labelSize[1]/2) ) ] //May need -                
                 let labelRoundness = selectedPieMenu.labelRoundness;
                 //Draw label background rect
+                
                 if(isSelected){
                     ctx.fillStyle = rgbToHex(selectedPieMenu.selectionColor);            
-                    ctx.strokeStyle = rgbToHex(selectedPieMenu.selectionColor);                    
+                    // ctx.strokeStyle = rgbToHex(selectedPieMenu.selectionColor);                    
+                    ctx.strokeStyle = 'rgba(1,1,1,0)';                    
                 }else{
                     ctx.fillStyle = rgbToHex(selectedPieMenu.backgroundColor);            
-                    ctx.strokeStyle = rgbToHex(AutoHotPieSettings.global.globalAppearance.safetyStrokeColor);
-                }                
+                    // ctx.strokeStyle = rgbToHex(AutoHotPieSettings.global.globalAppearance.safetyStrokeColor);
+                    ctx.strokeStyle = 'rgba(1,1,1,0)';                    
+                }      
                 ctx.lineWidth = 1;    
                 // roundRect(ctx, labelCenter[0]-(labelSize[0]/2), labelCenter[1]-(labelSize[1]/2), labelSize[0], labelSize[1],1,true,true);
                 // roundRect(ctx, labelCenter[0]-(labelSize[0]/2), labelCenter[1]-(labelSize[1]/2), labelSize[0], labelSize[1], selectedPieMenu.labelRoundess ,true,true);
@@ -711,13 +714,19 @@ var editPieMenu = {
                 let cFGtx = cFG.getContext("2d");
                 ctx.clearRect(0,0,canvas.width,canvas.height)
 
+
+                
+
                 // let bounds = [window.innerWidth, window.innerHeight];
                 let bounds = [window.innerWidth, Math.max(selectedPieMenu.radius+selectedPieMenu.labelRadius+200,400)];  //FIX ME
                 c.width = bounds[0]
                 c.height = bounds[1]          
                 cFG.width = bounds[0]
-                cFG.height = bounds[1]            
-                c.style.backgroundColor = "white";
+                cFG.height = bounds[1]
+                //Set canvas color based on pie menu background color
+                c.style.backgroundColor = (rgbLightness(selectedPieMenu.backgroundColor) > 0.9) ? "#303030" : "white"
+
+                
                 
                 editPieMenu.pieMenuDisplay.centerPos = [bounds[0]/2,bounds[1]/2];                
                 let centerPos = editPieMenu.pieMenuDisplay.centerPos; 
@@ -954,6 +963,7 @@ var editPieMenu = {
         tab:document.getElementById('global-appearance-tab'),      
         fontFamilySelect:$('#global-font-select'),
         fontSizeSlider: $('#global-font-size-slider-div'),
+        iconSizeSlider: $('#global-icon-size-slider-div'),
         initialize:function(){
             this.tab.addEventListener('click',()=>{
 
@@ -975,7 +985,14 @@ var editPieMenu = {
                 let newValue = handleSliderDiv(event);
                 (typeof(newValue) === 'number') && (AutoHotPieSettings.global.globalAppearance.fontSize = newValue)                
                 editPieMenu.pieMenuDisplay.refresh();
-            });           
+            });    
+
+            setSliderDivValue(editPieMenu.globalAppearanceSettings.iconSizeSlider,AutoHotPieSettings.global.globalAppearance.iconSize,16,128);
+            this.iconSizeSlider.on('mousedown mousemove change', (event) => {
+                let newValue = handleSliderDiv(event);
+                (typeof(newValue) === 'number') && (AutoHotPieSettings.global.globalAppearance.iconSize = newValue)                
+                editPieMenu.pieMenuDisplay.refresh();
+            })
         },
         loadSelectedPieKey:function(){},
     },
@@ -1414,7 +1431,7 @@ var editPieMenu = {
             },
             runScript:{
                 chooseFileBtn: document.getElementById('run-script-choose-btn'),
-                displayText: document.getElementById('run-script-display-text'),
+                runScriptExe: document.getElementById('run-script-text-input'),
                 removeBtn: document.getElementById('remove-script-btn')
             },
             openFolder:{
@@ -1422,15 +1439,26 @@ var editPieMenu = {
                 displayText: document.getElementById('open-folder-display-text'),
                 removeBtn: document.getElementById('remove-folder-btn')                
             },
+            menuSelect:{
+                itemsDiv: $('#menu-select-items'),
+                itemTemplate: $('#menu-select-item-div-template'),
+                addBtn: $('#menu-select-add-item-btn')
+            },
             repeatLast:{
                 timeoutSliderDiv: $('#repeat-timeout-slider-input')
             },
             subMenu:{
-                editSubMenuBtn: document.getElementById('edit-sub-menu-btn')                
+                editSubMenuBtn: document.getElementById('edit-sub-menu-btn')            
             },
             openURL:{
                 urlTextInput:$('#url-text-input')
-            },                     
+            },
+            switchApplication:{
+                findExeButton: $('#switch-app-find-exe-button'),
+                getFocusedApplicationButton: $('#switch-app-get-focused-exe-button'),
+                exeTextInput:$('#switch-app-exe-text-input'),
+                multipleInstanceCheckbox:$('#multiple-instance-app-checkbox')
+            },
             noOptions:{}
         },
         
@@ -1489,7 +1517,7 @@ var editPieMenu = {
                     $('[href="#tab-2"]').tab('show');
                 });              
             });
-            this.sliceLabelIconInput.fileText
+            // this.sliceLabelIconInput.fileText
             this.sliceLabelIconInput.removeIconBtn.addEventListener('click',function(event){
                editPieMenu.selectedSlice.icon.filePath = "";
                editPieMenu.sliceSettings.sliceLabelIconInput.fileText.innerHTML = "No icon selected";               
@@ -1630,7 +1658,7 @@ var editPieMenu = {
                             thickness:editPieMenu.selectedPieMenu.thickness,
                             labelRadius: 80,
                             pieAngle: 0,
-                            functions: PieFunction.fill(7)
+                            functions: PieFunction.fill(9)
                         });
                         editPieMenu.selectedPieKey.pieMenus[pieNumber] = newPieMenuObj
                         return {pieMenuNumber: pieNumber,isBack: false}
@@ -1647,8 +1675,11 @@ var editPieMenu = {
                         switch (pieFunc){
                             case "sendKey":
                                 assignKey().then(val => {                            
-                                    editPieMenu.selectedSlice.params.keys[0] = val.ahkKey                                    
-                                    setDefaultLabel(val.displayKey, "");
+                                    editPieMenu.selectedSlice.params.keys[0] = val.ahkKey    
+                                    let textLabel = editPieMenu.selectedSlice.label                                
+                                    if (textLabel.includes("New Slice") || textLabel == ""){                                        
+                                        setDefaultLabel(val.displayKey, "")
+                                    }                                    
                                     $('[href="#tab-2"]').tab('show');
                                     // editPieMenu.sliceSettings.sliceFunction.sendKey.keysDiv.scrollIntoView({behavior:"smooth"});
                                     window.scrollTo(0,document.body.scrollHeight);
@@ -1666,7 +1697,7 @@ var editPieMenu = {
                                 let scriptFilename = electron.openScriptFile()
                                 if(scriptFilename){                    
                                     editPieMenu.selectedSlice.params.filePath = scriptFilename;   
-                                    editPieMenu.sliceSettings.sliceFunction.runScript.displayText.innerHTML = scriptFilename; 
+                                    editPieMenu.sliceSettings.sliceFunction.runScript.runScriptExe.innerHTML = scriptFilename; 
                                     console.log(scriptFilename);        
                                     setDefaultLabel(nodePath.basename(scriptFilename),"RunScript.png");          
                                 } else {
@@ -1709,7 +1740,10 @@ var editPieMenu = {
                                 return;
                             case "openSettings":
                                 setDefaultLabel("AHP Settings","SettingsCog.png");               
-                                return;                        
+                                return;
+                            case "switchApplication":
+                                setDefaultLabel("Switch App", "SwitchApplication.png");
+                                return;                      
                             default:
                                 return;
                         }
@@ -1869,15 +1903,22 @@ var editPieMenu = {
                 let scriptFilename = electron.openScriptFile()
                 if(scriptFilename){                    
                     editPieMenu.selectedSlice.params.filePath = scriptFilename;   
-                    editPieMenu.sliceSettings.sliceFunction.runScript.displayText.innerHTML = scriptFilename;                    
-                }
+                    editPieMenu.sliceSettings.sliceFunction.runScript.runScriptExe.innerHTML = scriptFilename;                    
+                }                
                 editPieMenu.sliceSettings.loadSelectedPieKey();
                 return
             })            
             this.sliceFunction.runScript.removeBtn.addEventListener('click',function(event){
                 editPieMenu.selectedSlice.params.filePath = "";
-                editPieMenu.sliceSettings.sliceFunction.runScript.displayText.innerHTML = "No file selected";
+                editPieMenu.sliceSettings.sliceFunction.runScript.runScriptExe.innerHTML = "No file selected";
                 editPieMenu.sliceSettings.loadSelectedPieKey(); 
+             });
+
+             //Menu Select
+             this.sliceFunction.menuSelect.addBtn.click( () => {
+                let ms = editPieMenu.sliceSettings.sliceFunction.menuSelect;
+                let newItemDiv = ms.itemTemplate.clone()[0];
+                ms.itemsDiv.append(newItemDiv);
              });
 
              //Open Folder
@@ -1903,9 +1944,47 @@ var editPieMenu = {
                 $('[href="#tab-9"]').tab('show');
             });
 
+            //Open URL
             this.sliceFunction.openURL.urlTextInput.on('input propertychange', (event) => {
                 // console.log(event)
                 editPieMenu.selectedSlice.params.url = event.target.value;                               
+            });
+
+            //Switch Application
+            this.sliceFunction.switchApplication.findExeButton.on('click', () => {
+                let applicationFilePath = electron.openEXEFullPath();
+                if(applicationFilePath){                    
+                    editPieMenu.selectedSlice.params.filePath = applicationFilePath;                       
+                }                
+                editPieMenu.sliceSettings.loadSelectedPieKey();
+                return                     
+            });
+            this.sliceFunction.switchApplication.getFocusedApplicationButton.on('click', () => {
+                $('[href="#tab-34"]').tab('show');
+                configureNewProfile.focusTimerGIF.hide();
+                configureNewProfile.focusTimerGIF.fadeIn(10);
+                getActiveWindowProcess().then((exe) => {                    
+                    editPieMenu.selectedSlice.params.filePath = exe.path;
+                    $('[href="#tab-2"]').tab('show');
+                    editPieMenu.sliceSettings.loadSelectedPieKey();
+                    win.focus();         
+                }, () => {
+                    confirmDialog({heading:"You dun goofed.",
+                    description:"Focus the application you want to add a profile for.",
+                    cancelText:"Go Back",
+                    confirmText:"Back in Blue"                            
+                }).then(() => {
+                    $('[href="#tab-2"]').tab('show');
+                }, () => {
+                    $('[href="#tab-2"]').tab('show');
+                })
+                });
+            });
+            this.sliceFunction.switchApplication.exeTextInput.on('change', (e) => {
+                editPieMenu.selectedSlice.params.filePath = e.target.value;
+            });
+            this.sliceFunction.switchApplication.multipleInstanceCheckbox.on('click', (e) => {
+                editPieMenu.selectedSlice.params.multipleInstanceApplication = e.target.value;
             });
 
         },
@@ -2027,7 +2106,8 @@ var editPieMenu = {
                 editPieMenu.sliceSettings.sliceFunction.dropdownMenu.appendChild(menuItemOption);                
             }            
 
-            let selectedFunc = this.sliceFunction.dropdownBtn.innerHTML            
+            let selectedFunc = this.sliceFunction.dropdownBtn.innerHTML
+            console.log(selectedFunc);            
             let ahkParamObj = {}
             switch (selectedFunc){
                 case "Send Key":
@@ -2105,11 +2185,15 @@ var editPieMenu = {
                     if (ahkParamObj.filePath == ""){
                         // scriptControl.displayText.setAttribute('class','text-muted');
                         
-                        editPieMenu.sliceSettings.sliceFunction.runScript.displayText.innerHTML = "No file selected";
+                        editPieMenu.sliceSettings.sliceFunction.runScript.runScriptExe.innerHTML = "No file selected";
                     }else{
                         // scriptControl.displayText.removeAttribute('class');                              
-                        editPieMenu.sliceSettings.sliceFunction.runScript.displayText.innerHTML = editPieMenu.selectedSlice.params.filePath;                
+                        editPieMenu.sliceSettings.sliceFunction.runScript.runScriptExe.innerHTML = editPieMenu.selectedSlice.params.filePath;                
                     }
+                    break;
+                case "Menu Select": //Menu select function
+                    ahkParamObj = editPieMenu.selectedSlice.params;
+                    //Add stuff here
                     break;
                 case "Open Folder":
                     ahkParamObj = editPieMenu.selectedSlice.params;                    
@@ -2131,6 +2215,11 @@ var editPieMenu = {
                 case "Open URL":
                     ahkParamObj = editPieMenu.selectedSlice.params;                    
                     editPieMenu.sliceSettings.sliceFunction.openURL.urlTextInput.val(ahkParamObj.url);
+                    break;
+                case "Switch App":
+                    ahkParamObj = editPieMenu.selectedSlice.params;
+                    editPieMenu.sliceSettings.sliceFunction.switchApplication.exeTextInput.val(ahkParamObj.filePath)
+                    editPieMenu.sliceSettings.sliceFunction.switchApplication.multipleInstanceCheckbox[0].checked = ahkParamObj.multipleInstanceApplication;
                     break;
                 case "No Options":
                     break;

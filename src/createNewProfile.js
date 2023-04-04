@@ -1,31 +1,63 @@
 
 let configureNewProfile = {
     backBtn: document.getElementById('create-new-profile-back-btn'),
-    newProfileNameField: document.getElementById("new-profile-name"),    
-    newProfileExeField: document.getElementById("new-profile-exe"),
+    newProfileNameField: $("#new-profile-name"),
+    getFocusedWindowBtn: $('#get-focused-app-button'),
+    selectEXEButton: $('#select-profile-exe-btn'),    
+    newProfileExeField: $('#new-profile-exe-field'),
     newProfileExeValidation: $('#new-profile-exe-path-validiation-warning'),
-    initialize:function(){        
-        document.getElementById("select-profile-exe-btn").addEventListener("click", function(event){
+    focusTimerGIF: $('#focus-timer-gif'),
+    initialize:function(){       
+        this.selectEXEButton.on("click", function(event){
             let exeName = electron.openEXE()
-            document.getElementById("new-profile-exe").value = exeName
+            configureNewProfile.newProfileExeField.val(exeName);
         });
+        this.getFocusedWindowBtn.on('click', (e) => {
+
+
+            $('[href="#tab-34"]').tab('show');
+            configureNewProfile.focusTimerGIF.hide();
+            configureNewProfile.focusTimerGIF.fadeIn(10);
+
+            getActiveWindowProcess().then((exe) => {
+                configureNewProfile.newProfileExeField.val(exe.name);
+                if (configureNewProfile.newProfileNameField.val() == ""){
+                    configureNewProfile.newProfileNameField.val(exe.name.replace('.exe',''));
+                }
+                $('[href="#tab-3"]').tab('show');
+                win.focus();         
+            }, () => {
+                confirmDialog({heading:"You dun goofed.",
+                description:"Focus the application you want to add a profile for.",
+                cancelText:"Go Back",
+                confirmText:"Back in Blue"                            
+            }).then(() => {
+                $('[href="#tab-3"]').tab('show');                
+            }, () => {
+                $('[href="#tab-3"]').tab('show');
+            })
+            });                     
+        });
+        
         document.getElementById("create-profile-cancel-btn").addEventListener("click", function(event){
             profileManagement.open();
         });
         document.getElementById("create-profile-btn").addEventListener("click", function(event){
         });
         $("#create-new-profile-form").submit(function(event){            
-            event.preventDefault()
-            // console.log(event)
-            if (event.target.elements[0].value == "" || event.target.elements[1].value == ""){
-                if(event.target.elements[1].value == ""){
+            event.preventDefault();
+            console.log(event);
+            let nameFieldValue = event.target.elements[0].value;
+            let exeFieldValue = event.target.elements[2].value
+            if (nameFieldValue == "" || exeFieldValue == ""){
+                if(exeFieldValue == ""){
                     configureNewProfile.newProfileExeValidation.show();
                 }
                 return //Don't submit because things are not filled out
             }
             var newProfile = new AppProfile({
                 name:event.target.elements[0].value,
-                ahkHandles:[event.target.elements[1].value],
+                ahkHandles:[exeFieldValue],
                 enable:true
             });
             profileManagement.addProfile(newProfile)
@@ -36,8 +68,8 @@ let configureNewProfile = {
          })
     },    
 open:function(){
-    this.newProfileNameField.value = "";
-    this.newProfileExeField.value = "";
+    this.newProfileNameField.val("");
+    this.newProfileExeField.val("");
     this.newProfileExeValidation.hide();              
     $('[href="#tab-3"]').tab('show');
     }    

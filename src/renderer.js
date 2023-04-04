@@ -37,6 +37,12 @@ function hexToRgb(hex) {
       parseInt(result[3], 16),255] : null;
   }
 
+function rgbLightness(rgbArray){
+    rgbArray[0]
+    return (0.299*(rgbArray[0]/255) + 0.587*(rgbArray[1]/255) + 0.114*(rgbArray[2]/255))
+}
+
+
 function getKeyByValue(object, value) {
     return Object.keys(object).find(key => object[key] === value);
 }

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Content" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+        stroke: #888;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 5.91px;
+      }
+
+      .cls-2 {
+        fill: #888;
+      }
+    </style>
+  </defs>
+  <rect class="cls-1" x="9.16" y="13.3" width="83.69" height="73.39"/>
+  <path class="cls-2" d="m11.2,44.11v28.48h78.85v-28.48H11.2Zm73.08,17.19l-6.53,6.55c-.3.28-.67.43-1.05.43s-.75-.15-1.03-.43c-.59-.58-.59-1.52,0-2.1l6.53-6.53c.47-.49.47-1.27,0-1.74l-6.53-6.55c-.59-.58-.59-1.51,0-2.08.58-.58,1.51-.58,2.08,0l6.53,6.55c1.64,1.63,1.64,4.29,0,5.91Z"/>
+</svg>

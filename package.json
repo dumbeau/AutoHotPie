@@ -1,7 +1,7 @@
 {
   "name": "autohotpie",
   "productName": "AutoHotPie",
-  "version": "1.0.23-alpha",
+  "version": "1.0.26-alpha",
   "description": "Universal Pie Menus for Windows",
   "main": "main.js",
   "scripts": {
@@ -45,10 +45,7 @@
     }
   },
   "keywords": [],
-  "author": {
-    "name": "dumbeau",
-    "email": "caspergilles@gmail.com"
-  },
+  "author": "dumbeau <caspergilles@gmail.com>",
   "license": "MIT",
   "config": {
     "forge": {
@@ -78,14 +75,24 @@
     }
   },
   "dependencies": {
-    "electron-font-manager": "gmeeker/electron-font-manager",
+    "electron-font-manager": "github:gmeeker/electron-font-manager",
     "electron-squirrel-startup": "^1.0.0",
     "meow": "^10.1.2",
+    "minimatch": "^5.1.1",
     "node-dir": "^0.1.17",
+    "node-window-manager": "^2.2.4",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "electron": "19.0.4",
+    "electron": "^22.0.0",
     "electron-builder": "^22.13.1"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dumbeau/AutoHotPie.git"
+  },
+  "bugs": {
+    "url": "https://github.com/dumbeau/AutoHotPie/issues"
+  },
+  "homepage": "https://github.com/dumbeau/AutoHotPie#readme"
 }

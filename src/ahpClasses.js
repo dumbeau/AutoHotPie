@@ -7,7 +7,7 @@ class AHPSettings {
         let defaults = {
             global:{
                 pieTips: true,
-                enableEscapeKeyMenuCancel: false,
+                enableEscapeKeyMenuCancel: true,
                 app:{
                     sourceFileName:SettingsFileName,
                     version: electron.getVersion()
@@ -153,6 +153,16 @@ class AHPSettings {
                             name: "Open URL",
                             optionType: "Open URL",
                             ahkFunction: "openURL",
+                            associatedProgram:"none",
+                            commonPlacement:{
+                                center: false,
+                                slice: false
+                            }
+                        },
+                        {
+                            name: "Switch App",
+                            optionType: "Switch Application",
+                            ahkFunction: "switchApplication",
                             associatedProgram:"none",
                             commonPlacement:{
                                 center: false,
@@ -1707,10 +1717,11 @@ class AppProfile {
             this.pieKeys = _appProfileObj.pieKeys.map((pieKey) => new PieKey(pieKey))
         } else {
             console.log("No AppProfile data supplied");
-        }        
+        }
     }
 
 }
+
 class PieKey {
     constructor(_pieKeyObj=null){        
         let defaults = {            
@@ -1740,6 +1751,7 @@ class PieKey {
         }
     }
 }
+
 class PieMenu {
     constructor(_pieMenu=null){
         let defaults = {
@@ -1760,11 +1772,12 @@ class PieMenu {
         }        
     }     
 }
+
 class PieFunction {
     constructor(_pieFunction=null){   
         let defaults = { function: "none",
             params: (_pieFunction !== null) ? PieFunction.getPieFunctionDefaultParameters(_pieFunction.function) : {},            
-            label: "Slice",
+            label: "New Slice",
             hotkey: "",
             clickable: false,
             returnMousePos: false,
@@ -1779,8 +1792,8 @@ class PieFunction {
     static fill (numFunctions=1) {
         let funcArray = Array.from({length:numFunctions})
         for (let i = 0; i < funcArray.length; i += 1) {
-            funcArray[i] = new PieFunction({label:"Slice " + i});
-        }
+            funcArray[i] = new PieFunction();
+        }        
         return funcArray
     }
 
@@ -1815,7 +1828,12 @@ class PieFunction {
                 break;
             case "runScript":
                 return {
-                    filePath:""                                                                
+                    filePath:""                                                        
+                }
+                break;
+            case "menuSelect":
+                return {
+                    menuPath:[]
                 }
                 break;
             case "openFolder":
@@ -1833,6 +1851,9 @@ class PieFunction {
                 break;
             case "submenu":             
                 return {pieMenuNumber: 0,isBack: false}
+                break;
+            case "switchApplication":
+                return {filePath:"",multipleInstanceApplication:false};
                 break;
             case "customFunction":
                 //Determine controls!!!
@@ -2038,13 +2059,6 @@ function createIntialAHPSettingsProfile(){
             ahkHandles: ["ahk_group regApps"],                      
             pieKeys: []
             })]        
-    });    
-    function fillPieFunctions(numFunctions=1){
-        let funcArray = Array.from({length:numFunctions})
-        for (let i = 0; i < funcArray.length; i += 1) {
-            funcArray[i] = new PieFunction({label:"Slice " + i});
-        }
-        return funcArray
-    }   
+    });  
     return AHPSettingsObj
 }

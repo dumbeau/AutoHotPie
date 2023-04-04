@@ -79,7 +79,7 @@ var newPieMenu = {
         return       
     },
     open: function(){     
-        this.refresh();   
+        this.refresh();           
         $('[href="#tab-4"]').tab('show');  
     },
     refresh:function(){
@@ -103,8 +103,10 @@ var newPieMenu = {
 var resolveNewPieMenuPromise, rejectNewPieMenuPromise
 
 async function createNewPieMenu(options={}){     
-    newPieMenu.newPieKeyObj = getDefaultPieKeyObj();
-    function getDefaultPieKeyObj(){                
+    
+    newPieMenu.newPieKeyObj = getDefaultPieKeyObj();  
+    
+    function getDefaultPieKeyObj(){             
         function determineCopyPieMenu(){
             let newCopyMenu
             if(profileManagement.selectedProfile.pieKeys[0]){
@@ -114,7 +116,7 @@ async function createNewPieMenu(options={}){
                 // newCopyMenu.activationMode.submenuMode = null;
             }else{
                 newCopyMenu = new PieKey({pieMenus:[new PieMenu()]});
-                // newCopyMenu.activationMode.submenuMode = null;                
+                // newCopyMenu.activationMode.submenuMode = null;             
             }
             return newCopyMenu;
         };
@@ -128,11 +130,11 @@ async function createNewPieMenu(options={}){
                 selectionColor: copyMenu.pieMenus[0].selectionColor,
                 radius:copyMenu.pieMenus[0].radius,
                 thickness:copyMenu.pieMenus[0].thickness,
-                labelRadius: copyMenu.pieMenus[0].labelRadius,
-                pieAngle: 0,
-                functions: PieFunction.fill(7)                
+                labelRadius: copyMenu.pieMenus[0].labelRadius,                
+                pieAngle: 22.5,
+                functions: PieFunction.fill(9)
             })]
-        });     
+        });
         return defaultPieKey
     };        
     newPieMenu.open();

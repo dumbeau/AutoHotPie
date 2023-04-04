@@ -7,7 +7,8 @@ const fs = require('fs')
 
 let mainWindow
 function createWindow() {
-  // Create the browser window.
+  try {
+  // Create the browser window.  
 
   let windowWidth = (isDev()) ? 1271 : 960
   mainWindow = new BrowserWindow({
@@ -16,13 +17,16 @@ function createWindow() {
     minHeight: 670,
     minWidth: 960,
     width: windowWidth,
-    height: 1030,
+    height: 1030,    
     webPreferences: {
+      // contextIsolation:false,
+      sandbox:false,
       enableRemoteModule: true,
       preload: path.join(__dirname, 'src/preload.js'),
       contextIsolation: true
     }
   })
+  
 
   // and load the index.html of the app.
   mainWindow.loadFile('src/index.html')
@@ -66,10 +70,18 @@ function createWindow() {
       path:usePath
     });
   });
+  ipcMain.on('focusThisWindow', () => {
+    mainWindow.show();
+    mainWindow.on('show', () => {
+      setTimeout(() => {
+        mainWindow.focus();
+      }, 200);
+    });    
+  });
   ipcMain.on('openFileDialog', (event, options) => {    
     event.returnValue = dialog.showOpenDialogSync(options);
   });
-  ipcMain.on('saveFileDialog', (event, options) => {    
+  ipcMain.on('saveFileDialog', (event, options) => {
     event.returnValue = dialog.showSaveDialogSync(mainWindow, options);
   });
   ipcMain.on('getVersionNumber', (event) => {
@@ -92,6 +104,11 @@ function createWindow() {
   ipcMain.on('getPath',function(event, pathString){
     event.returnValue = app.getPath(pathString);
   });
+} catch (error) {
+  dialog.showErrorBox("AutoHotPie Error", error.toString() + "\n\nAutoHotPie will close.").then(()=>{
+    app.quit();
+  });  
+}
 }
 
 // This method will be called when Electron has finished
@@ -130,7 +147,7 @@ app.on('window-all-closed', function (event) {
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
 
-function isDev(){
+function isDev(){   
   let processVal = process.defaultApp
     if (processVal == true){
       returnValue = processVal;
@@ -199,6 +216,18 @@ const template = [
           label: 'Donate',
           click: () => {
             shell.openExternal('https://www.paypal.com/donate?business=RBTDTCUBK4Z8S&no_recurring=1&item_name=Support+Pie+Menus+Development&currency_code=USD')             
+          }
+        },
+        {
+          label: 'Open Developer Tools',
+          click: () => {
+            mainWindow.webContents.openDevTools();
+          }
+        },
+        {
+          label: 'Open resources folder',
+          click: () => {
+            mainWindow.webContents.send('menuSelected', 'openResources')
           }
         }
      ]

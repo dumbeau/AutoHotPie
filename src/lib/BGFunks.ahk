@@ -34,8 +34,6 @@
 	return
 	}
 
-
-
 removeCharacters(var, chars="+^!#")
 	{
 	   stringreplace,var,var,%A_space%,_,a
@@ -574,6 +572,7 @@ runPieMenu(profileNum, index, activePieNum=1)
 								}
 							}
 						}
+						PressedSliceHotkeyName := ""
 
 						If ((GetKeyState("LButton","P") && activePieKey.activationMode.clickableFunctions))		
 						{
@@ -739,6 +738,7 @@ runPieMenu(profileNum, index, activePieNum=1)
 								}
 							}
 						}
+						PressedSliceHotkeyName := ""
 						
 
 						If ((GetKeyState("LButton","P") && activePieKey.activationMode.clickableFunctions) || (pieKeyAction == "Select" && GetKeyState(removeCharacters(pieHotkey, "+^!#"), "P") && hoverToSelectActive && pieKeyReleased))
@@ -908,7 +908,8 @@ runPieMenu(profileNum, index, activePieNum=1)
 						if ( hasValue(PressedSliceHotkeyName, ActivePieSliceHotkeyArray)){
 							for k3, func in activePie.functions
 							{
-								if (PressedSliceHotkeyName == func.hotkey){
+								if (PressedSliceHotkeyName == func.hotkey){	
+									PressedSliceHotkeyName := ""																
 									if (func.function == "submenu"){
 										updatePie := true
 										pieRegion := k3-1										
@@ -921,9 +922,10 @@ runPieMenu(profileNum, index, activePieNum=1)
 										sliceHotkeyPressed := true									
 										break				
 									}										
-								}
+								}								
 							}
 						}
+						PressedSliceHotkeyName := ""
 
 						If (GetKeyState("LButton","P") || (pieKeyAction == "Select" && GetKeyState(removeCharacters(pieHotkey, "+^!#"), "P") && pieKeyReleased))
 						{
@@ -1164,9 +1166,9 @@ exitPieMenu(p_activePie)
 	ClearDrawGDIP()
 	EndDrawGDIP()
 	loadSliceHotkeys(p_activePie, false)
+	PieLaunchedState := false
 	return false	
 }
-
 
 
 
@@ -1475,7 +1477,7 @@ drawPieLabel(activePieProfile, sliceFunction, xPos, yPos, selected:=0, anchor:="
 	basicPen := Gdip_CreatePen(strokeColor, strokeThickness)
 	otherPen := Gdip_CreatePen("0xFFff0000" , strokeThickness) ;May want to adjust
 	basicBrush := Gdip_BrushCreateSolid(labelBGColor)
-	Gdip_DrawRoundedRectangle(G, basicPen, rectCenter[1]-(outerRectSize[1]/2), rectCenter[2]-(outerRectSize[2]/2), outerRectSize[1], outerRectSize[2], (outerRectSize[2]/2)*(activePieProfile.labelRoundness/100))
+	; Gdip_DrawRoundedRectangle(G, basicPen, rectCenter[1]-(outerRectSize[1]/2), rectCenter[2]-(outerRectSize[2]/2), outerRectSize[1], outerRectSize[2], (outerRectSize[2]/2)*(activePieProfile.labelRoundness/100))
 	Gdip_FillRoundedRectangle(G, basicBrush, rectCenter[1]-(outerRectSize[1]/2), rectCenter[2]-(outerRectSize[2]/2), outerRectSize[1], outerRectSize[2], (outerRectSize[2]/2)*(activePieProfile.labelRoundness/100))
 	
 	; basicBrush := Gdip_BrushCreateSolid(RGBAtoHEX([255,0,0,255])) ;Draw rectcenter locations
@@ -1976,7 +1978,15 @@ logTime(start=True){
 	}
 }
 
-print(value){
+print(value,varName=""){
+	if (value == ""){
+		if(varName != ""){
+			OutputDebug, % varName . ": null"
+		}else{
+			OutputDebug, null
+		}		
+		return
+	}
 	if (DebugMode == false)		
 		return		
 	if (IsObject(value)) ;Array or Object
@@ -1987,13 +1997,23 @@ print(value){
 			if (k == 1) {
 				showArrString := "1: " . val
 			} else {
-				showArrString := showArrString . "`n" . k . ": " . val
+				if(varName != ""){
+					showArrString := showArrString . "`n`t" . k . ": " . val
+				}else{
+					showArrString := showArrString . "`n" . k . ": " . val				
+				}
 			}
 		}
-		msgbox, % showArrString	
+		if(varName != ""){
+			showArrString := varName . ":`n`t" . showArrString
+		}
+		OutputDebug, % showArrString	
 		return
 	} else { ;Number or string
-		msgbox, % value
+		if(varName != ""){
+			value := varName . ": " . value
+		}
+		OutputDebug, % value
 		return
 	}	
 }

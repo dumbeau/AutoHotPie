@@ -196,6 +196,44 @@ pie_openURL(params){
 	return
 	}
 	}
+pie_selectMenuItem(menuItems){
+	WinMenuSelectItem, A, , menuItems[1], menuItems[2], menuItems[3], menuItems[4], menuItems[5], menuItems[6] 	
+}
+pie_switchApplication(params){
+	exePath := params.filePath
+	multipleInstances := params.multipleInstanceApplication
+	SplitPath, % params.filePath, ahkHandle
+	ahkHandle := appendAHKTag(ahkHandle)
+	If (multipleInstances) {
+        groupName := StrReplace(SubStr(ahkHandle, InStr(ahkHandle," ")+1),".","")
+        If (GetKeyState("Ctrl", "P"))
+        {            
+            Run, %exePath%            
+            GroupAdd, %groupName%, %ahkHandle%
+        } Else {            
+            If !(WinExist(ahkHandle))
+                {
+                Run, %exePath%
+                GroupAdd, %groupName%, %ahkHandle%
+                Return
+                }
+            GroupAdd, %groupName%, %ahkHandle%
+            if WinActive(ahkHandle)
+                {
+                GroupActivate, %groupName%, r
+                sleep, 3
+                }
+            else
+                WinActivate, %ahkHandle%
+        }                 
+    } Else {
+        If !WinExist(ahkHandle) {
+            Run, %exePath%
+        } Else {
+            WinActivate, %ahkHandle%
+        }             
+    }	
+}
 pie_afterfx_cursorToPlayhead()
 	{
 	return

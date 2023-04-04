@@ -1,6 +1,11 @@
-﻿#Persistent
+﻿#Requires AutoHotKey v1.1.34.04+
+#Persistent
 #NoEnv
 #SingleInstance force
+SetBatchLines -1
+ListLines Off
+SetWinDelay, 0		; Changed to 0 upon recommendation of documentation
+SetControlDelay, 0	; Changed to 0 upon recommendation of documentation
 
 #Include %A_ScriptDir%\lib\Gdip_All.ahk
 #Include %A_ScriptDir%\lib\GdipHelper.ahk
@@ -13,6 +18,7 @@
 DllCall("SetThreadDpiAwarenessContext", "ptr", -3, "ptr")
 CoordMode, Mouse, Screen
 SetTitleMatchMode, RegEx ;May not need this anymore
+
 
 ;Check AHK version and if AHK is installed.  Prompt install or update.
 if (!A_IsCompiled)
@@ -51,6 +57,14 @@ global PieLaunchedState := false
 
 global PenClicked := false
 global PieMenuRanWithMod := false	
+
+global LMB
+LMB.pressed := false
+global SliceHotkey
+SliceHotkey.pressed := false 
+global ExitKey
+ExitKey.pressed := false
+
 
 ; global pieDPIScale
 getMonitorCoords(Mon.left , Mon.right , Mon.top , Mon.bottom )
@@ -247,19 +261,41 @@ return
 
 #If (PieLaunchedState == 1)
 LButton::
+	LMB.pressed := true
 	; PenClicked := true 
 	;Check pie launched state again?
 	Return
 LButton up::	
+	LMB.pressed := false
 	; PenClicked := false
 	;Check pie launched state again?
 	Return
+
 ;For mouseClick function
 #If (RemapLButton == "right")
 LButton::RButton
 #If (RemapLButton == "middle")
 LButton::MButton
 #If ;This ends the context-sensitivity
+
+SliceHotkeyPress:
+	SliceHotkey.pressed := true
+	return
+SliceHotkeyRelease:
+	SliceHotkey.pressed := false
+	return
+ExitKeyPress:
+	ExitKey.pressed := true
+	return
+ExitKeyRelease:
+	ExitKey.pressed := false
+	return
+
+
+~esc::
+if (settings.global.enableEscapeKeyMenuCancel)
+	PieLaunchedState := false
+return
 
 ;If a display is connected or disconnected
 OnMessage(0x7E, "WM_DISPLAYCHANGE")

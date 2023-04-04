@@ -25,6 +25,18 @@ var confirmationDialog = {
 }
 // confirmationDialog.initialize();
 
+/**
+ * 
+ * @param {object} options Object to override default options.
+ * @param {string} options.heading The heading of the dialog
+ * @param {string} options.description The description of the dialog.
+ * @param {string} options.cancelText Text in the 'Cancel' button.
+ * @param {string} options.confirmText Text in the 'Confirm' button.
+ * @param {boolean} options.askAgainBox Show a checkbox option?
+ * @param {string} options.askAgainLabel Text for the checkbox option.
+ * @param {string} options.secondaryText Extra option button text.  Will not show if empty.
+ * @returns {Promise} Resolves on confirm and Rejects on cancel.
+ */
 async function confirmDialog(options){    
     let cd = confirmationDialog;
     //Get active tab

@@ -1,9 +1,9 @@
 // All of the Node.js APIs are available in the preload process.
 // It has the same sandbox as a Chrome extension.
-
-const fs = require("fs")
-const path = require("path")
-const { ipcRenderer , contextBridge, shell, app, BrowserWindow, ipcMain } = require('electron')
+const fs = require("fs");
+const path = require("path");
+const { ipcRenderer , contextBridge, shell, app, BrowserWindow, ipcMain } = require('electron');
+const { windowManager } = require("node-window-manager");
 
 // var exec = require('child_process').execFile;
 const child_process = require('child_process');
@@ -18,11 +18,17 @@ const nodeDir = require('node-dir');
 const uuidv4 = require('uuid')
 
 var PieMenuFolder
-if(ipcRenderer.sendSync('isDev')){
-  PieMenuFolder = path.resolve(__dirname);
+// if(ipcRenderer.sendSync('isDev')){  
+//   PieMenuFolder = path.resolve(__dirname);
+// } else {
+//   PieMenuFolder = path.resolve(__dirname, '..','..','src');
+// }
+if (__dirname.includes('app.asar\\src')) {
+  PieMenuFolder = path.resolve(__dirname, '..','..','src');  
 } else {
-  PieMenuFolder = path.resolve(__dirname, '..','..','src');
+  PieMenuFolder = path.resolve(__dirname);  
 }
+console.log("App folder: " + PieMenuFolder);
 var UserDataFolder = path.join(ipcRenderer.sendSync('getUserDataFolder'));
 
 if (!fs.existsSync(path.resolve(UserDataFolder,'User Scripts'))){      
@@ -131,6 +137,12 @@ contextBridge.exposeInMainWorld('JSONFile', {
 
 contextBridge.exposeInMainWorld('setRunOnLogin', function(runOnLogin, isAHK=false){
   ipcRenderer.send('setRunOnLogin', runOnLogin, isAHK);    
+});
+
+contextBridge.exposeInMainWorld('win', {
+  focus: function(){
+    ipcRenderer.send('focusThisWindow');
+  }
 });
 
 
@@ -342,6 +354,28 @@ contextBridge.exposeInMainWorld('electron', {
     return null
   }    
   },
+  openEXEFullPath: function(){
+    // WIN = new BrowserWindow({width: 800, height: 600})
+    let options = {
+        // See place holder 1 in above image
+        title : "Select Program Executable",
+        
+        // See place holder 3 in above image
+        // buttonLabel : "Open...",
+        
+        // See place holder 4 in above image
+        filters :[
+          {name: 'Applications', extensions: ['exe']}        
+        ],
+        properties: ['openFile']
+        }
+    let filePath = ipcRenderer.sendSync('openFileDialog', options)
+    if (filePath != null){      
+      return filePath[0];
+    } else {
+      return null
+    }    
+    },
   // openIconImage: function(){ //May no longer be needed
   //   let localFilepath = path.join(PieMenuFolder, 'icons')
   //   let options = {
@@ -471,6 +505,10 @@ contextBridge.exposeInMainWorld('electron', {
     return true
   }
   }
+});
+
+contextBridge.exposeInMainWorld('openResourcesFolder',()=>{
+  shell.openPath(PieMenuFolder);
 });
 
 contextBridge.exposeInMainWorld('iconManager',{ // FIX MEEEEEEEEEEEEEEEEEEE
@@ -608,6 +646,25 @@ contextBridge.exposeInMainWorld('font',{
     return memebers        
   }
 });
+
+contextBridge.exposeInMainWorld('getActiveWindowProcess', () => {
+  return new Promise((resolve, reject) => {
+    let delaySeconds = 5;
+    function getActiveWindow(){
+      let exe = {path:"",name:""};
+      exe.path = windowManager.getActiveWindow().path;
+      exe.name = path.basename(exe.path);      
+      if (["autohotpie.exe","electron.exe"].includes(exe.name.toString().toLowerCase())){        
+        reject();        
+      } else {
+        resolve(exe);        
+      }
+    }  
+    setTimeout(getActiveWindow, (delaySeconds*1000)-300)
+  })
+});
+
+contextBridge.exposeInMainWorld('windowManager', windowManager);
 
 
 

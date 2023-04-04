@@ -32,6 +32,11 @@ menuListener(function(event, arg){
             closeWindow();
             return
         }
+        case 'openResources':
+        {
+            openResourcesFolder();
+            return
+        }
         default:
             return            
     }
