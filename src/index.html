@@ -3,1155 +3,271 @@
 
 <head>
     <meta charset="utf-8">
+<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>AutoHotPie</title>
+    <title>AutoHotPieV2</title>
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400&amp;display=swap">
     <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
     <link rel="stylesheet" href="assets/fonts/ionicons.min.css">
-    <link rel="stylesheet" href="assets/fonts/simple-line-icons.min.css">
+    <link rel="stylesheet" href="assets/css/buttons.css">
+    <link rel="stylesheet" href="assets/css/context-menu.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/6.4.8/swiper-bundle.min.css">
+    <link rel="stylesheet" href="assets/css/inputs.css">
+    <link rel="stylesheet" href="assets/css/jscolor.css">
+    <link rel="stylesheet" href="assets/css/newprofilepage.css">
+    <link rel="stylesheet" href="assets/css/scrollbar.css">
+    <link rel="stylesheet" href="assets/css/sidebar.css">
+    <link rel="stylesheet" href="assets/css/Simple-Slider.css">
     <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/tables.css">
+    <link rel="stylesheet" href="assets/css/topbar.css">
 </head>
 
-<body style="height: 100%;">
-    <div id="app-tabs" style="height: 100%;">
-        <ul class="nav nav-tabs" role="tablist" name="hidden-tab-items" style="display:none">
-            <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-1">Home</a></li>
-            <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-2">Edit Pie Menu</a></li>
-            <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-3">Create New Profile</a></li>
-            <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-34">Focus Timer</a></li>
-            <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-4">Create New Pie Menu</a></li>
-            <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-5">Global</a></li>
-            <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-6">Confirmation</a></li>
-            <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-31">Exit</a></li>
-            <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-7">Choose Hotkey</a></li>
-            <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-11">Listen for Key</a></li>
-            <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-12">Choose Activation Mode</a></li>
-            <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-23">Clipboard Elements</a></li>
-            <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-24">Running Pie Menus</a></li>
-            <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-25">Function Select</a></li>
-            <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-30">Create New Script</a></li>
-            <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-28">Icon Manager</a></li>
-            <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-29">Edit Script</a></li>
-            <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-32">Error</a></li>
-            <li class="nav-item" role="presentation"><a class="nav-link active" role="tab" data-bs-toggle="tab" href="#tab-33">Loading</a></li>
+<body style="width: 100%;height: 100%;">
+    <div class="hidden-bootstrap-page-tabs">
+        <ul class="nav nav-tabs" role="tablist" id="full-page-tab-items">
+            <li class="nav-item" role="presentation"><a class="nav-link active" role="tab" data-bs-toggle="tab" href="#tab-6">Main App with Sidebar</a></li>
+            <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-7">Add New Profile</a></li>
+            <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-11">Add New Pie Menu</a></li>
+            <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-8">Get Window</a></li>
+            <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-9">Confirm</a></li>
+            <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-10">Settings</a></li>
         </ul>
-        <div class="tab-content" style="height: 100%;">
-            <div class="tab-pane" role="tabpanel" id="tab-1">
-                <div class="d-flex" style="height: 71px;background: linear-gradient(270deg, var(--bs-blue), var(--bs-teal));">
-                    <div class="d-flex justify-content-start align-items-center align-items-md-center" style="width: 40%;"><button class="btn btn-secondary" id="settings-btn" type="button" style="margin-right: 14px;margin-left: 50px;"><i class="icon ion-gear-a" style="margin-right: 12px;"></i>Settings</button></div>
-                    <div class="d-flex justify-content-center align-items-center align-items-md-center" style="width: 20%;"></div>
-                    <div class="text-end d-flex justify-content-end align-items-center align-items-md-center" style="width: 40%;"><button class="btn btn-success" id="save-and-run-pie-menus" type="button" style="margin-right: 50px;">Save and Run<i class="icon ion-chevron-right" style="margin-left: 12px;"></i></button></div>
-                </div>
-                <div class="d-flex align-items-center" style="height: 80px;background: var(--bs-gray-dark);">
-                    <div class="d-flex justify-content-center align-items-center" style="width: 100%;padding-left: 26px;">
-                        <h3>Profile:</h3>
-                        <div class="dropdown"><button class="btn btn-primary dropdown-toggle" aria-expanded="false" data-bs-toggle="dropdown" id="app-profile-dropdown-button" type="button" style="width: 290px;margin: 10px;">Dropdown </button>
-                            <div class="dropdown-menu dropdown-menu-dark" id="app-profile-dropdown-items" style="min-width: 290px;"><a class="dropdown-item" href="#">First Item</a><a class="dropdown-item" href="#">Second Item</a><a class="dropdown-item" href="#">Third Item</a></div>
-                        </div><button class="btn btn-secondary" data-bs-toggle="tooltip" data-bss-tooltip="" data-bs-placement="bottom" id="new-profile-btn" type="button" style="margin-right: 9px;" title="Create a new application profile."><i class="icon ion-android-add" style="margin-right: 7px;"></i>New</button><button class="btn btn-secondary" data-bs-toggle="tooltip" data-bss-tooltip="" data-bs-placement="bottom" id="delete-app-profile-btn" type="button" style="margin-right: 9px;" title="Delete this application profile."><i class="icon ion-android-close" style="margin-right: 7px;"></i>Delete</button>
-                        <div class="form-check" style="margin-right: 9px;"><input class="form-check-input" type="checkbox" id="profile-enabled-checkbox"><label class="form-check-label" for="formCheck-3">Enable</label></div>
-                    </div>
-                </div>
-                <div class="d-flex justify-content-center">
-                    <div class="table-responsive" style="padding-right: 25px;padding-left: 25px;min-width: 937px;padding-top: 22px;">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th style="width: 124px;"></th>
-                                    <th class="text-start">Color</th>
-                                    <th style="width: 203px;">Pie Key</th>
-                                    <th>Name</th>
-                                    <th id="header-global-menu" style="width: 66px;">Global</th>
-                                    <th style="width: 34px;"></th>
-                                </tr>
-                            </thead>
-                            <tbody id="pie-menu-overview-table">
-                                <tr>
-                                    <td class="text-center" style="width: 98px;"><button class="btn btn-primary" type="button" style="width: 97.3125px;" name="pie-menu-edit-btn">Edit</button></td>
-                                    <td class="text-center" style="width: 89px;"><button class="btn btn-primary" type="button" name="pie-menu-color-control" data-jscolor="">col</button></td>
-                                    <td style="padding-top: 13px;" name="pie-key-display">Ctrl + r</td>
-                                    <td style="padding-top: 13px;" name="pie-key-name-display">Cell 4</td>
-                                    <td style="padding-top: 13px;">
-                                        <div class="form-check" style="width: 19px;padding-left: 39px;"><input class="form-check-input" type="checkbox" data-bs-toggle="tooltip" data-bss-tooltip="" data-bs-placement="left" id="formCheck-1" title="Use this Pie Menu across all profiles."><label class="form-check-label" for="formCheck-1"></label></div>
-                                    </td>
-                                    <td style="padding-top: 13px;"><i class="fa fa-remove" data-bs-toggle="tooltip" data-bss-tooltip="" style="padding: 4px;" title="Remove this pie menu." name="delete-pie-menu-icon-btn"></i></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="d-flex justify-content-center"><button class="btn btn-primary" id="add-new-pie-menu-btn" type="button" style="margin-right: 9px;width: 224.922px;height: 48px;"><i class="icon ion-android-add" style="margin-right: 7px;"></i>Add New Pie Menu</button></div>
-                <div class="d-flex justify-content-center" style="margin-top: 31px;">
-                    <div id="more-settings-accordion" style="padding: 4px;">
-                        <h6 id="more-profile-settings-btn-text" style="margin-bottom: 0px;"><i class="fa fa-caret-right" style="margin-right: 10px;"></i>More Profile Settings</h6>
-                        <h6 id="less-profile-settings-btn-text" style="margin-bottom: 0px;color: var(--bs-white);"><i class="fa fa-caret-down" style="margin-right: 10px;"></i>Less Profile Settings</h6>
-                    </div>
-                </div>
-                <div class="d-flex justify-content-center" style="padding: 9px;">
-                    <div id="more-profile-settings-div">
-                        <div class="d-flex justify-content-center" style="min-width: 937px;">
-                            <div id="pie-enable-div" style="border: 1px solid var(--bs-gray);padding: 24px;border-radius: 14px;width: 50%;margin: 13px;">
-                                <div class="d-inline-flex d-lg-flex align-items-lg-start" data-bs-toggle="tooltip" data-bss-tooltip="" style="background: rgb(34,34,34);transform: translateY(-35px);width: 205px;padding-right: 10px;padding-left: 10px;" title="Enable a keystroke to allow pie menus to be used.  Useful for having pie menus without blocking keys frequently used for typing.">
-                                    <div class="form-check"><input class="form-check-input" type="checkbox" id="pie-enable-key-check"><label class="form-check-label" for="formCheck-2"></label></div>
-                                    <h5 class="text-white d-inline-flex" style="transform: translateY(0px);">Profile Enable Key</h5>
+        <div class="tab-content">
+            <div class="tab-pane active" role="tabpanel" id="tab-6">
+                <div class="row d-flex flex-nowrap" style="margin-left: 0px;margin-right: 0px;width: 100%;height: 100%;">
+                    <div class="col-auto sidebar-column" id="sidebar-column" style="width: 270px;padding-right: 0px;padding-left: 0px;">
+                        <div class="overflow-hidden" style="height: 100%;">
+                            <div class="sidebar-header-div" style="height: 50px;width: 100%;min-width: 220px;">
+                                <div class="d-flex flex-grow-1" style="padding-left: 15px;">
+                                    <h4 style="margin-bottom: 0px;">Profiles</h4>
                                 </div>
-                                <div class="d-flex align-items-center" style="margin-bottom: 15px;">
-                                    <p style="height: 8px;margin-right: 5px;">Key:&nbsp;</p><button class="btn btn-secondary" data-bs-toggle="tooltip" data-bss-tooltip="" id="pie-enable-key-btn" type="button" style="margin-right: 21px;min-width: 100px;" title="Re-assign 'Pie Enable Key' keystroke.">'</button>
-                                </div>
-                                <div>
-                                    <div class="form-check"><input class="form-check-input" type="radio" id="pie-enable-key-radio-hold" name="toggleMode" checked=""><label class="form-check-label" for="formCheck-1">Enable menus when key is held</label></div>
-                                    <div class="form-check" id="send-original-key-checkbox-div" style="padding-left: 49px;"><input class="form-check-input" type="checkbox" id="send-original-key-checkbox-input"><label class="form-check-label" for="formCheck-2">Send original key's function if no menu is ran</label></div>
-                                    <div class="form-check"><input class="form-check-input" type="radio" id="pie-enable-key-radio-toggle" name="toggleMode"><label class="form-check-label" for="formCheck-1">Toggle menus when key is pressed</label></div>
-                                </div>
+                                <div id="add-new-profile-btn" class="minimized-sidebar-div"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-plus-lg" style="font-size: 26px;">
+                                        <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"></path>
+                                    </svg></div>
+                                <div id="toggle-sidebar-btn" class="minimized-sidebar-div"><i class="fa fa-angle-left" id="sidebar-collapse-icon-left" style="font-size: 32px;"></i><i class="fa fa-angle-right" id="sidebar-collapse-icon-right" style="font-size: 32px;"></i></div>
                             </div>
-                            <div id="assigned-programs-div" style="border: 1px solid var(--bs-gray);padding: 24px;border-radius: 14px;width: 50%;margin: 13px;">
-                                <div class="d-inline-flex d-lg-flex align-items-lg-start" style="background: rgb(34,34,34);transform: translateY(-35px);width: 188px;padding-right: 10px;padding-left: 10px;">
-                                    <h5 class="d-inline-flex" style="transform: translateY(0px);">Assigned Programs</h5>
-                                </div>
-                                <div id="assigned-programs-list" style="margin-bottom: 15px;">
-                                    <div class="d-flex" style="width: 100%; display: none;">
-                                        <div style="width: 34.5781px;" name="program-remove-btn"><i class="fa fa-remove" style="padding: 4px;width: 100%;height: 100%;text-align: center;padding-top: 9px;" name=""></i></div>
-                                        <div class="d-flex align-items-center" style="width: 100%;">
-                                            <p class="text-nowrap text-truncate text-start" style="margin-bottom: 5px;margin-top: 5px;">what</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="d-lg-flex align-items-lg-center" style="margin-bottom: 15px;"><button class="btn btn-secondary" data-bs-toggle="tooltip" data-bss-tooltip="" data-bs-placement="bottom" id="add-program-btn" type="button" style="margin-right: 9px;" title="Assign a program to this profile."><i class="icon ion-android-add" style="margin-right: 7px;"></i>Add Program</button></div>
-                            </div>
+                            <div id="sidebar-application-profiles-div"></div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="tab-pane" role="tabpanel" id="tab-2">
-                <div class="d-flex justify-content-center align-items-center" style="padding: 22px;background: var(--bs-gray-800);height: 102px;padding-right: 0;padding-left: 0;">
-                    <div style="width: 30%;"><button class="btn btn-secondary" id="edit-pie-menu-back-btn" type="button" style="margin-left: 50px;"><i class="icon ion-chevron-left" style="margin-right: 12px;"></i>Back</button></div>
-                    <div class="d-flex justify-content-start align-items-center" style="width: 70%;">
-                        <h3 style="margin-right: 17px;margin-bottom: 3px;">Key:</h3><button class="btn btn-primary" data-bs-toggle="tooltip" data-bss-tooltip="" id="piekey-change-btn" type="button" style="margin-right: 30px;min-width: 100px;" title="Set pie menu hotkey.">Ctrl + Shift + Alt + XButton1</button><input class="bg-dark border rounded-0 border-dark" type="text" id="edit-piekey-name-text-input" style="font-size: 30.164px;color: var(--bs-white);text-align: left;width: auto;" placeholder="Menu Name..." maxlength="30">
-                    </div>
-                </div>
-                <div class="justify-content-xl-center" style="width: auto;">
-                    <div class="d-flex justify-content-center" id="pie-menu-display-div" style="width: 100%;min-width: 800px;min-height: 200px;max-height: 600px;background: var(--bs-white);"><canvas id="pie-menu-center"></canvas>
-
-</div>
-                    <div class="d-flex justify-content-center" style="width: 100%;margin-top: 22px;">
-                        <div id="pie-menu-settings-tabs" style="margin: 1px;width: 996px;">
-                            <ul class="nav nav-tabs nav-justified" role="tablist" style="font-size: 20px;">
-                                <li class="nav-item" role="presentation"><a class="nav-link active" role="tab" data-bs-toggle="tab" id="global-appearance-tab" href="#tab-27">Global</a></li>
-                                <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" id="launch-settings-tab" href="#tab-8">Launch Settings</a></li>
-                                <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-9">Menu Appearance</a></li>
-                                <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-10">Functions</a></li>
+                    <div class="col" style="min-width: 350px;">
+                        <div id="tabs-pages" class="hidden-bootstrap-page-tabs">
+                            <ul class="nav nav-tabs" role="tablist" id="app-with-sidebar-tab-items">
+                                <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-5">Clipboard</a></li>
+                                <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-1">CSS Test</a></li>
+                                <li class="nav-item" role="presentation"><a class="nav-link active" role="tab" data-bs-toggle="tab" href="#tab-2">Edit Profile</a></li>
+                                <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-3">Edit Pie Menu</a></li>
+                                <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-4">Tab</a></li>
                             </ul>
                             <div class="tab-content">
-                                <div class="tab-pane active" role="tabpanel" id="tab-27">
-                                    <div class="d-flex justify-content-center" style="padding-top: 20px;">
-                                        <div id="global-menu-appearance-settings-div" style="border: 1px solid var(--bs-gray);border-radius: 14px;padding: 24px;width: 100%;max-width: 568px;">
-                                            <div class="d-inline-flex d-lg-flex align-items-lg-start" style="background: rgb(34,34,34);transform: translateY(-35px);width: 59px;padding-right: 10px;padding-left: 10px;">
-                                                <h5 class="d-inline-flex" style="transform: translateY(0px);margin-bottom: -10px;">Font</h5>
-                                            </div>
-                                            <div class="d-flex align-items-center" style="margin-bottom: 13px;">
-                                                <h5 class="d-xxl-flex align-items-xxl-center" style="margin-bottom: -10px;margin-right: 15px;margin-top: -11px;">Font:</h5><select id="global-font-select" class="form-select" style="height: 38px;max-width: 413px;">
-                                                    <option value="12" selected="">Arial</option>
-                                                </select>
-                                            </div>
-                                            <div class="d-flex align-items-lg-start" id="global-font-size-slider-div" style="margin-top: 17px;">
-                                                <h5 class="d-xxl-flex align-items-xxl-center" style="width: 76.0469px;">Size:</h5><input class="form-range" type="range" style="margin-right: 15px;"><input class="bg-dark border rounded-0 border-dark" type="text" style="font-size: 16px;color: var(--bs-white);width: 40px;text-align: center;" placeholder="20" maxlength="3" inputmode="numeric">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex justify-content-center" style="padding-top: 20px;">
-                                        <div id="global-menu-appearance-settings-div" style="border: 1px solid var(--bs-gray);border-radius: 14px;padding: 24px;width: 100%;max-width: 568px;">
-                                            <div class="d-inline-flex d-lg-flex align-items-lg-start" style="background: rgb(34,34,34);transform: translateY(-35px);width: 66px;padding-right: 10px;padding-left: 10px;">
-                                                <h5 class="d-inline-flex" style="transform: translateY(0px);margin-bottom: -10px;">Icons</h5>
-                                            </div>
-                                            <div class="d-flex align-items-lg-start" id="global-icon-size-slider-div">
-                                                <h5 class="d-xxl-flex align-items-xxl-center" style="width: 76.0469px;">Size:</h5><input class="form-range" type="range" style="margin-right: 15px;"><input class="bg-dark border rounded-0 border-dark" type="text" style="font-size: 16px;color: var(--bs-white);width: 40px;text-align: center;" placeholder="20" maxlength="3" inputmode="numeric">
+                                <div class="tab-pane" role="tabpanel" id="tab-5">
+                                    <div id="element-clipboard">
+                                        <div>
+                                            <div id="clipboard-sidebar-profile-div" class="sidebar-profile-div" style="width: 100%;min-width: 250px;">
+                                                <div style="width: 10px;"></div>
+                                                <div class="d-flex align-items-center" style="width: 30px;height: 50px;" name="sidebar-profile-icon-div">
+                                                    <div style="width: 30px;"></div>
+                                                </div>
+                                                <div style="width: 10px;"></div>
+                                                <h5 class="text-truncate flex-grow-1" style="margin-bottom: 0px;" contenteditable="true">Application Name</h5>
+                                                <div class="minimized-sidebar-delete-div" style="width: 50px;"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" style="font-size: 22px;">
+                                                        <path d="M6.2253 4.81108C5.83477 4.42056 5.20161 4.42056 4.81108 4.81108C4.42056 5.20161 4.42056 5.83477 4.81108 6.2253L10.5858 12L4.81114 17.7747C4.42062 18.1652 4.42062 18.7984 4.81114 19.1889C5.20167 19.5794 5.83483 19.5794 6.22535 19.1889L12 13.4142L17.7747 19.1889C18.1652 19.5794 18.7984 19.5794 19.1889 19.1889C19.5794 18.7984 19.5794 18.1652 19.1889 17.7747L13.4142 12L19.189 6.2253C19.5795 5.83477 19.5795 5.20161 19.189 4.81108C18.7985 4.42056 18.1653 4.42056 17.7748 4.81108L12 10.5858L6.2253 4.81108Z" fill="currentColor"></path>
+                                                    </svg></div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="tab-pane" role="tabpanel" id="tab-8">
-                                    <div style="margin-bottom: 15px;width: auto;padding: 27px;">
-                                        <div class="d-flex align-items-center" style="margin-bottom: 9px;padding-left: 158px;">
-                                            <h5 class="d-xxl-flex align-items-xxl-center" style="margin-bottom: -10px;margin-right: 15px;margin-top: -11px;">Activation Mode:</h5><button class="btn btn-primary" data-bs-toggle="tooltip" data-bss-tooltip="" data-bs-placement="right" id="change-activation-mode-btn" type="button" style="margin-right: 21px;min-width: 100px;" title="Change the behavior of launching the pie menu, activating sub menus and launching functions.">Change Activation Mode</button>
+                                <div class="tab-pane" role="tabpanel" id="tab-1">
+                                    <div></div>
+                                    <div class="navbar"></div>
+                                    <h1 style="--bs-primary-rgb: 13,110,253;">Profiles</h1>
+                                    <h2>Heading</h2>
+                                    <h3>Heading</h3>
+                                    <h4>Heading</h4>
+                                    <h5>Heading</h5>
+                                    <h6>Headiing</h6>
+                                    <p>Content for tab 1.</p><input type="text" placeholder="what">
+                                    <p>Content for tab 1.</p>
+                                    <p>Content for tab 1.</p>
+                                    <p>Content for tab 1.</p><button class="btn btn-primary" type="button">Button</button><button class="btn btn-secondary" type="button">Button</button><button class="btn btn-success" type="button">Button</button><button class="btn btn-info" type="button">Button</button><button class="btn btn-light" type="button">Button</button><button class="btn btn-dark" type="button">Button</button>
+                                    <div class="form-check form-switch"><input class="form-check-input" type="checkbox" id="formCheck-1"><label class="form-check-label" for="formCheck-1">Label</label></div>
+                                    <div class="d-xxl-flex align-items-xxl-center range-text-input"><input class="form-range" type="range"><input type="number" style="margin-left: 10px;"></div>
+                                </div>
+                                <div class="tab-pane active" role="tabpanel" id="tab-2">
+                                    <div class="d-flex small-top-bar">
+                                        <div class="d-flex justify-content-end align-items-center header-left-btn" id="application-profile-settings-btn" style="width: 190px;"><i class="fa fa-bars" id="sidebar-collapse-icon-left-6" style="font-size: 17px;"></i>
+                                            <h5>Settings</h5>
                                         </div>
-                                        <div id="hotkey-action-div">
-                                            <div class="d-flex justify-content-start align-items-center" id="hotkey-action-div" name="photoshop-tool-div" style="margin-bottom: 9px;padding-left: 109px;">
-                                                <h5 class="text-nowrap d-xxl-flex align-items-xxl-center" style="margin-right: 14px;margin-top: 4px;">In-menu hotkey action:</h5><select id="hotkey-action-select" class="form-select" style="height: 38px;max-width: 413px;width: 165px;">
-                                                    <option value="Exit Menu" selected="">Exit Menu</option>
-                                                    <option value="Select">Select</option>
-                                                    <option value="None">None</option>
-                                                </select>
+                                        <div class="d-flex flex-grow-1 justify-content-center align-items-center">
+                                            <h4 class="text-nowrap text-truncate" id="application-profile-name-heading" style="margin-bottom: 0px;">{Pie Menu Name}</h4>
+                                        </div>
+                                        <div class="d-flex align-items-center main-run-btn" id="application-profile-save-and-run-btn" style="width: 190px;padding-left: 30px;color: var(--bs-body-color);"><i class="fa fa-play" id="sidebar-collapse-icon-left-5" style="font-size: 17px;"></i>
+                                            <h5>Save &amp; Run</h5>
+                                        </div>
+                                    </div>
+                                    <div style="width: 100%;">
+                                        <div class="table-responsive" style="padding-right: 25px;padding-left: 25px;min-width: 587px;padding-top: 22px;">
+                                            <table class="table">
+                                                <thead style="color: var(--bs-body-color);">
+                                                    <tr>
+                                                        <th style="width: 33.344px;"></th>
+                                                        <th class="text-center" style="width: 90px;">Color</th>
+                                                        <th style="width: 203px;">Pie Key</th>
+                                                        <th>Name</th>
+                                                        <th id="header-global-menu" style="width: 66px;">Global</th>
+                                                        <th style="width: 34px;"></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="pie-menu-overview-table" class="interactable-table-row" style="color: var(--bs-body-color);">
+                                                    <tr id="pie-menu-table-row-template">
+                                                        <td class="primary-cell-btn" style="padding: 0px;">
+                                                            <div class="d-flex justify-content-center align-items-center" style="height: 48.5px;"><i class="fa fa-edit"></i></div>
+                                                        </td>
+                                                        <td class="text-center" style="padding-top: 11px;"><button data-jscolor=""></td>
+                                                        <td class="text-truncate" style="padding-top: 13px;" name="pie-key-display">Ctrl + r</td>
+                                                        <td class="text-truncate" style="padding-top: 13px;" name="pie-key-name-display">Cell 4</td>
+                                                        <td style="padding-top: 13px;">
+                                                            <div class="form-check" style="width: 19px;padding-left: 39px;"><input class="form-check-input" type="checkbox" title="Use this Pie Menu across all profiles."><label class="form-check-label" for="formCheck-2"></label></div>
+                                                        </td>
+                                                        <td style="padding-top: 13px;width: 37px;"><i class="fa fa-remove" style="padding: 4px;" title="Remove this pie menu." name="delete-pie-menu-icon-btn"></i></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="text-center"><button class="btn btn-primary" id="edit-profile-add-new-pie-menu-btn" type="button" style="margin-right: 9px;width: 224.922px;height: 48px;"><i class="icon ion-android-add" style="margin-right: 7px;"></i>Add New Pie Menu</button></div>
+                                    </div>
+                                    <div></div>
+                                </div>
+                                <div class="tab-pane" role="tabpanel" id="tab-3">
+                                    <div class="d-flex flex-column" style="height: 100%;">
+                                        <div class="d-flex" style="height: 50px;">
+                                            <div class="d-flex justify-content-end align-items-center header-left-btn" id="edit-pie-menu-back" style="width: 155px;"><i class="fa fa-angle-left" id="sidebar-collapse-icon-left-4" style="font-size: 28px;"></i>
+                                                <h5>Back</h5>
                                             </div>
-                                        </div>
-                                        <div class="d-flex align-items-center" style="margin-bottom: 9px;">
-                                            <div class="d-flex justify-content-end" style="width: 323.844px;">
-                                                <h5 class="d-xxl-flex align-items-xxl-center" style="margin-bottom: -10px;margin-top: -11px;margin-right: 15px;">Enable Escape Radius:</h5>
+                                            <div class="d-flex flex-grow-1 justify-content-center align-items-center small-top-bar">
+                                                <h4 class="text-nowrap text-truncate" id="edit-pie-menu-name-text" style="margin-bottom: 0px;">{Pie Menu Name}</h4>
                                             </div>
-                                            <div class="form-check form-switch" title="Allow functions to be clicked."><input class="form-check-input" type="checkbox" id="enable-escape-radius-checkbox"><label class="form-check-label" for="force-center-screen-checkbox-1"></label></div>
+                                            <div style="width: 155px;"></div>
                                         </div>
-                                        <div id="escape-radius-slider-div">
-                                            <div class="d-flex align-items-center" id="escape-radius-slider" style="margin-bottom: 9px;margin-left: 212px;margin-right: 17px;">
-                                                <p class="text-nowrap" style="margin-right: 14px;margin-bottom: 3px;width: 143.9219px;">Escape radius:</p><input class="form-range" type="range" style="margin-right: 15px;"><input class="bg-dark border rounded-0 border-dark" type="text" style="font-size: 16px;color: var(--bs-white);width: 40px;text-align: center;" placeholder="20" maxlength="3" inputmode="numeric">
-                                            </div>
-                                        </div>
-                                        <div class="d-flex align-items-center" style="margin-bottom: 9px;">
-                                            <div class="d-flex justify-content-end" style="width: 323.844px;">
-                                                <h5 class="d-xxl-flex align-items-xxl-center" style="margin-bottom: -10px;margin-top: -11px;margin-right: 15px;">Clickable Functions:</h5>
-                                            </div>
-                                            <div class="form-check form-switch" data-bs-toggle="tooltip" data-bss-tooltip="" data-bs-placement="right" title="Allow functions to be clicked."><input class="form-check-input" type="checkbox" id="clickable-functions-checkbox"><label class="form-check-label" for="formCheck-7"></label></div>
-                                        </div>
-                                        <div class="d-flex align-items-center" style="margin-bottom: 9px;">
-                                            <div class="d-flex justify-content-end" style="width: 323.844px;">
-                                                <h5 class="d-xxl-flex align-items-xxl-center" style="margin-bottom: -10px;margin-top: -11px;margin-right: 15px;">Open Pie Menu in center of screen:</h5>
-                                            </div>
-                                            <div class="form-check form-switch" title="Allow functions to be clicked."><input class="form-check-input" type="checkbox" id="force-center-screen-checkbox"><label class="form-check-label" for="force-center-screen-checkbox"></label></div>
-                                        </div>
-                                        <div id="decouple-mouse-div">
-                                            <div class="d-flex align-items-center" style="margin-bottom: 9px;">
-                                                <div class="d-flex justify-content-end" style="width: 323.844px;">
-                                                    <h5 class="d-xxl-flex align-items-xxl-center" style="margin-bottom: -10px;margin-top: -11px;margin-right: 15px;">Decouple mouse:</h5>
-                                                </div>
-                                                <div class="form-check form-switch" data-bs-toggle="tooltip" data-bss-tooltip="" data-bs-placement="right" title="When enabled, only slice hotkeys will activate functions."><input class="form-check-input" type="checkbox" id="decouple-mouse-checkbox"><label class="form-check-label" for="force-center-screen-checkbox-1"></label></div>
-                                            </div>
-                                        </div>
+                                        <div class="d-flex flex-column flex-grow-1" id="pie-menu-canvas" style="background: var(--bs-body-color);min-height: 50px;width: 100%;"></div>
                                     </div>
                                 </div>
-                                <div class="tab-pane" role="tabpanel" id="tab-9">
-                                    <div class="d-flex justify-content-center" style="width: auto;padding-top: 20px;">
-                                        <div id="main-menu-appearance-settings" style="border: 1px solid var(--bs-gray);border-radius: 14px;padding: 24px;width: 100%;max-width: 568px;">
-                                            <div class="d-inline-flex d-lg-flex align-items-lg-start" style="background: rgb(34,34,34);transform: translateY(-35px);width: 124px;padding-right: 10px;padding-left: 10px;">
-                                                <h5 class="d-inline-flex" style="transform: translateY(0px);margin-bottom: -10px;">Main&nbsp; Menu</h5>
-                                            </div>
-                                            <div class="d-flex align-items-center" style="margin-bottom: 9px;">
-                                                <p style="margin-right: 14px;margin-bottom: 3px;">Selection Color:</p><input type="text" id="main-selection-color-input" data-jscolor="" value="" style="width: 143px;">
-                                            </div>
-                                            <div class="d-flex align-items-center" style="margin-bottom: 9px;">
-                                                <p style="margin-right: 14px;margin-bottom: 3px;">Background Color:</p><input type="text" id="main-background-color-input" data-jscolor="" value="" style="width: 143px;">
-                                            </div>
-                                            <div class="d-flex align-items-center" style="margin-bottom: 9px;">
-                                                <p style="margin-right: 14px;margin-bottom: 3px;">Font Color:</p><input type="text" id="menu-font-color-input" data-jscolor="" value="" style="width: 143px;">
-                                            </div>
-                                            <div class="d-flex align-items-center" id="main-menu-radius-slider-div" style="margin-bottom: 9px;">
-                                                <p style="margin-right: 14px;margin-bottom: 3px;">Radius:</p><input class="form-range" type="range" style="margin-right: 15px;"><input class="bg-dark border rounded-0 border-dark" type="text" style="font-size: 16px;color: var(--bs-white);width: 40px;text-align: center;" placeholder="20" maxlength="3" inputmode="numeric">
-                                            </div>
-                                            <div class="d-flex" id="main-menu-thickness-slider-div" style="margin-bottom: 9px;">
-                                                <p style="margin-right: 14px;margin-bottom: 3px;">Thickness:</p><input class="form-range" type="range" style="margin-right: 15px;"><input class="bg-dark border rounded-0 border-dark" type="text" style="font-size: 16px;color: var(--bs-white);width: 40px;text-align: center;" placeholder="20" maxlength="3" inputmode="numeric">
-                                            </div>
-                                            <div class="d-flex align-items-lg-start" id="main-menu-label-radius-slider-div" style="margin-bottom: 9px;">
-                                                <p style="margin-right: 14px;margin-bottom: 3px;width: 133.8281px;">Label Radius:</p><input class="form-range" type="range" style="margin-right: 15px;"><input class="bg-dark border rounded-0 border-dark" type="text" style="font-size: 16px;color: var(--bs-white);width: 40px;text-align: center;" placeholder="20" maxlength="3" inputmode="numeric">
-                                            </div>
-                                            <div class="d-flex align-items-lg-start" id="label-roundness-slider" style="margin-bottom: 9px;">
-                                                <p style="margin-right: 14px;margin-bottom: 3px;width: 194.8281px;">Label Roundness:</p><input class="form-range" type="range" style="margin-right: 15px;"><input class="bg-dark border rounded-0 border-dark" type="text" style="font-size: 16px;color: var(--bs-white);width: 40px;text-align: center;" placeholder="20" maxlength="3" inputmode="numeric">
-                                            </div>
-                                            <div class="d-flex align-items-center" style="margin-bottom: 9px;">
-                                                <p style="margin-right: 14px;margin-bottom: 3px;">Angle:</p><div id="main-angle-offset-btn-group" class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
-    <input type="checkbox" name="none" class="btn-check" id="main-angle-offset-btncheck1" checked="" autocomplete="off">
-    <label class="btn btn-outline-primary" name="none" for="main-angle-offset-btncheck1">None</label>
-    <input type="checkbox" name="offset" class="btn-check" id="main-angle-offset-btncheck2" autocomplete="off">
-    <label class="btn btn-outline-primary" name="offset" for="main-angle-offset-btncheck2">Offset</label>
-</div>
-                                            </div>
-                                            <div class="d-flex align-items-lg-start" id="main-menu-label-delay-slider-div">
-                                                <p class="text-nowrap" style="margin-right: 14px;margin-bottom: 3px;">Label Delay:</p><input class="form-range" type="range" style="margin-right: 15px;"><input class="bg-dark border rounded-0 border-dark" type="text" style="font-size: 16px;color: var(--bs-white);width: 40px;text-align: center;" placeholder="20" maxlength="3" inputmode="numeric">
-                                                <p class="text-nowrap" style="margin-bottom: 3px;margin-left: 12px;">secs</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex justify-content-center" style="width: auto;padding-top: 20px;">
-                                        <div id="sub-menu-appearance-settings" style="border: 1px solid var(--bs-gray);border-radius: 14px;padding: 24px;width: 100%;max-width: 568px;">
-                                            <div class="d-inline-flex d-lg-flex align-items-lg-start" style="background: rgb(34,34,34);transform: translateY(-35px);width: 108px;padding-right: 10px;padding-left: 10px;">
-                                                <h5 class="d-inline-flex" style="transform: translateY(0px);margin-bottom: -10px;">Sub Menu</h5>
-                                            </div>
-                                            <div class="d-flex align-items-center" style="margin-bottom: 9px;">
-                                                <p style="margin-right: 14px;margin-bottom: 3px;">Selection Color:</p><input type="text" id="sub-menu-selection-color-input" data-jscolor="" value="" style="width: 143px;">
-                                            </div>
-                                            <div class="d-flex align-items-center" id="sub-menu-radius-slider-div" style="margin-bottom: 9px;">
-                                                <p style="margin-right: 14px;margin-bottom: 3px;">Radius:</p><input class="form-range" type="range" style="margin-right: 15px;"><input class="bg-dark border rounded-0 border-dark" type="text" style="font-size: 16px;color: var(--bs-white);width: 40px;text-align: center;" placeholder="20" maxlength="3" inputmode="numeric">
-                                            </div>
-                                            <div class="d-flex align-items-center" id="sub-menu-thickness-slider-div" style="margin-bottom: 9px;">
-                                                <p style="margin-right: 14px;margin-bottom: 3px;">Thickness:</p><input class="form-range" type="range" style="margin-right: 15px;"><input class="bg-dark border rounded-0 border-dark" type="text" style="font-size: 16px;color: var(--bs-white);width: 40px;text-align: center;" placeholder="20" maxlength="3" inputmode="numeric">
-                                            </div>
-                                            <div class="d-flex align-items-center" id="sub-menu-label-radius-slider-div" style="margin-bottom: 9px;">
-                                                <p style="margin-right: 14px;margin-bottom: 3px;width: 133.8281px;">Label Radius:</p><input class="form-range" type="range" style="margin-right: 15px;"><input class="bg-dark border rounded-0 border-dark" type="text" style="font-size: 16px;color: var(--bs-white);width: 40px;text-align: center;" placeholder="20" maxlength="3" inputmode="numeric">
-                                            </div>
-                                            <div class="d-flex align-items-center" style="margin-bottom: 9px;">
-                                                <p class="text-nowrap" style="margin-right: 14px;margin-bottom: 3px;">Include Return Slice:</p>
-                                                <div class="form-check form-switch"><input class="form-check-input" type="checkbox" id="include-back-function-checkbox"><label class="form-check-label" for="formCheck-7"></label></div>
-                                            </div>
-                                            <div class="d-flex align-items-center" id="sub-menu-angle-offset-div">
-                                                <p style="margin-right: 14px;margin-bottom: 3px;">Angle:</p><div id="sub-angle-offset-btn-group" class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
-  <input type="checkbox" name="none" class="btn-check" id="sub-angle-offset-btncheck1" checked="" autocomplete="off">
-  <label class="btn btn-outline-primary" name="none" for="sub-angle-offset-btncheck1">None</label>
-  <input type="checkbox" name="offset" class="btn-check" id="sub-angle-offset-btncheck2" autocomplete="off">
-  <label class="btn btn-outline-primary" name="offset" for="sub-angle-offset-btncheck2">Offset</label>
-</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="tab-pane" role="tabpanel" id="tab-10">
-                                    <div style="width: auto;padding-right: 27px;padding-left: 27px;">
-                                        <div class="justify-content-start" id="pie-menu-display-description" style="padding-top: 12px;padding-bottom: 12px;height: 65px;margin-top: 33px;">
-                                            <div class="d-flex align-items-center"></div>
-                                            <div class="d-flex align-items-center" style="text-align: center;">
-                                                <h5 class="d-xxl-flex align-items-xxl-center" style="margin-bottom: -10px;margin-right: 15px;margin-top: -11px;width: 100%;">Select a label above to edit and add/remove slices.&nbsp; Drag to reorder.</h5>
-                                            </div>
-                                        </div>
-                                        <div class="justify-content-start" id="slice-label-div" style="padding-top: 12px;padding-bottom: 12px;margin-top: 15px;">
-                                            <div class="d-flex align-items-center"></div>
-                                            <div class="d-flex align-items-center">
-                                                <h5 class="d-xxl-flex align-items-xxl-center" style="margin-bottom: -10px;margin-right: 15px;margin-top: -11px;">Label:</h5><input class="bg-dark border rounded-0 border-dark" type="text" id="slice-label-text-input" style="font-size: 16px;color: var(--bs-white);width: 367px;text-align: left;padding-top: 1px;padding-bottom: 1px;padding-left: 8px;" placeholder="Enter Label Text" maxlength="40">
-                                            </div>
-                                        </div>
-                                        <div class="justify-content-start" id="icon-label-div" style="padding-top: 12px;padding-bottom: 12px;">
-                                            <div class="d-flex align-items-center">
-                                                <h5 class="d-xxl-flex align-items-xxl-center" style="margin-bottom: -10px;margin-right: 15px;margin-top: -11px;">Icon:</h5><button class="btn btn-secondary" id="slice-icon-choose-file-btn" type="button" style="margin-right: 2px;min-width: 100px;">Choose Icon...</button>
-                                                <p id="slice-icon-file-display-text" style="margin-bottom: 0px;margin-left: 9px;">No icon selected</p>
-                                                <div class="d-flex justify-content-center align-items-center" id="remove-label-icon-btn" style="width: 28.5781px;height: 31px;"><i class="fa fa-remove"></i></div>
-                                                <div class="d-flex align-items-center" style="margin-left: 20px;">
-                                                    <div class="form-check" data-bs-toggle="tooltip" data-bss-tooltip="" style="margin-left: 3px;" title="Icon will use the selection color when function is focused if icon is greyscale."><input class="form-check-input" type="checkbox" id="icon-greyscale-checkbox"><label class="form-check-label" for="formCheck-5">Use Selection Color<br></label></div>
-                                                    <div hidden=""><div class="dropend" id="icon-dropdown">
-    <button class="btn btn-secondary dropdown-toggle" aria-expanded="false" data-bs-toggle="dropdown" type="button">Choose Icon</button>
-    <div class="dropdown-menu">
-        <div class="table-responsive">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Column 1</th>
-                        <th>Column 2</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Cell 1</td>
-                        <td>Cell 2</td>
-                    </tr>
-                    <tr>
-                        <td>Cell 3</td>
-                        <td>Cell 4</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div style="border: 1px solid var(--bs-gray);border-radius: 14px;padding: 24px;width: 100%;margin-top: 24px;">
-                                            <div class="d-flex align-items-center" style="background: rgb(34,34,34);transform: translateY(-40px);padding-right: 10px;padding-left: 10px;width: 446px; position: absolute; z-index: 3;">
-                                                <h5 class="d-xxl-flex align-items-xxl-center" style="margin-bottom: 2px;margin-right: 11px;">Function:</h5>
-                                                <div class="dropdown"><button class="btn btn-secondary dropdown-toggle" aria-expanded="false" data-bs-toggle="dropdown" id="function-dropdown-btn" type="button" style="min-width: 331px;">Dropdown </button>
-                                                    <div class="dropdown-menu dropdown-menu-dark" id="function-dropdown-menu" style="width: 331px;"><a class="dropdown-item">First Item</a><a class="dropdown-item">Second Item</a><a class="dropdown-item">Third Item</a><a class="dropdown-item" href="#">Menu Item</a></div>
-                                                </div>
-                                            </div>
-                                            <div id="function-tabs" style="padding-top: 14px;">
-                                                <ul class="nav nav-tabs" role="tablist" name="hidden-tab-items">
-                                                    <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-13">Send Key</a></li>
-                                                    <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-14">Mouse Click</a></li>
-                                                    <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-15">Run Script</a></li>
-                                                    <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-16">Repeat Last</a></li>
-                                                    <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-17">Sub Menu</a></li>
-                                                    <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-18">No Options</a></li>
-                                                    <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-19">photoshop_cycleTool</a></li>
-                                                    <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-20">Parameter List</a></li>
-                                                    <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-21">Custom Options</a></li>
-                                                    <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-22">Open Folder</a></li>
-                                                    <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-35">Menu Select</a></li>
-                                                    <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-26">Open URL</a></li>
-                                                    <li class="nav-item" role="presentation"><a class="nav-link active" role="tab" data-bs-toggle="tab" href="#tab-36">Switch Application</a></li>
-                                                </ul>
-                                                <div class="tab-content">
-                                                    <div class="tab-pane" role="tabpanel" id="tab-13">
-                                                        <div class="d-flex align-items-center" id="send-keys-div" style="margin-bottom: 12px;">
-                                                            <h5 class="d-flex align-items-xxl-center" style="margin-right: 15px;">Keys:</h5><button class="btn btn-primary" id="send-key-assign-key-btn" type="button" style="margin-right: 14px;" name="send-keystroke-btn-0">Assign Key</button>
-                                                            <div id="send-key-button-list"></div><button class="btn btn-primary" id="send-key-add-keystroke-btn" type="button" style="margin-right: 9px;" name="send-keystroke-btn-add"><i class="icon ion-android-add" style="margin-right: 7px;"></i>Add Keystroke</button>
-                                                        </div>
-                                                        <div class="d-flex align-items-center" id="time-between-keys-input-div" style="height: 38px;">
-                                                            <h5 class="d-flex align-items-xxl-center" style="margin-right: 15px;">Time between keystrokes:</h5><input class="form-range" type="range" style="margin-right: 15px;max-width: 384px;"><input class="bg-dark border rounded-0 border-dark" type="text" style="font-size: 16px;color: var(--bs-white);width: 61px;text-align: center;" placeholder="20" maxlength="2" inputmode="numeric">
-                                                            <p style="height: 10px;margin-left: 7px;">ms</p>
-                                                        </div>
-                                                        <div class="d-flex align-items-center" style="height: 38px;">
-                                                            <h5 class="d-flex align-items-xxl-center" style="margin-right: 15px;">Delay key release:</h5>
-                                                            <div class="form-check form-switch" data-bs-toggle="tooltip" data-bss-tooltip="" data-bs-placement="right" title="Extends the time a simulated key is held down, slower but more reliable."><input class="form-check-input" type="checkbox" id="delay-key-release-checkbox" title="Extends the time a simulated key is held down, slower but more reliable."><label class="form-check-label" for="formCheck-2"></label></div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="tab-pane" role="tabpanel" id="tab-14">
-                                                        <div class="d-flex align-items-center" style="padding-top: 0px;">
-                                                            <h5 class="d-xxl-flex align-items-xxl-center" style="margin-right: 15px;">Mouse Button:</h5><div id="mouse-click-btn-group" class="btn-group" role="group" aria-label="Basic radio toggle button group">
-    <input type="radio" class="btn-check" name="left" id="mouse-btnradio1" autocomplete="off">
-    <label class="btn btn-outline-primary" for="btnradio1">Left</label>
-    <input type="radio" class="btn-check" name="middle" id="mouse-btnradio2" autocomplete="off">
-    <label class="btn btn-outline-primary" for="btnradio2">Middle</label>
-    <input type="radio" class="btn-check" name="right" id="mouse-btnradio3" autocomplete="off">
-    <label class="btn btn-outline-primary" for="btnradio3">Right</label>
-  </div>
-                                                        </div>
-                                                        <div class="d-flex align-items-center" style="padding-top: 12px;">
-                                                            <h5 class="d-xxl-flex align-items-xxl-center" style="margin-right: 15px;">Modifiers:</h5>  <div id="mouse-click-modifier-btn-group" class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
-    <input type="checkbox" name="shift" onfocus="this.blur();" onmouseover="" class="btn-check" id="click-modifier-shift-check" autocomplete="off">
-    <label class="btn btn-primary" for="hotkey-modifier-shift-check">Shift</label>
-    <input type="checkbox" name="ctrl" onfocus="this.blur();" class="btn-check" id="click-modifier-ctrl-check" autocomplete="off">
-    <label class="btn btn-primary" for="hotkey-modifier-ctrl-check">Ctrl</label>
-    <input type="checkbox" onfocus="this.blur();" class="btn-check" id="click-modifier-alt-check" autocomplete="off">
-    <label class="btn btn-primary" name="alt" for="hotkey-modifier-alt-check">Alt</label>
-  </div>
-                                                            <div class="form-check" style="margin-left: 18px;"><input class="form-check-input" type="checkbox" id="mouse-drag-checkbox"><label class="form-check-label" for="formCheck-5">Make next LMB click is 'Click and Hold'</label></div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="tab-pane" role="tabpanel" id="tab-15">
-                                                        <div class="d-flex align-items-center">
-                                                            <div class="d-flex justify-content-start" style="padding-top: 12px;padding-bottom: 12px;width: 100%;">
-                                                                <div class="d-flex align-items-center" style="width: 100%;">
-                                                                    <h5 class="d-xxl-flex align-items-xxl-center" style="margin-bottom: -10px;margin-right: 15px;margin-top: -11px;">File:</h5><button class="btn btn-secondary" data-bs-toggle="tooltip" data-bss-tooltip="" id="run-script-choose-btn" type="button" style="margin-right: 2px;min-width: 100px;" title="Choose a file to run or folder to open">Choose File...</button><input class="bg-dark border rounded-0 border-dark flex-grow-1" type="text" id="run-script-text-input" style="font-size: 16px;color: var(--bs-white);text-align: left;padding-top: 1px;padding-bottom: 1px;padding-left: 8px;margin-left: 8px;margin-right: 5px;" placeholder="Enter Run command or file" maxlength="40">
-                                                                    <div class="d-flex justify-content-center align-items-center" id="remove-script-btn" style="width: 28.5781px;height: 31px;"><i class="fa fa-remove"></i></div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="tab-pane" role="tabpanel" id="tab-16">
-                                                        <div class="d-flex align-items-center" id="repeat-timeout-slider-input">
-                                                            <h5 class="d-xxl-flex align-items-xxl-center" style="margin-right: 15px;">Timeout:</h5><input class="form-range" type="range" style="margin-right: 15px;max-width: 384px;"><input class="bg-dark border rounded-0 border-dark" type="text" style="font-size: 16px;color: var(--bs-white);width: 40px;text-align: center;" placeholder="20" maxlength="2" inputmode="numeric">
-                                                            <p style="margin-left: 7px;margin-bottom: 0;">seconds</p>
-                                                        </div>
-                                                        <p class="text-white-50">Set the time that the previous function will be remembered.&nbsp; &nbsp;If this function is run after the timeout, no function will run.<br>Set to 0 for 'No Timeout' and the previous function will not be forgotten.</p>
-                                                    </div>
-                                                    <div class="tab-pane" role="tabpanel" id="tab-17">
-                                                        <div class="d-flex justify-content-center align-items-center"><button class="btn btn-primary" id="edit-sub-menu-btn" type="button" style="margin-right: 14px;width: 202.703px;">Edit Sub Menu</button></div>
-                                                    </div>
-                                                    <div class="tab-pane" role="tabpanel" id="tab-18">
-                                                        <h5>This function has no options.</h5>
-                                                    </div>
-                                                    <div class="tab-pane" role="tabpanel" id="tab-19">
-                                                        <div class="d-flex justify-content-start align-items-center" style="padding-top: 12px;padding-bottom: 12px;" name="photoshop-tool-div">
-                                                            <h5 class="text-nowrap d-xxl-flex align-items-xxl-center" style="margin-right: 14px;margin-top: 4px;">Tool 1:</h5><select class="form-select" style="height: 38px;max-width: 413px;">
-                                                                <option value="12" selected="">Brush Tool</option>
-                                                                <option value="13">This is item 2</option>
-                                                                <option value="14">This is item 3</option>
-                                                            </select>
-                                                        </div>
-                                                        <div class="d-flex justify-content-start" style="padding-top: 12px;padding-bottom: 12px;">
-                                                            <div class="d-flex align-items-center"></div>
-                                                            <div class="d-flex align-items-center"><button class="btn btn-secondary" id="photoshop-cycle-tool-add-btn" type="button" style="margin-right: 9px;"><i class="icon ion-android-add" style="margin-right: 7px;"></i>Add Tool</button><button class="btn btn-secondary" id="photoshop-cycle-tool-remove-btn" type="button" style="margin-right: 9px;"><i class="icon ion-android-close" style="margin-right: 7px;"></i>Remove Tool</button></div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="tab-pane" role="tabpanel" id="tab-20">
-                                                        <div class="d-flex justify-content-start" style="padding-top: 12px;padding-bottom: 12px;">
-                                                            <div class="d-flex align-items-center"></div>
-                                                            <div class="d-flex align-items-center">
-                                                                <h5 class="d-xxl-flex align-items-xxl-center" style="margin-bottom: -10px;margin-right: 14px;margin-top: -11px;">Layer Name:</h5><input class="bg-dark border rounded-0 border-dark" type="text" style="font-size: 16px;color: var(--bs-white);width: 367px;text-align: center;padding-top: 1px;padding-bottom: 1px;" placeholder="Enter Label Text">
-                                                            </div>
-                                                        </div>
-                                                        <div class="d-flex justify-content-start" style="padding-top: 12px;padding-bottom: 12px;">
-                                                            <div class="d-flex align-items-center"></div>
-                                                            <div class="d-flex align-items-center"><button class="btn btn-secondary" type="button" style="margin-right: 9px;"><i class="icon ion-android-add" style="margin-right: 7px;"></i>Add Layer</button><button class="btn btn-secondary" type="button" style="margin-right: 9px;"><i class="icon ion-android-close" style="margin-right: 7px;"></i>Remove Layer</button></div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="tab-pane" role="tabpanel" id="tab-21">
-                                                        <div class="d-flex justify-content-start" style="padding-top: 12px;padding-bottom: 12px;">
-                                                            <div class="d-flex align-items-center"></div>
-                                                            <div class="d-flex align-items-center">
-                                                                <h5 class="d-xxl-flex align-items-xxl-center" style="margin-bottom: -10px;margin-right: 14px;margin-top: -11px;">Brush Name:</h5><input class="bg-dark border rounded-0 border-dark" type="text" style="font-size: 16px;color: var(--bs-white);width: 367px;text-align: center;padding-top: 1px;padding-bottom: 1px;" placeholder="Enter Label Text">
-                                                            </div>
-                                                        </div>
-                                                        <div class="d-flex justify-content-start" style="padding-top: 12px;padding-bottom: 12px;">
-                                                            <div class="d-flex align-items-center"></div>
-                                                            <div class="d-flex align-items-center"><button class="btn btn-secondary" type="button" style="margin-right: 9px;"><i class="icon ion-android-add" style="margin-right: 7px;"></i>Add Brush</button><button class="btn btn-secondary" type="button" style="margin-right: 9px;"><i class="icon ion-android-close" style="margin-right: 7px;"></i>Remove Brush</button></div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="tab-pane" role="tabpanel" id="tab-22">
-                                                        <div class="d-flex align-items-center">
-                                                            <div class="d-flex justify-content-start" style="padding-top: 12px;padding-bottom: 12px;width: 100%;">
-                                                                <div class="d-flex align-items-center">
-                                                                    <h5 class="d-xxl-flex align-items-xxl-center" style="margin-bottom: -10px;margin-right: 15px;margin-top: -11px;">Folder:</h5><button class="btn btn-secondary" data-bs-toggle="tooltip" data-bss-tooltip="" id="open-folder-choose-btn" type="button" style="margin-right: 2px;min-width: 100px;" title="Re-assign a keystroke as the 'Pie Enable Key'">Choose Folder...</button>
-                                                                    <p class="text-truncate" id="open-folder-display-text" style="margin-bottom: 0px;margin-left: 9px;max-width: 711px;">No Folder Selected</p>
-                                                                    <div class="d-flex justify-content-center align-items-center" id="remove-folder-btn" style="width: 28.5781px;height: 31px;"><i class="fa fa-remove"></i></div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="tab-pane" role="tabpanel" id="tab-35">
-                                                        <div></div>
-                                                        <div class="d-flex justify-content-start" id="menu-select-item-div" style="padding-top: 6px;padding-bottom: 6px;">
-                                                            <div class="d-flex align-items-center"></div>
-                                                            <div class="d-flex align-items-center">
-                                                                <h5 class="d-xxl-flex align-items-xxl-center" style="margin-bottom: -10px;margin-right: 14px;margin-top: -11px;" name="menu-item-label">Menu item 1</h5><input class="bg-dark border rounded-0 border-dark" type="text" style="font-size: 16px;color: var(--bs-white);width: 367px;text-align: center;padding-top: 1px;padding-bottom: 1px;" placeholder="Enter menu item name" name="menu-item-name-text-input">
-                                                            </div>
-                                                        </div>
-                                                        <div class="d-flex justify-content-start" style="padding-top: 12px;padding-bottom: 12px;">
-                                                            <div class="d-flex align-items-center"></div>
-                                                            <div class="d-flex align-items-center"><button class="btn btn-secondary" id="menu-select-add-item-btn" type="button" style="margin-right: 9px;"><i class="icon ion-android-add" style="margin-right: 7px;"></i>Add Menu Item</button></div>
-                                                            <div class="d-flex align-items-center"><button class="btn btn-secondary" id="menu-select-delete-item-btn" type="button" style="margin-right: 9px;"><i class="icon ion-android-close" style="margin-right: 7px;"></i>Delete Menu Item</button></div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="tab-pane" role="tabpanel" id="tab-26">
-                                                        <div class="d-flex justify-content-start" style="padding-top: 12px;padding-bottom: 12px;">
-                                                            <div class="d-flex align-items-center"></div>
-                                                            <div class="d-flex align-items-center" style="width: 100%;">
-                                                                <h5 class="d-xxl-flex align-items-xxl-center" style="margin-bottom: -10px;margin-right: 14px;margin-top: -11px;">URL:</h5><input class="bg-dark border rounded-0 border-dark flex-grow-1" type="text" id="url-text-input" style="font-size: 16px;color: var(--bs-white);padding-top: 1px;padding-bottom: 1px;text-align: left;" placeholder="Paste link URL...">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="tab-pane active" role="tabpanel" id="tab-36">
-                                                        <div class="d-flex justify-content-start" style="padding-top: 12px;padding-bottom: 12px;width: 100%;">
-                                                            <div class="d-flex align-items-center" style="width: 100%;">
-                                                                <h5 class="d-xxl-flex align-items-xxl-center" style="margin-bottom: -10px;margin-right: 15px;margin-top: -11px;">Application:</h5><button class="btn btn-primary" data-bs-toggle="tooltip" data-bss-tooltip="" id="switch-app-get-focused-exe-button" type="button" style="margin-right: 12px;min-width: 100px;" title="Focus the application to use.">Get Focused</button><button class="btn btn-secondary" id="switch-app-find-exe-button" type="button" style="margin-right: 2px;min-width: 100px;" title="Choose a file to run or folder to open">Choose exe...</button><input class="bg-dark border rounded-0 border-dark flex-grow-1" type="text" id="switch-app-exe-text-input" style="font-size: 16px;color: var(--bs-white);text-align: left;padding-top: 1px;padding-bottom: 1px;padding-left: 8px;margin-left: 8px;margin-right: 5px;" maxlength="40" placeholder="some-application.exe">
-                                                                <div class="d-flex justify-content-center align-items-center" id="remove-application-exe-button" style="width: 28.5781px;height: 31px;"><i class="fa fa-remove"></i></div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="d-flex justify-content-start" style="padding-top: 12px;padding-bottom: 12px;width: 100%;">
-                                                            <div class="form-check"><input class="form-check-input" type="checkbox" id="multiple-instance-app-checkbox"><label class="form-check-label" for="mouse-drag-checkbox-1">Multiple Instance Application</label></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="justify-content-start" id="slice-hotkey-div" style="padding-top: 12px;padding-bottom: 12px;margin-top: 9px;">
-                                            <div class="d-flex align-items-center">
-                                                <h5 class="d-xxl-flex align-items-xxl-center" style="margin-bottom: -10px;margin-right: 15px;margin-top: -11px;">Slice Hotkey:</h5><button class="btn btn-secondary" data-bs-toggle="tooltip" data-bss-tooltip="" id="change-slice-hotkey-btn" type="button" style="margin-right: 2px;min-width: 100px;" title="Assign keystroke to launch function.">'</button>
-                                                <div class="d-flex justify-content-center align-items-center" id="unset-slice-hotkey-btn" style="width: 28.5781px;height: 31px;"><i class="fa fa-remove"></i></div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                <div class="tab-pane" role="tabpanel" id="tab-4">
+                                    <p>Tab content.</p>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-            <div class="tab-pane" role="tabpanel" id="tab-3">
-                <div class="d-flex align-items-center" style="background: var(--bs-gray-dark);height: 102px;">
-                    <div style="width: 20%;"><button class="btn btn-secondary" id="create-new-profile-back-btn" type="button" style="margin-left: 50px;"><i class="icon ion-chevron-left" style="margin-right: 12px;"></i>Back</button></div>
-                    <div style="width: 60%;">
-                        <h3 class="text-center" style="margin-bottom: 0px;">Create New Profile</h3>
-                    </div>
-                </div>
-                <form id="create-new-profile-form">
-                    <div class="d-flex justify-content-center" style="padding-top: 12px;padding-bottom: 12px;margin-top: 36px;">
-                        <div class="d-flex align-items-center"></div>
-                        <div class="d-flex align-items-center">
-                            <h5 class="d-xxl-flex align-items-xxl-center" style="margin-bottom: -10px;margin-right: 15px;margin-top: -11px;">Profile Name:</h5><input class="bg-dark border rounded-0 border-dark form-control" type="text" id="new-profile-name" style="font-size: 16px;color: var(--bs-white);width: 470px;text-align: left;padding-top: 1px;padding-bottom: 1px;" placeholder="Enter Label Text" required="" maxlength="30">
-                        </div>
-                    </div>
-                    <div class="d-flex justify-content-center" style="padding-top: 12px;padding-bottom: 12px;margin-top: 15px;"><button class="btn btn-primary" id="get-focused-app-button" type="button" style="width: 131.3125px;min-width: 206px;">Get Focused Application</button></div>
-                    <div class="d-flex justify-content-center" style="padding-top: 12px;padding-bottom: 12px;">
-                        <div class="d-flex align-items-center"></div>
-                        <div class="d-flex align-items-center">
-                            <h5 class="d-xxl-flex align-items-xxl-center" style="margin-bottom: -10px;margin-right: 15px;margin-top: -11px;">Profile Executable:</h5><input class="bg-dark border rounded-0 border-dark form-control" type="text" id="new-profile-exe-field" style="font-size: 16px;color: var(--bs-white);width: 367px;text-align: left;padding-top: 1px;padding-bottom: 1px;margin-right: 18px;" placeholder="Select a program executable..." readonly="" required="">
-                        </div><button class="btn btn-secondary" id="select-profile-exe-btn" type="button" style="width: 130.3125px;">Select Path</button>
-                    </div>
-                    <div class="d-flex justify-content-center">
-                        <h6 class="text-danger" id="new-profile-exe-path-validiation-warning">* Choose a program for this profile</h6>
-                        <div class="d-flex align-items-center"></div>
-                        <div class="d-flex align-items-center"></div>
-                    </div>
-                    <div class="d-flex justify-content-center" style="padding-top: 12px;padding-bottom: 12px;margin-top: 15px;">
-                        <div class="d-flex align-items-center"></div>
-                        <div class="d-flex align-items-center"></div><button class="btn btn-secondary" id="create-profile-cancel-btn" type="button" style="width: 194px;margin-right: 43px;height: 48px;">Cancel</button><button class="btn btn-primary" id="create-profile-btn" type="submit" style="height: 48px;width: 194px;">Create Profile</button>
-                    </div>
-                </form>
-            </div>
-            <div class="tab-pane" role="tabpanel" id="tab-34">
-                <div class="d-flex justify-content-center align-items-center" style="height: 90vh;width: 100%;">
-                    <div style="width: 450px;">
-                        <div></div>
-                        <div class="text-center" style="margin-bottom: 29px;"><img id="focus-timer-gif" src="assets/img/Timer.gif" style="width: 200px;">
-                            <h5 class="text-light" style="margin-top: 49px;">Focus the window of a desired application.</h5>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="tab-pane" role="tabpanel" id="tab-4">
-                <div class="d-flex justify-content-start align-items-center" style="background: var(--bs-gray-dark);height: 102px;">
-                    <div style="width: 20%;"><button class="btn btn-secondary" id="new-pie-menu-back-btn" type="button" style="margin-left: 50px;"><i class="icon ion-chevron-left" style="margin-right: 12px;"></i>Back</button></div>
-                    <div style="width: 60%;">
-                        <h3 class="text-center" style="margin-bottom: 0px;">Add New Pie Menu</h3>
-                    </div>
-                </div>
-                <div class="d-flex justify-content-center" style="width: 100%;padding-top: 20px;">
-                    <form>
-                        <div class="d-flex align-items-center" style="padding-top: 12px;padding-bottom: 12px;margin-bottom: 5px;">
-                            <h5 class="d-xxl-flex align-items-xxl-center" style="margin-bottom: -10px;margin-right: 15px;margin-top: -11px;">Pie Menu Name:</h5><input class="bg-dark border rounded-0 border-dark form-control" type="text" id="new-pie-menu-name-input" style="font-size: 16px;color: var(--bs-white);width: 470px;text-align: left;padding-top: 1px;padding-bottom: 1px;" placeholder="Enter name..." required="" maxlength="40">
-                        </div>
-                        <div class="d-flex justify-content-start align-items-center" style="padding-top: 12px;padding-bottom: 12px;">
-                            <div class="d-flex align-items-center"></div>
-                            <div class="d-flex align-items-center">
-                                <h5 class="d-xxl-flex align-items-xxl-center" style="margin-bottom: -10px;margin-right: 15px;margin-top: -11px;">Pie Key:</h5>
-                            </div><button class="btn btn-primary" id="new-pie-key-btn" type="button" style="min-width: 190px;">Choose Keystroke...</button>
-                            <h6 class="text-danger" id="pie-key-validation-warning" style="height: 13px;padding-left: 14px;">* Choose a key</h6>
-                        </div>
-                        <div class="d-flex justify-content-start align-items-center" style="padding-top: 12px;padding-bottom: 12px;">
-                            <div class="d-flex align-items-center"></div>
-                            <div class="d-flex align-items-center">
-                                <h5 class="d-xxl-flex align-items-xxl-center" style="margin-bottom: -10px;margin-right: 15px;margin-top: -11px;">Activation Mode:</h5>
-                            </div><button class="btn btn-primary" id="new-act-mode-btn" type="button" style="min-width: 190px;">Choose Activation Mode</button>
-                            <h6 class="text-danger" id="activation-mode-validation-warning" style="height: 13px;padding-left: 14px;">* Choose an activation mode</h6>
-                        </div>
-                        <div class="d-flex justify-content-start" style="padding-top: 12px;padding-bottom: 12px;">
-                            <div class="d-flex align-items-center"></div>
-                            <div class="d-flex align-items-center">
-                                <h5 class="d-xxl-flex align-items-xxl-center" style="margin-bottom: -10px;margin-right: 15px;margin-top: -11px;">Selection Color:</h5>
-                            </div><input class="form-control" type="text" id="new-selection-color-input" data-jscolor="" value="" style="width: 143px;">
-                        </div>
-                        <div class="d-flex justify-content-start" style="padding-top: 12px;padding-bottom: 12px;">
-                            <div class="d-flex align-items-center"></div>
-                            <div class="d-flex align-items-center">
-                                <h5 class="d-xxl-flex align-items-xxl-center" style="margin-bottom: -10px;margin-right: 15px;margin-top: -11px;">Background Color:</h5>
-                            </div><input class="form-control" type="text" id="new-background-color-input" data-jscolor="" value="" style="width: 143px;">
-                        </div>
-                        <div class="d-flex justify-content-center" style="padding-top: 12px;padding-bottom: 12px;margin-top: 15px;">
-                            <div class="d-flex align-items-center"></div>
-                            <div class="d-flex align-items-center"></div><button class="btn btn-secondary" id="new-pie-menu-cancel-btn" type="button" style="width: 194px;margin-right: 43px;height: 48px;">Cancel</button><button class="btn btn-primary" id="new-pie-menu-create-btn" type="submit" style="height: 48px;width: 194px;">Add Pie Menu</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <div class="tab-pane" role="tabpanel" id="tab-5">
-                <div class="d-flex align-items-center" style="background: var(--bs-gray-dark);height: 102px;width: 100%;">
-                    <div style="width: 30%;"><button class="btn btn-secondary" id="global-settings-back-btn" type="button" style="margin-left: 50px;"><i class="icon ion-chevron-left" style="margin-right: 12px;"></i>Back</button></div>
-                    <div style="width: 40%;">
-                        <h3 style="text-align: center;">Settings</h3>
-                    </div>
-                    <div style="width: 30%;"></div>
-                </div>
-                <div class="d-flex">
-                    <div style="padding-left: 50px;width: 50%;">
-                        <h3 style="margin-top: 32px;">General</h3>
-                        <div class="justify-content-start" style="padding-top: 12px;padding-bottom: 12px;">
-                            <div class="d-flex align-items-center">
-                                <div class="form-check form-switch" style="margin-left: 3px;" title="Icon will use the selection color when function is focused if icon is greyscale."><input class="form-check-input" type="checkbox" id="run-on-startup-checkbox"><label class="form-check-label" for="formCheck-5">Run AutoHotPie on Startup<br></label></div>
-                            </div>
-                        </div>
-                        <div class="justify-content-start" style="padding-top: 12px;padding-bottom: 12px;">
-                            <div class="d-flex align-items-center">
-                                <div class="form-check form-switch" style="margin-left: 3px;" title="Icon will use the selection color when function is focused if icon is greyscale."><input class="form-check-input" type="checkbox" id="escape-cancel-menu-checkbox"><label class="form-check-label" for="run-on-startup-checkbox-1">Escape key exits pie menu<br></label></div>
-                            </div>
-                        </div>
-                        <div class="justify-content-start" style="padding-top: 12px;padding-bottom: 12px;">
-                            <div class="form-check form-switch" style="margin-left: 3px;" title="Icon will use the selection color when function is focused if icon is greyscale."><input class="form-check-input" type="checkbox" id="use-ahk-pie-menu-checkbox"><label class="form-check-label" for="formCheck-5">Use open-source AutoHotKey pie menus<br>(requires <a id="ahk-link" style="color: var(--bs-teal);text-decoration:  underline;">AutoHotKey</a>&nbsp;to be installed)<br></label></div>
-                        </div>
-                        <div class="justify-content-start" style="padding-top: 12px;padding-bottom: 12px;">
-                            <div class="form-check form-switch" style="margin-left: 3px;" title="Icon will use the selection color when function is focused if icon is greyscale."><input class="form-check-input" type="checkbox" id="always-run-on-quit-checkbox"><label class="form-check-label" for="use-ahk-pie-menu-checkbox-2">Always 'Save and Run pie menus' on close.<br></label></div>
-                        </div>
-                        <div hidden="">
-                            <h3 style="margin-top: 32px;">User Satisfaction</h3>
-                            <div class="justify-content-start" style="padding-top: 12px;padding-bottom: 12px;">
-                                <div class="form-check form-switch" style="margin-left: 3px;" title="Icon will use the selection color when function is focused if icon is greyscale."><input class="form-check-input" type="checkbox" id="use-ahk-pie-menu-checkbox-1" checked=""><label class="form-check-label" for="use-ahk-pie-menu-checkbox-1">Share user data about how many times I draw balls with my mouse<br></label></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div style="padding-left: 50px;width: 50%;">
-                        <h3 style="margin-bottom: 17px;margin-top: 32px;">Support</h3>
-                        <div class="justify-content-start" style="padding-top: 12px;padding-bottom: 12px;">
-                            <div class="d-flex align-items-center" style="margin-bottom: 15px;"><button class="btn btn-secondary" id="check-for-update-btn" type="button" style="margin-right: 11px;width: 179px;"><i class="icon ion-android-arrow-up" style="margin-right: 12px;margin-bottom: 8px;"></i>Check for Updates</button>
-                                <p id="version-text" style="margin-bottom: 8px;">This version: v1.0.0</p>
-                            </div>
-                            <div class="d-flex align-items-center" style="margin-bottom: 15px;"><button class="btn btn-primary d-flex align-items-center" id="github-btn" type="button" style="background: var(--bs-purple);border-style: none;width: 166px;height: 38px;"><img src="assets/img/github-logo.svg" style="width: 20.3125px;margin-right: 8px;">View on <strong>&nbsp;Github</strong></button></div>
-                            <div class="d-flex align-items-center" style="margin-bottom: 15px;"><button class="btn btn-primary d-flex align-items-center" id="paypal-donate-btn" type="button" style="width: 196px;background: rgb(20,44,142);border: 2px solid var(--bs-white);height: 43.2344px;"><img src="assets/img/paypal-logo-white.png" style="width: 20.3125px;margin-right: 8px;"><strong>Donate</strong>&nbsp;with <strong>&nbsp;</strong>PayPal</button></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="tab-pane" role="tabpanel" id="tab-6">
-                <div class="text-center d-flex flex-column justify-content-center align-items-center" style="width: 100%;height: 90vh;">
-                    <h1 id="confirmation-heading">Check yourself.</h1>
-                    <p id="confirmation-description">Are you sure you want to change that setting?</p>
-                    <div style="width: 100%;padding: 10px;"><button class="btn btn-secondary" id="secondary-confirmation-btn" type="button" style="margin-right: 24px;width: 180px;">No I did a dumb</button><button class="btn btn-secondary" id="confirmation-cancel-btn" type="button" style="margin-right: 24px;width: 180px;">No I did a dumb</button><button class="btn btn-primary" id="confirmation-confirm-btn" type="button" style="width: 180px;">I said what I said</button></div>
-                    <div id="show-again-div" style="padding-top: 11px;">
-                        <div class="form-check d-lg-flex justify-content-lg-start"><input class="form-check-input" type="checkbox" id="show-again-checkbox"><label class="form-check-label" id="ask-again-label" for="formCheck-4" style="padding-left: 11px;">How dare you question me.</label></div>
-                    </div>
-                </div>
-            </div>
-            <div class="tab-pane" role="tabpanel" id="tab-31">
-                <div class="text-center d-flex flex-column justify-content-center align-items-center" style="width: 100%;height: 90vh;">
-                    <h1>Save before quitting?</h1>
-                    <div style="width: 100%;padding: 10px;"><button class="btn btn-secondary" id="exit-back-btn" type="button" style="margin-right: 24px;width: 180px;">Cancel</button><button class="btn btn-secondary" id="exit-dont-save-btn" type="button" style="margin-right: 24px;width: 180px;">Don't Save</button><button class="btn btn-primary" id="exit-save-btn" type="button" style="width: 180px;">Save</button></div>
-                    <div class="d-flex" style="padding-top: 11px;">
-                        <div class="form-check"><input class="form-check-input" type="checkbox" id="run-on-exit-checkbox"><label class="form-check-label" for="run-on-exit-checkbox">Run Pie Menus on exit</label></div>
-                        <div class="form-check" style="margin-left: 30px;"><input class="form-check-input" type="checkbox" id="confirm-exit-always-run-checkbox"><label class="form-check-label" for="confirm-exit-always-run-checkbox">Don't ask again<br></label></div>
                     </div>
                 </div>
             </div>
             <div class="tab-pane" role="tabpanel" id="tab-7">
-                <div class="text-center d-flex flex-column justify-content-center align-items-center" style="width: 100%;height: 90vh;margin-bottom: 48px;">
-                    <h1 style="margin-bottom: 6px;">Edit Keystroke</h1>
-                    <p style="margin-bottom: 45px;"></p>
-                    <div id="invalid-key-warning-div" style="margin-bottom: 4px;">
-                        <h6 class="text-danger">This key is already in use, edit or choose another key.</h6>
+                <div>
+                    <div class="d-inline-flex d-xxl-flex align-items-xxl-center header-bar">
+                        <div class="d-flex justify-content-end align-items-center header-left-btn" id="new-profile-back-button"><i class="fa fa-angle-left" id="sidebar-collapse-icon-left-1" style="font-size: 32px;"></i>
+                            <h5>Back</h5>
+                        </div>
+                        <div class="d-flex flex-grow-1 justify-content-center align-items-center">
+                            <h2 class="text-center" style="width: 100%;">Add New Profile</h2>
+                        </div>
+                        <div style="width: 200px;height: 100%;"></div>
                     </div>
-                    <div class="d-flex justify-content-center align-items-center"><div id="modifier-btn-group" class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
-  <input type="checkbox" onfocus="this.blur();" class="btn-check" id="hotkey-modifier-win-check" autocomplete="off">
-    <label class="btn btn-outline-primary" for="hotkey-modifier-win-check">Win</label>
-    <input type="checkbox" onfocus="this.blur();" onmouseover="" class="btn-check" id="hotkey-modifier-shift-check" autocomplete="off">
-    <label class="btn btn-outline-primary"  for="hotkey-modifier-shift-check">Shift</label>
-    <input type="checkbox" onfocus="this.blur();" class="btn-check" id="hotkey-modifier-ctrl-check" autocomplete="off">
-    <label class="btn btn-outline-primary" for="hotkey-modifier-ctrl-check">Ctrl</label>
-    <input type="checkbox" onfocus="this.blur();" class="btn-check" id="hotkey-modifier-alt-check" autocomplete="off">
-    <label class="btn btn-outline-primary" for="hotkey-modifier-alt-check">Alt</label>    
-  </div><input class="bg-dark border rounded-0 border-dark" type="text" id="hotkey-display-field" style="font-size: 16px;color: var(--bs-white);width: 182px;text-align: center;padding-top: 1px;padding-bottom: 1px;height: 38px;margin-right: 19px;border-style: solid;border-bottom-right-radius: 11px;" placeholder="Enter Key..." readonly="" disabled=""><button class="btn btn-secondary" id="hotkey-reassign-btn" type="button" style="max-height: 38px;width: 120.8594px;">Reassign</button></div>
-                    <div style="width: 533px;padding: 10px;margin-top: 16px;"><button class="btn btn-secondary" id="hotkey-cancel-btn" type="button" style="margin-right: 18px;width: 140px;">Cancel</button><button class="btn btn-primary" id="hotkey-accept-btn" type="button" style="width: 140px;">Accept</button></div>
+                    <div class="d-flex justify-content-center">
+                        <div style="max-width: 600px;">
+                            <div style="margin: 25px;text-align: center;"><button class="btn btn-primary" id="get-focused-application-btn" type="button">Get Focused Application</button></div>
+                            <div class="center-labeled-input">
+                                <h5>Profile Name:</h5>
+                                <div class="flex-grow-1"><input type="text" id="profile-name-text-input" style="width: 100%;" placeholder="Enter name..."></div>
+                            </div>
+                            <div class="center-labeled-input">
+                                <h5>Profile Executable:</h5>
+                                <div class="flex-grow-1"><input type="text" id="profile-executable-text-input" style="width: 100%;" placeholder="Enter name..."></div><button class="btn btn-secondary" id="profile-executable-select-path-button" type="button" style="margin-left: 12px;">Select Path</button>
+                            </div>
+                            <div style="margin-top: 41px;margin-bottom: 20px;text-align: center;"><button class="btn btn-secondary" id="cancel-new-profile-button" type="button" style="margin-right: 32px;width: 149px;">Cancel</button><button class="btn btn-primary" id="submit-new-profile-button" type="button" style="width: 149px;">Create Profile</button></div>
+                        </div>
+                    </div>
+                    <div id="icon-test-div" style="height: 62px;"></div>
                 </div>
             </div>
             <div class="tab-pane" role="tabpanel" id="tab-11">
-                <div class="text-center d-flex flex-column justify-content-center align-items-center" id="listen-for-click-div" style="width: 100%;height: 100vh;">
-                    <div style="height: 25%;"></div>
-                    <div class="text-center d-flex flex-column justify-content-center align-items-center" style="height: 50%;">
-                        <h1 style="margin-bottom: 15px;">Press a key...</h1><input class="bg-dark border rounded-0 border-dark" type="text" id="pressed-hotkey-text-input" style="font-size: 16px;color: var(--bs-white);width: 367px;text-align: center;padding-top: 1px;padding-bottom: 1px;" placeholder="Enter Label Text">
-                        <div style="width: 533px;padding: 10px;margin-top: 16px;"><button class="btn btn-secondary" id="hotkey-listen-cancel-btn" type="button" style="width: 140px;">Cancel</button></div>
+                <div class="d-inline-flex d-xxl-flex align-items-xxl-center header-bar">
+                    <div class="d-flex justify-content-end align-items-center header-left-btn" id="new-profile-back-button-2"><i class="fa fa-angle-left" id="sidebar-collapse-icon-left-2" style="font-size: 32px;"></i>
+                        <h5>Back</h5>
                     </div>
-                    <div style="height: 25%;">
-                        <h4 style="margin-bottom: 16px;">Or select a special key</h4>
-                        <div class="dropup" id="special-key-menu"><button class="btn btn-primary dropdown-toggle" aria-expanded="false" data-bs-toggle="dropdown" type="button" style="width: 232.156px;">Special Keys</button>
-                            <div class="dropdown-menu dropdown-menu-dark" style="width: 233px;overflow-y: auto;max-height: 500px;"><a class="dropdown-item" href="#">First Item</a><a class="dropdown-item" href="#">Second Item</a><a class="dropdown-item" href="#">Third Item</a></div>
+                    <div class="d-flex flex-grow-1 justify-content-center align-items-center">
+                        <h2 class="text-center" style="width: 100%;">Add New Pie Menu</h2>
+                    </div>
+                    <div style="width: 200px;height: 100%;"></div>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <div style="max-width: 600px;">
+                        <div class="center-labeled-input">
+                            <h5>Pie Menu Name:</h5>
+                            <div class="flex-grow-1"><input type="text" id="new-pie-menu-name-text-input" style="width: 100%;" placeholder="Enter name..."></div>
                         </div>
+                        <div class="center-labeled-input">
+                            <h5>Hotkey:</h5>
+                            <div class="flex-grow-1"><button class="btn btn-primary" id="new-pie-menu-hotkey-btn" type="button">Choose key...</button></div>
+                        </div>
+                        <div class="center-labeled-input">
+                            <h5>Menu mode:</h5>
+                            <div class="flex-grow-1"><button class="btn btn-primary" id="new-pie-menu-mode-btn" type="button">Choose mode...</button></div>
+                        </div>
+                        <div class="center-labeled-input">
+                            <h5>Color:</h5>
+                            <div class="flex-grow-1"><input id="new-pie-menu-background-color-input" data-jscolor="" style="border: none;"></div>
+                        </div>
+                        <div class="center-labeled-input">
+                            <h5>Background Color:</h5>
+                            <div class="flex-grow-1"><input id="new-pie-menu-selection-color-input" data-jscolor="" style="border: none;"></div>
+                        </div>
+                        <div style="margin-top: 41px;margin-bottom: 20px;text-align: center;"><button class="btn btn-secondary" id="new-pie-menu-cancel-btn" type="button" style="margin-right: 32px;width: 149px;">Cancel</button><button class="btn btn-primary disabled" id="new-pie-menu-create-btn" type="button" style="width: 149px;" disabled="">Create Pie Menu</button></div>
                     </div>
                 </div>
             </div>
-            <div class="tab-pane" role="tabpanel" id="tab-12">
-                <div class="d-flex justify-content-center align-items-center" style="background: var(--bs-gray-dark);height: 102px;">
-                    <div style="width: 20%;"><button class="btn btn-secondary" id="act-mode-back-btn" type="button" style="margin-left: 50px;"><i class="icon ion-chevron-left" style="margin-right: 12px;"></i>Back</button></div>
-                    <div style="width: 60%;">
-                        <h3 class="text-center" style="margin-bottom: 0px;">Select Activation Mode</h3>
-                    </div>
-                    <div style="width: 20%;"></div>
-                </div>
-                <div class="d-flex" style="padding: 36px;padding-bottom: 0;">
-                    <div style="width: 50%;padding: 5px;">
-                        <div id="act-mode-2-card" style="background: var(--bs-gray-800);padding: 24px;padding-bottom: 5px;height: 100%;border-radius: 4px;border: 1px solid rgb(64,193,179) ;"><img id="act-2-img" src="assets/img/ActModeImages/ActMode1.svg" style="width: 100%;"><img id="act-2-container" src="assets/img/ActModeImages/ActMode1.svg" style="width: 100%;aspect-ratio: 73/30;"><img id="act-2-gif" src="assets/img/ActModeImages/Act-Mode-2-SelectFirst.gif" style="width: 100%;">
-                            <h4>Release on first function, hover over next.<br></h4>
-                            <p class="text-muted" style="height: auto;">Open the pie menu by holding the Pie Key.&nbsp; Release Pie Key on desired function.&nbsp; If submenu is selected, hover over next function.<br></p>
-                        </div>
-                    </div>
-                    <div style="width: 50%;padding: 5px;">
-                        <div id="act-mode-1-card" style="background: var(--bs-gray-800);padding: 24px;padding-bottom: 5px;height: 100%;border-radius: 4px;border: 1px solid rgb(64,193,179) ;"><img id="act-1-img" src="assets/img/ActModeImages/ActMode2.svg" style="width: 100%;"><img id="act-1-container" src="assets/img/ActModeImages/ActMode2.svg" style="width: 100%;aspect-ratio: 73/30;"><img id="act-1-gif" src="assets/img/ActModeImages/Act-Mode-1-HoverSub.gif" style="width: 100%;">
-                            <h4>Hover over submenus, release on function.</h4>
-                            <p class="text-muted" style="height: auto;">Open the pie menu by holding the Pie Key.&nbsp;&nbsp;Release Pie Key on the desired function.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="d-flex" style="padding: 36px;padding-bottom: 0;padding-top: 0px;">
-                    <div style="width: 50%;padding: 5px;">
-                        <div id="act-mode-3-card" style="background: var(--bs-gray-800);padding: 24px;padding-bottom: 5px;height: 100%;border-radius: 4px;border: 1px solid rgb(64,193,179) ;"><img id="act-3-img" src="assets/img/ActModeImages/ActMode3.svg" style="width: 100%;"><img id="act-3-container" src="assets/img/ActModeImages/ActMode3.svg" style="width: 100%;aspect-ratio: 73/30;"><img id="act-3-gif" src="assets/img/ActModeImages/Act-Mode-3-Hover.gif" style="width: 100%;">
-                            <h4>Hover over all selections.<br></h4>
-                            <p class="text-muted" style="height: auto;">Press Pie Key to open Pie Menu, hover over the desired function.&nbsp; This is ideal for external controllers that send key-down and key-up events.<br></p>
-                        </div>
-                    </div>
-                    <div style="width: 50%;padding: 5px;">
-                        <div id="act-mode-4-card" style="background: var(--bs-gray-800);padding: 24px;padding-bottom: 5px;height: 100%;border-radius: 4px;border: 1px solid rgb(64,193,179) ;"><img id="act-4-img" src="assets/img/ActModeImages/ActMode4.svg" style="width: 100%;"><img id="act-4-container" src="assets/img/ActModeImages/ActMode4.svg" style="width: 100%;aspect-ratio: 73/30;"><img id="act-4-gif" src="assets/img/ActModeImages/Act-Mode-4-Click.gif" style="width: 100%;">
-                            <h4>Click selections<br></h4>
-                            <p class="text-muted" style="height: auto;">Press Pie Key to open Pie Menu, then click on slices.<br></p>
-                        </div>
+            <div class="tab-pane" role="tabpanel" id="tab-8">
+                <div class="d-flex justify-content-center align-items-center" style="width: 100%;height: 100%;">
+                    <div style="width: 622.33px;">
+                        <div class="d-flex justify-content-center" id="lottie-timer-div" style="height: 300px;margin-bottom: 14px;width: 100%;"></div>
+                        <h3 class="text-center text-secondary">Focus the window of another application.</h3>
                     </div>
                 </div>
             </div>
-            <div class="tab-pane" role="tabpanel" id="tab-23">
-                <div class="btn-group" role="group" id="send-key-btn-group-template" style="margin-right: 14px;" name="send-keystroke-btn-group-1"><button class="btn btn-primary" type="button" name="send-keystroke-btn-1">Button 1</button><button class="btn btn-danger" type="button" style="padding-right: 6px;padding-left: 6px;" name="send-keystroke-btn-remove-1"><i class="fa fa-remove" name="send-keystroke-btn-remove-1"></i></button></div><button class="btn btn-primary" id="send-key-btn-template" type="button" style="margin-right: 14px;" name="send-keystroke-btn-0">Button 1</button><button class="btn btn-primary" type="button" style="margin-right: 14px;" name="send-keystroke-btn-0">Assign Key</button><button class="btn btn-secondary" id="app-cancel-btn" type="button" style="margin-right: 13px;"><i class="icon ion-close-round" style="margin-right: 12px;"></i>Cancel</button>
-                <div class="d-flex" id="program-list-item-template" style="width: 100%; display: none;">
-                    <div style="width: 34.5781px;" name="program-remove-btn"><i class="fa fa-remove" style="padding: 4px;width: 100%;height: 100%;text-align: center;padding-top: 9px;"></i></div>
-                    <div class="d-flex align-items-center" style="width: 100%;">
-                        <p class="text-nowrap text-truncate text-start" style="margin-bottom: 5px;margin-top: 5px;">what</p>
-                    </div>
-                </div>
-                <div class="text-center d-xxl-flex align-items-xxl-center" id="template-select-icon-div" style="width: 150px;height: 100px;" name="selectable-icon-div">
-                    <div style="width: 100%;"><img src="assets/img/ColorRainbow.png" style="width: 32px;margin-bottom: 6px;">
-                        <p class="text-truncate" style="margin-bottom: 0px;font-size: 14px;color: var(--bs-gray-600);">Arrow Left</p>
-                    </div>
-                </div><button id="color-button-template" data-jscolor="" style="width:50px;height:30px"></button>
-                <div id="custom-function-div-template" class="div-hover-green-8" style="border-radius: 8px;border-width: 3px;border-style: solid;margin-top: 6px;margin-bottom: 6px;" name="custom-function-div">
-                    <div class="d-flex" style="background: var(--bs-gray-800);padding-left: 10px;padding-right: 10px;padding-top: 7px;padding-bottom: 3px;border-top-left-radius: 4px;border-top-right-radius: 4px;">
-                        <h5 style="width: 100%;">Heading</h5>
-                        <div class="d-flex" style="height: 27px;">
-                            <div class="d-flex justify-content-center align-items-center icon-btn-div" style="width: 26.8594px;" name="custom-func-edit-btn"><i class="fa fa-edit"></i></div>
-                            <div class="d-flex justify-content-center align-items-center icon-btn-div" style="width: 26.8594px;" name="custom-func-remove-btn"><i class="fa fa-remove"></i></div>
-                        </div>
-                    </div>
-                    <div>
-                        <p style="color: var(--bs-gray);padding-left: 10px;padding-right: 10px;padding-top: 7px;margin-bottom: 8px;">Paragraph</p>
-                    </div>
-                </div>
-                <div class="d-flex justify-content-start" id="menu-select-item-div-template" style="padding-top: 6px;padding-bottom: 6px;">
-                    <div class="d-flex align-items-center"></div>
-                    <div class="d-flex align-items-center">
-                        <h5 class="d-xxl-flex align-items-xxl-center" style="margin-bottom: -10px;margin-right: 14px;margin-top: -11px;">Menu item NUM:</h5><input class="bg-dark border rounded-0 border-dark" type="text" style="font-size: 16px;color: var(--bs-white);width: 367px;text-align: center;padding-top: 1px;padding-bottom: 1px;margin-right: 10px;" placeholder="Enter menu item name">
-                    </div><button class="btn btn-danger" type="button" style="margin-right: 9px;"><i class="icon ion-android-close"></i></button>
-                </div>
-                <div class="text-center d-xxl-flex align-items-xxl-center" style="width: 125px;height: 100px;padding: 5px;" name="selectable-icon-div">
-                    <div class="d-flex align-items-center div-hover-green" style="width: 100%;background: var(--bs-gray-800);border-radius: 8px;height: 100%;">
-                        <div style="width: 100%;"><img src="assets/img/Function%20Icons/FuncIcon-MenuSelect.svg" style="width: 32px;margin-bottom: 6px;">
-                            <p style="margin-bottom: 0px;font-size: 14px;">Menu Select</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="tab-pane" role="tabpanel" id="tab-24">
-                <div class="text-center d-flex flex-column justify-content-center align-items-center" style="width: 100%;height: 100vh;">
-                    <div style="height: 20%;"></div>
-                    <div class="text-center d-flex flex-column justify-content-center align-items-center" style="height: 60%;"><img id="loading-animation" src="assets/img/runPieMenus.gif" style="width: 300px;margin-bottom: 22px;">
-                        <h3 id="loading-heading">Running Pie Menus</h3>
-                        <h6 id="long-time-text" style="color: var(--bs-gray-600);">First time may take a moment.</h6>
-                    </div>
-                    <div style="height: 20%;"></div>
-                </div>
-            </div>
-            <div class="tab-pane" role="tabpanel" id="tab-25">
-                <div class="d-flex align-items-center" style="background: var(--bs-gray-dark);height: 102px;">
-                    <div style="width: 20%;"><button class="btn btn-secondary" id="function-select-back-btn" type="button" style="margin-left: 50px;"><i class="icon ion-chevron-left" style="margin-right: 12px;"></i>Back</button></div>
-                    <div style="width: 60%;">
-                        <h3 class="text-center" style="margin-bottom: 0px;">Select Function</h3>
-                    </div>
-                </div>
-                <div style="padding-right: 50px;padding-left: 50px;padding-top: 25px;padding-bottom: 25px;">
-                    <div>
-                        <h4 class="text-center" style="margin-top: 39px;padding: 10px;border-radius: 5px;">Common</h4>
-                    </div>
-                    <div>
-                        <div class="d-inline-flex align-content-start flex-wrap" id="common-function-div">
-                            <div class="text-center d-xxl-flex align-items-xxl-center" style="width: 125px;height: 100px;padding: 5px;" name="selectable-icon-div">
-                                <div class="d-flex align-items-center div-hover-green" style="width: 100%;background: var(--bs-gray-800);border-radius: 8px;height: 100%;">
-                                    <div style="width: 100%;"><img src="assets/img/Function%20Icons/FuncIcon-SendKey.svg" style="width: 32px;margin-bottom: 6px;">
-                                        <p style="margin-bottom: 0px;font-size: 14px;">Send Key</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="text-center d-xxl-flex align-items-xxl-center" style="width: 125px;height: 100px;padding: 5px;" name="selectable-icon-div">
-                                <div class="d-flex align-items-center div-hover-green" style="width: 100%;background: var(--bs-gray-800);border-radius: 8px;height: 100%;">
-                                    <div style="width: 100%;"><img src="assets/img/Function%20Icons/FuncIcon-MouseClick.svg" style="width: 32px;margin-bottom: 6px;">
-                                        <p style="margin-bottom: 0px;font-size: 14px;">Mouse Click</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="text-center d-xxl-flex align-items-xxl-center" style="width: 125px;height: 100px;padding: 5px;" name="selectable-icon-div">
-                                <div class="d-flex align-items-center div-hover-green" style="width: 100%;background: var(--bs-gray-800);border-radius: 8px;height: 100%;">
-                                    <div style="width: 100%;"><img src="assets/img/Function%20Icons/FuncIcon-RunFile.svg" style="width: 32px;margin-bottom: 6px;">
-                                        <p style="margin-bottom: 0px;font-size: 14px;">Run File</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="text-center d-xxl-flex align-items-xxl-center" style="width: 125px;height: 100px;padding: 5px;" name="selectable-icon-div">
-                                <div class="d-flex align-items-center div-hover-green" style="width: 100%;background: var(--bs-gray-800);border-radius: 8px;height: 100%;">
-                                    <div style="width: 100%;"><img src="assets/img/Function%20Icons/FuncIcon-OpenFolder.svg" style="width: 32px;margin-bottom: 6px;">
-                                        <p style="margin-bottom: 0px;font-size: 14px;">Open Folder</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="text-center d-xxl-flex align-items-xxl-center" style="width: 125px;height: 100px;padding: 5px;" name="selectable-icon-div">
-                                <div class="d-flex align-items-center div-hover-green" style="width: 100%;background: var(--bs-gray-800);border-radius: 8px;height: 100%;">
-                                    <div style="width: 100%;"><img src="assets/img/Function%20Icons/FuncIcon-RepeatLast.svg" style="width: 32px;margin-bottom: 6px;">
-                                        <p style="margin-bottom: 0px;font-size: 14px;">Repeat Last</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="text-center d-xxl-flex align-items-xxl-center" style="width: 125px;height: 100px;padding: 5px;" name="selectable-icon-div">
-                                <div class="d-flex align-items-center div-hover-green" style="width: 100%;background: var(--bs-gray-800);border-radius: 8px;height: 100%;">
-                                    <div style="width: 100%;"><img src="assets/img/Function%20Icons/FuncIcon-SubMenu.svg" style="width: 32px;margin-bottom: 6px;">
-                                        <p style="margin-bottom: 0px;font-size: 14px;">Sub Menu</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="text-center d-xxl-flex align-items-xxl-center" style="width: 125px;height: 100px;padding: 5px;" name="selectable-icon-div">
-                                <div class="d-flex align-items-center div-hover-green" style="width: 100%;background: var(--bs-gray-800);border-radius: 8px;height: 100%;">
-                                    <div style="width: 100%;"><img src="assets/img/Function%20Icons/FuncIcon-ResizeWindow.svg" style="width: 32px;margin-bottom: 6px;">
-                                        <p style="margin-bottom: 0px;font-size: 14px;">Resize Window</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="text-center d-xxl-flex align-items-xxl-center" style="width: 125px;height: 100px;padding: 5px;" name="selectable-icon-div">
-                                <div class="d-flex align-items-center div-hover-green" style="width: 100%;background: var(--bs-gray-800);border-radius: 8px;height: 100%;">
-                                    <div style="width: 100%;"><img src="assets/img/Function%20Icons/FuncIcon-MoveWindow.svg" style="width: 32px;margin-bottom: 6px;">
-                                        <p style="margin-bottom: 0px;font-size: 14px;">Move Window</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="text-center d-xxl-flex align-items-xxl-center" style="width: 125px;height: 100px;padding: 5px;" name="selectable-icon-div">
-                                <div class="d-flex align-items-center div-hover-green" style="width: 100%;background: var(--bs-gray-800);border-radius: 8px;height: 100%;">
-                                    <div style="width: 100%;"><img src="assets/img/Function%20Icons/FuncIcon-Link.svg" style="width: 32px;margin-bottom: 6px;">
-                                        <p style="margin-bottom: 0px;font-size: 14px;">Open URL</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="text-center d-xxl-flex align-items-xxl-center" style="width: 125px;height: 100px;padding: 5px;" name="selectable-icon-div">
-                                <div class="d-flex align-items-center div-hover-green" style="width: 100%;background: var(--bs-gray-800);border-radius: 8px;height: 100%;">
-                                    <div style="width: 100%;"><img src="assets/img/Function%20Icons/FuncIcon-SwitchApplication.svg" style="width: 32px;margin-bottom: 6px;">
-                                        <p style="margin-bottom: 0px;font-size: 14px;">Switch App</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="text-center d-xxl-flex align-items-xxl-center" style="width: 125px;height: 100px;padding: 5px;" name="selectable-icon-div">
-                                <div class="d-flex align-items-center div-hover-green" style="width: 100%;background: var(--bs-gray-800);border-radius: 8px;height: 100%;">
-                                    <div style="width: 100%;"><img src="assets/img/Function%20Icons/FuncIcon-AHPSettings.svg" style="width: 32px;margin-bottom: 6px;">
-                                        <p style="margin-bottom: 0px;font-size: 14px;">Settings</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="text-center d-xxl-flex align-items-xxl-center" style="width: 125px;height: 100px;padding: 5px;" name="selectable-icon-div">
-                                <div class="d-flex align-items-center div-hover-green" style="width: 100%;background: var(--bs-gray-800);border-radius: 8px;height: 100%;">
-                                    <div style="width: 100%;"><img src="assets/img/Function%20Icons/FuncIcon-None.svg" style="width: 32px;margin-bottom: 6px;">
-                                        <p style="margin-bottom: 0px;font-size: 14px;">None</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="custom-script-list-div">
-                        <div style="height: 82px;z-index: 9;position: absolute;width: 89%;"></div>
-                        <div class="text-center">
-                            <div>
-                                <h4 style="margin-top: 39px;padding: 10px;">Custom Scripts</h4>
-                            </div>
-                        </div>
-                        <div class="d-flex">
-                            <div style="width: 50%;">
-                                <div style="padding: 7px;">
-                                    <h5 class="text-center">General</h5>
-                                </div>
-                                <div id="general-custom-scripts-div" style="padding: 12px;">
-                                    <div class="div-hover-green-8" style="border-radius: 8px;border-width: 3px;border-style: solid;" name="custom-function-div">
-                                        <div style="background: var(--bs-gray-800);padding-left: 10px;padding-right: 10px;padding-top: 7px;padding-bottom: 3px;border-top-left-radius: 8px;border-top-right-radius: 8px;">
-                                            <h5>Heading</h5>
-                                        </div>
-                                        <div>
-                                            <p style="color: var(--bs-gray);padding-left: 10px;padding-right: 10px;padding-top: 7px;margin-bottom: 8px;">Paragraph</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="text-center"><button class="btn btn-secondary" id="new-script-general-btn" type="button" style="margin-right: 13px;"><i class="icon ion-android-add" style="margin-right: 12px;"></i>New Script</button></div>
-                            </div>
-                            <div style="border: 1px solid var(--bs-gray-800) ;"></div>
-                            <div style="width: 50%;">
-                                <div style="padding: 7px;">
-                                    <h5 class="text-center">Application Specific</h5>
-                                </div>
-                                <div id="app-specific-custom-scripts-div" style="padding: 12px;">
-                                    <div style="border-style: solid;border-color: var(--bs-gray-800);border-radius: 8px;">
-                                        <div style="background: var(--bs-gray-800);padding-left: 10px;padding-right: 10px;padding-top: 7px;padding-bottom: 3px;">
-                                            <h5>Heading</h5>
-                                        </div>
-                                        <div>
-                                            <p style="color: var(--bs-gray);padding-left: 10px;padding-right: 10px;padding-top: 7px;margin-bottom: 8px;">Paragraph</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="text-center"><button class="btn btn-secondary" id="new-script-app-specific-btn" type="button" style="margin-right: 13px;"><i class="icon ion-android-add" style="margin-right: 12px;"></i>New Script</button></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="tab-pane" role="tabpanel" id="tab-30">
-                <div class="d-flex justify-content-start align-items-center" style="background: var(--bs-gray-dark);height: 102px;">
-                    <div style="width: 20%;"><button class="btn btn-secondary" id="create-script-back-btn" type="button" style="margin-left: 50px;"><i class="icon ion-chevron-left" style="margin-right: 12px;"></i>Back</button></div>
-                    <div style="width: 60%;">
-                        <h3 class="text-center" id="create-script-heading" style="margin-bottom: 0px;">Create New Script</h3>
-                    </div>
-                </div>
-                <div>
-                    <div class="text-center d-flex justify-content-center" style="padding: 13px;">
-                        <h4 id="new-script-program-heading" style="max-width: 500px;">New script for Illustrator.exe</h4>
-                    </div>
-                    <div class="d-flex justify-content-center">
-                        <form id="create-new-script-form" style="width: 631px;">
-                            <div class="d-flex align-items-center" style="padding-top: 12px;padding-bottom: 12px;margin-bottom: 5px;">
-                                <h5 class="d-xxl-flex align-items-xxl-center" style="margin-bottom: -10px;margin-right: 15px;margin-top: -11px;width: 146.6406px;">Script Name:</h5><input class="bg-dark border rounded-0 border-dark form-control" type="text" id="new-script-name-input" style="font-size: 16px;color: var(--bs-white);text-align: left;padding-top: 1px;padding-bottom: 1px;" placeholder="Enter name..." required="" maxlength="60">
-                            </div>
-                            <div class="d-flex" style="padding-top: 12px;padding-bottom: 12px;margin-bottom: 5px;">
-                                <h5 class="d-flex justify-content-start" style="margin-right: 21px;">Description:</h5><textarea class="form-control" id="new-script-description-input" style="background: var(--bs-gray-800);height: 86px;color: var(--bs-body-color);" placeholder="Enter description... (300 characters)" required="" maxlength="300"></textarea>
-                            </div>
-                            <div class="d-flex justify-content-center" style="padding-top: 12px;padding-bottom: 12px;margin-top: 15px;">
-                                <div class="d-flex align-items-center"></div>
-                                <div class="d-flex align-items-center"></div><button class="btn btn-secondary" id="create-new-script-cancel-btn" type="button" style="width: 194px;margin-right: 43px;height: 48px;">Cancel</button><button class="btn btn-primary" id="create-new-script-confirm" type="submit" style="height: 48px;width: 194px;">Create Script</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <div class="tab-pane" role="tabpanel" id="tab-28" style="height: 100%;">
-                <div class="d-flex align-items-center" style="background: var(--bs-gray-dark);height: 102px;">
-                    <div style="width: 20%;"><button class="btn btn-secondary" id="icon-manager-back-btn" type="button" style="margin-left: 50px;"><i class="icon ion-chevron-left" style="margin-right: 12px;"></i>Back</button></div>
-                    <div style="width: 60%;">
-                        <h3 class="text-center" style="margin-bottom: 0px;">Choose Icon</h3>
-                    </div>
-                </div>
-                <div style="padding-left: 50px;padding-right: 50px;padding-top: 50px;padding-bottom: 50px;">
-                    <div class="accordion" role="tablist" id="accordion-1" style="box-shadow: 2px 4px 18px 0px rgb(0,0,0);">
-                        <div class="accordion-item">
-                            <h2 class="accordion-header" role="tab"><button class="accordion-button" data-bs-toggle="collapse" data-bs-target="#accordion-1 .item-1" aria-expanded="true" aria-controls="accordion-1 .item-1" style="font-size: 27px;">Stock Icons</button></h2>
-                            <div class="accordion-collapse collapse show item-1" role="tabpanel" data-bs-parent="#accordion-1" style="background: var(--bs-body-color);">
-                                <div class="accordion-body">
-                                    <div class="d-flex justify-content-center" style="margin-bottom: 5px;">
-                                        <div style="padding: 4px;border: 1px solid var(--bs-gray-400);border-radius: 4px;"><input class="border rounded-0 border-white" type="text" id="stock-icons-search-input" style="font-size: 16px;width: 367px;text-align: left;padding-top: 1px;padding-bottom: 1px;padding-left: 8px;" placeholder="Search icons..."><i class="fa fa-search" style="color: var(--bs-gray-400);font-size: 19px;margin-right: 4px;"></i></div>
-                                    </div>
-                                    <div style="height: 0px;">
-                                        <h5 class="text-center text-light" id="stock-icons-not-found-header" style="transform: translateY(57px);height: 0px;">No icons found</h5>
-                                    </div>
-                                    <div class="d-inline-flex align-content-start flex-wrap" id="stock-icon-library" style="overflow-y: scroll;width: 100%;height: 310px;">
-                                        <div class="text-center d-xxl-flex align-items-xxl-center" style="width: 150px;height: 100px;" name="selectable-icon-div">
-                                            <div style="width: 100%;"><img src="assets/img/ColorRainbow.png" style="width: 32px;margin-bottom: 6px;">
-                                                <p class="text-truncate" style="margin-bottom: 0px;font-size: 14px;">Arrow Left</p>
-                                            </div>
-                                        </div>
-                                        <div class="text-center d-xxl-flex align-items-xxl-center" style="width: 150px;height: 100px;" name="selectable-icon-div">
-                                            <div style="width: 100%;"><img src="assets/img/ColorRainbow.png" style="width: 32px;margin-bottom: 6px;">
-                                                <p class="text-truncate" style="margin-bottom: 0px;font-size: 14px;">Arrow Left</p>
-                                            </div>
-                                        </div>
-                                        <div class="text-center d-xxl-flex align-items-xxl-center" style="width: 150px;height: 100px;" name="selectable-icon-div">
-                                            <div style="width: 100%;"><img src="assets/img/ColorRainbow.png" style="width: 32px;margin-bottom: 6px;">
-                                                <p class="text-truncate" style="margin-bottom: 0px;font-size: 14px;">Arrow Left</p>
-                                            </div>
-                                        </div>
-                                        <div class="text-center d-xxl-flex align-items-xxl-center" style="width: 150px;height: 100px;" name="selectable-icon-div">
-                                            <div style="width: 100%;"><img src="assets/img/ColorRainbow.png" style="width: 32px;margin-bottom: 6px;">
-                                                <p class="text-truncate" style="margin-bottom: 0px;font-size: 14px;">Arrow Left</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="accordion-item">
-                            <h2 class="accordion-header" role="tab"><button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#accordion-1 .item-2" aria-expanded="false" aria-controls="accordion-1 .item-2" style="font-size: 27px;">User Icons</button></h2>
-                            <div class="accordion-collapse collapse item-2" role="tabpanel" data-bs-parent="#accordion-1" style="background: var(--bs-body-color);">
-                                <div class="accordion-body">
-                                    <div class="d-flex justify-content-center" style="margin-bottom: 5px;">
-                                        <div style="padding: 4px;border: 1px solid var(--bs-gray-400);border-radius: 4px;"><input class="border rounded-0 border-white" type="text" id="user-icons-search-input" style="font-size: 16px;width: 367px;text-align: left;padding-top: 1px;padding-bottom: 1px;padding-left: 8px;" placeholder="Search icons..."><i class="fa fa-search" style="color: var(--bs-gray-400);font-size: 19px;margin-right: 4px;"></i></div>
-                                    </div>
-                                    <div style="height: 0px;">
-                                        <h5 class="text-center text-light" id="user-icons-not-found-header" style="transform: translateY(57px);height: 0px;">No icons found</h5>
-                                    </div>
-                                    <div class="d-inline-flex align-content-start flex-wrap" id="user-icon-library" style="overflow-y: scroll;width: 100%;height: 310px;">
-                                        <div class="text-center d-xxl-flex align-items-xxl-center" style="width: 150px;height: 100px;" name="selectable-icon-div">
-                                            <div style="width: 100%;"><img src="assets/img/ColorRainbow.png" style="width: 32px;margin-bottom: 6px;">
-                                                <p class="text-truncate" style="margin-bottom: 0px;font-size: 14px;">Arrow Left</p>
-                                            </div>
-                                        </div>
-                                        <div class="text-center d-xxl-flex align-items-xxl-center" style="width: 150px;height: 100px;" name="selectable-icon-div">
-                                            <div style="width: 100%;"><img src="assets/img/ColorRainbow.png" style="width: 32px;margin-bottom: 6px;">
-                                                <p class="text-truncate" style="margin-bottom: 0px;font-size: 14px;">Arrow Left</p>
-                                            </div>
-                                        </div>
-                                        <div class="text-center d-xxl-flex align-items-xxl-center" style="width: 150px;height: 100px;" name="selectable-icon-div">
-                                            <div style="width: 100%;"><img src="assets/img/ColorRainbow.png" style="width: 32px;margin-bottom: 6px;">
-                                                <p class="text-truncate" style="margin-bottom: 0px;font-size: 14px;">Arrow Left</p>
-                                            </div>
-                                        </div>
-                                        <div class="text-center d-xxl-flex align-items-xxl-center" style="width: 150px;height: 100px;" name="selectable-icon-div">
-                                            <div style="width: 100%;"><img src="assets/img/ColorRainbow.png" style="width: 32px;margin-bottom: 6px;">
-                                                <p class="text-truncate" style="margin-bottom: 0px;font-size: 14px;">Arrow Left</p>
-                                            </div>
-                                        </div>
-                                        <div class="text-center d-xxl-flex align-items-xxl-center" style="width: 150px;height: 100px;" name="selectable-icon-div">
-                                            <div style="width: 100%;"><img src="assets/img/ColorRainbow.png" style="width: 32px;margin-bottom: 6px;">
-                                                <p class="text-truncate" style="margin-bottom: 0px;font-size: 14px;">Arrow Left</p>
-                                            </div>
-                                        </div>
-                                        <div class="text-center d-xxl-flex align-items-xxl-center" style="width: 150px;height: 100px;" name="selectable-icon-div">
-                                            <div style="width: 100%;"><img src="assets/img/ColorRainbow.png" style="width: 32px;margin-bottom: 6px;">
-                                                <p class="text-truncate" style="margin-bottom: 0px;font-size: 14px;">Arrow Left</p>
-                                            </div>
-                                        </div>
-                                        <div class="text-center d-xxl-flex align-items-xxl-center" style="width: 150px;height: 100px;" name="selectable-icon-div">
-                                            <div style="width: 100%;"><img src="assets/img/ColorRainbow.png" style="width: 32px;margin-bottom: 6px;">
-                                                <p class="text-truncate" style="margin-bottom: 0px;font-size: 14px;">Arrow Left</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="text-center" style="padding: 6px;"><button class="btn btn-primary" id="add-icons-btn" type="button" style="width: 207.98399999999998px;"><i class="icon ion-plus" style="margin-right: 12px;"></i>Add Icons</button><button class="btn btn-primary" id="manage-icons-btn" type="button" style="width: 207.98399999999998px;margin-left: 14px;">Manage Icons</button></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="tab-pane" role="tabpanel" id="tab-29">
+            <div class="tab-pane" role="tabpanel" id="tab-9">
+                <div></div>
                 <p>Tab content.</p>
-                <div class="d-flex justify-content-start align-items-center" style="background: var(--bs-gray-dark);height: 102px;">
-                    <div style="width: 20%;"><button class="btn btn-secondary" id="edit-script-back-btn" type="button" style="margin-left: 50px;"><i class="icon ion-chevron-left" style="margin-right: 12px;"></i>Back</button></div>
-                    <div style="width: 60%;">
-                        <h3 class="text-center" id="create-script-heading-1" style="margin-bottom: 0px;">Edit Script</h3>
-                    </div>
-                </div>
-                <div class="d-flex justify-content-center"></div>
-                <div class="d-flex">
-                    <div style="width: 50%;">
-                        <div style="margin-left: 46px;margin-right: 10px;">
-                            <div class="d-flex" style="width: 100%;margin-top: 19px;margin-bottom: 12px;">
-                                <div style="width: 112px;text-align: right;">
-                                    <h5 style="width: 112px;">Name:</h5>
-                                </div>
-                                <div style="width: 100%;margin-left: 11px;"><input class="bg-dark border rounded-0 border-dark" type="text" id="new-script-name-input-1" style="font-size: 16px;color: var(--bs-white);text-align: left;width: 100%;" placeholder="Enter name..." required="" maxlength="60"></div>
-                            </div>
-                            <div class="d-flex" style="width: 100%;margin-bottom: 23px;">
-                                <div style="width: 112px;text-align: right;">
-                                    <h5 style="width: 112px;">Description:</h5>
-                                </div>
-                                <div style="margin-left: 11px;width: 100%;"><textarea id="new-script-description-input-1" style="background: var(--bs-gray-800);height: 86px;color: var(--bs-body-color);width: 100%;" placeholder="Enter description... (300 characters)" required="" maxlength="300"></textarea></div>
-                            </div>
-                        </div>
-                        <div>
-                            <div>
-                                <h3 class="text-center">Parameters</h3>
-                            </div>
-                            <div style="text-align: center;">
-                                <div class="dropdown" style="padding: 9px;"><button class="btn btn-primary dropdown-toggle" aria-expanded="false" data-bs-toggle="dropdown" type="button" style="width: 223.703px;">Add Control</button>
-                                    <div class="dropdown-menu"><a class="dropdown-item" href="#">First Item</a><a class="dropdown-item" href="#">Second Item</a><a class="dropdown-item" href="#">Third Item</a></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div style="width: 50%;">
-                        <div></div>
-                        <div></div>
-                    </div>
-                </div>
             </div>
-            <div class="tab-pane" role="tabpanel" id="tab-32">
-                <div class="d-flex justify-content-center align-items-center" style="height: 90vh;width: 100%;">
-                    <div style="width: 600px;">
-                        <div class="d-flex align-items-center" style="margin-bottom: 21px;"><img src="assets/img/Error%20Icon.svg" style="width: 69px;">
-                            <h1 style="margin-bottom: 0px;margin-left: 28px;">Ope! I made a mistake...</h1>
-                        </div>
-                        <div>
-                            <h5 class="text-center" style="margin-bottom: 14px;">Here is a detailed diatribe in honor of my wrongness:</h5>
-                        </div>
-                        <div style="margin-bottom: 29px;">
-                            <p class="text-muted" id="error-text-paragraph" style="height: 185px;overflow-y: auto;padding: 8px;background: var(--bs-gray-800);">Lorem ipsum dolor ist bbeep bop omg I'm too lazy to copy that placeholder text thing.<br>Lorem ipsum dolor ist bbeep bop omg I'm too lazy to copy that placeholder text thing.<br><br>Lorem ipsum dolor ist bbeep bop omg I'm too lazy to copy that placeholder text thing.<br><br>Lorem ipsum dolor ist bbeep bop omg I'm too lazy to copy that placeholder text thing.<br><br></p>
-                        </div>
-                        <div class="text-center"><button class="btn btn-primary" id="error-back-to-main-btn" type="button" style="margin-left: 15px;">Back to Main menu</button></div>
+            <div class="tab-pane" role="tabpanel" id="tab-10">
+                <div class="d-inline-flex d-xxl-flex align-items-xxl-center header-bar">
+                    <div class="d-flex justify-content-end align-items-center header-left-btn" id="new-profile-back-button-1"><i class="fa fa-angle-left" id="sidebar-collapse-icon-left-3" style="font-size: 32px;"></i>
+                        <h5>Back</h5>
                     </div>
-                </div>
-            </div>
-            <div class="tab-pane active" role="tabpanel" id="tab-33">
-                <div class="text-center d-flex flex-column justify-content-center align-items-center" style="width: 100%;height: 100vh;">
-                    <div style="height: 20%;"></div>
-                    <div class="text-center d-flex flex-column justify-content-center align-items-center" style="height: 60%;"><img id="loading-animation-2" src="assets/img/runPieMenus.gif" style="width: 300px;"></div>
-                    <div style="height: 20%;"></div>
+                    <div class="d-flex flex-grow-1 justify-content-center align-items-center">
+                        <h2 class="text-center" style="width: 100%;">Settings</h2>
+                    </div>
+                    <div style="width: 200px;height: 100%;"></div>
                 </div>
             </div>
         </div>
     </div>
-    <div id="image-buffer" hidden=""></div>
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-    <script src="assets/js/bs-init.js"></script>
-    <script src="jscolor.js"></script>
-    <script src="renderer.js"></script>
-    <script src="ahpClasses.js"></script>
-    <script src="profileManagement.js"></script>
-    <script src="exitConfirm.js"></script>
-    <script src="menuFunctions.js"></script>
-    <script src="runningPieMenu.js"></script>
-    <script src="createNewProfile.js"></script>
-    <script src="createNewScript.js"></script>
-    <script src="confirmation.js"></script>
-    <script src="functionSelect.js"></script>
-    <script src="hotkeyManagement.js"></script>
-    <script src="editPieMenu.js"></script>
-    <script src="editScript.js"></script>
-    <script src="errorPage.js"></script>
-    <script src="iconManager.js"></script>
-    <script src="createNewPieMenu.js"></script>
-    <script src="changeActivationMode.js"></script>
-    <script src="initializePages.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/6.4.8/swiper-bundle.min.js"></script>
+    <script src="file:///build/lib/konva/konva.js"></script>
+    <script src="file:///build/lib/lodash/lodash.js"></script>
+    <script src="assets/js/Simple-Slider.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.20/lodash.min.js"></script>
+    <script src="file:///build/lib/jscolor/jscolor.js"></script>
+    <script src="file:///build/autohotpie_classes/AutoHotPie.js"></script>
+    <script src="file:///build/renderer.js"></script>
+    <script src="file:///build/context-menu.js"></script>
+    <script src="file:///build/page.js"></script>
+    <script src="file:///build/pages/new_profile.js"></script>
+    <script src="file:///build/sidebar.js"></script>
+    <script src="file:///build/pages/edit_profile.js"></script>
+    <script src="file:///build/pages/edit_pie_menu.js"></script>
+    <script src="file:///build/lib/lottie/lottie.js"></script>
+    <script src="file:///build/pages/get_window.js"></script>
+    <script src="file:///build/pages/new_pie_menu.js"></script>
 </body>
 
 </html>

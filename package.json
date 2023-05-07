@@ -1,98 +1,31 @@
 {
-  "name": "autohotpie",
-  "productName": "AutoHotPie",
-  "version": "1.0.26-alpha",
-  "description": "Universal Pie Menus for Windows",
-  "main": "main.js",
+  "name": "AutoHotPie-Debug",
+  "version": "2.0.0",
+  "main": "build/main.js",
   "scripts": {
-    "start": "electron-forge start",
-    "package": "electron-forge package",
-    "make": "electron-forge make",
-    "publish": "electron-forge publish",
-    "lint": "echo \"No linting configured\"",
-    "build-installer": "electron-builder"
+    "compile": "tsc && copyfiles -u 1 \"src/**/!(*.ts|*.xlsx|*.bsdesign)\" build",
+    "build:ahk": "build-ahk.bat",
+    "start": "npm run compile && electron ."
   },
-  "build": {
-    "appId": "AutoHotPie",
-    "directories": {
-      "buildResources": "resources"
-    },
-    "productName": "AutoHotPie",
-    "extraFiles": [
-      {
-        "from": "src",
-        "to": "resources/src"
-      }
-    ],
-    "win": {
-      "target": [
-        "nsis"
-      ],
-      "icon": "src/assets/AutoHotPieIcon.ico",
-      "requestedExecutionLevel": "asInvoker"
-    },
-    "nsis": {
-      "installerIcon": "src/assets/AutoHotPieIcon.ico",
-      "uninstallerIcon": "src/assets/AutoHotPieIcon.ico",
-      "uninstallDisplayName": "AutoHotPie",
-      "license": "license.txt",
-      "oneClick": false,
-      "menuCategory": true,
-      "allowToChangeInstallationDirectory": false,
-      "deleteAppDataOnUninstall": false,
-      "installerSidebar": "src/assets/installer-sidebar.bmp",
-      "include": "build/uninstaller.nsh"
-    }
-  },
-  "keywords": [],
-  "author": "dumbeau <caspergilles@gmail.com>",
+  "author": "dumbeau",
   "license": "MIT",
-  "config": {
-    "forge": {
-      "packagerConfig": {},
-      "makers": [
-        {
-          "name": "@electron-forge/maker-squirrel",
-          "config": {
-            "name": "autohotpie"
-          }
-        },
-        {
-          "name": "@electron-forge/maker-zip",
-          "platforms": [
-            "darwin"
-          ]
-        },
-        {
-          "name": "@electron-forge/maker-deb",
-          "config": {}
-        },
-        {
-          "name": "@electron-forge/maker-rpm",
-          "config": {}
-        }
-      ]
-    }
+  "bugs": {
+    "url": "https://github.com/electron/electron-quick-start-typescript/issues"
+  },
+  "homepage": "https://github.com/electron/electron-quick-start-typescript#readme",
+  "description": "",
+  "devDependencies": {
+    "copyfiles": "^2.4.1",
+    "electron": "^23.2.1",
+    "typescript": "^5.0.3"
   },
   "dependencies": {
-    "electron-font-manager": "github:gmeeker/electron-font-manager",
-    "electron-squirrel-startup": "^1.0.0",
-    "meow": "^10.1.2",
-    "minimatch": "^5.1.1",
-    "node-dir": "^0.1.17",
-    "node-window-manager": "^2.2.4",
-    "uuid": "^8.3.2"
-  },
-  "devDependencies": {
-    "electron": "^22.0.0",
-    "electron-builder": "^22.13.1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/dumbeau/AutoHotPie.git"
-  },
-  "bugs": {
-    "url": "https://github.com/dumbeau/AutoHotPie/issues"
-  },
-  "homepage": "https://github.com/dumbeau/AutoHotPie#readme"
+    "@types/jquery": "^3.5.16",
+    "@types/jqueryui": "^1.12.16",
+    "@types/lodash": "^4.14.194",
+    "bootstrap": "^5.2.3",
+    "jquery": "^3.6.4",
+    "konva": "^9.0.1",
+    "node-window-manager": "^2.2.4"
+  }
 }
