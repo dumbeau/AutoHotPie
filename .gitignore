@@ -87,3 +87,6 @@ typings/
 
 # Electron-Forge
 out/
+
+# Webstorm generated files
+.idea/
