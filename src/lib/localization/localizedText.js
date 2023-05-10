@@ -5,10 +5,10 @@
  * Check https://www.electronjs.org/docs/latest/api/command-line-switches for more information.
  *
  * This class is not supposed to be used directly, instead include this file in <head>
- * in the HTML file and use the <local-txt> tag.
+ * in the HTML file and use the <localized-text> tag.
  *
- * <local-txt> provides 2 attributes, where lang is optional:
- * @example <local-txt txt="text to be translated" lang="en" /local-txt>
+ * <localized-text> provides 2 attributes, key and lang, where lang is optional:
+ * @example <localized-text key="text to be translated" lang="en" /localized-text>
  * */
 class LocalizedTextElement extends HTMLElement {
     constructor() {

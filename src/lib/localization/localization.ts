@@ -11,6 +11,9 @@ import {app} from "electron";
  * You should call Localization.initialize() before using Localization.tr() if you wish to use a custom path
  * for the locale files.
  *
+ * @example Localization.initialize("./custom/path/to/locales/");
+ *          Localization.tr("hello");
+ *
  * @example Localization.tr("hello");
  * */
 export class Localization {
