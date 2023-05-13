@@ -2,10 +2,14 @@ import { app, BrowserWindow, Menu, shell, ipcMain, nativeTheme, dialog, session,
 import * as path from "path";
 import * as fs from 'fs';
 import { windowManager } from "node-window-manager";
-
-
+import { Localization } from "./lib/localization/localization";
 
 let mainWindow: BrowserWindow;
+
+// TODO: Controls the language through settings
+// app.commandLine.appendSwitch('lang', 'ja-JP');
+
+
 function createWindow() {
 
   let windowWidth = (isDev()) ? 1500 : 800
@@ -35,20 +39,20 @@ function createWindow() {
        label: 'File',
        submenu: [
           {
-            label: 'Import Settings',          
+            label: Localization.tr('import-setting'),
             click: () => {  
               // ipcMain.send('menuSelected', event)
               mainWindow.webContents.send('menuSelected', 'importSettings')            
             }    
           },
           {
-            label: 'Export Settings',          
+            label: Localization.tr("export-setting"),
             click: () => {
               mainWindow.webContents.send('menuSelected', 'exportSettings')            
             }          
           },        
           {
-            label: 'Create portable AHK package',          
+            label: Localization.tr("create-portable-ahk"),
             click: () => {
               mainWindow.webContents.send('menuSelected', 'createPortablePackage')
             }           
@@ -57,13 +61,13 @@ function createWindow() {
             type: 'separator'
           },
           { 
-            label: 'Save and Run',          
+            label: Localization.tr("save-and-run-long"),
             click: () => {
               mainWindow.webContents.send('menuSelected', 'saveAndRun')
             }
           },
           { 
-            label: 'Close without running',          
+            label: Localization.tr("close-without-running"),
             click: () => {
               mainWindow.webContents.send('menuSelected', 'close')
             }
@@ -74,25 +78,25 @@ function createWindow() {
        role: 'help',
        submenu: [
           {
-             label: 'Check for Updates',
+             label: Localization.tr("check-for-updates"),
              click: () => {
               shell.openExternal('https://github.com/dumbeau/AutoHotPie/releases')             
              }
           },
           {
-            label: 'View on Github',
+            label: Localization.tr("view-on-github"),
             click: () => {
               shell.openExternal('https://github.com/dumbeau/AutoHotPie')             
             }
           },
           {
-            label: 'Donate',
+            label: Localization.tr("donate"),
             click: () => {
               shell.openExternal('https://www.paypal.com/donate?business=RBTDTCUBK4Z8S&no_recurring=1&item_name=Support+Pie+Menus+Development&currency_code=USD')             
             }
           },
           {
-            label: 'Developer Tools',
+            label: Localization.tr("developer-tools"),
             click: () => {
               mainWindow.webContents.openDevTools()              
             }
@@ -112,6 +116,8 @@ function createWindow() {
   
   const menu = Menu.buildFromTemplate(template);
   Menu.setApplicationMenu(menu)
+
+
 }
 
 function isDev(){
