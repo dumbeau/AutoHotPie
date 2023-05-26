@@ -6,6 +6,8 @@ import {NewPieWizardComponent} from './new-pie-wizard/new-pie-wizard.component';
 import { HomeRoutingModule } from './home/home-routing.module';
 import { DetailRoutingModule } from './detail/detail-routing.module';
 import {NewPieWizardRoutingModule} from './new-pie-wizard/new-pie-wizard-routing.module';
+import {PieMenuEditorComponent} from './pie-menu-editor/pie-menu-editor.component';
+import {PieMenuEditorModule} from "./pie-menu-editor/pie-menu-editor.module";
 
 const routes: Routes = [
   {
@@ -16,6 +18,10 @@ const routes: Routes = [
   {
     path: 'new-pie-wizard',
     component: NewPieWizardComponent
+  },
+  {
+    path: 'pie-menu-editor',
+    component: PieMenuEditorComponent
   },
   {
     path: '**',
@@ -29,7 +35,8 @@ const routes: Routes = [
     RouterModule.forRoot(routes, {}),
     HomeRoutingModule,
     DetailRoutingModule,
-    NewPieWizardRoutingModule
+    NewPieWizardRoutingModule,
+    PieMenuEditorModule
   ],
   exports: [RouterModule]
 })
