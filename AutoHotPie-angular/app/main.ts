@@ -1,10 +1,18 @@
 import {app, BrowserWindow, screen} from 'electron';
 import * as path from 'path';
 import * as fs from 'fs';
+import {spawn} from 'child_process';
 
-let win: BrowserWindow = null;
+let win: BrowserWindow;
 const args = process.argv.slice(1),
   serve = args.some(val => val === '--serve');
+
+
+// TODO: The following code needs to be cleaned up, it's currently just a mess of all the experiments I've been doing.
+const ls = spawn('./src/lib/customGlobalHotKey/AHPGlobalShortcutDetector.exe');
+ls.stdout.on('data', (data) => {
+  console.log("-------------\n" + data + "\n" + Date.now());
+});
 
 function createWindow(): BrowserWindow {
 
