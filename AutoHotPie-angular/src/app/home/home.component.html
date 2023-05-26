@@ -1,7 +1,14 @@
 <div class="container">
-  <h1 class="title">
-    {{ 'PAGES.HOME.TITLE' | translate }}
-  </h1>
+  <section class="layout">
+    <div class="sidebar">
+      <h4>{{ 'PAGES.HOME.SIDEBAR_TITLE' | translate }}</h4>
+      <app-profile-list-item #profileListItemComponent/>
+    </div>
 
-  <a routerLink="/detail">{{ 'PAGES.HOME.GO_TO_DETAIL' | translate }}</a>
+    <div class="body center-horizontal">
+      <app-profile-editor-header #profileEditorHeaderComponent/>
+      <app-pie-menu-list />
+      <button nbButton status="primary"><nb-icon icon="plus-outline"/>{{ 'PAGES.HOME.ADD_PIE_MENU' | translate }}</button>
+    </div>
+  </section>
 </div>

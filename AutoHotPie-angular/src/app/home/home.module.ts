@@ -1,13 +1,17 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {CommonModule, NgOptimizedImage} from '@angular/common';
 
 import { HomeRoutingModule } from './home-routing.module';
 
 import { HomeComponent } from './home.component';
 import { SharedModule } from '../shared/shared.module';
+import {NbButtonModule, NbIconModule, NbInputModule, NbLayoutModule} from '@nebular/theme';
+import {ProfileListItemComponent} from './profile-list-item/profile-list-item.component';
+import {ProfileEditorHeaderComponent} from './profile-editor-header/profile-editor-header.component';
+import {PieMenuListComponent} from './pie-menu-list/pie-menu-list.component';
 
 @NgModule({
-  declarations: [HomeComponent],
-  imports: [CommonModule, SharedModule, HomeRoutingModule]
+  declarations: [HomeComponent, ProfileListItemComponent, ProfileEditorHeaderComponent, PieMenuListComponent],
+  imports: [CommonModule, SharedModule, HomeRoutingModule, NbButtonModule, NbLayoutModule, NgOptimizedImage, NbInputModule, NbIconModule]
 })
 export class HomeModule {}

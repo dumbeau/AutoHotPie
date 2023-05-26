@@ -1,8 +1,11 @@
 {
   "PAGES": {
       "HOME": {
+          "SIDEBAR_TITLE": "Profiles",
           "TITLE": "App works !",
-          "GO_TO_DETAIL": "Go to Detail"
+          "GO_TO_DETAIL": "Go to Detail",
+          "ADD_PIE_MENU": "Add new pie menu",
+          "TABLE_EMPTY": "You haven't added any pie menus yet. Click the button below to add one. ฅ^ ̳• ·̫ • ̳^ฅ"
       },
       "DETAIL": {
         "TITLE": "Detail page !",
