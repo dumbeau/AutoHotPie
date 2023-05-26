@@ -1,0 +1,23 @@
+nb-icon {
+  font-size: 5em;
+}
+
+h1 {
+  font-size: xxx-large;
+  width: 80%;
+  text-align: center;
+}
+.new-pie-wizard-body{
+  padding: 10%;
+  grid-area: body;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  flex-wrap: wrap;
+}
+
+button{
+  margin: 2em;
+}
