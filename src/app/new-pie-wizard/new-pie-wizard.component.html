@@ -1,0 +1,20 @@
+<section class="layout">
+  <div class="sidebar">
+    <h4>{{'PAGES.NEW_PIE_WIZARD.NEW_PIE_MENU' | translate}}</h4>
+    <label [class]="currentPage === 0 ? 'active' : 'inactive'">{{ 'PAGES.NEW_PIE_WIZARD.NAME_YOUR_PIE_MENU' | translate}}</label>
+    <label [class]="currentPage === 1 ? 'active' : 'inactive'">{{ 'PAGES.NEW_PIE_WIZARD.ASSIGN_A_HOTKEY' | translate}}</label>
+    <label [class]="currentPage === 2 ? 'active' : 'inactive'">{{ 'PAGES.NEW_PIE_WIZARD.CHOOSE_SELECTION_MODE' | translate}}</label>
+    <label [class]="currentPage === 3 ? 'active' : 'inactive'">{{ 'PAGES.NEW_PIE_WIZARD.CUSTOMIZATION' | translate}}</label>
+    <button nbButton routerLink="/home" status="primary" style="margin-top: auto; width: 100%">
+      {{'PAGES.GLOBAL.CANCEL' | translate}}
+    </button>
+  </div>
+  <div class="body">
+    <app-page-pie-menu-name [ngStyle]="{'display': currentPage === 0 ? 'unset' : 'none'}" (next)="nextPage()"/>
+    <app-page-assign-hot-key  [ngStyle]="{'display': currentPage === 1 ? 'unset' : 'none'}" (next)="nextPage()"/>
+    <app-page-selection-mode [ngStyle]="{'display': currentPage === 2 ? 'unset' : 'none'}" (next)="nextPage()"/>
+    <app-page-style-selection [ngStyle]="{'display': currentPage === 3 ? 'unset' : 'none'}" (finish)="finishWizard()"/>
+  </div>
+
+  <a #finish routerLink="/home" hidden></a>
+</section>
