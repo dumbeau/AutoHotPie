@@ -2,65 +2,29 @@ import {app, BrowserWindow, screen} from 'electron';
 import * as path from 'path';
 import * as fs from 'fs';
 import {spawn} from 'child_process';
+import {GlobalHotkeyService} from "./src/globalHotkey/GlobalHotkeyService";
+import {HotkeyEventListener} from "./src/globalHotkey/HotkeyEventListener";
 
-let win: BrowserWindow;
-const args = process.argv.slice(1),
-  serve = args.some(val => val === '--serve');
+// Constants
+const EDITOR_WINDOW_WIDTH = 400;
+const EDITOR_WINDOW_HEIGHT = 400;
+const args = process.argv.slice(1)
+const serve = args.some(val => val === '--serve');
+let pieMenuWindow : BrowserWindow | undefined;
+let editorWindow : BrowserWindow | undefined;
 
+// ----------------- Set up GlobalHotkeyService -----------------
 
-// TODO: The following code needs to be cleaned up, it's currently just a mess of all the experiments I've been doing.
-const ls = spawn('./lib/customGlobalHotKey/AHPGlobalShortcutDetector.exe');
-ls.stdout.on('data', (data) => {
-  console.log("-------------\n" + data + "\n" + Date.now());
-});
-
-function createWindow(): BrowserWindow {
-
-  const size = screen.getPrimaryDisplay().workAreaSize;
-
-  // Create the browser window.
-  win = new BrowserWindow({
-    x: 0,
-    y: 0,
-    width: size.width,
-    height: size.height,
-    webPreferences: {
-      nodeIntegration: true,
-      allowRunningInsecureContent: (serve),
-      contextIsolation: false,  // false if you want to run e2e test with Spectron
-    },
-  });
-
-  if (serve) {
-    const debug = require('electron-debug');
-    debug();
-
-    require('electron-reloader')(module);
-    win.loadURL('http://localhost:4200');
-  } else {
-    // Path when running electron executable
-    let pathIndex = './index.html';
-
-    if (fs.existsSync(path.join(__dirname, '../dist/index.html'))) {
-       // Path when running electron in local folder
-      pathIndex = '../dist/index.html';
-    }
-
-    const url = new URL(path.join('file:', __dirname, pathIndex));
-    win.loadURL(url.href);
+GlobalHotkeyService.start();
+GlobalHotkeyService.addKeyEventListener(new class implements HotkeyEventListener {
+  onKeyDown(key: string): void {
   }
 
-  // Emitted when the window is closed.
-  win.on('closed', () => {
-    // Dereference the window object, usually you would store window
-    // in an array if your app supports multi windows, this is the time
-    // when you should delete the corresponding element.
-    win = null;
-  });
+  onKeyUp(key: string): void {
+  }
+});
 
-  return win;
-}
-
+// ----------------- Set up electron window -----------------
 try {
   // This method will be called when Electron has finished
   // initialization and is ready to create browser windows.
@@ -80,7 +44,7 @@ try {
   app.on('activate', () => {
     // On OS X it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
-    if (win === null) {
+    if (editorWindow === null) {
       createWindow();
     }
   });
@@ -89,3 +53,55 @@ try {
   // Catch Error
   // throw e;
 }
+
+function createWindow(): BrowserWindow {
+  editorWindow = new BrowserWindow({
+    x: 0,
+    y: 0,
+    width: EDITOR_WINDOW_WIDTH,
+    height: EDITOR_WINDOW_HEIGHT,
+    webPreferences: {
+      nodeIntegration: true,
+      allowRunningInsecureContent: (serve),
+      contextIsolation: true,  // false if you want to run e2e test with Spectron
+    },
+  });
+
+  pieMenuWindow = new BrowserWindow({
+    webPreferences: {
+      nodeIntegration: true,
+      allowRunningInsecureContent: (serve),
+      contextIsolation: true,  // false if you want to run e2e test with Spectron
+    },
+  });
+
+  if (serve) {
+    const debug = require('electron-debug');
+    debug();
+
+    require('electron-reloader')(module);
+    editorWindow.loadURL('http://localhost:4200');
+  } else {
+    // Path when running electron executable
+    let pathIndex = './index.html';
+
+    if (fs.existsSync(path.join(__dirname, '../dist/index.html'))) {
+       // Path when running electron in local folder
+      pathIndex = '../dist/index.html';
+    }
+
+    const url = new URL(path.join('file:', __dirname, pathIndex));
+    editorWindow.loadURL(url.href);
+  }
+
+  // Emitted when the window is closed.
+  editorWindow.on('closed', () => {
+    // Dereference the window object, usually you would store window
+    // in an array if your app supports multi windows, this is the time
+    // when you should delete the corresponding element.
+    // editorWindow = null;
+  });
+
+  return editorWindow;
+}
+
