@@ -1,0 +1,33 @@
+:host {
+
+}
+
+.layout {
+  width: 100%;
+
+  display: grid;
+  grid:
+    "sidebar body" 1fr
+    / 30% 60%;
+  gap: 25px;
+}
+
+.sidebar {
+  grid-area: sidebar;
+  padding: 25px;
+  background-color: #27385c;
+}
+.body {
+  grid-area: body;
+  height: fit-content;
+}
+
+.center-horizontal {
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-content: stretch;
+  justify-content: flex-start;
+  align-items: stretch;
+}

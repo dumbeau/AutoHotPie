@@ -1,0 +1,28 @@
+<table #pieMenuList style="width: 100%">
+  <tr>
+    <th style="width: 40%">Name</th>
+    <th style="width: 20%">Color</th>
+    <th style="width: 20%">Shortcut</th>
+    <th style="text-align: center;">Actions</th>
+  </tr>
+  <tbody>
+    <tr *ngFor="let pref of pieMenuPrefs; let i = index">
+      <td>
+        <label >{{pref.name}}</label>
+      </td>
+      <td>
+        <ngx-colors ngx-colors-trigger [(ngModel)]="pref.color"></ngx-colors>
+
+      </td>
+      <td>
+        <label >{{pref.shortcut}}</label>
+      </td>
+      <td style="text-align: center">
+        <button nbButton routerLink="/pie-menu-editor" status="primary"><nb-icon icon="edit-2-outline"/></button>
+        <button nbButton status="danger"><nb-icon icon="trash-outline"/></button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<p style="text-align: center;" [ngStyle]="{'display': pieMenuPrefs.length === 0 ? 'show' : 'none'}">{{'PAGES.HOME.TABLE_EMPTY' | translate}}</p>

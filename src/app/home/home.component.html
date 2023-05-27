@@ -1,0 +1,14 @@
+<div class="container">
+  <section class="layout">
+    <div class="sidebar">
+      <h4>{{ 'PAGES.HOME.SIDEBAR_TITLE' | translate }}</h4>
+      <app-profile-list-item #profileListItemComponent/>
+    </div>
+
+    <div class="body center-horizontal">
+      <app-profile-editor-header #profileEditorHeaderComponent/>
+      <app-pie-menu-list />
+      <button nbButton status="primary" routerLink="/new-pie-wizard"><nb-icon icon="plus-outline"/>{{ 'PAGES.HOME.ADD_PIE_MENU' | translate }}</button>
+    </div>
+  </section>
+</div>
