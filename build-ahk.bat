@@ -1,1 +1,0 @@
-"C:\Program Files\AutoHotkey\Compiler\Ahk2Exe.exe" /in "src\ahk\PieMenu.ahk" /out "src\ahk\PieMenu.exe" /icon "src\ahk\assets\AutoHotPieIcon.ico" /bin "C:\Program Files\AutoHotkey\Compiler\Unicode 64-bit.bin"
