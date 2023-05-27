@@ -9,7 +9,7 @@ const args = process.argv.slice(1),
 
 
 // TODO: The following code needs to be cleaned up, it's currently just a mess of all the experiments I've been doing.
-const ls = spawn('./libabc/customGlobalHotKey/AHPGlobalShortcutDetector.exe');
+const ls = spawn('./lib/customGlobalHotKey/AHPGlobalShortcutDetector.exe');
 ls.stdout.on('data', (data) => {
   console.log("-------------\n" + data + "\n" + Date.now());
 });
