@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {ProfileUtils} from '../../../helpers/ProfileUtils';
+import {Profile} from '../../../helpers/Profile';
 import {ProfileUpdateListener} from '../../../helpers/ProfileUpdateListener';
 
 @Component({
@@ -14,7 +14,7 @@ export class ProfileEditorHeaderComponent implements ProfileUpdateListener {
 
   constructor() {
     if (this.profId){
-      this.profName = ProfileUtils.getProfileName(this.profId);
+      this.profName = Profile.getProfileName(this.profId);
     }
   }
 

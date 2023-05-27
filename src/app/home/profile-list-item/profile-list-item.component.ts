@@ -1,5 +1,5 @@
 import {Component, ElementRef, Input, ViewChild} from '@angular/core';
-import {ProfileUtils} from '../../../helpers/ProfileUtils';
+import {Profile} from '../../../helpers/Profile';
 import {ProfileUpdateListener} from '../../../helpers/ProfileUpdateListener';
 
 @Component({
@@ -18,7 +18,7 @@ export class ProfileListItemComponent {
 
   constructor() {
     if (this.profId){
-      this.profName = ProfileUtils.getProfileName(this.profId);
+      this.profName = Profile.getProfileName(this.profId);
     }
   }
 
@@ -35,7 +35,7 @@ export class ProfileListItemComponent {
     this.inputDisabled = true;
 
     this.profName = this.profNameInput.nativeElement.value;
-    ProfileUtils.updateProfName(this.profId, this.profName);
+    Profile.updateProfName(this.profId, this.profName);
 
     if (this.profUpdateListener !== undefined){
       this.profUpdateListener.onProfileNameChanged(this.profName);

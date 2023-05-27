@@ -1,4 +1,5 @@
-export class ProfileUtils {
+// TODO: This class is still under its design stage.
+export class Profile {
   static getProfileName(profId: number) {
     // TODO: implement
     return 'profile';

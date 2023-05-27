@@ -1,6 +1,11 @@
 export enum RespondType {
   KEYUP, KEYDOWN
 }
+
+/**
+ * This class is used to represent the response of the global hotkey service.
+ * The constructor will parse the response string and decide the type of the response.
+ * */
 export class GlobalHotkeyServiceRespond {
   private readonly _type: RespondType;
   private readonly _value: string;

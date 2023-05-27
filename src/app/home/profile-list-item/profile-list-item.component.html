@@ -6,6 +6,7 @@
     alt="AHP icon" />
 
   <input nbInput
+         fullWidth
          #profNameInput
          (keyup.enter)="completeEditing()"
          (focusout)="completeEditing()"
@@ -15,7 +16,7 @@
 
   <button
     nbButton
-    style="margin-left: 1em"
+    style="margin-left: 25px;"
     (click)="startEditing()">
     <nb-icon icon="edit-2-outline"></nb-icon>
   </button>

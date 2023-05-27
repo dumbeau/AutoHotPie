@@ -6,8 +6,8 @@ import {GlobalHotkeyService} from "./src/globalHotkey/GlobalHotkeyService";
 import {HotkeyEventListener} from "./src/globalHotkey/HotkeyEventListener";
 
 // Constants
-const EDITOR_WINDOW_WIDTH = 400;
-const EDITOR_WINDOW_HEIGHT = 400;
+const EDITOR_WINDOW_WIDTH = 1080;
+const EDITOR_WINDOW_HEIGHT = 720;
 const args = process.argv.slice(1)
 const serve = args.some(val => val === '--serve');
 let pieMenuWindow : BrowserWindow | undefined;
@@ -56,10 +56,16 @@ try {
 
 function createWindow(): BrowserWindow {
   editorWindow = new BrowserWindow({
-    x: 0,
-    y: 0,
+    minWidth: EDITOR_WINDOW_WIDTH,
+    minHeight: EDITOR_WINDOW_HEIGHT,
     width: EDITOR_WINDOW_WIDTH,
     height: EDITOR_WINDOW_HEIGHT,
+    titleBarStyle: 'hidden',
+    titleBarOverlay: {
+      color: '#2f3241',
+      symbolColor: '#74b1be',
+      height: 42
+    },
     webPreferences: {
       nodeIntegration: true,
       allowRunningInsecureContent: (serve),

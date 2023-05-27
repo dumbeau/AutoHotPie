@@ -1,4 +1,5 @@
-export class PieMenuPreferences {
+// TODO: This class is still under its design stage. Replace it with the one from V2.
+export class PieMenu {
   name: string;
   color: string;
   shortcut: string;
@@ -11,6 +12,6 @@ export class PieMenuPreferences {
   }
   static fromProfId(id: number){
 
-    return new PieMenuPreferences('a','a','a');
+    return new PieMenu('a','a','a');
   }
 }

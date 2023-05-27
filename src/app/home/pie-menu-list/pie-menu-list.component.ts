@@ -1,6 +1,6 @@
 import {Component, Input, ViewChild} from '@angular/core';
-import {ProfileUtils} from '../../../helpers/ProfileUtils';
-import {PieMenuPreferences} from '../../../helpers/PieMenuPreferences';
+import {Profile} from '../../../helpers/Profile';
+import {PieMenu} from '../../../helpers/PieMenu';
 
 @Component({
   selector: 'app-pie-menu-list',
@@ -12,13 +12,13 @@ export class PieMenuListComponent {
   @ViewChild('pieMenuList') pieMenuList: any;
 
   tableEmpty = true;
-  pieMenuPrefs: Array<PieMenuPreferences> = [];
+  pieMenuPrefs: Array<PieMenu> = [];
 
   constructor() {
-    const pieMenuIdList = ProfileUtils.getPieMenuIdList(this.profId);
+    const pieMenuIdList = Profile.getPieMenuIdList(this.profId);
 
     for (const id of pieMenuIdList) {
-        this.pieMenuPrefs.push(new PieMenuPreferences('a', 'a', 'a'));
+        this.pieMenuPrefs.push(new PieMenu('a', 'a', 'a'));
     }
 
   }
