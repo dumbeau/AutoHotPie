@@ -18,7 +18,7 @@ export class PieMenuListComponent {
     const pieMenuIdList = Profile.getPieMenuIdList(this.profId);
 
     for (const id of pieMenuIdList) {
-        this.pieMenuPrefs.push(new PieMenu('a', 'a', 'a'));
+        this.pieMenuPrefs.push(new PieMenu('a', '#ff3322', 'a'));
     }
 
   }

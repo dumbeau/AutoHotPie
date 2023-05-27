@@ -1,8 +1,8 @@
 <table #pieMenuList style="width: 100%">
   <tr>
-    <th style="width: 50%">Name</th>
-    <th>Color</th>
-    <th>Shortcut</th>
+    <th style="width: 40%">Name</th>
+    <th style="width: 20%">Color</th>
+    <th style="width: 20%">Shortcut</th>
     <th style="text-align: center;">Actions</th>
   </tr>
   <tbody>
@@ -11,7 +11,8 @@
         <label >{{pref.name}}</label>
       </td>
       <td>
-        <label >{{pref.color}}</label>
+        <ngx-colors ngx-colors-trigger [(ngModel)]="pref.color"></ngx-colors>
+
       </td>
       <td>
         <label >{{pref.shortcut}}</label>
