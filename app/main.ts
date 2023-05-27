@@ -60,7 +60,7 @@ function createWindow(): BrowserWindow {
     minHeight: EDITOR_WINDOW_HEIGHT,
     width: EDITOR_WINDOW_WIDTH,
     height: EDITOR_WINDOW_HEIGHT,
-    titleBarStyle: 'hidden',
+    // titleBarStyle: 'hidden',
     titleBarOverlay: {
       color: '#2f3241',
       symbolColor: '#74b1be',

@@ -5,21 +5,26 @@
     height="42px"
     alt="AHP icon" />
 
-  <input nbInput
-         fullWidth
-         #profNameInput
-         (keyup.enter)="completeEditing()"
-         (focusout)="completeEditing()"
-         [value]="profName"
-         [disabled]="inputDisabled"
-         style="margin-left: 1em; width: 70%" />
+  <nb-form-field style="padding-left: 15px; width: 100%">
+    <input nbInput
+           fullWidth
+           #profNameInput
+           (keyup.enter)="completeEditing()"
+           (focusout)="completeEditing()"
+           [value]="profName"
+           [disabled]="inputDisabled" />
+    <button
+      nbButton
+      nbSuffix
+      status="primary"
+      class="input-button"
+      (click)="startEditing()">
+      <nb-icon [icon]="inputDisabled ? 'edit-2-outline' : 'checkmark-outline'"></nb-icon>
+    </button>
+  </nb-form-field>
 
-  <button
-    nbButton
-    style="margin-left: 25px;"
-    (click)="startEditing()">
-    <nb-icon icon="edit-2-outline"></nb-icon>
-  </button>
+
+
 </div>
 
 

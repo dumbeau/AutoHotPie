@@ -11,6 +11,7 @@ import {ProfileUpdateListener} from '../../../helpers/ProfileUpdateListener';
 export class ProfileListItemComponent {
   @Input() profId = 0;
   @ViewChild('profNameInput') profNameInput: any;
+  @ViewChild('editButton') editButton: any;
 
   inputDisabled = true;
   profName = 'Default Profile';
@@ -27,8 +28,7 @@ export class ProfileListItemComponent {
   }
 
   startEditing() {
-    this.inputDisabled = false;
-    this.profNameInput.nativeElement.focus();
+    this.inputDisabled = !this.inputDisabled;
   }
 
   completeEditing() {
