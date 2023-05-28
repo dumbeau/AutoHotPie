@@ -17,7 +17,7 @@ export class GlobalHotkeyService {
     if (this.hotkeyService != undefined) return;
 
     // TODO: Change the path to the exe file, it is currently still the path for the test exe file.
-    this.hotkeyService = spawn('./lib/customGlobalHotKey/AHPGlobalShortcutDetector.exe');
+    this.hotkeyService = spawn('./bin/AHPGlobalShortcutDetector.exe');
     this.hotkeyService.stdout.on("data", (data) => {
 
       for (const listener of this.keyEventListener) {

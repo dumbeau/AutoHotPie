@@ -50,3 +50,14 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+# external libraries
+/WindowsAPI/GetForegroundWindow/.idea
+/WindowsAPI/GetForegroundWindow/GetForegroundWindow/bin
+/WindowsAPI/GetForegroundWindow/GetForegroundWindow/obj
+
+# typescript generated files
+/app/src/globalHotkey/GlobalHotkeyService.js
+/app/src/globalHotkey/GlobalHotkeyServiceRespond.js
+/app/src/globalHotkey/HotkeyEventListener.js
+/app/src/NativeAPI.js
