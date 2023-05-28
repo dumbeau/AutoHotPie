@@ -11,7 +11,6 @@ export class PieMenu {
 
   }
   static fromProfId(id: number){
-
     return new PieMenu('a','a','a');
   }
 }

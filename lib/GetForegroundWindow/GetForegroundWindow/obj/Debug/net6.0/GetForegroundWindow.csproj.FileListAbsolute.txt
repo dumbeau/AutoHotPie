@@ -1,0 +1,17 @@
+C:\Users\ryjac\WebstormProjects\AutoHotPie\lib\GetForegroundWindow\GetForegroundWindow\bin\Debug\net6.0\GetForegroundWindow.exe
+C:\Users\ryjac\WebstormProjects\AutoHotPie\lib\GetForegroundWindow\GetForegroundWindow\bin\Debug\net6.0\GetForegroundWindow.deps.json
+C:\Users\ryjac\WebstormProjects\AutoHotPie\lib\GetForegroundWindow\GetForegroundWindow\bin\Debug\net6.0\GetForegroundWindow.runtimeconfig.json
+C:\Users\ryjac\WebstormProjects\AutoHotPie\lib\GetForegroundWindow\GetForegroundWindow\bin\Debug\net6.0\GetForegroundWindow.dll
+C:\Users\ryjac\WebstormProjects\AutoHotPie\lib\GetForegroundWindow\GetForegroundWindow\bin\Debug\net6.0\GetForegroundWindow.pdb
+C:\Users\ryjac\WebstormProjects\AutoHotPie\lib\GetForegroundWindow\GetForegroundWindow\obj\Debug\net6.0\GetForegroundWindow.csproj.AssemblyReference.cache
+C:\Users\ryjac\WebstormProjects\AutoHotPie\lib\GetForegroundWindow\GetForegroundWindow\obj\Debug\net6.0\GetForegroundWindow.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ryjac\WebstormProjects\AutoHotPie\lib\GetForegroundWindow\GetForegroundWindow\obj\Debug\net6.0\GetForegroundWindow.AssemblyInfoInputs.cache
+C:\Users\ryjac\WebstormProjects\AutoHotPie\lib\GetForegroundWindow\GetForegroundWindow\obj\Debug\net6.0\GetForegroundWindow.AssemblyInfo.cs
+C:\Users\ryjac\WebstormProjects\AutoHotPie\lib\GetForegroundWindow\GetForegroundWindow\obj\Debug\net6.0\GetForegroundWindow.csproj.CoreCompileInputs.cache
+C:\Users\ryjac\WebstormProjects\AutoHotPie\lib\GetForegroundWindow\GetForegroundWindow\obj\Debug\net6.0\GetForegroundWindow.dll
+C:\Users\ryjac\WebstormProjects\AutoHotPie\lib\GetForegroundWindow\GetForegroundWindow\obj\Debug\net6.0\refint\GetForegroundWindow.dll
+C:\Users\ryjac\WebstormProjects\AutoHotPie\lib\GetForegroundWindow\GetForegroundWindow\obj\Debug\net6.0\GetForegroundWindow.pdb
+C:\Users\ryjac\WebstormProjects\AutoHotPie\lib\GetForegroundWindow\GetForegroundWindow\obj\Debug\net6.0\GetForegroundWindow.genruntimeconfig.cache
+C:\Users\ryjac\WebstormProjects\AutoHotPie\lib\GetForegroundWindow\GetForegroundWindow\obj\Debug\net6.0\ref\GetForegroundWindow.dll
+C:\Users\ryjac\WebstormProjects\AutoHotPie\lib\GetForegroundWindow\GetForegroundWindow\bin\Debug\net6.0\Newtonsoft.Json.dll
+C:\Users\ryjac\WebstormProjects\AutoHotPie\lib\GetForegroundWindow\GetForegroundWindow\obj\Debug\net6.0\GetForegroundWindow.csproj.CopyComplete
