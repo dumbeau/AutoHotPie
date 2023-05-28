@@ -1,7 +1,6 @@
-import {app, BrowserWindow, screen} from 'electron';
+import {app, BrowserWindow} from 'electron';
 import * as path from 'path';
 import * as fs from 'fs';
-import {spawn} from 'child_process';
 import {GlobalHotkeyService} from "./src/globalHotkey/GlobalHotkeyService";
 import {HotkeyEventListener} from "./src/globalHotkey/HotkeyEventListener";
 import {NativeAPI} from "./src/NativeAPI";
