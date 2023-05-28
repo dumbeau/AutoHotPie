@@ -1,0 +1,40 @@
+{
+	"userDirectory": "",
+	"pieTips": true,
+	"escapeKeyCancelEnabled": true,
+	"settingsFileName": "AHPSettings.json",
+	"startup": {
+		"runOnStartup": false,
+		"runAutoHotKeyPieMenus": false,
+		"runOnAppQuit": true,
+		"alwaysRunOnAppQuit": false
+	},
+	"appearance": {
+		"font": {
+			"family": "Arial",
+			"size": 14
+		},
+		"label": {
+			"minimumWidth": 0,
+			"strokeThickness": 1,
+			"safetyStrokeColor": [
+				123,
+				123,
+				123,
+				255
+			]
+		},
+		"icon": {
+			"sourceImageDirectory": "%A_ScriptDir%\\icons",
+			"size": 24
+		},
+		"animation": {
+			"enabled": true,
+			"durationSeconds": 0.15
+		}
+	},
+	"applicationProfiles": [
+		"1"
+	],
+	"version": "22.0.0"
+}

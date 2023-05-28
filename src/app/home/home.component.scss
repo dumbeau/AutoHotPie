@@ -4,11 +4,10 @@
 
 .layout {
   width: 100%;
-
   display: grid;
   grid:
     "sidebar body" 1fr
-    / 30% 60%;
+    / 30% 65%;
   gap: 25px;
 }
 

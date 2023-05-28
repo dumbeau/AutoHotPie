@@ -1,13 +1,14 @@
 <section class="layout">
   <div class="sidebar">
-    <h4>{{'PAGES.NEW_PIE_WIZARD.NEW_PIE_MENU' | translate}}</h4>
+    <button nbButton class="square-icon-button-padding" style="margin-top: 30px" routerLink="/home" status="primary">
+      <nb-icon icon="arrow-ios-back-outline"></nb-icon>
+    </button>
+
+    <h4 style="margin-top: 10px">{{'PAGES.NEW_PIE_WIZARD.NEW_PIE_MENU' | translate}}</h4>
     <label [class]="currentPage === 0 ? 'active' : 'inactive'">{{ 'PAGES.NEW_PIE_WIZARD.NAME_YOUR_PIE_MENU' | translate}}</label>
     <label [class]="currentPage === 1 ? 'active' : 'inactive'">{{ 'PAGES.NEW_PIE_WIZARD.ASSIGN_A_HOTKEY' | translate}}</label>
     <label [class]="currentPage === 2 ? 'active' : 'inactive'">{{ 'PAGES.NEW_PIE_WIZARD.CHOOSE_SELECTION_MODE' | translate}}</label>
     <label [class]="currentPage === 3 ? 'active' : 'inactive'">{{ 'PAGES.NEW_PIE_WIZARD.CUSTOMIZATION' | translate}}</label>
-    <button nbButton routerLink="/home" status="primary" style="margin-top: auto; width: 100%">
-      {{'PAGES.GLOBAL.CANCEL' | translate}}
-    </button>
   </div>
   <div class="body">
     <app-page-pie-menu-name [ngStyle]="{'display': currentPage === 0 ? 'unset' : 'none'}" (next)="nextPage()"/>

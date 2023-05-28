@@ -6,6 +6,14 @@
   @include nb-theme-global();
 };
 
+body {
+  overflow: hidden;
+}
+
+.square-icon-button-padding {
+  padding: 11px 9px !important;
+}
+
 // Generated with https://layout.bradwoods.io/customize
 ///* You can add global styles to this file, and also import other style files */
 //html, body {
