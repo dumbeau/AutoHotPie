@@ -4,6 +4,7 @@ import * as fs from 'fs';
 import {spawn} from 'child_process';
 import {GlobalHotkeyService} from "./src/globalHotkey/GlobalHotkeyService";
 import {HotkeyEventListener} from "./src/globalHotkey/HotkeyEventListener";
+import {NativeAPI} from "./src/NativeAPI";
 
 // Constants
 const EDITOR_WINDOW_WIDTH = 1080;
@@ -15,6 +16,7 @@ let editorWindow : BrowserWindow | undefined;
 
 // ----------------- Set up GlobalHotkeyService -----------------
 
+console.log(NativeAPI.getForegroundWindowDetails());
 GlobalHotkeyService.start();
 GlobalHotkeyService.addKeyEventListener(new class implements HotkeyEventListener {
   onKeyDown(key: string): void {
