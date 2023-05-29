@@ -61,3 +61,4 @@ Thumbs.db
 /app/src/globalHotkey/GlobalHotkeyServiceRespond.js
 /app/src/globalHotkey/HotkeyEventListener.js
 /app/src/NativeAPI.js
+/.vscode/

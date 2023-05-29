@@ -65,6 +65,9 @@ function createWindow(): BrowserWindow {
     titleBarOverlay: {
       color: '#2f3241',
       symbolColor: '#74b1be',
+
+      // !!! IMPORTANT !!!
+      // --title-bar-height should also be updated in styles.scss when you change the height
       height: 42
     },
     webPreferences: {
