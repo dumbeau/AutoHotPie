@@ -14,7 +14,7 @@
 .sidebar {
   grid-area: sidebar;
   padding: 25px;
-  background-color: #27385c;
+  background-color: var(--color-basic-900);
 }
 .body {
   grid-area: body;

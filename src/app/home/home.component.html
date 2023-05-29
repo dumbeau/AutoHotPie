@@ -1,7 +1,10 @@
 <div class="offset">
   <section class="layout">
     <div class="sidebar">
-      <h4>{{ 'PAGES.HOME.SIDEBAR_TITLE' | translate }}</h4>
+      <div style="display: flex; align-items: center; flex-direction: row;">
+        <h4>{{ 'PAGES.HOME.SIDEBAR_TITLE' | translate }}</h4>
+        <button nbButton status="primary" style="align-self: center; margin-left: 1em" routerLink="/new-pie-wizard"><nb-icon icon="plus-outline"/></button>
+      </div>
       <app-profile-list-item #profileListItemComponent/>
     </div>
 
