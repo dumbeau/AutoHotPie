@@ -1,0 +1,19 @@
+<div class="offset" >
+  <section class="layout">
+    <nb-button-group (valueChange)="updateSingleSelectGroupValue($event)">
+      <button nbButtonToggle value="settings">{{"PAGES.SETTINGS.SETTINGS" | translate}}</button>
+      <button nbButtonToggle value="about">{{"PAGES.SETTINGS.ABOUT" | translate}}</button>
+    </nb-button-group>
+
+    <nb-list style="width: 100%">
+      <nb-list-item *ngFor="let setting of settings" style=" display: flex; flex-direction: row; justify-content: space-between; ">
+        <div>
+          <h3>{{ "PAGES.SETTINGS." + setting.key | translate}}</h3>
+          <p>{{ "PAGES.SETTINGS." + setting.key + ".DESC" | translate}}</p>
+        </div>
+        <nb-toggle [checked]="setting.value"></nb-toggle>
+      </nb-list-item>
+    </nb-list>
+
+  </section>
+</div>

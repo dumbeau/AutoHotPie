@@ -8,8 +8,13 @@ import { TranslateModule } from "@ngx-translate/core";
 })
 export class PagePieMenuNameComponent {
   @Output() next = new EventEmitter();
+  @Output() prev = new EventEmitter();
 
   onNextClick() {
     this.next.emit();
+  }
+
+  onPrevClick() {
+    this.prev.emit();
   }
 }

@@ -1,6 +1,6 @@
 <section class="layout">
   <div class="sidebar">
-    <button nbButton class="square-icon-button-padding" routerLink="/home" status="primary">
+    <button nbButton class="square-icon-button-padding" style="margin-top: 30px" routerLink="/home" status="primary">
       <nb-icon icon="arrow-ios-back-outline"></nb-icon>
     </button>
 
@@ -12,9 +12,9 @@
   </div>
   <div class="body">
     <app-page-pie-menu-name [ngStyle]="{'display': currentPage === 0 ? 'unset' : 'none'}" (next)="nextPage()"/>
-    <app-page-assign-hot-key  [ngStyle]="{'display': currentPage === 1 ? 'unset' : 'none'}" (next)="nextPage()"/>
-    <app-page-selection-mode [ngStyle]="{'display': currentPage === 2 ? 'unset' : 'none'}" (next)="nextPage()"/>
-    <app-page-style-selection [ngStyle]="{'display': currentPage === 3 ? 'unset' : 'none'}" (finish)="finishWizard()"/>
+    <app-page-assign-hot-key  [ngStyle]="{'display': currentPage === 1 ? 'unset' : 'none'}" (next)="nextPage()" (prev)="prevPage()"/>
+    <app-page-selection-mode [ngStyle]="{'display': currentPage === 2 ? 'unset' : 'none'}" (next)="nextPage()" (prev)="prevPage()"/>
+    <app-page-style-selection [ngStyle]="{'display': currentPage === 3 ? 'unset' : 'none'}" (finish)="finishWizard()" (prev)="prevPage()"/>
   </div>
 
   <a #finish routerLink="/home" hidden></a>

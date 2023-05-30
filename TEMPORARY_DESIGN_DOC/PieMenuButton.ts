@@ -1,0 +1,4 @@
+class PieMenuButton extends PieItem {
+  // ...
+
+}

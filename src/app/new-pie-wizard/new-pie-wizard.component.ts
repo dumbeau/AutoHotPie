@@ -18,4 +18,8 @@ export class NewPieWizardComponent {
 
     this.finishButton.nativeElement.click();
   }
+
+  prevPage() {
+    this.currentPage = this.currentPage === 0 ? 0 : this.currentPage - 1;
+  }
 }

@@ -9,10 +9,20 @@ import {NbButtonModule, NbFormFieldModule, NbIconModule, NbInputModule, NbLayout
 import {ProfileListItemComponent} from './profile-list-item/profile-list-item.component';
 import {ProfileEditorHeaderComponent} from './profile-editor-header/profile-editor-header.component';
 import {PieMenuListComponent} from './pie-menu-list/pie-menu-list.component';
-import {NgxColorsModule} from "ngx-colors";
+import {NgxColorsModule} from 'ngx-colors';
 
 @NgModule({
   declarations: [HomeComponent, ProfileListItemComponent, ProfileEditorHeaderComponent, PieMenuListComponent],
-  imports: [CommonModule, SharedModule, HomeRoutingModule, NbButtonModule, NbLayoutModule, NgOptimizedImage, NbInputModule, NbIconModule, NbFormFieldModule, NgxColorsModule]
+  imports: [
+    CommonModule,
+    SharedModule,
+    HomeRoutingModule,
+    NbButtonModule,
+    NbLayoutModule,
+    NgOptimizedImage,
+    NbInputModule,
+    NbIconModule,
+    NbFormFieldModule,
+    NgxColorsModule]
 })
 export class HomeModule {}

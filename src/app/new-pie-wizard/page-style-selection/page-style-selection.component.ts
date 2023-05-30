@@ -7,8 +7,13 @@ import {Component, EventEmitter, Output} from '@angular/core';
 })
 export class PageStyleSelectionComponent {
   @Output() finish = new EventEmitter();
+  @Output() prev = new EventEmitter();
 
   onFinishClick() {
     this.finish.emit();
+  }
+
+  onPrevClick() {
+    this.prev.emit();
   }
 }

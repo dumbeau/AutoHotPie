@@ -7,8 +7,13 @@ import {Component, EventEmitter, Output} from '@angular/core';
 })
 export class PageAssignHotKeyComponent {
   @Output() next = new EventEmitter();
+  @Output() prev = new EventEmitter();
 
   onNextClick() {
     this.next.emit();
+  }
+
+  onPrevClick() {
+    this.prev.emit();
   }
 }

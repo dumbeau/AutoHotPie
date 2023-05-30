@@ -7,7 +7,9 @@ import { HomeRoutingModule } from './home/home-routing.module';
 import { DetailRoutingModule } from './detail/detail-routing.module';
 import {NewPieWizardRoutingModule} from './new-pie-wizard/new-pie-wizard-routing.module';
 import {PieMenuEditorComponent} from './pie-menu-editor/pie-menu-editor.component';
-import {PieMenuEditorModule} from "./pie-menu-editor/pie-menu-editor.module";
+import {PieMenuEditorModule} from './pie-menu-editor/pie-menu-editor.module';
+import {SettingsComponent} from "./settings/settings.component";
+import {SettingsModule} from "./settings/settings.module";
 
 const routes: Routes = [
   {
@@ -24,6 +26,10 @@ const routes: Routes = [
     component: PieMenuEditorComponent
   },
   {
+    path: 'settings',
+    component: SettingsComponent
+  },
+  {
     path: '**',
     component: PageNotFoundComponent
   }
@@ -36,7 +42,8 @@ const routes: Routes = [
     HomeRoutingModule,
     DetailRoutingModule,
     NewPieWizardRoutingModule,
-    PieMenuEditorModule
+    PieMenuEditorModule,
+    SettingsModule
   ],
   exports: [RouterModule]
 })

@@ -3,6 +3,10 @@
   <h1>{{ 'PAGES.NEW_PIE_WIZARD.Q_CUSTOMIZATION' | translate }}</h1>
   <label>{{ 'PAGES.NEW_PIE_WIZARD.CUSTOMIZATION_DESC' | translate }}</label>
 
-  <button nbButton status="primary" (click)="onFinishClick()">{{ 'PAGES.GLOBAL.DONE' | translate }}</button>
+
+  <div style="display: flex; flex-direction: row">
+    <button nbButton (click)="onPrevClick()">{{ 'GLOBAL.PREV' | translate }}</button>
+    <button nbButton (click)="onFinishClick()">{{ 'GLOBAL.DONE' | translate }}</button>
+  </div>
 
 </div>

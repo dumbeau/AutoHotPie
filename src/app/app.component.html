@@ -1,21 +1,26 @@
+
 <div
   style="
     position:fixed;
     z-index: 999;
-    padding-left: 16px;
+    padding: 0 160px 0 16px;
     width: 100%;
     height: var(--title-bar-height);
-    -webkit-app-region:
-    drag; background-color: var(--color-basic-900);
+    background-color: var(--color-basic-900);
     display: flex;
     align-items: center;
     border: 0 solid black;
     border-bottom-width: 1px;
+    justify-content: space-between;
     align-content: center">
-  <nb-icon icon="menu-outline" />
+  <img src="assets/icons/favicon.ico" style="padding-right: 16px; height: 24px; width: auto;"/>
+  <button nbButton ghost size="small" routerLink="/settings">{{'GLOBAL.SETTINGS' | translate}}</button>
+  <button nbButton ghost size="small">{{'GLOBAL.HELP' | translate}}</button>
+  <div style="flex-grow: 1; -webkit-app-region: drag; height: 100%"></div>
+  <button nbButton size="small" status="success"><nb-icon icon="play-circle-outline"/></button>
 </div>
-
 <nb-layout>
+
   <nb-layout-column style="padding: var(--title-bar-height) 0 0 0;">
     <router-outlet></router-outlet>
 

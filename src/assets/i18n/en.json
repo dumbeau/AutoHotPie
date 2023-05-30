@@ -1,41 +1,48 @@
 {
+  "GLOBAL": {
+    "CANCEL": "Cancel",
+    "NEXT": "Next",
+    "DONE": "Done!",
+    "FILE": "File",
+    "SETTINGS": "Settings",
+    "HELP": "Help",
+    "PREV": "Prev"
+  },
   "PAGES": {
-      "GLOBAL": {
-        "CANCEL": "Cancel",
-        "NEXT": "Next",
-        "DONE": "Done!"
-      },
-      "NEW_PIE_WIZARD": {
-        "NAME_YOUR_PIE_MENU": "Name your pie menu",
-        "ASSIGN_A_HOTKEY": "Assign a hotkey",
-        "CHOOSE_SELECTION_MODE": "Choose selection mode",
-        "CUSTOMIZATION": "Customization",
-        "Q_PIE_MENU_NAME": "What do you want to name your pie menu?",
-        "HINT_PIE_MENU_NAME": "Give your pie menu a lovely new name...",
-        "Q_ASSIGN_HOTKEY": "Assign a hotkey to your pie menu!",
-        "ASSIGN_HOTKEY_DESC": "Press the hotkey you want to assign to this pie menu",
-        "ASSIGN_HOTKEY_HINT": "Press the hotkey...",
-        "LOOKS_GOOD": "Looks good!",
-        "Q_SELECTION_MODE": "Which selection mode do you want to use?",
-        "SELECTION_MODE_1_DESC": "Select an item by hovering over it",
-        "SELECTION_MODE_2_DESC": "Select an item by clicking on it",
-        "SELECTION_MODE_3_DESC": "Select an item by hovering over it and clicking on it",
-        "SELECTION_MODE_4_DESC": "Select an item by hovering over it and pressing the hotkey",
-        "Q_CUSTOMIZATION": "How about giving your pie menu a custom look?",
-        "CUSTOMIZATION_DESC": "You can customize the look of your pie menu by selecting a preset below or by choosing your own colors.",
-        "NEW_PIE_MENU": "New Pie Menu"
-
-      },
-      "HOME": {
-          "SIDEBAR_TITLE": "Profiles",
-          "TITLE": "App works !",
-          "GO_TO_DETAIL": "Go to Detail",
-          "ADD_PIE_MENU": "Add new pie menu",
-          "TABLE_EMPTY": "You haven't added any pie menus yet. Click the button below to add one. ฅ^ ̳• ·̫ • ̳^ฅ"
-      },
-      "DETAIL": {
-        "TITLE": "Detail page !",
-        "BACK_TO_HOME": "Back to Home"
+    "SETTINGS": {
+      "SETTINGS": "Settings",
+      "ABOUT": "About"
+    },
+    "NEW_PIE_WIZARD": {
+      "NAME_YOUR_PIE_MENU": "Name your pie menu",
+      "ASSIGN_A_HOTKEY": "Assign a hotkey",
+      "CHOOSE_SELECTION_MODE": "Choose selection mode",
+      "CUSTOMIZATION": "Customization",
+      "Q_PIE_MENU_NAME": "What do you want to name your pie menu?",
+      "HINT_PIE_MENU_NAME": "Give your pie menu a lovely new name...",
+      "Q_ASSIGN_HOTKEY": "Assign a hotkey to your pie menu!",
+      "ASSIGN_HOTKEY_DESC": "Press the hotkey you want to assign to this pie menu",
+      "ASSIGN_HOTKEY_HINT": "Press the hotkey...",
+      "LOOKS_GOOD": "Looks good!",
+      "Q_SELECTION_MODE": "Which selection mode do you want to use?",
+      "SELECTION_MODE_1_DESC": "Select an item by hovering over it",
+      "SELECTION_MODE_2_DESC": "Select an item by clicking on it",
+      "SELECTION_MODE_3_DESC": "Select an item by hovering over it and clicking on it",
+      "SELECTION_MODE_4_DESC": "Select an item by hovering over it and pressing the hotkey",
+      "Q_CUSTOMIZATION": "How about giving your pie menu a custom look?",
+      "CUSTOMIZATION_DESC": "You can customize the look of your pie menu by selecting a preset below or by choosing your own colors.",
+      "NEW_PIE_MENU": "New Pie Menu"
+    },
+    "HOME": {
+      "SIDEBAR_TITLE": "Profiles",
+      "TITLE": "App works !",
+      "GO_TO_DETAIL": "Go to Detail",
+      "ADD_PIE_MENU": "Add new pie menu",
+      "TABLE_EMPTY": "You haven't added any pie menus yet. Click the button below to add one. ฅ^ ̳• ·̫ • ̳^ฅ"
+    },
+    "DETAIL": {
+      "TITLE": "Detail page !",
+      "BACK_TO_HOME": "Back to Home"
     }
   }
 }

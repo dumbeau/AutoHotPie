@@ -11,7 +11,6 @@ import { APP_CONFIG } from '../environments/environment';
 export class AppComponent {
   @ViewChild('layout') layout: any;
 
-
   constructor(
     private electronService: ElectronService,
     private translate: TranslateService
