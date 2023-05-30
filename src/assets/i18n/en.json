@@ -9,6 +9,11 @@
     "PREV": "Prev"
   },
   "PAGES": {
+    "EDITOR": {
+      "TREE_TITLE": "Pie Item Tree",
+      "PREVIEW": "Preview",
+      "PROP": "Properties"
+    },
     "SETTINGS": {
       "SETTINGS": "Settings",
       "ABOUT": "About",

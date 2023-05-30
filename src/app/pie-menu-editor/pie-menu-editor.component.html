@@ -1,10 +1,14 @@
 
 <section class="layout">
   <div class="grow1">
+    <label style="margin: 0; color: var(--button-ghost-basic-text-color);">{{"PAGES.EDITOR.TREE_TITLE" | translate}}</label>
     <tree-root [nodes]="nodes" [options]="options"></tree-root>
   </div>
   <div class="grow3">
-    2
+    <label style="margin: 0; color: var(--button-ghost-basic-text-color);">{{"PAGES.EDITOR.PREVIEW" | translate}}</label>
   </div>
-  <div class="grow1">3</div>
+  <div class="grow1">
+    <label style="margin: 0; color: var(--button-ghost-basic-text-color);">{{"PAGES.EDITOR.PROP" | translate}}</label>
+    <app-preferences-editor />
+  </div>
 </section>

@@ -24,6 +24,9 @@ body {
   border-radius: 5px;
   border: 0;
 }
+.node-content-wrapper.is-dragging-over {
+  background: var(--accordion-header-disabled-text-color);
+}
 .node-content-wrapper-focused {
   background:var(--alert-outline-primary-color);
 }
