@@ -17,7 +17,14 @@ import { NewPieWizardModule } from './new-pie-wizard/new-pie-wizard.module';
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {NbThemeModule, NbLayoutModule, NbIconModule, NbButtonModule, NbContextMenuModule} from '@nebular/theme';
+import {
+  NbThemeModule,
+  NbLayoutModule,
+  NbIconModule,
+  NbButtonModule,
+  NbContextMenuModule,
+  NbMenuModule, NbListModule, NbToggleModule
+} from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 
 // AoT requires an exported function for factories
@@ -48,7 +55,8 @@ const httpLoaderFactory = (http: HttpClient): TranslateHttpLoader =>  new Transl
     NbEvaIconsModule,
     NbIconModule,
     NbButtonModule,
-    NbContextMenuModule
+    NbListModule,
+    NbToggleModule
   ],
   providers: [],
   exports: [

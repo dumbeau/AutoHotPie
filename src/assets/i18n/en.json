@@ -11,7 +11,16 @@
   "PAGES": {
     "SETTINGS": {
       "SETTINGS": "Settings",
-      "ABOUT": "About"
+      "ABOUT": "About",
+      "TEST_SETTING_1": "Test setting 1",
+      "TEST_SETTING_1_DESC": "Test setting 1 description",
+      "TEST_SETTING_2": "Test setting 2",
+      "TEST_SETTING_2_DESC": "Test setting 2 description",
+      "ABOUT_CHECK_FOR_UPDATES": "Check for updates",
+      "VIEW_ON_GITHUB": "View on GitHub",
+      "DONATE_WITH_PAYPAL": "Donate with PayPal",
+      "ABOUT_REPORT_BUG": "Report a bug",
+      "ABOUT_VERSION": "Version"
     },
     "NEW_PIE_WIZARD": {
       "NAME_YOUR_PIE_MENU": "Name your pie menu",

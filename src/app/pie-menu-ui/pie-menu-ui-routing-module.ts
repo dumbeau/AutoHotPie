@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
-import { NewPieWizardComponent } from './new-pie-wizard.component';
+import {PieMenuUIComponent} from './pie-menu-ui.component';
 
 const routes: Routes = [
   {
-    path: 'new-pie-wizard',
-    component: NewPieWizardComponent
+    path: 'pieMenuUI',
+    component: PieMenuUIComponent
   }
 ];
 
@@ -15,4 +15,4 @@ const routes: Routes = [
   imports: [CommonModule, RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class NewPieWizardRoutingModule {}
+export class PieMenuUIRoutingModule {}

@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 export class HomeComponent implements OnInit, AfterViewInit {
   @ViewChild('profileListItemComponent') profileListItemComponent: any;
   @ViewChild('profileEditorHeaderComponent') profileEditorHeaderComponent: any;
+  revealed = false;
 
   constructor(private router: Router) {
   }

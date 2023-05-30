@@ -1,10 +1,11 @@
 .layout {
-  padding: 25px;
   display: flex;
   flex-direction: column;
+  align-content: center;
   align-items: center;
+  justify-content: center;
 }
 
-.btn-padding {
+button {
   margin: 1em;
 }

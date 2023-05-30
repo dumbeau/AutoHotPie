@@ -13,11 +13,26 @@
     border-bottom-width: 1px;
     justify-content: space-between;
     align-content: center">
-  <img src="assets/icons/favicon.ico" style="padding-right: 16px; height: 24px; width: auto;"/>
-  <button nbButton ghost size="small" routerLink="/settings">{{'GLOBAL.SETTINGS' | translate}}</button>
-  <button nbButton ghost size="small">{{'GLOBAL.HELP' | translate}}</button>
+  <img #icon src="assets/icons/favicon.ico" style="padding-right: 16px; height: 24px; width: auto;"/>
+
+  <button
+    [class]="active === 'settings' ? 'btn-active' : 'btn-normal'"
+    [routerLink]="active === 'settings' ? '/home' : '/settings'"
+    (click)="setActive('settings')"
+    nbButton ghost size="small" >
+    {{'GLOBAL.SETTINGS' | translate}}
+  </button>
+  <button
+    [class]="active === 'help' ? 'btn-active' : 'btn-normal'"
+    [routerLink]="active === 'help' ? '/home' : '/helpAndAbout'"
+    (click)="setActive('help')"
+    nbButton ghost size="small">
+    {{'GLOBAL.HELP' | translate}}
+  </button>
+
   <div style="flex-grow: 1; -webkit-app-region: drag; height: 100%"></div>
   <button nbButton size="small" status="success"><nb-icon icon="play-circle-outline"/></button>
+
 </div>
 <nb-layout>
 

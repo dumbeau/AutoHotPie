@@ -1,6 +1,7 @@
 @use 'themes' as *;
 
 @use '@nebular/theme/styles/globals' as *;
+@import '@circlon/angular-tree-component/css/angular-tree-component.css';
 
 @include nb-install() {
   @include nb-theme-global();
@@ -12,6 +13,26 @@ body {
 
 .square-icon-button-padding {
   padding: 11px 9px !important;
+}
+
+.node-content-wrapper-active, .node-content-wrapper.node-content-wrapper-active:hover, .node-content-wrapper-active.node-content-wrapper-focused {
+  background: var(--alert-outline-primary-color);
+}
+.node-drop-slot.is-dragging-over {
+  background: var(--color-basic-600);
+  height: 20px;
+  border-radius: 5px;
+  border: 0;
+}
+.node-content-wrapper-focused {
+  background:var(--alert-outline-primary-color);
+}
+.node-content-wrapper:hover {
+  border: 1px solid var(--alert-outline-primary-color);
+  background-color: transparent;
+}
+.node-content-wrapper{
+  border: 1px solid transparent;
 }
 
 :root {

@@ -5,7 +5,14 @@ import { HomeRoutingModule } from './home-routing.module';
 
 import { HomeComponent } from './home.component';
 import { SharedModule } from '../shared/shared.module';
-import {NbButtonModule, NbFormFieldModule, NbIconModule, NbInputModule, NbLayoutModule} from '@nebular/theme';
+import {
+  NbButtonModule,
+  NbCardModule,
+  NbFormFieldModule,
+  NbIconModule,
+  NbInputModule,
+  NbLayoutModule
+} from '@nebular/theme';
 import {ProfileListItemComponent} from './profile-list-item/profile-list-item.component';
 import {ProfileEditorHeaderComponent} from './profile-editor-header/profile-editor-header.component';
 import {PieMenuListComponent} from './pie-menu-list/pie-menu-list.component';
@@ -23,6 +30,8 @@ import {NgxColorsModule} from 'ngx-colors';
     NbInputModule,
     NbIconModule,
     NbFormFieldModule,
-    NgxColorsModule]
+    NgxColorsModule,
+    NbCardModule
+  ]
 })
 export class HomeModule {}

@@ -6,4 +6,7 @@ interface NodeModule {
 interface Window {
   process: any;
   require: any;
+  electronAPI: {
+    getSettings: () => Promise<Record<string, any>[]>;
+  };
 }

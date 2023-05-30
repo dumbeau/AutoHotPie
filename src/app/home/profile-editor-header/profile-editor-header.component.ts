@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Profile} from '../../../helpers/Profile';
 import {ProfileUpdateListener} from '../../../helpers/ProfileUpdateListener';
 
@@ -9,6 +9,7 @@ import {ProfileUpdateListener} from '../../../helpers/ProfileUpdateListener';
 })
 export class ProfileEditorHeaderComponent implements ProfileUpdateListener {
   @Input() profId = 0;
+  @Output() settingsClicked = new EventEmitter();
 
   profName = 'Default Profile';
 

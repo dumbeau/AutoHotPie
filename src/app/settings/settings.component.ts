@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, ViewChild} from '@angular/core';
 
 @Component({
   selector: 'app-settings',
@@ -8,21 +8,17 @@ import {ChangeDetectionStrategy, ChangeDetectorRef, Component} from '@angular/co
 
 })
 export class SettingsComponent {
-  settings: Record<string, any>[] = [{}];
-  singleSelectGroupValue = [];
+  @ViewChild('settingList') settingList: any;
+
+  settings: Promise<Record<string, any>[]> = window.electronAPI.getSettings();
+  displaySettingPage = true;
 
   constructor(private cd: ChangeDetectorRef) {
-    this.initSettingValues();
   }
   updateSingleSelectGroupValue(value: any): void {
-    this.singleSelectGroupValue = value;
-    this.cd.markForCheck();
+    this.displaySettingPage = value[0] === 'settings';
+    console.log('Select group value changed to: ' + value);
   }
 
-  async initSettingValues() {
-    // @ts-ignore
-    const settingsHandler: Array<Record<string, any>> = await window.electronAPI.getSettings();
 
-    console.log('Loading settings: ', settingsHandler);
-  }
 }

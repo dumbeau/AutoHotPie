@@ -1,4 +1,4 @@
-import {app, BrowserWindow} from 'electron';
+import {app, BrowserWindow, ipcMain} from 'electron';
 import * as path from 'path';
 import * as fs from 'fs';
 import {GlobalHotkeyService} from "./src/globalHotkey/GlobalHotkeyService";
@@ -9,7 +9,6 @@ import {NativeAPI} from "./src/NativeAPI";
 const EDITOR_WINDOW_WIDTH = 1080;
 const EDITOR_WINDOW_HEIGHT = 720;
 const args = process.argv.slice(1)
-const serve = args.some(val => val === '--serve');
 let pieMenuWindow : BrowserWindow | undefined;
 let editorWindow : BrowserWindow | undefined;
 
@@ -72,7 +71,7 @@ function createWindow(): BrowserWindow {
     },
     webPreferences: {
       nodeIntegration: true,
-      allowRunningInsecureContent: (serve),
+      preload: path.join(__dirname, 'preload.js'),
       contextIsolation: true,  // false if you want to run e2e test with Spectron
     },
   });
@@ -80,29 +79,26 @@ function createWindow(): BrowserWindow {
   pieMenuWindow = new BrowserWindow({
     webPreferences: {
       nodeIntegration: true,
-      allowRunningInsecureContent: (serve),
       contextIsolation: true,  // false if you want to run e2e test with Spectron
     },
   });
 
-  if (serve) {
-    const debug = require('electron-debug');
-    debug();
 
-    require('electron-reloader')(module);
-    editorWindow.loadURL('http://localhost:4200');
-  } else {
-    // Path when running electron executable
-    let pathIndex = './index.html';
+  // Path when running electron executable
+  let editorWindowPath = './index.html';
+  let pieMenuWindowPath = '/index.html/pie-menu-ui';
 
-    if (fs.existsSync(path.join(__dirname, '../dist/index.html'))) {
-       // Path when running electron in local folder
-      pathIndex = '../dist/index.html';
-    }
-
-    const url = new URL(path.join('file:', __dirname, pathIndex));
-    editorWindow.loadURL(url.href);
+  if (fs.existsSync(path.join(__dirname, '../dist/index.html'))) {
+     // Path when running electron in local folder
+    editorWindowPath = '../dist/index.html';
   }
+
+  const editorWindowURL = new URL(path.join('file:', __dirname, editorWindowPath));
+  editorWindow.loadURL(editorWindowURL.href);
+
+  const pieMenuWindowURL = new URL(path.join('file:', __dirname, pieMenuWindowPath));
+  pieMenuWindow.loadURL('file://' + __dirname + '/../src/app/pie-menu-ui/pie-menu-ui.component.html');
+
 
   // Emitted when the window is closed.
   editorWindow.on('closed', () => {
@@ -115,3 +111,10 @@ function createWindow(): BrowserWindow {
   return editorWindow;
 }
 
+ipcMain.handle('getSettings', () => {
+  // TODO: Implement get settings
+  return [
+    { key: "TEST_SETTING_1", value: true},
+    { key: "TEST_SETTING_1", value: false}
+  ];
+})
