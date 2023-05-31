@@ -1,19 +1,23 @@
 import {Component, EventEmitter, Output} from '@angular/core';
+import {ActivationMode} from '../../../helpers/PieMenu';
 
 @Component({
-  selector: 'app-page-selection-mode',
-  templateUrl: './page-selection-mode.component.html',
-  styleUrls: ['./page-selection-mode.component.scss']
+    selector: 'app-page-selection-mode',
+    templateUrl: './page-selection-mode.component.html',
+    styleUrls: ['./page-selection-mode.component.scss']
 })
 export class PageSelectionModeComponent {
-  @Output() next = new EventEmitter();
-  @Output() prev = new EventEmitter();
+    @Output() next = new EventEmitter<number>();
+    @Output() prev = new EventEmitter();
 
-  onNextClick() {
-    this.next.emit();
-  }
+    activationMode = ActivationMode.RELEASE_ON_FUNCTION;
 
-  onPrevClick() {
-    this.prev.emit();
-  }
+    // TODO: complete this component, user can't choose activation mode yet
+    onNextClick() {
+        this.next.emit(this.activationMode);
+    }
+
+    onPrevClick() {
+        this.prev.emit();
+    }
 }

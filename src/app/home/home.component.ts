@@ -1,5 +1,4 @@
 import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
-import {Router} from '@angular/router';
 import {NbPosition} from '@nebular/theme';
 
 @Component({
@@ -10,26 +9,27 @@ import {NbPosition} from '@nebular/theme';
 export class HomeComponent implements OnInit, AfterViewInit {
     @ViewChild('profileListItemComponent') profileListItemComponent: any;
     @ViewChild('profInput') profInput: any;
+    @ViewChild('profileEditorComponent') profileEditorComponent: any;
 
     selectingApp = false;
 
     selectedAppName = '';
     selectedAppIcon = '';
+    selectedProfId = '';
 
     remainingSec = 5;
 
     profIds: string[] = [];
 
-    protected readonly NbPosition = NbPosition;
 
-    constructor(private router: Router) {
-    }
+    protected readonly NbPosition = NbPosition;
 
     ngOnInit(): void {
         console.log('HomeComponent INIT');
 
         window.electronAPI.getProfileIds().then((profIds: string[]) => {
             this.profIds = profIds;
+            this.selectedProfId = profIds[0];
         });
     }
 
@@ -75,5 +75,13 @@ export class HomeComponent implements OnInit, AfterViewInit {
                     // TODO: Show error message using toaster
                 }
             });
+    }
+
+    updateSelectedProfile($event: string) {
+        this.selectedProfId = $event;
+    }
+
+    reloadProfEditor() {
+        this.profileEditorComponent.ngOnChanges();
     }
 }

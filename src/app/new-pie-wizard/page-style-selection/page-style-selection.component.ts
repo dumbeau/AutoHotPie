@@ -9,6 +9,7 @@ export class PageStyleSelectionComponent {
   @Output() finish = new EventEmitter();
   @Output() prev = new EventEmitter();
 
+  //TODO: complete this component, user can't choose style yet
   onFinishClick() {
     this.finish.emit();
   }

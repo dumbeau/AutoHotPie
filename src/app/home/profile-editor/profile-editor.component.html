@@ -2,7 +2,7 @@
 
     <div class="two-side">
         <div>
-            <h4>{{ "TEST" }}</h4>
+            <h4>{{ profile.name }}</h4>
         </div>
         <div>
             <button nbButton status="primary" (click)="profSettingsRevealed = !profSettingsRevealed">
@@ -12,7 +12,7 @@
     </div>
 
     <div [style]="{'display': !profSettingsRevealed ? 'flex' : 'none'}" class="center-horizontal">
-        <app-pie-menu-list/>
+        <app-pie-menu-list [pieMenuIds]="profile.pieMenus" (deletePieMenu)="deletePieMenu($event)"/>
         <button nbButton status="primary" style="align-self: center" routerLink="/new-pie-wizard">
             <nb-icon icon="plus-outline"/>
             {{ 'PAGES.HOME.ADD_PIE_MENU' | translate }}</button>

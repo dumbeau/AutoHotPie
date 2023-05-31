@@ -13,3 +13,9 @@
   border-color: var(--button-ghost-border-color);
   color: var(--button-ghost-basic-text-color);
 }
+
+[nbButton].appearance-ghost.status-basic:focus, .appearance-ghost.status-basic[nbButtonToggle]:focus {
+    background-color: var(--button-ghost-background-color);
+    border-color: var(--button-ghost-border-color);
+    color: var(--button-ghost-basic-focus-text-color);
+}

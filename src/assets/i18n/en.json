@@ -1,69 +1,71 @@
 {
-  "GLOBAL": {
-    "CANCEL": "Cancel",
-    "NEXT": "Next",
-    "DONE": "Done!",
-    "FILE": "File",
-    "SETTINGS": "Settings",
-    "HELP": "Help",
-    "PREV": "Prev"
-  },
-  "PAGES": {
-    "EDITOR": {
-      "TREE_TITLE": "Pie Item Tree",
-      "PREVIEW": "Preview",
-      "PROP": "Properties"
+    "GLOBAL": {
+        "CANCEL": "Cancel",
+        "NEXT": "Next",
+        "DONE": "Done!",
+        "FILE": "File",
+        "SETTINGS": "Settings",
+        "HELP": "Help",
+        "YES": "Yes",
+        "PREV": "Prev"
     },
-    "SETTINGS": {
-      "SETTINGS": "Settings",
-      "ABOUT_CHECKING_FOR_UPDATES": "Checking for updates...",
-      "ABOUT_UPDATE_AVAILABLE": "Update available! Click to update.",
-      "ABOUT_NO_UPDATE_AVAILABLE": "You're up to date!",
-      "ABOUT": "About",
-      "TEST_SETTING_1": "Test setting 1",
-      "TEST_SETTING_1_DESC": "Test setting 1 description",
-      "TEST_SETTING_2": "Test setting 2",
-      "TEST_SETTING_2_DESC": "Test setting 2 description",
-      "ABOUT_CHECK_FOR_UPDATES": "Check for updates",
-      "VIEW_ON_GITHUB": "View on GitHub",
-      "DONATE_WITH_PAYPAL": "Donate with PayPal",
-      "ABOUT_REPORT_BUG": "Report a bug",
-      "ABOUT_VERSION": "Version"
-    },
-    "NEW_PIE_WIZARD": {
-      "NAME_YOUR_PIE_MENU": "Name your pie menu",
-      "ASSIGN_A_HOTKEY": "Assign a hotkey",
-      "CHOOSE_SELECTION_MODE": "Choose selection mode",
-      "CUSTOMIZATION": "Customization",
-      "Q_PIE_MENU_NAME": "What do you want to name your pie menu?",
-      "HINT_PIE_MENU_NAME": "Give your pie menu a lovely new name...",
-      "Q_ASSIGN_HOTKEY": "Assign a hotkey to your pie menu!",
-      "ASSIGN_HOTKEY_DESC": "Press the hotkey you want to assign to this pie menu",
-      "ASSIGN_HOTKEY_HINT": "Press the hotkey...",
-      "LOOKS_GOOD": "Looks good!",
-      "Q_SELECTION_MODE": "Which selection mode do you want to use?",
-      "SELECTION_MODE_1_DESC": "Select an item by hovering over it",
-      "SELECTION_MODE_2_DESC": "Select an item by clicking on it",
-      "SELECTION_MODE_3_DESC": "Select an item by hovering over it and clicking on it",
-      "SELECTION_MODE_4_DESC": "Select an item by hovering over it and pressing the hotkey",
-      "Q_CUSTOMIZATION": "How about giving your pie menu a custom look?",
-      "CUSTOMIZATION_DESC": "You can customize the look of your pie menu by selecting a preset below or by choosing your own colors.",
-      "NEW_PIE_MENU": "New Pie Menu"
-    },
-    "HOME": {
-      "SIDEBAR_TITLE": "Profiles",
-      "CLICK_TO_SELECT_APP": "Click to select application",
-      "CREATE_PROF": "Create Profile",
-      "PROF_NAME_HINT": "Profile name",
-      "PROF_SETTINGS": "Profile Settings",
-      "TITLE": "App works !",
-      "GO_TO_DETAIL": "Go to Detail",
-      "ADD_PIE_MENU": "Add new pie menu",
-      "TABLE_EMPTY": "You haven't added any pie menus yet. Click the button below to add one. ฅ^ ̳• ·̫ • ̳^ฅ"
-    },
-    "DETAIL": {
-      "TITLE": "Detail page !",
-      "BACK_TO_HOME": "Back to Home"
+    "PAGES": {
+        "EDITOR": {
+            "TREE_TITLE": "Pie Item Tree",
+            "PREVIEW": "Preview",
+            "PROP": "Properties"
+        },
+        "SETTINGS": {
+            "SETTINGS": "Settings",
+            "ABOUT_CHECKING_FOR_UPDATES": "Checking for updates...",
+            "ABOUT_UPDATE_AVAILABLE": "Update available! Click to update.",
+            "ABOUT_NO_UPDATE_AVAILABLE": "You're up to date!",
+            "ABOUT": "About",
+            "TEST_SETTING_1": "Test setting 1",
+            "TEST_SETTING_1_DESC": "Test setting 1 description",
+            "TEST_SETTING_2": "Test setting 2",
+            "TEST_SETTING_2_DESC": "Test setting 2 description",
+            "ABOUT_CHECK_FOR_UPDATES": "Check for updates",
+            "VIEW_ON_GITHUB": "View on GitHub",
+            "DONATE_WITH_PAYPAL": "Donate with PayPal",
+            "ABOUT_REPORT_BUG": "Report a bug",
+            "ABOUT_VERSION": "Version"
+        },
+        "NEW_PIE_WIZARD": {
+            "NAME_YOUR_PIE_MENU": "Name your pie menu",
+            "ASSIGN_A_HOTKEY": "Assign a hotkey",
+            "CHOOSE_SELECTION_MODE": "Choose selection mode",
+            "CUSTOMIZATION": "Customization",
+            "Q_PIE_MENU_NAME": "What do you want to name your pie menu?",
+            "HINT_PIE_MENU_NAME": "Give your pie menu a lovely new name...",
+            "Q_ASSIGN_HOTKEY": "Assign a hotkey to your pie menu!",
+            "ASSIGN_HOTKEY_DESC": "Press the hotkey you want to assign to this pie menu",
+            "ASSIGN_HOTKEY_HINT": "Press the hotkey...",
+            "LOOKS_GOOD": "Looks good!",
+            "Q_SELECTION_MODE": "Which selection mode do you want to use?",
+            "SELECTION_MODE_1_DESC": "Select an item by hovering over it",
+            "SELECTION_MODE_2_DESC": "Select an item by clicking on it",
+            "SELECTION_MODE_3_DESC": "Select an item by hovering over it and clicking on it",
+            "SELECTION_MODE_4_DESC": "Select an item by hovering over it and pressing the hotkey",
+            "Q_CUSTOMIZATION": "How about giving your pie menu a custom look?",
+            "CUSTOMIZATION_DESC": "You can customize the look of your pie menu by selecting a preset below or by choosing your own colors.",
+            "NEW_PIE_MENU": "New Pie Menu"
+        },
+        "HOME": {
+            "SIDEBAR_TITLE": "Profiles",
+            "CLICK_TO_SELECT_APP": "Click to select application",
+            "CREATE_PROF": "Create Profile",
+            "PROF_NAME_HINT": "Profile name",
+            "PROF_SETTINGS": "Profile Settings",
+            "TITLE": "App works !",
+            "DELETE_CONFIRM": "Are you sure you want to delete this pie menu?",
+            "GO_TO_DETAIL": "Go to Detail",
+            "ADD_PIE_MENU": "Add new pie menu",
+            "TABLE_EMPTY": "You haven't added any pie menus yet. Click the button below to add one. ฅ^ ̳• ·̫ • ̳^ฅ"
+        },
+        "DETAIL": {
+            "TITLE": "Detail page !",
+            "BACK_TO_HOME": "Back to Home"
+        }
     }
-  }
 }

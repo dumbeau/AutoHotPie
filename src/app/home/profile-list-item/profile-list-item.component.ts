@@ -1,6 +1,5 @@
-import {AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {Profile} from '../../../helpers/Profile';
-import {ProfileUpdateListener} from '../../../helpers/ProfileUpdateListener';
 
 @Component({
     selector: 'app-profile-list-item',
@@ -10,15 +9,17 @@ import {ProfileUpdateListener} from '../../../helpers/ProfileUpdateListener';
 
 export class ProfileListItemComponent implements OnInit {
     @Input() profId = '0';
+    @Output() profileSelected = new EventEmitter<string>();
+    @Output() profileUpdated = new EventEmitter();
+
     @ViewChild('profNameInput') profNameInput: any;
     @ViewChild('editButton') editButton: any;
 
     inputDisabled = true;
     prof = new Profile();
-    profUpdateListener: ProfileUpdateListener | undefined;
 
-    setProfileUpdateListener(listener: ProfileUpdateListener) {
-        this.profUpdateListener = listener;
+    selectProfile() {
+        this.profileSelected.emit(this.profId);
     }
 
     startEditing() {
@@ -28,14 +29,15 @@ export class ProfileListItemComponent implements OnInit {
     completeEditing() {
         this.inputDisabled = true;
 
-
-        // this.profName = this.profNameInput.nativeElement.value;
-        // Profile.updateProfName(this.profId, this.profName);
-        //
-        // if (this.profUpdateListener !== undefined){
-        //   this.profUpdateListener.onProfileNameChanged(this.profName);
-        //   console.log('Profile name changed to ' + this.profName + ', calling onProfileNameChanged() on listener');
-        // }
+        window.electronAPI.updateProfileName(this.profId, this.profNameInput.nativeElement.value)
+            .then((success: boolean) => {
+                if (success) {
+                    this.prof.name = this.profNameInput.nativeElement.value;
+                    this.profileUpdated.emit();
+                } else {
+                    console.log('Failed to update profile name');
+                }
+            });
     }
 
     ngOnInit(): void {

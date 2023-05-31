@@ -1,7 +1,10 @@
 import {ipcMain} from "electron";
 import * as child_process from "child_process";
-import {Profile} from "../../src/helpers/Profile";
 
+/**
+ * Sets up IPC listeners for the main process,
+ * see typings.d.ts for the list of available listeners and its documentation
+ * */
 export function initializeIPCListeners() {
     ipcMain.handle('openInBrowser', (event, args) => {
         child_process.execSync('start ' + args[0]);
@@ -14,17 +17,17 @@ export function initializeIPCListeners() {
         ];
     });
     ipcMain.handle('isUpdateAvailable', () => {
-        console.log("isUpdateAvailable() called, checking for updates")
+        console.log("isUpdateAvailable() called, checking for updates");
         // TODO: Implement isUpdateAvailable
         return true;
     });
     ipcMain.handle('getForegroundApplication', () => {
-        console.log("getForegroundApplication() called, retrieving foreground application info")
+        console.log("getForegroundApplication() called, retrieving foreground application info");
         // TODO: Implement getForegroundApplication
         return ["exePath", "exeIconPath"];
     });
     ipcMain.handle('createProfile', (event, args) => {
-        console.log("getForegroundApplication() called, retrieving foreground application info")
+        console.log("createProfile() called, retrieving foreground application info");
         // TODO: Implement createProfile
         // args[0] = profName, args[1] = exePath, args[2] = iconPath
 
@@ -32,7 +35,7 @@ export function initializeIPCListeners() {
         return 0;
     });
     ipcMain.handle('updateProfileName', (event, args) => {
-        console.log("updateProfileName() called, updating profile name")
+        console.log("updateProfileName() called, updating profile name");
         // TODO: Implement createProfile
         // args[0] = profId, args[1] = newName
 
@@ -50,10 +53,35 @@ export function initializeIPCListeners() {
         else
             return '{"name":"test2"}';
     });
-    ipcMain.handle('getProfileIds', (event, args) => {
-        console.log("getProfileIds() called, retrieving profile id list")
+    ipcMain.handle('getProfileIds', () => {
+        console.log("getProfileIds() called, retrieving profile id list");
         // TODO: Implement getProfileIds
 
         return ["0", "1"];
+    });
+    ipcMain.handle('getPieMenu', (event, args) => {
+        console.log("getPieMenu() called, retrieving pie menu info for pie menu id " + args[0] + "");
+        // TODO: Implement getPieMenu
+        // args[0] = pieId
+
+        return '{"name":"test1"}';
+    });
+    ipcMain.handle('listenHotkeyForResult', () => {
+        console.log("listenHotkeyForResult() called, listening for hotkey");
+        // TODO: Implement listenHotkeyForResult
+
+        return 'ctrl+shift+p';
+    });
+    ipcMain.handle('createPieMenu', () => {
+        console.log("createPieMenu() called, creating pie menu");
+        // TODO: Implement listenHotkeyForResult
+
+        return true;
+    });
+    ipcMain.handle('removePieMenuFromProfile', () => {
+        console.log("removePieMenuFromProfile() called, removing pie menu from profile");
+        // TODO: Implement removePieMenuFromProfile
+
+        return true;
     });
 }

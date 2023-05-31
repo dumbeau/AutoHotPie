@@ -18,7 +18,7 @@ export class Profile {
         prof.ahkHandles = profJson.ahkHandles;
         prof.useProfileToggle = profJson.useProfileToggle;
         prof.profileToggleHotkey = profJson.profileToggleHotkey;
-        prof.pieMenus = profJson.pieMenus;
+        prof.pieMenus ??= profJson.pieMenus;
 
         return prof;
     }

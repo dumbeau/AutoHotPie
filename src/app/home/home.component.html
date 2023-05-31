@@ -9,10 +9,10 @@
                 </button>
             </div>
             <app-profile-list-item #profileListItemComponent *ngFor="let profId of profIds; trackBy trackIds"
-                                   [profId]="profId"/>
+                                   [profId]="profId" (profileSelected)="updateSelectedProfile($event)" (profileUpdated)="reloadProfEditor()"/>
         </div>
 
-        <app-profile-editor/>
+        <app-profile-editor #profileEditorComponent [profId]="selectedProfId"/>
 
     </section>
 </div>

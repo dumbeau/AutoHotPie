@@ -25,7 +25,7 @@ function initializeIPCListeners() {
         return ["exePath", "exeIconPath"];
     });
     electron_1.ipcMain.handle('createProfile', (event, args) => {
-        console.log("getForegroundApplication() called, retrieving foreground application info");
+        console.log("createProfile() called, retrieving foreground application info");
         // TODO: Implement createProfile
         // args[0] = profName, args[1] = exePath, args[2] = iconPath
         // return the ID of the newly created profile, -1 if failed
@@ -52,6 +52,30 @@ function initializeIPCListeners() {
         console.log("getProfileIds() called, retrieving profile id list");
         // TODO: Implement getProfileIds
         return ["0", "1"];
+    });
+    electron_1.ipcMain.handle('getPieMenu', (event, args) => {
+        console.log("getPieMenu() called, retrieving pie menu info for pie menu id " + args[0] + "");
+        // TODO: Implement getPieMenu
+        // args[0] = pieId
+        return '{"name":"test1"}';
+    });
+    electron_1.ipcMain.handle('listenHotkeyForResult', () => {
+        console.log("listenHotkeyForResult() called, listening for hotkey");
+        // TODO: Implement listenHotkeyForResult
+        // args[0] = pieId
+        return 'ctrl+shift+p';
+    });
+    electron_1.ipcMain.handle('createPieMenu', () => {
+        console.log("createPieMenu() called, creating pie menu");
+        // TODO: Implement listenHotkeyForResult
+        // args[0] = pieId
+        return true;
+    });
+    electron_1.ipcMain.handle('removePieMenuFromProfile', () => {
+        console.log("removePieMenuFromProfile() called, removing pie menu from profile");
+        // TODO: Implement removePieMenuFromProfile
+        // args[0] = pieId
+        return true;
     });
 }
 exports.initializeIPCListeners = initializeIPCListeners;

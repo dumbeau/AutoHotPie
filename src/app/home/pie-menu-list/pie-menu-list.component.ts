@@ -1,26 +1,34 @@
-import {Component, Input, ViewChild} from '@angular/core';
-import {Profile} from '../../../helpers/Profile';
+import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild} from '@angular/core';
 import {PieMenu} from '../../../helpers/PieMenu';
+import {NbPosition} from '@nebular/theme';
 
 @Component({
     selector: 'app-pie-menu-list',
     templateUrl: './pie-menu-list.component.html',
     styleUrls: ['./pie-menu-list.component.scss']
 })
-export class PieMenuListComponent {
-    @Input() profId = '0';
+export class PieMenuListComponent implements OnChanges {
+    @Input() pieMenuIds: string[] = [];
+    @Output() deletePieMenu = new EventEmitter<string>();
+
     @ViewChild('pieMenuList') pieMenuList: any;
 
-    tableEmpty = true;
-    pieMenuPrefs: Array<PieMenu> = [];
+    toBeDeletedPieId = '';
+    pieMenus: Array<PieMenu> = [];
 
-    constructor() {
-        window.electronAPI.getProfile(this.profId).then((profJson: string) => {
-            const pieMenuIdList = Profile.fromJsonString(profJson).pieMenus;
-            for (const id of pieMenuIdList) {
-                this.pieMenuPrefs.push(new PieMenu('a', '#ff3322', 'a'));
-            }
-        });
+    updatePieMenus() {
+        const newPieMenus: Array<PieMenu> = [];
+        for (const pieMenuId of this.pieMenuIds) {
+            window.electronAPI.getPieMenu(pieMenuId).then((pieMenuJson: string) => {
+                newPieMenus.push(PieMenu.fromJsonString(pieMenuJson));
+            });
+        }
+        this.pieMenus = newPieMenus;
     }
 
+    ngOnChanges(changes: SimpleChanges): void {
+        this.updatePieMenus();
+    }
+
+    protected readonly NbPosition = NbPosition;
 }
