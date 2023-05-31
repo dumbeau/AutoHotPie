@@ -11,10 +11,10 @@
     <label [class]="currentPage === 3 ? 'active' : 'inactive'">{{ 'PAGES.NEW_PIE_WIZARD.CUSTOMIZATION' | translate}}</label>
   </div>
   <div class="body">
-    <app-page-pie-menu-name [ngStyle]="{'display': currentPage === 0 ? 'unset' : 'none'}" (next)="nextPage()"/>
-    <app-page-assign-hot-key  [ngStyle]="{'display': currentPage === 1 ? 'unset' : 'none'}" (next)="nextPage()"/>
-    <app-page-selection-mode [ngStyle]="{'display': currentPage === 2 ? 'unset' : 'none'}" (next)="nextPage()"/>
-    <app-page-style-selection [ngStyle]="{'display': currentPage === 3 ? 'unset' : 'none'}" (finish)="finishWizard()"/>
+    <app-page-pie-menu-name [ngStyle]="{'display': currentPage === 0 ? 'unset' : 'none'}" (next)="nextPage($event, 'pieName')"/>
+    <app-page-assign-hot-key  [ngStyle]="{'display': currentPage === 1 ? 'unset' : 'none'}" (next)="nextPage($event, 'hotkey')" (prev)="prevPage()"/>
+    <app-page-selection-mode [ngStyle]="{'display': currentPage === 2 ? 'unset' : 'none'}" (next)="nextPage($event, 'activationMode')" (prev)="prevPage()"/>
+    <app-page-style-selection [ngStyle]="{'display': currentPage === 3 ? 'unset' : 'none'}" (finish)="finishWizard()" (prev)="prevPage()"/>
   </div>
 
   <a #finish routerLink="/home" hidden></a>

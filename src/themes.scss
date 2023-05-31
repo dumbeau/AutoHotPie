@@ -4,6 +4,39 @@
 
 $nb-themes: nb-register-theme((
 
+  //color-basic-100: white,
+  //color-basic-200: #fcfcfc,
+  //color-basic-300: #fafafa,
+  //color-basic-400: #f2f2f2,
+  //color-basic-500: #ebebeb,
+  //color-basic-600: #dbdbdb,
+  color-basic-700: #19333300,
+  //color-basic-800: #787878,
+  color-basic-900: #1f2122,
+  color-basic-1000: #161818,
+  color-basic-1100: #000200,
+
+  color-primary-focus: #0c6966,
+  color-primary-focus-border: #095b58,
+  color-primary-active: #095654,
+  color-primary-active-border: #074b49,
+  color-primary-hover: #148c88,
+  color-primary-hover-border: #148c88,
+  color-primary-default: #1DAEAA,
+  color-primary-default-border: #1DAEAA,
+  color-danger-default: #c2186c,
+  color-danger-default-border: #c2186c,
+
+
+  outline-width: 0,
+  button-hero-control-glow-color: #FFFFFF00,
+  button-hero-basic-glow-color: #FFFFFF00,
+
+  input-basic-focus-background-color: var(--input-basic-hover-background-color),
+
+  text-control-color: var(--color-basic-1100),
+
+
   // add your variables here like:
 
   // color-primary-100: #f2f6ff,
@@ -15,5 +48,4 @@ $nb-themes: nb-register-theme((
   // color-primary-700: #1a34b8,
   // color-primary-800: #102694,
   // color-primary-900: #091c7a,
-
 ), dark, dark);

@@ -5,7 +5,7 @@ import { NewPieWizardComponent } from './new-pie-wizard.component';
 
 const routes: Routes = [
   {
-    path: 'home',
+    path: 'new-pie-wizard',
     component: NewPieWizardComponent
   }
 ];

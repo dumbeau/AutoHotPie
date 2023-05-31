@@ -1,15 +1,15 @@
-import {app, BrowserWindow} from 'electron';
+import {app, BrowserWindow, ipcMain} from 'electron';
 import * as path from 'path';
 import * as fs from 'fs';
 import {GlobalHotkeyService} from "./src/globalHotkey/GlobalHotkeyService";
 import {HotkeyEventListener} from "./src/globalHotkey/HotkeyEventListener";
 import {NativeAPI} from "./src/NativeAPI";
+import {initializeIPCListeners} from "./ipcBridge/ipcBridge";
 
 // Constants
 const EDITOR_WINDOW_WIDTH = 1080;
 const EDITOR_WINDOW_HEIGHT = 720;
 const args = process.argv.slice(1)
-const serve = args.some(val => val === '--serve');
 let pieMenuWindow : BrowserWindow | undefined;
 let editorWindow : BrowserWindow | undefined;
 
@@ -65,41 +65,38 @@ function createWindow(): BrowserWindow {
     titleBarOverlay: {
       color: '#2f3241',
       symbolColor: '#74b1be',
+
+      // !!! IMPORTANT !!!
+      // --title-bar-height should also be updated in styles.scss when you change the height
       height: 42
     },
     webPreferences: {
-      nodeIntegration: true,
-      allowRunningInsecureContent: (serve),
+      nodeIntegration: false,
+      preload: path.join(__dirname, 'ipcBridge/preload.js'),
       contextIsolation: true,  // false if you want to run e2e test with Spectron
     },
   });
 
   pieMenuWindow = new BrowserWindow({
     webPreferences: {
-      nodeIntegration: true,
-      allowRunningInsecureContent: (serve),
+      nodeIntegration: false,
       contextIsolation: true,  // false if you want to run e2e test with Spectron
     },
   });
 
-  if (serve) {
-    const debug = require('electron-debug');
-    debug();
+  // Path when running electron executable
+  let editorWindowPath = './index.html';
 
-    require('electron-reloader')(module);
-    editorWindow.loadURL('http://localhost:4200');
-  } else {
-    // Path when running electron executable
-    let pathIndex = './index.html';
-
-    if (fs.existsSync(path.join(__dirname, '../dist/index.html'))) {
-       // Path when running electron in local folder
-      pathIndex = '../dist/index.html';
-    }
-
-    const url = new URL(path.join('file:', __dirname, pathIndex));
-    editorWindow.loadURL(url.href);
+  if (fs.existsSync(path.join(__dirname, '../dist/index.html'))) {
+     // Path when running electron in local folder
+    editorWindowPath = '../dist/index.html';
   }
+
+  const editorWindowURL = new URL(path.join('file:', __dirname, editorWindowPath));
+  editorWindow.loadURL(editorWindowURL.href);
+
+  pieMenuWindow.loadURL('file://' + __dirname + '/../src/app/pie-menu-ui/pie-menu-ui.component.html');
+
 
   // Emitted when the window is closed.
   editorWindow.on('closed', () => {
@@ -112,3 +109,5 @@ function createWindow(): BrowserWindow {
   return editorWindow;
 }
 
+// ----------------- Set up IPC listeners -----------------
+initializeIPCListeners();

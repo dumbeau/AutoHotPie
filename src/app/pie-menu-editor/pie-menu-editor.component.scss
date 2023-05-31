@@ -1,9 +1,12 @@
 .layout {
   width: 100%;
-
+  padding: 1em 2em 1em 2em;
   display: flex;
   gap: 16px;
 }
-
-.grow1 { flex-grow: 1; }
-.grow3 { flex-grow: 3; }
+.grow1 { width: 30% }
+.grow3 {
+  width: 40%;
+  border-left: 2px solid var(--color-basic-1000);
+  border-right: 2px solid var(--color-basic-1000);
+}

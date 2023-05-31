@@ -1,14 +1,28 @@
-import {Component, EventEmitter, Output} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 
 @Component({
-  selector: 'app-page-assign-hot-key',
-  templateUrl: './page-assign-hot-key.component.html',
-  styleUrls: ['./page-assign-hot-key.component.scss']
+    selector: 'app-page-assign-hot-key',
+    templateUrl: './page-assign-hot-key.component.html',
+    styleUrls: ['./page-assign-hot-key.component.scss']
 })
-export class PageAssignHotKeyComponent {
-  @Output() next = new EventEmitter();
+export class PageAssignHotKeyComponent implements OnInit {
+    @Output() next = new EventEmitter<string>();
+    @Output() prev = new EventEmitter();
 
-  onNextClick() {
-    this.next.emit();
-  }
+    hotkey = '';
+
+    onNextClick() {
+        this.next.emit(this.hotkey);
+    }
+
+    onPrevClick() {
+        this.prev.emit();
+    }
+
+    ngOnInit(): void {
+        window.electronAPI.listenHotkeyForResult().then((result) => {
+            console.log(result);
+            this.hotkey = result;
+        });
+    }
 }

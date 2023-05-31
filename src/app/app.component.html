@@ -1,9 +1,42 @@
-<div style="position:fixed; z-index: 999; padding-left: 16px; width: 100%; height: 42px; -webkit-app-region: drag; background-color: #2f3241; display: flex; align-items: center; align-content: center">
-  <nb-icon icon="menu-outline" />
-</div>
 
+<div
+  style="
+    position:fixed;
+    z-index: 999;
+    padding: 0 160px 0 16px;
+    width: 100%;
+    height: var(--title-bar-height);
+    background-color: var(--color-basic-900);
+    display: flex;
+    align-items: center;
+    border: 0 solid black;
+    border-bottom-width: 1px;
+    justify-content: space-between;
+    align-content: center">
+  <img #icon src="assets/icons/favicon.ico" style="padding-right: 16px; height: 24px; width: auto;"/>
+
+  <button
+    [class]="active === 'settings' ? 'btn-active' : 'btn-normal'"
+    [routerLink]="active === 'settings' ? '/home' : '/settings'"
+    (click)="setActive('settings')"
+    nbButton ghost size="small" >
+    {{'GLOBAL.SETTINGS' | translate}}
+  </button>
+  <button
+    [class]="active === 'help' ? 'btn-active' : 'btn-normal'"
+    [routerLink]="active === 'help' ? '/home' : '/helpAndAbout'"
+    (click)="setActive('help')"
+    nbButton ghost size="small">
+    {{'GLOBAL.HELP' | translate}}
+  </button>
+
+  <div style="flex-grow: 1; -webkit-app-region: drag; height: 100%"></div>
+  <button nbButton size="small" status="success"><nb-icon icon="play-circle-outline"/></button>
+
+</div>
 <nb-layout>
-  <nb-layout-column style="padding: 0;">
+
+  <nb-layout-column style="padding: var(--title-bar-height) 0 0 0;">
     <router-outlet></router-outlet>
 
   </nb-layout-column>

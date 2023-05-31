@@ -4,6 +4,11 @@
 
   <h1 class="hint">{{ 'PAGES.NEW_PIE_WIZARD.ASSIGN_HOTKEY_HINT' | translate }}</h1>
 
-  <button nbButton status="primary" (click)="onNextClick()">{{ 'PAGES.GLOBAL.NEXT' | translate }}</button>
+
+  <div style="display: flex; flex-direction: row">
+    <button nbButton (click)="onPrevClick()">{{ 'GLOBAL.PREV' | translate }}</button>
+    <button nbButton (click)="onNextClick()">{{ 'GLOBAL.NEXT' | translate }}</button>
+
+  </div>
 
 </div>

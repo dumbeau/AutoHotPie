@@ -21,7 +21,6 @@
     "web:build": "npm run build -- -c web-production",
     "electron": "electron",
     "electron:serve-tsc": "tsc -p tsconfig.serve.json",
-    "electron:serve": "wait-on tcp:4200 && npm run electron:serve-tsc && electron . --serve",
     "electron:local": "npm run build:prod && electron .",
     "electron:build": "npm run build:prod && electron-builder build --publish=never",
     "test": "ng test --watch=false",
@@ -33,6 +32,7 @@
     "package-win32-x64": "npm run build:prod && npx electron-packager . AutoHotPie --overwrite --platform=win32 --arch=x64 && cp bin -r AutoHotPie-win32-x64"
   },
   "dependencies": {
+    "@angular-slider/ngx-slider": "2.0.4",
     "@angular/animations": "15.2.9",
     "@angular/cdk": "^15.0.0",
     "@angular/common": "15.2.9",
@@ -43,6 +43,7 @@
     "@angular/platform-browser": "15.2.9",
     "@angular/platform-browser-dynamic": "15.2.9",
     "@angular/router": "15.2.9",
+    "@circlon/angular-tree-component": "11.0.4",
     "@nebular/eva-icons": "11.0.0",
     "@nebular/theme": "11.0.0",
     "angular-ui-tree": "2.22.6",

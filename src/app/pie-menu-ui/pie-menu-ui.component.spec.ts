@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MenuItemTreeComponent } from './menu-item-tree.component';
+import { PieMenuUIComponent } from './pie-menu-ui.component';
 
-describe('MenuItemTreeComponent', () => {
-  let component: MenuItemTreeComponent;
-  let fixture: ComponentFixture<MenuItemTreeComponent>;
+describe('PieMenuUIComponent', () => {
+  let component: PieMenuUIComponent;
+  let fixture: ComponentFixture<PieMenuUIComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ MenuItemTreeComponent ]
+      declarations: [ PieMenuUIComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(MenuItemTreeComponent);
+    fixture = TestBed.createComponent(PieMenuUIComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

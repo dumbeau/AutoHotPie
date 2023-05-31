@@ -7,7 +7,11 @@ import { HomeRoutingModule } from './home/home-routing.module';
 import { DetailRoutingModule } from './detail/detail-routing.module';
 import {NewPieWizardRoutingModule} from './new-pie-wizard/new-pie-wizard-routing.module';
 import {PieMenuEditorComponent} from './pie-menu-editor/pie-menu-editor.component';
-import {PieMenuEditorModule} from "./pie-menu-editor/pie-menu-editor.module";
+import {PieMenuEditorModule} from './pie-menu-editor/pie-menu-editor.module';
+import {SettingsComponent} from './settings/settings.component';
+import {SettingsModule} from './settings/settings.module';
+import {HelpAndAboutComponent} from './help-and-about/help-and-about.component';
+import {HelpAndAboutModule} from './help-and-about/help-and-about.module';
 
 const routes: Routes = [
   {
@@ -16,12 +20,16 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
-    path: 'new-pie-wizard',
-    component: NewPieWizardComponent
-  },
-  {
     path: 'pie-menu-editor',
     component: PieMenuEditorComponent
+  },
+  {
+    path: 'settings',
+    component: SettingsComponent
+  },
+  {
+    path: 'helpAndAbout',
+    component: HelpAndAboutComponent
   },
   {
     path: '**',
@@ -36,7 +44,9 @@ const routes: Routes = [
     HomeRoutingModule,
     DetailRoutingModule,
     NewPieWizardRoutingModule,
-    PieMenuEditorModule
+    PieMenuEditorModule,
+    SettingsModule,
+    HelpAndAboutModule
   ],
   exports: [RouterModule]
 })

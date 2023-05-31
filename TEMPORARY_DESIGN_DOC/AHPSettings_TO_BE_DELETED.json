@@ -34,7 +34,7 @@
 		}
 	},
 	"applicationProfiles": [
-		"1"
+		"default"
 	],
 	"version": "22.0.0"
 }

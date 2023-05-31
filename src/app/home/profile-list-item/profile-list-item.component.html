@@ -1,27 +1,30 @@
-<div style="display: flex;align-content: center;align-items: center;justify-content: flex-start;flex-wrap: nowrap;flex-direction: row;">
-  <img
-    ngSrc="assets/icons/ahpIcon.png"
-    width="42px"
-    height="42px"
-    alt="AHP icon" />
+<div
+    style="display: flex;align-content: center;align-items: center;justify-content: flex-start;flex-wrap: nowrap;flex-direction: row; margin-bottom: 1em;">
+    <img
+        style="cursor: pointer;"
+        ngSrc="assets/icons/ahpIcon.png"
+        width="42px"
+        height="42px"
+        (click)="selectProfile()"
+        alt="AHP icon"/>
 
-  <nb-form-field style="padding-left: 15px; width: 100%">
-    <input nbInput
-           fullWidth
-           #profNameInput
-           (keyup.enter)="completeEditing()"
-           (focusout)="completeEditing()"
-           [value]="profName"
-           [disabled]="inputDisabled" />
-    <button
-      nbButton
-      nbSuffix
-      status="primary"
-      (click)="startEditing()">
-      <nb-icon [icon]="inputDisabled ? 'edit-2-outline' : 'checkmark-outline'"></nb-icon>
-    </button>
-  </nb-form-field>
-
+    <nb-form-field style="padding-left: 15px; width: 100%">
+        <input nbInput
+               fullWidth
+               #profNameInput
+               (keyup.enter)="completeEditing()"
+               (focusout)="completeEditing()"
+               [value]="prof.name"
+               [disabled]="inputDisabled"/>
+        <button
+            nbButton
+            nbSuffix
+            ghost
+            style="height: 100%; padding: 11px; margin-right: 4px;"
+            (click)="startEditing()">
+            <nb-icon [icon]="inputDisabled ? 'edit-2-outline' : 'checkmark-outline'"></nb-icon>
+        </button>
+    </nb-form-field>
 
 
 </div>

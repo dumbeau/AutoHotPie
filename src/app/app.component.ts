@@ -9,8 +9,8 @@ import { APP_CONFIG } from '../environments/environment';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  @ViewChild('layout') layout: any;
-
+  @ViewChild('icon') icon: any;
+  active = 'none';
 
   constructor(
     private electronService: ElectronService,
@@ -30,5 +30,11 @@ export class AppComponent {
     }
   }
 
+  setActive(emitter: string) {
+    this.active = this.active === emitter ? 'none' : emitter;
 
+    if (document.activeElement instanceof HTMLElement) {
+      document.activeElement.blur();
+    }
+  }
 }
