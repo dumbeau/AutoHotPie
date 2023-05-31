@@ -9,10 +9,8 @@ import {NbPosition} from '@nebular/theme';
 })
 export class HomeComponent implements OnInit, AfterViewInit {
     @ViewChild('profileListItemComponent') profileListItemComponent: any;
-    @ViewChild('profileEditorHeaderComponent') profileEditorHeaderComponent: any;
     @ViewChild('profInput') profInput: any;
 
-    profSettingsRevealed = false;
     selectingApp = false;
 
     selectedAppName = '';
@@ -36,7 +34,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
     }
 
     ngAfterViewInit(): void {
-        this.profileListItemComponent.setProfileUpdateListener(this.profileEditorHeaderComponent);
     }
 
     trackIds(index: number, profIds: string) {

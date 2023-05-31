@@ -14,12 +14,12 @@ import {
   NbLayoutModule, NbPopoverModule, NbSelectModule
 } from '@nebular/theme';
 import {ProfileListItemComponent} from './profile-list-item/profile-list-item.component';
-import {ProfileEditorHeaderComponent} from './profile-editor-header/profile-editor-header.component';
 import {PieMenuListComponent} from './pie-menu-list/pie-menu-list.component';
 import {NgxColorsModule} from 'ngx-colors';
+import { ProfileEditorComponent } from './profile-editor/profile-editor.component';
 
 @NgModule({
-  declarations: [HomeComponent, ProfileListItemComponent, ProfileEditorHeaderComponent, PieMenuListComponent],
+  declarations: [HomeComponent, ProfileListItemComponent, PieMenuListComponent, ProfileEditorComponent],
   imports: [
     CommonModule,
     SharedModule,
