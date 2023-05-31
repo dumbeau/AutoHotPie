@@ -11,7 +11,7 @@ import {
   NbFormFieldModule,
   NbIconModule,
   NbInputModule,
-  NbLayoutModule
+  NbLayoutModule, NbPopoverModule, NbSelectModule
 } from '@nebular/theme';
 import {ProfileListItemComponent} from './profile-list-item/profile-list-item.component';
 import {ProfileEditorHeaderComponent} from './profile-editor-header/profile-editor-header.component';
@@ -31,7 +31,9 @@ import {NgxColorsModule} from 'ngx-colors';
     NbIconModule,
     NbFormFieldModule,
     NgxColorsModule,
-    NbCardModule
+    NbCardModule,
+    NbPopoverModule,
+    NbSelectModule
   ]
 })
 export class HomeModule {}

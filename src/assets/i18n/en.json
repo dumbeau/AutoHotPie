@@ -16,6 +16,9 @@
     },
     "SETTINGS": {
       "SETTINGS": "Settings",
+      "ABOUT_CHECKING_FOR_UPDATES": "Checking for updates...",
+      "ABOUT_UPDATE_AVAILABLE": "Update available! Click to update.",
+      "ABOUT_NO_UPDATE_AVAILABLE": "You're up to date!",
       "ABOUT": "About",
       "TEST_SETTING_1": "Test setting 1",
       "TEST_SETTING_1_DESC": "Test setting 1 description",
@@ -49,6 +52,10 @@
     },
     "HOME": {
       "SIDEBAR_TITLE": "Profiles",
+      "CLICK_TO_SELECT_APP": "Click to select application",
+      "CREATE_PROF": "Create Profile",
+      "PROF_NAME_HINT": "Profile name",
+      "PROF_SETTINGS": "Profile Settings",
       "TITLE": "App works !",
       "GO_TO_DETAIL": "Go to Detail",
       "ADD_PIE_MENU": "Add new pie menu",

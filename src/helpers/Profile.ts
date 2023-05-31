@@ -1,16 +1,29 @@
 // TODO: This class is still under its design stage.
 export class Profile {
-  static getProfileName(profId: number) {
-    // TODO: implement
-    return 'profile';
-  }
+    id = 'global';
+    name = 'Global Profile';
+    enabled = true;
+    ahkHandles = ['regApps'];
+    useProfileToggle = false;
+    profileToggleHotkey = 'capslock';
+    pieMenus = ['1'];
 
-  static updateProfName(profId: number, profName: string) {
-    // TODO: implement
-    return true;
-  }
+    static fromJsonString(jsonString: string) {
+        const profJson = JSON.parse(jsonString);
 
-  static getPieMenuIdList(profId: number) {
-    return [1];
-  }
+        const prof = new Profile();
+        prof.id = profJson.id;
+        prof.name = profJson.name;
+        prof.enabled = profJson.enabled;
+        prof.ahkHandles = profJson.ahkHandles;
+        prof.useProfileToggle = profJson.useProfileToggle;
+        prof.profileToggleHotkey = profJson.profileToggleHotkey;
+        prof.pieMenus = profJson.pieMenus;
+
+        return prof;
+    }
+
+    toJsonString() {
+        return JSON.stringify(this);
+    }
 }
