@@ -51,7 +51,18 @@
     "pieAngle": 0,
     "showSliceHotkeys": true,
     "pieItems": [
-      "1","2","3","4","5","6"
+        {
+            "id": "1",
+            "isMenu": false
+        },
+        {
+            "id": "1",
+            "isMenu": true
+        },
+        {
+            "id": "2",
+            "isMenu": false
+        }
     ]
   }
 

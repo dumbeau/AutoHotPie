@@ -3,6 +3,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.initializeIPCListeners = void 0;
 const electron_1 = require("electron");
 const child_process = require("child_process");
+/**
+ * Sets up IPC listeners for the main process,
+ * see typings.d.ts for the list of available listeners and its documentation
+ * */
 function initializeIPCListeners() {
     electron_1.ipcMain.handle('openInBrowser', (event, args) => {
         child_process.execSync('start ' + args[0]);
@@ -48,7 +52,7 @@ function initializeIPCListeners() {
         else
             return '{"name":"test2"}';
     });
-    electron_1.ipcMain.handle('getProfileIds', (event, args) => {
+    electron_1.ipcMain.handle('getProfileIds', () => {
         console.log("getProfileIds() called, retrieving profile id list");
         // TODO: Implement getProfileIds
         return ["0", "1"];
@@ -62,19 +66,16 @@ function initializeIPCListeners() {
     electron_1.ipcMain.handle('listenHotkeyForResult', () => {
         console.log("listenHotkeyForResult() called, listening for hotkey");
         // TODO: Implement listenHotkeyForResult
-        // args[0] = pieId
         return 'ctrl+shift+p';
     });
     electron_1.ipcMain.handle('createPieMenu', () => {
         console.log("createPieMenu() called, creating pie menu");
         // TODO: Implement listenHotkeyForResult
-        // args[0] = pieId
         return true;
     });
     electron_1.ipcMain.handle('removePieMenuFromProfile', () => {
         console.log("removePieMenuFromProfile() called, removing pie menu from profile");
         // TODO: Implement removePieMenuFromProfile
-        // args[0] = pieId
         return true;
     });
 }
