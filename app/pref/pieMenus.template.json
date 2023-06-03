@@ -1,0 +1,13 @@
+{
+    "default": {
+        "name": "Default",
+        "enabled": true,
+        "activationMode": 2,
+        "hotkey": "Shift+Control+Alt+P",
+        "escapeRadius": -1,
+        "openInScreenCenter": false,
+        "pieItems": [
+            "1", "2", "3", "4", "5", "6", "7", "8", "9"
+        ]
+    }
+}

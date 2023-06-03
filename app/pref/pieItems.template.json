@@ -1,0 +1,156 @@
+{
+    "1": {
+        "text": "Send Key",
+        "clickable": true,
+        "actions": [
+            {
+                "type": 0,
+                "sendKey": "LWin",
+                "repeat": 1,
+                "holdTime": 0,
+                "delay": 0
+            },
+            {
+                "type": 1,
+                "sendContent": ["You can send text :)"],
+                "repeat": 1,
+                "holdTime": 0,
+                "delay": 0
+            }
+        ],
+        "icon": {
+            "filePath": "",
+            "useImageColor": false
+        }
+    },
+    "2": {
+        "text": "Click",
+        "clickable": true,
+        "actions": [
+            {
+                "type": 3,
+                "sendClick": "Right",
+                "repeat": 1,
+                "holdTime": 0,
+                "delay": 0
+            }
+        ],
+        "icon": {
+            "filePath": "",
+            "useImageColor": false
+        }
+    },
+    "3": {
+        "text": "Run File",
+        "clickable": true,
+        "actions": [
+            {
+                "type": 4,
+                "exePath": "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe",
+                "repeat": 1,
+                "delay": 0
+            }
+        ],
+        "icon": {
+            "filePath": "",
+            "useImageColor": false
+        }
+    },
+    "4": {
+        "text": "Open Folder",
+        "clickable": true,
+        "actions": [
+            {
+                "type": 5,
+                "path": "C:\\Users\\User\\Desktop\\",
+                "repeat": 1,
+                "delay": 0
+            }
+        ],
+        "icon": {
+            "filePath": "",
+            "useImageColor": false
+        }
+    },
+    "5": {
+        "text": "Open Menu",
+        "clickable": true,
+        "actions": [
+            {
+                "type": 6,
+                "pieMenuId": "1",
+                "delay": 0
+            }
+        ],
+        "icon": {
+            "filePath": "",
+            "useImageColor": false
+        }
+    },
+    "6": {
+        "text": "Resize Window",
+        "clickable": true,
+        "actions": [
+            {
+                "type": 7,
+                "width": 1280,
+                "height": 720,
+                "delay": 0
+            }
+        ],
+        "icon": {
+            "filePath": "",
+            "useImageColor": false
+        }
+    },
+    "7": {
+        "text": "Open URL",
+        "clickable": true,
+        "actions": [
+            {
+                "type": 8,
+                "url": "https://www.google.com/",
+                "repeat": 1,
+                "delay": 0
+            }
+        ],
+        "icon": {
+            "filePath": "",
+            "useImageColor": false
+        }
+    },
+    "8": {
+        "text": "Open App",
+        "clickable": true,
+        "actions": [
+            {
+                "type": 9,
+                "exePath": "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe",
+                "newWindow": false,
+                "delay": 0
+            }
+        ],
+        "icon": {
+            "filePath": "",
+            "useImageColor": false
+        }
+    },
+    "9": {
+        "text": "None",
+        "clickable": true,
+        "actions": [
+            {
+                "type": 9,
+                "exePath": "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe",
+                "matchTitle": false,
+                "loopThrough": false,
+                "newWindow": false,
+                "delay": 0
+            }
+        ],
+        "icon": {
+            "filePath": "",
+            "useImageColor": false
+        }
+    }
+}

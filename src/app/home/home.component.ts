@@ -24,6 +24,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
     protected readonly NbPosition = NbPosition;
 
+
     ngOnInit(): void {
         console.log('HomeComponent INIT');
 

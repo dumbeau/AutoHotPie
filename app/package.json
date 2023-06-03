@@ -12,6 +12,7 @@
   "main": "main.js",
   "private": true,
   "dependencies": {
+      "config": "3.3.9"
   }
 
 }

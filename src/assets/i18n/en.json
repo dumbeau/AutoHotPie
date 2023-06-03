@@ -29,7 +29,9 @@
             "VIEW_ON_GITHUB": "View on GitHub",
             "DONATE_WITH_PAYPAL": "Donate with PayPal",
             "ABOUT_REPORT_BUG": "Report a bug",
-            "ABOUT_VERSION": "Version"
+            "ABOUT_VERSION": "Version",
+            "runOnStartup": "Run on startup",
+            "runOnStartup_DESC": "Run AutoHotPie when you login to your computer"
         },
         "NEW_PIE_WIZARD": {
             "NAME_YOUR_PIE_MENU": "Name your pie menu",

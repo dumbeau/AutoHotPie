@@ -47,6 +47,7 @@
     "@nebular/eva-icons": "11.0.0",
     "@nebular/theme": "11.0.0",
     "angular-ui-tree": "2.22.6",
+    "config": "3.3.9",
     "electron-packager": "17.1.1",
     "eva-icons": "^1.1.3",
     "ngx-colors": "3.5.2",

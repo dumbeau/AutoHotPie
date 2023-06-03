@@ -1,10 +1,11 @@
-import {app, BrowserWindow, ipcMain} from 'electron';
+import {app, BrowserWindow} from 'electron';
 import * as path from 'path';
 import * as fs from 'fs';
 import {GlobalHotkeyService} from "./src/globalHotkey/GlobalHotkeyService";
 import {HotkeyEventListener} from "./src/globalHotkey/HotkeyEventListener";
 import {NativeAPI} from "./src/NativeAPI";
 import {initializeIPCListeners} from "./ipcBridge/ipcBridge";
+import {Preferences} from "./pref/Preferences";
 
 // Constants
 const EDITOR_WINDOW_WIDTH = 1080;
@@ -15,7 +16,7 @@ let editorWindow : BrowserWindow | undefined;
 
 // ----------------- Set up GlobalHotkeyService -----------------
 
-console.log(NativeAPI.getForegroundWindowDetails());
+Preferences.init();
 GlobalHotkeyService.start();
 GlobalHotkeyService.addKeyEventListener(new class implements HotkeyEventListener {
   onKeyDown(key: string): void {

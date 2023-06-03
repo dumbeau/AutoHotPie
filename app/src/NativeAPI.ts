@@ -4,14 +4,26 @@ import * as child_process from 'child_process';
  * This class exposes certain native APIs.
  */
 export class NativeAPI {
+    static get instance(): NativeAPI {
+        if (NativeAPI._instance === undefined) {
+            NativeAPI._instance = new NativeAPI();
+        }
 
-  /**
-   * Get the details of the foreground window using external library GetForegroundWindow.
-   *
-   * @returns {string} The details of the foreground window in json formatted string.
-   * Available keys: "title", "exePath"
-   */
-  static getForegroundWindowDetails(): string {
-    return child_process.spawnSync('./bin/GetForegroundWindow.exe').stdout.toString();
-  }
+        return NativeAPI._instance;
+    }
+
+    private static _instance: NativeAPI | undefined = undefined;
+
+    private constructor() {
+    }
+
+    /**
+     * Get the details of the foreground window using external library GetForegroundWindow.
+     *
+     * @returns {string} The details of the foreground window in json formatted string.
+     * Available keys: "title", "exePath"
+     */
+    public getForegroundWindowDetails(): string {
+        return child_process.spawnSync('./bin/GetForegroundWindow.exe').stdout.toString();
+    }
 }

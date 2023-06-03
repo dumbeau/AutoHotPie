@@ -6,7 +6,7 @@ export class Profile {
     ahkHandles = ['regApps'];
     useProfileToggle = false;
     profileToggleHotkey = 'capslock';
-    pieMenus = ['1'];
+    pieMenus: string[] = [];
 
     static fromJsonString(jsonString: string) {
         const profJson = JSON.parse(jsonString);
@@ -18,7 +18,7 @@ export class Profile {
         prof.ahkHandles = profJson.ahkHandles;
         prof.useProfileToggle = profJson.useProfileToggle;
         prof.profileToggleHotkey = profJson.profileToggleHotkey;
-        prof.pieMenus ??= profJson.pieMenus;
+        prof.pieMenus = profJson.pieMenus;
 
         return prof;
     }

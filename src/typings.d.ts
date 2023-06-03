@@ -13,11 +13,12 @@ interface Window {
         getSettings: () => Promise<Record<string, any>[]>;
         openInBrowser: (url: string) => void;
         isUpdateAvailable: () => Promise<boolean>;
+
         /**
          * Returns the path to the executable and the path to the icon of the foreground application
          * @returns [exePath, exeIconPath]
          */
-        getForegroundApplication: () => Promise<string[]>;
+        getForegroundApplication: () => Promise<string[2]>;
 
         /**
          * Creates a new profile
