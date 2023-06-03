@@ -6,10 +6,11 @@
         <Nullable>enable</Nullable>
         <UseWindowsForms>true</UseWindowsForms>
         <ImplicitUsings>enable</ImplicitUsings>
+        <RootNamespace>WinNative</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="MouseKeyHook" Version="5.7.1"/>
+        <PackageReference Include="MouseKeyHook" Version="5.7.1" />
     </ItemGroup>
 
 </Project>

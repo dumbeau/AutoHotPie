@@ -22,10 +22,10 @@ internal static class Program
                 filter.Add(Combination.FromString(shortcut).ToString(), true);
         }
 
-        Hook.GlobalEvents().KeyDown += (sender, e) => LogEvent(false, e, filter);
-        Hook.GlobalEvents().MouseDown += (sender, e) => LogEvent(false, e, filter);
-        Hook.GlobalEvents().MouseUp += (sender, e) => LogEvent(true, e);
-        Hook.GlobalEvents().KeyUp += (sender, e) => LogEvent(true, e);
+        Hook.GlobalEvents().KeyDown += (_, e) => LogEvent(false, e, filter);
+        Hook.GlobalEvents().MouseDown += (_, e) => LogEvent(false, e, filter);
+        Hook.GlobalEvents().MouseUp += (_, e) => LogEvent(true, e);
+        Hook.GlobalEvents().KeyUp += (_, e) => LogEvent(true, e);
         Application.Run(new ApplicationContext());
     }
 
