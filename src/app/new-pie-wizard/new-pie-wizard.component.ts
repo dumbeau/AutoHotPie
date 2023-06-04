@@ -1,5 +1,5 @@
 import {Component, ViewChild} from '@angular/core';
-import {ActivationMode} from '../../helpers/PieMenu';
+import {ActivationMode} from '../../preferences/PieMenu';
 
 @Component({
     selector: 'app-new-pie-wizard',

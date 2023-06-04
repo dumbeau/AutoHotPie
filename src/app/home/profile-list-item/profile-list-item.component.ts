@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
-import {Profile} from '../../../helpers/Profile';
+import {Profile} from '../../../preferences/Profile';
 
 @Component({
     selector: 'app-profile-list-item',

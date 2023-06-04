@@ -13,9 +13,9 @@ exports.initializeIPCListeners = void 0;
 const electron_1 = require("electron");
 const child_process = require("child_process");
 const Preferences_1 = require("../pref/Preferences");
-const NativeAPI_1 = require("../src/NativeAPI");
-const Profile_1 = require("../../src/helpers/Profile");
-const PieMenu_1 = require("../../src/helpers/PieMenu");
+const NativeAPI_1 = require("../nativeAPI/NativeAPI");
+const Profile_1 = require("../../src/preferences/Profile");
+const PieMenu_1 = require("../../src/preferences/PieMenu");
 /**
  * Sets up IPC listeners for the main process,
  * see typings.d.ts for the list of available listeners and its documentation
@@ -38,9 +38,11 @@ function initializeIPCListeners() {
         return true;
     }));
     electron_1.ipcMain.handle('getForegroundApplication', () => {
+        var _a;
         console.log("getForegroundApplication() called, retrieving foreground application info");
-        const fgWinDetail = JSON.parse(NativeAPI_1.NativeAPI.instance.getForegroundWindowDetails());
-        const result = [fgWinDetail["exePath"], "exeIconPath"];
+        const result = ['exePath', 'exeIconPath'];
+        const fgWindow = NativeAPI_1.NativeAPI.instance.getForegroundWindow();
+        result[0] = (_a = fgWindow === null || fgWindow === void 0 ? void 0 : fgWindow.exePath) !== null && _a !== void 0 ? _a : "";
         console.log("ipcBridge.ts: getForegroundApplication() returning " + result);
         // TODO: Find a way to get the icon, it's best to have bitmap data
         return result;

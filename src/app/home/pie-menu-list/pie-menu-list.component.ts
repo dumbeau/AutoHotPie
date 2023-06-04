@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild} from '@angular/core';
-import {PieMenu} from '../../../helpers/PieMenu';
+import {PieMenu} from '../../../preferences/PieMenu';
 import {NbPosition} from '@nebular/theme';
 
 @Component({

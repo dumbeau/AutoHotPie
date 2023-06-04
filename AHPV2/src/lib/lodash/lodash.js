@@ -433,7 +433,7 @@
   /** Detect free variable `process` from Node.js. */
   var freeProcess = moduleExports && freeGlobal.process;
 
-  /** Used to access faster Node.js helpers. */
+  /** Used to access faster Node.js preferences. */
   var nodeUtil = (function() {
     try {
       // Use `util.types` for Node.js 10+.

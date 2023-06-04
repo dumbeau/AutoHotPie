@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Output} from '@angular/core';
-import {ActivationMode} from '../../../helpers/PieMenu';
+import {ActivationMode} from '../../../preferences/PieMenu';
 
 @Component({
     selector: 'app-page-selection-mode',

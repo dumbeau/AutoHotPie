@@ -1,9 +1,10 @@
 import {ipcMain} from "electron";
 import * as child_process from "child_process";
 import {Preferences} from "../pref/Preferences";
-import {NativeAPI} from "../src/NativeAPI";
-import {Profile} from "../../src/helpers/Profile";
-import {PieMenu} from "../../src/helpers/PieMenu";
+import {NativeAPI} from "../nativeAPI/NativeAPI";
+import {Profile} from "../../src/preferences/Profile";
+import {PieMenu} from "../../src/preferences/PieMenu";
+import {ForegroundWindow} from "../nativeAPI/ForegroundWindow";
 
 /**
  * Sets up IPC listeners for the main process,
@@ -31,8 +32,10 @@ export function initializeIPCListeners() {
     ipcMain.handle('getForegroundApplication', () => {
         console.log("getForegroundApplication() called, retrieving foreground application info");
 
-        const fgWinDetail = JSON.parse(NativeAPI.instance.getForegroundWindowDetails());
-        const result = [fgWinDetail["exePath"], "exeIconPath"];
+        const result = ['exePath', 'exeIconPath'];
+
+        const fgWindow = NativeAPI.instance.getForegroundWindow();
+        result[0] = fgWindow?.exePath ?? "";
 
         console.log("ipcBridge.ts: getForegroundApplication() returning " + result);
 

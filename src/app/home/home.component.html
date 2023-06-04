@@ -37,7 +37,7 @@
 
         </div>
         <button nbButton status="primary" style="align-self: center; margin-top: 1em"
-                [disabled]="selectedAppName === ''"
+                [disabled]="selectedAppName === '' || profInput.value === ''"
                 (click)="createProfile()">{{"PAGES.HOME.CREATE_PROF" | translate}}</button>
     </div>
 </ng-template>

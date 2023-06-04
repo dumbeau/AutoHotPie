@@ -3,7 +3,7 @@ import * as path from 'path';
 import * as fs from 'fs';
 import {GlobalHotkeyService} from "./src/globalHotkey/GlobalHotkeyService";
 import {HotkeyEventListener} from "./src/globalHotkey/HotkeyEventListener";
-import {NativeAPI} from "./src/NativeAPI";
+import {NativeAPI} from "./nativeAPI/NativeAPI";
 import {initializeIPCListeners} from "./ipcBridge/ipcBridge";
 import {Preferences} from "./pref/Preferences";
 

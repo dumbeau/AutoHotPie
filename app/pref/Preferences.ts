@@ -1,8 +1,8 @@
 import * as fs from "fs";
-import {Profile} from "../../src/helpers/Profile";
-import {PieMenu} from "../../src/helpers/PieMenu";
-import {PieItem} from "../../src/helpers/PieItem";
-import {SendKeyAction} from "../../src/helpers/Action";
+import {Profile} from "../../src/preferences/Profile";
+import {PieMenu} from "../../src/preferences/PieMenu";
+import {PieItem} from "../../src/preferences/PieItem";
+import {Settings} from "../../src/preferences/Settings";
 
 const AHP_SETTINGS_FILENAME = "settings.json"
 const PROFILE_SETTINGS_FILENAME = "profiles.json"
@@ -16,8 +16,7 @@ export class Preferences {
             fs.mkdirSync(process.env.APPDATA + '/AHP');
         }
         if (!fs.existsSync(USER_SETTINGS_PATH + AHP_SETTINGS_FILENAME)) {
-            fs.copyFileSync(__dirname + '/' + AHP_SETTINGS_FILENAME.replace(".json", ".template.json"),
-                USER_SETTINGS_PATH + AHP_SETTINGS_FILENAME);
+            fs.writeFileSync(USER_SETTINGS_PATH + AHP_SETTINGS_FILENAME, (new Settings()).toJsonString());
         }
         if (!fs.existsSync(USER_SETTINGS_PATH + PROFILE_SETTINGS_FILENAME)) {
             fs.writeFileSync(USER_SETTINGS_PATH + PROFILE_SETTINGS_FILENAME, (new Profile()).toJsonString());

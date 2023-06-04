@@ -2,8 +2,8 @@ import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {ITreeOptions, KEYS, TREE_ACTIONS} from '@circlon/angular-tree-component';
 import {PieItemNode} from './PieItemNode';
 import {ActivatedRoute} from '@angular/router';
-import {PieMenu} from '../../helpers/PieMenu';
-import {PieItem} from '../../helpers/PieItem';
+import {PieMenu} from '../../preferences/PieMenu';
+import {PieItem} from '../../preferences/PieItem';
 
 @Component({
     selector: 'app-pie-menu-editor',
@@ -51,14 +51,14 @@ export class PieMenuEditorComponent implements OnInit {
         for (const pieItemId of pieMenu.pieItems) {
             window.electronAPI.getPieItem(pieItemId).then((pieItemJsonString) => {
                 if (pieItemJsonString === undefined) {
-                    console.error('PieMenuEditorComponent: PieItem with id ' + pieItemId + ' not found.');
+                    console.warn('PieMenuEditorComponent: PieItem with id ' + pieItemId + ' not found.');
                     return;
                 }
 
                 const pieItem = PieItem.fromJsonString(pieItemJsonString);
 
                 if (pieItem === undefined) {
-                    console.error('PieMenuEditorComponent: Something went wrong while parsing PieItem with id ' + pieItemId + '.');
+                    console.warn('PieMenuEditorComponent: Something went wrong while parsing PieItem with id ' + pieItemId + '.');
                     return;
                 }
 
