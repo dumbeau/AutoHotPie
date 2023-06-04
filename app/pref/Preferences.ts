@@ -1,6 +1,8 @@
 import * as fs from "fs";
 import {Profile} from "../../src/helpers/Profile";
 import {PieMenu} from "../../src/helpers/PieMenu";
+import {PieItem} from "../../src/helpers/PieItem";
+import {SendKeyAction} from "../../src/helpers/Action";
 
 const AHP_SETTINGS_FILENAME = "settings.json"
 const PROFILE_SETTINGS_FILENAME = "profiles.json"
@@ -24,8 +26,9 @@ export class Preferences {
             fs.writeFileSync(USER_SETTINGS_PATH + PIE_MENU_SETTINGS_FILENAME, (new PieMenu()).toJsonString());
         }
         if (!fs.existsSync(USER_SETTINGS_PATH + PIE_ITEMS_SETTINGS_FILENAME)) {
-            fs.copyFileSync(__dirname + '/' + PIE_ITEMS_SETTINGS_FILENAME.replace(".json", ".template.json"),
-                USER_SETTINGS_PATH + PIE_ITEMS_SETTINGS_FILENAME);
+            fs.writeFileSync(USER_SETTINGS_PATH + PIE_ITEMS_SETTINGS_FILENAME,
+                PieItem.create("1", "New Pie Item", true, [], "", true).toJsonString());
+
         }
     }
 
@@ -43,6 +46,10 @@ export class Preferences {
 
     private static getAllPieMenusInJSON(): JSON {
         return JSON.parse(fs.readFileSync(USER_SETTINGS_PATH + PIE_MENU_SETTINGS_FILENAME, 'utf8'))
+    }
+
+    private static getAllPieItemsInJSON(): JSON {
+        return JSON.parse(fs.readFileSync(USER_SETTINGS_PATH + PIE_ITEMS_SETTINGS_FILENAME, 'utf8'))
     }
 
     static getProfile(id: string): Profile {
@@ -96,5 +103,11 @@ export class Preferences {
 
         console.log(JSON.stringify(profiles));
         fs.writeFileSync(USER_SETTINGS_PATH + PROFILE_SETTINGS_FILENAME, JSON.stringify(profiles));
+    }
+
+    static getPieItem(id: string) {
+        const pieItems =
+            "{\"" + id + "\":" + JSON.stringify(Preferences.getAllPieItemsInJSON()[id as keyof JSON]) + "}";
+        return PieItem.fromJsonString(pieItems);
     }
 }

@@ -77,5 +77,7 @@ interface Window {
          * @returns True if successful, false if failed
          */
         removePieMenuFromProfile: (profId: string, pieId: string) => Promise<boolean>;
+
+        getPieItem: (pieItemId: string) => Promise<string | undefined>;
     };
 }

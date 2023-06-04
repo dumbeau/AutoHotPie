@@ -100,6 +100,15 @@ function initializeIPCListeners() {
         // TODO: Implement removePieMenuFromProfile
         return true;
     });
+    electron_1.ipcMain.handle('getPieItem', (event, args) => {
+        var _a;
+        console.log("getPieItem() called, retrieving pie item info for pie item id " + args[0] + "");
+        // TODO: Implement getPieItem
+        // args[0] = pieItemId
+        const pieItem = (_a = Preferences_1.Preferences.getPieItem(args[0])) === null || _a === void 0 ? void 0 : _a.toJsonString();
+        console.log("ipcBridge.ts: getPieItem() returning " + pieItem);
+        return pieItem;
+    });
 }
 exports.initializeIPCListeners = initializeIPCListeners;
 //# sourceMappingURL=ipcBridge.js.map

@@ -18,7 +18,7 @@
             <label>{{pieMenu.hotkey}}</label>
         </td>
         <td style="text-align: center">
-            <button nbButton ghost routerLink="/pie-menu-editor" status="primary"
+            <button nbButton ghost [routerLink]="['/pie-menu-editor', pieMenu.id]" status="primary"
                     style="
                     border: 1px solid var(--button-filled-basic-disabled-background-color);
                     padding: 10px">

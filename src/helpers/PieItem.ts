@@ -26,20 +26,25 @@ export class PieItem extends DataObject {
     }
 
     static fromJsonString(jsonString: string) {
-        const id = Object.keys(JSON.parse(jsonString))[0];
-        const json = JSON.parse(jsonString)[id];
+        try {
+            const id = Object.keys(JSON.parse(jsonString))[0];
+            const json = JSON.parse(jsonString)[id];
 
-        const actions: Action[] = [];
-        json.actions.forEach((action: any) => {
-            actions.push(Action.fromJSON(action));
-        });
+            const actions: Action[] = [];
+            json.actions.forEach((action: any) => {
+                actions.push(Action.fromJSON(action));
+            });
 
-        return PieItem.create(
-            id,
-            json.name,
-            json.enabled,
-            actions,
-            json.iconPath,
-            json.useIconColor);
+            return PieItem.create(
+                id,
+                json.name,
+                json.enabled,
+                actions,
+                json.iconPath,
+                json.useIconColor);
+        } catch (e) {
+            console.error('Error parsing PieItem JSON: ' + e);
+            console.error('JSON: ' + jsonString);
+        }
     }
 }

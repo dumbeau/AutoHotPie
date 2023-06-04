@@ -5,7 +5,7 @@ import {PieMenuEditorComponent} from './pie-menu-editor.component';
 
 const routes: Routes = [
   {
-    path: 'home',
+    path: 'pie-menu-editor/:pieMenuId',
     component: PieMenuEditorComponent
   }
 ];

@@ -1,6 +1,5 @@
 <div
     style="
-    position:fixed;
     z-index: 999;
     padding: 5px;
     width: 100%;
@@ -23,7 +22,7 @@
 <section class="layout">
   <div class="grow1">
     <label style="margin: 0; color: var(--button-ghost-basic-text-color);">{{"PAGES.EDITOR.TREE_TITLE" | translate}}</label>
-    <tree-root [nodes]="nodes" [options]="options"></tree-root>
+    <tree-root #tree [nodes]="nodes" [options]="options"></tree-root>
   </div>
   <div class="grow3">
     <label style="margin: 0; color: var(--button-ghost-basic-text-color);">{{"PAGES.EDITOR.PREVIEW" | translate}}</label>

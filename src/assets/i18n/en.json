@@ -14,7 +14,8 @@
             "TREE_TITLE": "Pie Item Tree",
             "PREVIEW": "Preview",
             "PROP": "Properties",
-            "SAVE": "Save"
+            "SAVE": "Save",
+            "ESCAPE_RADIUS": "Escape radius"
         },
         "SETTINGS": {
             "SETTINGS": "Settings",

@@ -122,4 +122,15 @@ export function initializeIPCListeners() {
 
         return true;
     });
+    ipcMain.handle('getPieItem', (event, args) => {
+        console.log("getPieItem() called, retrieving pie item info for pie item id " + args[0] + "");
+        // TODO: Implement getPieItem
+        // args[0] = pieItemId
+
+        const pieItem = Preferences.getPieItem(args[0])?.toJsonString();
+
+        console.log("ipcBridge.ts: getPieItem() returning " + pieItem);
+
+        return pieItem;
+    });
 }

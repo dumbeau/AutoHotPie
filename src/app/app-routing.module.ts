@@ -12,16 +12,13 @@ import {SettingsComponent} from './settings/settings.component';
 import {SettingsModule} from './settings/settings.module';
 import {HelpAndAboutComponent} from './help-and-about/help-and-about.component';
 import {HelpAndAboutModule} from './help-and-about/help-and-about.module';
+import {PieMenuEditorRoutingModule} from "./pie-menu-editor/pie-menu-editor-routing.module";
 
 const routes: Routes = [
   {
     path: '',
     redirectTo: 'home',
     pathMatch: 'full'
-  },
-  {
-    path: 'pie-menu-editor',
-    component: PieMenuEditorComponent
   },
   {
     path: 'settings',
@@ -44,7 +41,7 @@ const routes: Routes = [
     HomeRoutingModule,
     DetailRoutingModule,
     NewPieWizardRoutingModule,
-    PieMenuEditorModule,
+    PieMenuEditorRoutingModule,
     SettingsModule,
     HelpAndAboutModule
   ],
