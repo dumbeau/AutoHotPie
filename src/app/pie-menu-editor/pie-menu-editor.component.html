@@ -1,3 +1,24 @@
+<div
+    style="
+    position:fixed;
+    z-index: 999;
+    padding: 5px;
+    width: 100%;
+    height: var(--title-bar-height);
+    background-color: var(--color-basic-900);
+    display: flex;
+    align-items: center;
+    border: 0 solid black;
+    border-bottom-width: 1px;
+    justify-content: space-between;
+    align-content: center">
+
+    <button nbButton size="small" status="success" routerLink="/home"><nb-icon icon="arrow-ios-back-outline"/></button>
+
+    <div style="flex-grow: 1; -webkit-app-region: drag; height: 100%"></div>
+    <button nbButton size="small" status="primary">{{ "PAGES.EDITOR.SAVE" | translate }}</button>
+
+</div>
 
 <section class="layout">
   <div class="grow1">

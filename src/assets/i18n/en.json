@@ -13,7 +13,8 @@
         "EDITOR": {
             "TREE_TITLE": "Pie Item Tree",
             "PREVIEW": "Preview",
-            "PROP": "Properties"
+            "PROP": "Properties",
+            "SAVE": "Save"
         },
         "SETTINGS": {
             "SETTINGS": "Settings",
@@ -63,6 +64,7 @@
             "DELETE_CONFIRM": "Are you sure you want to delete this pie menu?",
             "GO_TO_DETAIL": "Go to Detail",
             "ADD_PIE_MENU": "Add new pie menu",
+            "NEW_PIE_MENU": "New Pie Menu",
             "TABLE_EMPTY": "You haven't added any pie menus yet. Click the button below to add one. ฅ^ ̳• ·̫ • ̳^ฅ"
         },
         "DETAIL": {

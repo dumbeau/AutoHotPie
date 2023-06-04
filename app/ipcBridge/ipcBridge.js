@@ -14,6 +14,8 @@ const electron_1 = require("electron");
 const child_process = require("child_process");
 const Preferences_1 = require("../pref/Preferences");
 const NativeAPI_1 = require("../src/NativeAPI");
+const Profile_1 = require("../../src/helpers/Profile");
+const PieMenu_1 = require("../../src/helpers/PieMenu");
 /**
  * Sets up IPC listeners for the main process,
  * see typings.d.ts for the list of available listeners and its documentation
@@ -44,36 +46,38 @@ function initializeIPCListeners() {
         return result;
     });
     electron_1.ipcMain.handle('createProfile', (event, args) => {
-        console.log("createProfile() called, retrieving foreground application info");
-        // TODO: Implement createProfile
+        console.log("createProfile() called, creating new profile with name " + args[0] + "exePath " + args[1] + " and iconPath " + args[2] + "");
         // args[0] = profName, args[1] = exePath, args[2] = iconPath
-        // return the ID of the newly created profile, -1 if failed
-        return 0;
+        const id = Date.now().toString();
+        Preferences_1.Preferences.addProfile(Profile_1.Profile.create(id, args[0], true, [], args[1], args[2]));
+        return id;
     });
     electron_1.ipcMain.handle('updateProfileName', (event, args) => {
         console.log("updateProfileName() called, updating profile name");
-        // TODO: Implement createProfile
         // args[0] = profId, args[1] = newName
+        const profile = Preferences_1.Preferences.getProfile(args[0]);
+        profile.name = args[1];
+        Preferences_1.Preferences.updateProfile(profile);
         // return true if successful, false if failed
         return true;
     });
     electron_1.ipcMain.handle('getProfile', (event, args) => {
         console.log("getProfile() called, retrieving profile info for profile id " + args[0] + "");
         // args[0] = profId
-        const profile = JSON.stringify(Preferences_1.Preferences.getProfiles()[args[0]]);
+        const profile = Preferences_1.Preferences.getProfile(args[0]).toJsonString();
         console.log("ipcBridge.ts: getProfile() returning " + profile);
         return profile;
     });
     electron_1.ipcMain.handle('getProfileIds', () => {
         console.log("getProfileIds() called, retrieving profile id list");
-        const ids = Object.keys(Preferences_1.Preferences.getProfiles());
+        const ids = Preferences_1.Preferences.getProfileIds();
         console.log("ipcBridge.ts: getProfileIds() returning [" + ids + "]");
         return ids;
     });
     electron_1.ipcMain.handle('getPieMenu', (event, args) => {
         console.log("getPieMenu() called, retrieving pie menu info for pie menu id " + args[0] + "");
         // args[0] = pieId
-        const pieMenu = JSON.stringify(Preferences_1.Preferences.getPieMenus()[args[0]]);
+        const pieMenu = Preferences_1.Preferences.getPieMenu(args[0]).toJsonString();
         console.log("ipcBridge.ts: getPieMenu() returning " + pieMenu);
         return pieMenu;
     });
@@ -82,9 +86,13 @@ function initializeIPCListeners() {
         // TODO: Implement listenHotkeyForResult
         return 'ctrl+shift+p';
     });
-    electron_1.ipcMain.handle('createPieMenu', () => {
+    electron_1.ipcMain.handle('createPieMenu', (event, args) => {
         console.log("createPieMenu() called, creating pie menu");
         // TODO: Implement listenHotkeyForResult
+        // args[0] = pieName, args[1] = hotkey, args[2] = activationMode, args[3] = style, args[4] = profId
+        const pie = PieMenu_1.PieMenu.create(Date.now().toString(), args[0], true, args[2], args[1], -1, false, args[3], []);
+        Preferences_1.Preferences.addPieMenu(pie);
+        Preferences_1.Preferences.addPieMenuToProfile(args[4], pie.id);
         return true;
     });
     electron_1.ipcMain.handle('removePieMenuFromProfile', () => {

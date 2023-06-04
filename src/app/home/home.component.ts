@@ -15,15 +15,13 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
     selectedAppName = '';
     selectedAppIcon = '';
-    selectedProfId = '';
+    selectedProfId = 'global';
 
     remainingSec = 5;
 
     profIds: string[] = [];
 
-
     protected readonly NbPosition = NbPosition;
-
 
     ngOnInit(): void {
         console.log('HomeComponent INIT');
@@ -68,10 +66,10 @@ export class HomeComponent implements OnInit, AfterViewInit {
     createProfile() {
         window.electronAPI
             .createProfile(this.profInput.nativeElement.value, this.selectedAppName, this.selectedAppIcon)
-            .then((success) => {
-                if (success) {
-                    // TODO: Add profile to list
-                    // TODO: Open the profile in the body
+            .then((id) => {
+                if (id !== '-1') {
+                    this.profIds.push(id);
+                    this.updateSelectedProfile(id);
                 } else {
                     // TODO: Show error message using toaster
                 }
@@ -83,6 +81,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     }
 
     reloadProfEditor() {
+        console.log('home.component.ts: Reloading profile editor');
         this.profileEditorComponent.ngOnChanges();
     }
 }

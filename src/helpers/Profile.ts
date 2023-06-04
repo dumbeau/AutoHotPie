@@ -1,29 +1,43 @@
-// TODO: This class is still under its design stage.
-export class Profile {
-    id = 'global';
-    name = 'Global Profile';
-    enabled = true;
-    ahkHandles = ['regApps'];
-    useProfileToggle = false;
-    profileToggleHotkey = 'capslock';
-    pieMenus: string[] = [];
+import {DataObject} from './DataObject';
 
-    static fromJsonString(jsonString: string) {
-        const profJson = JSON.parse(jsonString);
+export class Profile extends DataObject{
+    exePath = '';
+    iconPath = '';
+    pieMenus: string[] = ['default'];
 
+    constructor() {
+        super();
+        this.id = 'global';
+        this.name = 'Global Profile';
+        this.enabled = true;
+
+    }
+
+    static create(id: string, name: string, enabled: boolean, pieMenus: string[], exePath: string, iconPath: string) {
         const prof = new Profile();
-        prof.id = profJson.id;
-        prof.name = profJson.name;
-        prof.enabled = profJson.enabled;
-        prof.ahkHandles = profJson.ahkHandles;
-        prof.useProfileToggle = profJson.useProfileToggle;
-        prof.profileToggleHotkey = profJson.profileToggleHotkey;
-        prof.pieMenus = profJson.pieMenus;
+
+        prof.id = id;
+        prof.name = name;
+        prof.enabled = enabled;
+        prof.pieMenus = pieMenus;
+        prof.exePath = exePath;
+        prof.iconPath = iconPath;
 
         return prof;
     }
 
-    toJsonString() {
-        return JSON.stringify(this);
+    static fromJsonString(jsonString: string) {
+        console.log('Profile.fromJsonString() called with ' + jsonString);
+
+        try {
+            const json = JSON.parse(jsonString);
+
+            const id = Object.keys(json)[0];
+            const profJson = json[id];
+            return Profile.create(id, profJson.name, profJson.enabled, profJson.pieMenus, profJson.exePath, profJson.iconPath);
+        } catch (e) {
+            console.error('Profile.fromJsonString() failed to parse JSON: ' + e);
+            return new Profile();
+        }
     }
 }

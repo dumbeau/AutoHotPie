@@ -74826,7 +74826,7 @@ console.log('P5 Loaded');
  * }
  * </code></div>
  */
-        _main.default.prototype.key = '';
+        _main.default.prototype.sendKey = '';
         /**
  * The variable keyCode is used to detect special keys such as BACKSPACE,
  * DELETE, ENTER, RETURN, TAB, ESCAPE, SHIFT, CONTROL, OPTION, ALT, UP_ARROW,

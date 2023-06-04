@@ -1,50 +1,63 @@
+import {DataObject} from './DataObject';
+
 export enum ActivationMode {
     // eslint-disable-next-line @typescript-eslint/naming-convention
     RELEASE_THAN_HOVER, HOVER_ALL, CLICK_ALL, RELEASE_ON_FUNCTION
 }
-export class PieMenu {
-    id = '0';
-    name = 'default pie menu';
-    enabled = true;
-    labelDelaySeconds = 1;
+
+export class PieMenu extends DataObject {
     activationMode = ActivationMode.RELEASE_ON_FUNCTION;
-    cancelOnEscape = false;
-    cancelRadius = 150;
+    hotkey = 'Shift+Control+Alt+P';
+    escapeRadius = -1;
     openInScreenCenter = false;
-    hotkey = 'ctrl+r';
-    backgroundColor = '#232323';
-    selectionColor = '#1cd4dc';
-    fontColor = '#ffffff';
-    radius = 16;
-    thickness = 10;
-    labelCornerRadius = 77;
-    pieItems = ['1', '2', '3', '4', '5', '6'];
+    selectionColor = '#ffffff';
+    pieItems = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
 
-    // TODO: Please check if the missing properties are needed. If so, it would be helpful to add them back with comments.
+    constructor() {
+        super();
+        this.id = 'default';
+        this.name = 'Default';
+        this.enabled = true;
 
-    static fromJsonString(jsonString: string): PieMenu {
+    }
+    static create(id: string,
+                  name: string,
+                  enabled: boolean,
+                  activationMode: ActivationMode,
+                  hotkey: string,
+                  escapeRadius: number,
+                  openInScreenCenter: boolean,
+                  selectionColor: string,
+                  pieItems: string[]) {
+
         const pieMenu = new PieMenu();
-        const json = JSON.parse(jsonString);
-        pieMenu.id = json.id;
-        pieMenu.name = json.name;
-        pieMenu.enabled = json.enabled;
-        pieMenu.labelDelaySeconds = json.labelDelaySeconds;
-        pieMenu.activationMode = json.activationMode;
-        pieMenu.cancelOnEscape = json.cancelOnEscape;
-        pieMenu.cancelRadius = json.cancelRadius;
-        pieMenu.openInScreenCenter = json.openInScreenCenter;
-        pieMenu.hotkey = json.hotkey;
-        pieMenu.backgroundColor = json.backgroundColor;
-        pieMenu.selectionColor = json.selectionColor;
-        pieMenu.fontColor = json.fontColor;
-        pieMenu.radius = json.radius;
-        pieMenu.thickness = json.thickness;
-        pieMenu.labelCornerRadius = json.labelCornerRadius;
-        pieMenu.pieItems = json.pieItems;
+
+        pieMenu.id = id;
+        pieMenu.name = name;
+        pieMenu.enabled = enabled;
+        pieMenu.activationMode = activationMode;
+        pieMenu.hotkey = hotkey;
+        pieMenu.escapeRadius = escapeRadius;
+        pieMenu.openInScreenCenter = openInScreenCenter;
+        pieMenu.pieItems = pieItems;
+        pieMenu.selectionColor = selectionColor;
+
         return pieMenu;
     }
 
-    toJsonString(): string {
-        return JSON.stringify(this);
+    static fromJsonString(jsonString: string) {
+        const id = Object.keys(JSON.parse(jsonString))[0];
+        const json = JSON.parse(jsonString)[id];
+
+        return PieMenu.create(
+            id,
+            json.name,
+            json.enabled,
+            json.activationMode,
+            json.hotkey,
+            json.escapeRadius,
+            json.openInScreenCenter,
+            json.selectionColor,
+            json.pieItems);
     }
 }

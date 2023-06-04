@@ -1,9 +1,0 @@
-{
-    "global": {
-        "name": "Global Profile",
-        "enabled": true,
-        "pieMenus": [
-            "default"
-        ]
-    }
-}

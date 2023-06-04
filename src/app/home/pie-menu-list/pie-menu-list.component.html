@@ -1,8 +1,8 @@
 <table #pieMenuList style="width: 100%">
     <tr>
-        <th style="width: 40%">Name</th>
+        <th style="width: 35%">Name</th>
         <th style="width: 20%">Color</th>
-        <th style="width: 20%">Shortcut</th>
+        <th style="width: 25%">Shortcut</th>
         <th style="text-align: center;">Actions</th>
     </tr>
     <tbody>
@@ -36,8 +36,12 @@
     </tbody>
 </table>
 
-<p style="text-align: center;"
-   [ngStyle]="{'display': pieMenus.length === 0 ? 'show' : 'none'}">{{'PAGES.HOME.TABLE_EMPTY' | translate}}</p>
+<div style="text-align: center;"
+   [ngStyle]="{'display': pieMenus.length === 0 ? 'unset' : 'none'}">
+    <div style="height: 2em;"></div>
+    {{'PAGES.HOME.TABLE_EMPTY' | translate}}
+    <div style="height: 2em;"></div>
+</div>
 
 <ng-template #deleteConfirm>
     <div style="display: flex; flex-direction: column; padding: 1em; align-items: center; width: 25vw;">

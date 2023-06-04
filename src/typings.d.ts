@@ -28,7 +28,7 @@ interface Window {
          * @param iconPath The path to the icon of the executable
          * @returns The ID of the newly created profile, -1 if failed
          */
-        createProfile: (profName: string, exePath: string, iconPath: string) => Promise<number>;
+        createProfile: (profName: string, exePath: string, iconPath: string) => Promise<string>;
 
         /**
          * Updates the name of a profile
@@ -67,7 +67,7 @@ interface Window {
          *
          * @returns True if successful, false if failed
          */
-        createPieMenu: (pieName: string, hotkey: string, activationMode: number, style: string) => Promise<boolean>;
+        createPieMenu: (pieName: string, hotkey: string, activationMode: number, style: string, profId: string) => Promise<boolean>;
 
         /**
          *
