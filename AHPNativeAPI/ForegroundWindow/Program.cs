@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
+using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 using System.Text;
 using Newtonsoft.Json;
@@ -33,8 +34,29 @@ namespace ForegroundWindow
             // Get the current foreground window processId
             uint pId;
             GetWindowThreadProcessId(hWnd, out pId);
+
+            string exePath = Process.GetProcessById((int)pId).MainModule?.FileName ?? "";
+            fgWindowInfo.Add("exePath", exePath);
             
-            fgWindowInfo.Add("exePath", Process.GetProcessById((int)pId).MainModule?.FileName ?? "");
+            Icon? icon = Icon.ExtractAssociatedIcon(exePath);
+            if (icon == null)
+            {
+                fgWindowInfo.Add("iconBase64", "");
+            }
+            else
+            {
+                
+                using (var ms = new MemoryStream())
+                {    
+                    icon.ToBitmap().Save(ms, ImageFormat.Png);
+                    
+                    string base64Icon = Convert.ToBase64String(ms.ToArray());
+                    
+                    fgWindowInfo.Add("iconBase64", base64Icon);
+                }
+
+            }
+
             
             // Print the information in json format
             Console.WriteLine(JsonConvert.SerializeObject(fgWindowInfo));

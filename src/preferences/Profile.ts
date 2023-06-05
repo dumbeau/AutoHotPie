@@ -1,10 +1,22 @@
-import {DataObject} from './DataObject';
+import {UserDataObject} from './UserDataObject';
 
-export class Profile extends DataObject{
+/**
+ * This class defines the structure of the Profile JSON object which will be stored in the AppData directory.
+ * It also contains methods for manipulating the profiles.
+ */
+export class Profile extends UserDataObject{
     exePath = '';
-    iconPath = '';
+    iconBase64 = '';
     pieMenus: string[] = ['default'];
 
+    /**
+     * Creates a new Profile object with default values.
+     *
+     * This constructor is intended to be used to create the very first profile, which is the global profile, for
+     * new users.
+     *
+     * **_It is strongly recommended to use the static create() method instead of this constructor._**
+     */
     constructor() {
         super();
         this.id = 'global';
@@ -13,6 +25,15 @@ export class Profile extends DataObject{
 
     }
 
+    /**
+     * Creates a new Profile object with the specified values.
+     * @param id
+     * @param name
+     * @param enabled
+     * @param pieMenus
+     * @param exePath
+     * @param iconPath
+     */
     static create(id: string, name: string, enabled: boolean, pieMenus: string[], exePath: string, iconPath: string) {
         const prof = new Profile();
 
@@ -21,11 +42,16 @@ export class Profile extends DataObject{
         prof.enabled = enabled;
         prof.pieMenus = pieMenus;
         prof.exePath = exePath;
-        prof.iconPath = iconPath;
+        prof.iconBase64 = iconPath;
 
         return prof;
     }
 
+    /**
+     * Creates a new Profile object from the specified JSON string.
+     *
+     * @param jsonString The JSON string must be in the format: {[id]: {...all other properties of Profile...}}
+     */
     static fromJsonString(jsonString: string) {
         console.log('Profile.fromJsonString() called with ' + jsonString);
 

@@ -11,6 +11,7 @@ enum ActionType {
     switchapp = 'SWITCH_APP',
     none = 'NONE',
 }
+
 export abstract class Action {
     type: ActionType;
     delay: number;

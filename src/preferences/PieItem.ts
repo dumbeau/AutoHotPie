@@ -1,16 +1,38 @@
-import {DataObject} from './DataObject';
+import {UserDataObject} from './UserDataObject';
 import {Action} from './Action';
-export class PieItem extends DataObject {
+
+/**
+ * This class defines the structure of the PieItem JSON object which will be stored in the AppData directory.
+ * It also contains methods for manipulating the PieItems.
+ */
+export class PieItem extends UserDataObject {
     actions: Action[] = [];
     iconPath = '';
     useIconColor = false;
 
+    /**
+     * Creates a new PieItem object with default values.
+     *
+     * This constructor is intended to be used to create a default pie item for new users.
+     *
+     * **_It is strongly recommended to use the static create() method instead of this constructor._**
+     */
     constructor() {
         super();
         this.id = Date.now().toString();
         this.name = 'New Pie Item';
         this.enabled = true;
     }
+
+    /**
+     * Creates a new PieItem object with the specified values.
+     * @param id
+     * @param name
+     * @param enabled
+     * @param actions
+     * @param iconPath
+     * @param useIconColor
+     */
     static create(id: string, name: string, enabled: boolean, actions: Action[], iconPath: string, useIconColor: boolean) {
 
         const pieItem = new PieItem();
@@ -25,6 +47,11 @@ export class PieItem extends DataObject {
         return pieItem;
     }
 
+    /**
+     * Creates a new PieItem object from the specified JSON string.
+     *
+     * @param jsonString The JSON string must be in the format: {[id]: {...all other properties of PieItem...}}
+     */
     static fromJsonString(jsonString: string) {
         try {
             const id = Object.keys(JSON.parse(jsonString))[0];

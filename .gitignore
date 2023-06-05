@@ -57,8 +57,11 @@ Thumbs.db
 /WindowsAPI/GetForegroundWindow/GetForegroundWindow/obj
 
 # typescript generated files
-/app/src/globalHotkey/GlobalHotkeyService.js
-/app/src/globalHotkey/GlobalHotkeyServiceRespond.js
-/app/src/globalHotkey/HotkeyEventListener.js
+/app/globalHotkey/GlobalHotkeyService.js
+/app/globalHotkey/GlobalHotkeyServiceRespond.js
+/app/globalHotkey/HotkeyEventListener.js
 /app/src/NativeAPI.js
 /.vscode/
+/app/nativeAPI/ForegroundWindow.js
+/app/nativeAPI/NativeAPI.js
+/app/pref/Preferences.js

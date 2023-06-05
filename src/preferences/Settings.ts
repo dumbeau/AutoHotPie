@@ -1,4 +1,4 @@
-export class Settings{
+export class Settings {
     runOnStartup = true;
 
     fromJsonString(jsonString: string) {
