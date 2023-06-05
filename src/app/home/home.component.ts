@@ -1,25 +1,28 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
-import {NbPosition} from '@nebular/theme';
+import {AfterViewInit, Component, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
+import {NbPopoverDirective, NbPosition, NbTrigger} from '@nebular/theme';
+import {ForegroundWindow} from '../../nativeAPI/ForegroundWindow';
 
 @Component({
     selector: 'app-home',
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit, AfterViewInit {
+export class HomeComponent implements OnInit, OnChanges {
     @ViewChild('profileListItemComponent') profileListItemComponent: any;
     @ViewChild('profInput') profInput: any;
     @ViewChild('profileEditorComponent') profileEditorComponent: any;
+    @ViewChild(NbPopoverDirective) popover: NbPopoverDirective | any;
 
     selectingApp = false;
 
-    selectedAppName = '';
-    selectedAppIcon = '';
+    focusedFgWin: ForegroundWindow | undefined;
     selectedProfId = 'global';
 
     remainingSec = 5;
 
     profIds: string[] = [];
+    iconPath: any;
+
 
     protected readonly NbPosition = NbPosition;
 
@@ -32,8 +35,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
         });
     }
 
-    ngAfterViewInit(): void {
-    }
 
     trackIds(index: number, profIds: string) {
         return profIds;
@@ -41,8 +42,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
     getActiveApp() {
         this.selectingApp = true;
-        this.selectedAppName = '';
-        this.selectedAppIcon = '';
 
         this.remainingSec = 5;
 
@@ -57,19 +56,35 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
             this.selectingApp = false;
             window.electronAPI.getForegroundApplication().then((value) => {
-                this.selectedAppName = value[0];
-                this.selectedAppIcon = value[1];
+                this.focusedFgWin = ForegroundWindow.fromJsonString(value);
+
+                if (this.focusedFgWin === undefined) {
+                    console.warn('HomeComponent: Failed to retrieve foreground window details.');
+                }
+
             });
         }, 5000);
     }
 
+    ngOnChanges(changes: SimpleChanges): void {
+        console.log('HomeComponent: ngOnChanges() called');
+    }
+
     createProfile() {
+        if (this.focusedFgWin === undefined) {
+            console.warn('HomeComponent: Foreground window details are empty.');
+            console.warn('HomeComponent: Aborting profile creation.');
+            return;
+        }
+
         window.electronAPI
-            .createProfile(this.profInput.nativeElement.value, this.selectedAppName, this.selectedAppIcon)
+            .createProfile(this.profInput.nativeElement.value, this.focusedFgWin.exePath, this.focusedFgWin.iconBase64)
             .then((id) => {
                 if (id !== '-1') {
                     this.profIds.push(id);
                     this.updateSelectedProfile(id);
+
+                    this.focusedFgWin = undefined;
                 } else {
                     // TODO: Show error message using toaster
                 }
@@ -84,4 +99,11 @@ export class HomeComponent implements OnInit, AfterViewInit {
         console.log('home.component.ts: Reloading profile editor');
         this.profileEditorComponent.ngOnChanges();
     }
+
+    clearPopover() {
+        if (this.profInput !== undefined) {return;}
+
+        this.focusedFgWin = undefined;
+    }
+
 }

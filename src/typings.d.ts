@@ -16,19 +16,19 @@ interface Window {
 
         /**
          * Returns the path to the executable and the path to the icon of the foreground application
-         * @returns [exePath, exeIconPath]
+         * @returns JSON string of ForegroundWindow returned by ForegroundWindow.toJsonString()
          */
-        getForegroundApplication: () => Promise<string[2]>;
+        getForegroundApplication: () => Promise<string>;
 
         /**
          * Creates a new profile
          *
          * @param profName The name of the new profile
          * @param exePath The path to the executable of the profile
-         * @param iconPath The path to the icon of the executable
+         * @param iconBase64 The base64 encoded icon of the profile
          * @returns The ID of the newly created profile, -1 if failed
          */
-        createProfile: (profName: string, exePath: string, iconPath: string) => Promise<string>;
+        createProfile: (profName: string, exePath: string, iconBase64: string) => Promise<string>;
 
         /**
          * Updates the name of a profile

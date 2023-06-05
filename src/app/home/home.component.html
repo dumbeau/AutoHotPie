@@ -3,13 +3,16 @@
         <div class="sidebar">
             <div style="display: flex; align-items: center; flex-direction: row;">
                 <h4>{{ 'PAGES.HOME.SIDEBAR_TITLE' | translate }}</h4>
-                <button [nbPopover]="addProfTemplate" [nbPopoverPlacement]="NbPosition.END_BOTTOM" nbButton
+
+                <button nbButton [nbPopover]="addProfTemplate" [nbPopoverPlacement]="NbPosition.END_BOTTOM"
                         status="primary" style="align-self: center; margin-left: 1em">
-                    <nb-icon icon="plus-outline"/>
+                    <nb-icon icon="plus-outline" />
                 </button>
+
             </div>
             <app-profile-list-item #profileListItemComponent *ngFor="let profId of profIds; trackBy trackIds"
-                                   [profId]="profId" (profileSelected)="updateSelectedProfile($event)" (profileUpdated)="reloadProfEditor()"/>
+                                   [profId]="profId" (profileSelected)="updateSelectedProfile($event)"
+                                   (profileUpdated)="reloadProfEditor()"/>
         </div>
 
         <app-profile-editor #profileEditorComponent [profId]="selectedProfId"/>
@@ -19,26 +22,31 @@
 
 <ng-template #addProfTemplate>
     <div style="padding: 1em; display: flex; flex-direction: column; align-items: stretch;">
-        <input #profInput nbInput placeholder="{{'PAGES.HOME.PROF_NAME_HINT' | translate}}" style="width: 18em">
+
+        {{ clearPopover()}}
+        <input #profInput nbInput placeholder="{{'PAGES.HOME.PROF_NAME_HINT' | translate}}" style="width: 18em" >
         <div class="select-app-section">
             <button nbButton ghost style="border: 2px solid; width: 100%; height: 100%"
-                    [style.display]="!selectingApp && selectedAppName === '' ? 'unset' : 'none'"
+                    [style.display]="!selectingApp && focusedFgWin === undefined ? 'unset' : 'none'"
                     (click)="getActiveApp()">
                 {{"PAGES.HOME.CLICK_TO_SELECT_APP" | translate}}
             </button>
-            <div [style.display]="selectingApp ? 'unset' : 'none'" style="width: 100%; height: 100%">
-                <p style="word-wrap: break-word; width: 18em">Open your application in {{remainingSec}} </p>
+            <div [style.display]="selectingApp ? 'flex' : 'none'"
+                 style="display: flex; flex-direction: column; justify-content: center; align-content: center; align-items: center; width:100%; height: 100%">
+                Open your application in {{remainingSec}}
             </div>
 
-            <div [style.display]="selectedAppName !== '' ? 'unset' : 'none'">
-                {{ selectedAppName }}
-                {{ selectedAppIcon }}
-                <img [src]="iconPath" alt="app icon" style="width: 10em; height: 10em">
+            <div [style.display]="focusedFgWin !== undefined? 'flex' : 'none'"
+                 style="display: flex; flex-direction: column; justify-content: center; align-content: center; align-items: center; height: 100%">
+                <img [src]="'data:image/png;base64, ' + focusedFgWin?.iconBase64 ?? ''" alt="app icon"
+                     style="width: 32px; height: 32px; margin: 1em">
+
+                {{ focusedFgWin?.exePath?.split('\\')?.pop() ?? "" }}
             </div>
 
         </div>
         <button nbButton status="primary" style="align-self: center; margin-top: 1em"
-                [disabled]="selectedAppName === '' || profInput.value === ''"
+                [disabled]="focusedFgWin === undefined || profInput.value === ''"
                 (click)="createProfile()">{{"PAGES.HOME.CREATE_PROF" | translate}}</button>
     </div>
 </ng-template>

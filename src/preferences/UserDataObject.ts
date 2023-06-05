@@ -3,9 +3,14 @@
  * data structures that will be output to the user's appdata directory.
  */
 export abstract class UserDataObject {
-    id = 'default';
-    name = 'Default';
+    id: string;
+    name: string;
     enabled = true;
+
+    protected constructor(id: string, name: string) {
+        this.id = id;
+        this.name = name;
+    }
 
     /**
      * Converts the DataObject to a JSON string. The JSON string is a map of the DataObject's id to the DataObject's other properties.

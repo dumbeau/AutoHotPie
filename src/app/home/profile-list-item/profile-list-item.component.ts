@@ -44,6 +44,7 @@ export class ProfileListItemComponent implements OnInit {
         console.log('Requesting profile with id ' + this.profId);
 
         window.electronAPI.getProfile(this.profId).then((profJson: string) => {
+
             this.prof = Profile.fromJsonString(profJson);
         });
     }

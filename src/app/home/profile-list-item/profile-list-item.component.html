@@ -2,9 +2,9 @@
     style="display: flex;align-content: center;align-items: center;justify-content: flex-start;flex-wrap: nowrap;flex-direction: row; margin-bottom: 1em;">
     <img
         style="cursor: pointer;"
-        ngSrc="assets/icons/ahpIcon.png"
-        width="42px"
-        height="42px"
+        [src]="'data:image/png;base64, ' + this.prof.iconBase64"
+        width="32px"
+        height="32px"
         (click)="selectProfile()"
         alt="AHP icon"/>
 

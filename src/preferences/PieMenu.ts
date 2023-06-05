@@ -25,11 +25,7 @@ export class PieMenu extends UserDataObject {
      * **_It is strongly recommended to use the static create() method instead of this constructor._**
      */
     constructor() {
-        super();
-        this.id = 'default';
-        this.name = 'Default';
-        this.enabled = true;
-
+        super('default', 'Default Pie Menu');
     }
 
     /**

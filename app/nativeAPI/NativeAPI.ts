@@ -1,5 +1,5 @@
 import * as child_process from 'child_process';
-import {ForegroundWindow} from "./ForegroundWindow";
+import {ForegroundWindow} from "../../src/nativeAPI/ForegroundWindow";
 
 /**
  * This class exposes certain native APIs.
@@ -26,6 +26,6 @@ export class NativeAPI {
      */
     public getForegroundWindow() {
         return ForegroundWindow.fromJsonString(
-            child_process.spawnSync('./bin/GetForegroundWindow.exe').stdout.toString());
+            child_process.spawnSync('./bin/ForegroundWindow.exe').stdout.toString());
     }
 }

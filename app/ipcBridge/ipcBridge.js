@@ -40,16 +40,13 @@ function initializeIPCListeners() {
     electron_1.ipcMain.handle('getForegroundApplication', () => {
         var _a;
         console.log("getForegroundApplication() called, retrieving foreground application info");
-        const result = ['exePath', 'exeIconPath'];
-        const fgWindow = NativeAPI_1.NativeAPI.instance.getForegroundWindow();
-        result[0] = (_a = fgWindow === null || fgWindow === void 0 ? void 0 : fgWindow.exePath) !== null && _a !== void 0 ? _a : "";
-        console.log("ipcBridge.ts: getForegroundApplication() returning " + result);
-        // TODO: Find a way to get the icon, it's best to have bitmap data
-        return result;
+        const fgDetail = (_a = NativeAPI_1.NativeAPI.instance.getForegroundWindow()) === null || _a === void 0 ? void 0 : _a.toJSONString();
+        console.log("ipcBridge.ts: getForegroundApplication() returning " + fgDetail);
+        return fgDetail !== null && fgDetail !== void 0 ? fgDetail : "";
     });
     electron_1.ipcMain.handle('createProfile', (event, args) => {
         console.log("createProfile() called, creating new profile with name " + args[0] + "exePath " + args[1] + " and iconPath " + args[2] + "");
-        // args[0] = profName, args[1] = exePath, args[2] = iconPath
+        // args[0] = profName, args[1] = exePath, args[2] = iconBase64
         const id = Date.now().toString();
         Preferences_1.Preferences.addProfile(Profile_1.Profile.create(id, args[0], true, [], args[1], args[2]));
         return id;

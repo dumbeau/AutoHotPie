@@ -18,10 +18,7 @@ export class PieItem extends UserDataObject {
      * **_It is strongly recommended to use the static create() method instead of this constructor._**
      */
     constructor() {
-        super();
-        this.id = Date.now().toString();
-        this.name = 'New Pie Item';
-        this.enabled = true;
+        super(Date.now().toString(), 'New Pie Item');
     }
 
     /**
