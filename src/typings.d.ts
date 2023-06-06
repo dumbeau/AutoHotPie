@@ -79,5 +79,15 @@ interface Window {
         removePieMenuFromProfile: (profId: string, pieId: string) => Promise<boolean>;
 
         getPieItem: (pieItemId: string) => Promise<string | undefined>;
+
+        /**
+         * Toggle pie menu service.
+         * @param serviceActive
+         *
+         * @returns The status of the service after toggling, true if active, false if inactive
+         */
+        toggleService: (serviceActive: boolean) => Promise<boolean>;
+
+        globalHotkeyServiceExited: (callback: () => void) => void;
     };
 }

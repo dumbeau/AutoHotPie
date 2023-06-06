@@ -16,6 +16,7 @@ const Preferences_1 = require("../pref/Preferences");
 const NativeAPI_1 = require("../nativeAPI/NativeAPI");
 const Profile_1 = require("../../src/preferences/Profile");
 const PieMenu_1 = require("../../src/preferences/PieMenu");
+const GlobalHotkeyService_1 = require("../globalHotkey/GlobalHotkeyService");
 /**
  * Sets up IPC listeners for the main process,
  * see typings.d.ts for the list of available listeners and its documentation
@@ -107,6 +108,18 @@ function initializeIPCListeners() {
         const pieItem = (_a = Preferences_1.Preferences.getPieItem(args[0])) === null || _a === void 0 ? void 0 : _a.toJsonString();
         console.log("ipcBridge.ts: getPieItem() returning " + pieItem);
         return pieItem;
+    });
+    electron_1.ipcMain.handle('toggleService', (event, args) => {
+        console.log("toggleService() called, the service is now " + args[0] + ". Turning it " + (!args[0] ? "on" : "off") + "");
+        // args[0] = serviceActive
+        if (GlobalHotkeyService_1.GlobalHotkeyService.isRunning) {
+            GlobalHotkeyService_1.GlobalHotkeyService.getInstance().exitProcess();
+            return false;
+        }
+        else {
+            GlobalHotkeyService_1.GlobalHotkeyService.getInstance();
+            return true;
+        }
     });
 }
 exports.initializeIPCListeners = initializeIPCListeners;

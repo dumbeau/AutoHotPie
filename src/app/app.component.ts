@@ -10,7 +10,8 @@ import { APP_CONFIG } from '../environments/environment';
 })
 export class AppComponent {
   @ViewChild('icon') icon: any;
-  active = 'none';
+  activePage = 'none';
+  serviceActive = true;
 
   constructor(
     private electronService: ElectronService,
@@ -28,13 +29,23 @@ export class AppComponent {
     } else {
       console.log('Run in browser');
     }
+
+    window.electronAPI.globalHotkeyServiceExited(()=>{
+        console.log('App component: globalHotkeyServiceExited');
+    });
   }
 
   setActive(emitter: string) {
-    this.active = this.active === emitter ? 'none' : emitter;
+    this.activePage = this.activePage === emitter ? 'none' : emitter;
 
     if (document.activeElement instanceof HTMLElement) {
       document.activeElement.blur();
     }
   }
+
+    toggleService() {
+        window.electronAPI.toggleService(this.serviceActive).then((serviceActive) => {
+            this.serviceActive = serviceActive;
+        });
+    }
 }

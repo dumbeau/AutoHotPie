@@ -2,29 +2,29 @@ import {app, BrowserWindow} from 'electron';
 import * as path from 'path';
 import * as fs from 'fs';
 import {GlobalHotkeyService} from "./globalHotkey/GlobalHotkeyService";
-import {HotkeyEventListener} from "./globalHotkey/HotkeyEventListener";
-import {NativeAPI} from "./nativeAPI/NativeAPI";
 import {initializeIPCListeners} from "./ipcBridge/ipcBridge";
 import {Preferences} from "./pref/Preferences";
+import {KeyEvent} from "./globalHotkey/KeyEvent";
 
 // Constants
 const EDITOR_WINDOW_WIDTH = 1080;
 const EDITOR_WINDOW_HEIGHT = 720;
-const args = process.argv.slice(1)
 let pieMenuWindow : BrowserWindow | undefined;
 let editorWindow : BrowserWindow | undefined;
 
 // ----------------- Set up GlobalHotkeyService -----------------
 
 Preferences.init();
-GlobalHotkeyService.start();
-GlobalHotkeyService.addKeyEventListener(new class implements HotkeyEventListener {
-  onKeyDown(key: string): void {
-  }
+GlobalHotkeyService.getInstance();
+GlobalHotkeyService.addKeyEventListener(
+        (event: KeyEvent) => {
+            console.log("Main process received a key event from the global hotkey service: " + event.type + " " + event.value);
+        })
+    .setOnCloseListener(() => {
+        console.log("Main process received the exit signal from the global hotkey service.");
+        editorWindow?.webContents.send('globalHotkeyServiceExited')
+    });
 
-  onKeyUp(key: string): void {
-  }
-});
 
 // ----------------- Set up electron window -----------------
 try {

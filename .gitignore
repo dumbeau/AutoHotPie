@@ -58,7 +58,7 @@ Thumbs.db
 
 # typescript generated files
 /app/globalHotkey/GlobalHotkeyService.js
-/app/globalHotkey/GlobalHotkeyServiceRespond.js
+/app/globalHotkey/KeyEvent.js
 /app/globalHotkey/HotkeyEventListener.js
 /app/src/NativeAPI.js
 /.vscode/

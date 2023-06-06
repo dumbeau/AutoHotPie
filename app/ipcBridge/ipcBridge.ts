@@ -4,7 +4,7 @@ import {Preferences} from "../pref/Preferences";
 import {NativeAPI} from "../nativeAPI/NativeAPI";
 import {Profile} from "../../src/preferences/Profile";
 import {PieMenu} from "../../src/preferences/PieMenu";
-import {ForegroundWindow} from "../../src/nativeAPI/ForegroundWindow";
+import {GlobalHotkeyService} from "../globalHotkey/GlobalHotkeyService";
 
 /**
  * Sets up IPC listeners for the main process,
@@ -130,5 +130,17 @@ export function initializeIPCListeners() {
         console.log("ipcBridge.ts: getPieItem() returning " + pieItem);
 
         return pieItem;
+    });
+    ipcMain.handle('toggleService', (event, args) => {
+        console.log("toggleService() called, the service is now " + args[0] + ". Turning it " + (!args[0] ? "on" : "off") + "");
+        // args[0] = serviceActive
+
+        if (GlobalHotkeyService.isRunning) {
+            GlobalHotkeyService.getInstance().exitProcess();
+            return false;
+        } else {
+            GlobalHotkeyService.getInstance();
+            return true;
+        }
     });
 }
