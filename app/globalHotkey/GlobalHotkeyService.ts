@@ -10,7 +10,10 @@ type OnProcessExitListener = () => void;
 export class GlobalHotkeyService {
 
     private static instance: GlobalHotkeyService | undefined;
-    private static onHotkeyEvent: HotkeyEventListener[] = [];
+
+    // [0] is reserved for temporary listeners, which only one can be added at a time, new temporary
+    // listeners will replace the old one.
+    private static onHotkeyEvent: HotkeyEventListener[] = [()=>{}];
     private static onProcessExit: OnProcessExitListener | undefined
 
     private hotkeyService: ChildProcessWithoutNullStreams;
@@ -29,7 +32,7 @@ export class GlobalHotkeyService {
         this.hotkeyService.on('close', () => GlobalHotkeyService.onProcessExit?.())
     }
 
-    static get isRunning(){
+    static isRunning(){
         return GlobalHotkeyService.instance !== undefined;
     }
 
@@ -40,9 +43,23 @@ export class GlobalHotkeyService {
         return GlobalHotkeyService.instance;
     }
 
-    public static addKeyEventListener(listener: HotkeyEventListener) {
+    public static addKeyEventListener(listener: HotkeyEventListener, temporary: boolean = false) {
+        if (temporary) {
+            this.onHotkeyEvent[0] = listener;
+            return this;
+        }
+
         this.onHotkeyEvent.push(listener);
         return this;
+    }
+
+    public static removeKeyEventListener(listener: HotkeyEventListener) {
+        const index = this.onHotkeyEvent.indexOf(listener);
+        if (index == 0)
+            this.onHotkeyEvent[0] = ()=>{};
+        if (index > -1) {
+            this.onHotkeyEvent.splice(index, 1);
+        }
     }
 
     public static setOnCloseListener(listener: OnProcessExitListener) {

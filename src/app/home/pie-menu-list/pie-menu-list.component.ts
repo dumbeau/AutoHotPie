@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
 import {PieMenu} from '../../../preferences/PieMenu';
 import {NbPosition} from '@nebular/theme';
 
@@ -31,4 +31,18 @@ export class PieMenuListComponent implements OnChanges {
     }
 
     protected readonly NbPosition = NbPosition;
+
+    listenShortcut(pieMenu: PieMenu) {
+        window.electronAPI.listenKeyForResult().then((key: string) => {
+
+            pieMenu.hotkey = key;
+
+            console.log('PieMenuListComponent.getLastKeyPress(): listenKeyForResult() returned ' + key);
+            // window.electronAPI.updatePieMenu(pieMenu.toJsonString());
+        });
+    }
+
+    cancelLastListener() {
+        window.electronAPI.listenKeyForResult();
+    }
 }

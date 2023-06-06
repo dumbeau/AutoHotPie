@@ -88,6 +88,9 @@ interface Window {
          */
         toggleService: (serviceActive: boolean) => Promise<boolean>;
 
+        listenKeyForResult: () => Promise<string>;
+
         globalHotkeyServiceExited: (callback: () => void) => void;
+
     };
 }

@@ -16,6 +16,8 @@ let editorWindow : BrowserWindow | undefined;
 
 Preferences.init();
 GlobalHotkeyService.getInstance();
+
+// Listeners are instance independent
 GlobalHotkeyService.addKeyEventListener(
         (event: KeyEvent) => {
             console.log("Main process received a key event from the global hotkey service: " + event.type + " " + event.value);

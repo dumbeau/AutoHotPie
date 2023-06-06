@@ -5,6 +5,7 @@ import {NativeAPI} from "../nativeAPI/NativeAPI";
 import {Profile} from "../../src/preferences/Profile";
 import {PieMenu} from "../../src/preferences/PieMenu";
 import {GlobalHotkeyService} from "../globalHotkey/GlobalHotkeyService";
+import {KeyEvent, RespondType} from "../globalHotkey/KeyEvent";
 
 /**
  * Sets up IPC listeners for the main process,
@@ -135,12 +136,34 @@ export function initializeIPCListeners() {
         console.log("toggleService() called, the service is now " + args[0] + ". Turning it " + (!args[0] ? "on" : "off") + "");
         // args[0] = serviceActive
 
-        if (GlobalHotkeyService.isRunning) {
+        if (GlobalHotkeyService.isRunning()) {
             GlobalHotkeyService.getInstance().exitProcess();
             return false;
         } else {
             GlobalHotkeyService.getInstance();
             return true;
         }
+    });
+    ipcMain.handle('listenKeyForResult', () => {
+        return new Promise(resolve => {
+            console.log("listenKeyForResult() called, listening for key");
+
+            const listener = (event: KeyEvent) => {
+                if (event.type === RespondType.KEY_DOWN
+                    && (event.value.split('+').pop() ?? 'PLACEHOLDER').trim().length == 1
+                    && (event.value.split('+').pop() ?? '-') >= 'A'
+                    && (event.value.split('+').pop() ?? '-') <= 'Z') {
+
+                    GlobalHotkeyService.removeKeyEventListener(listener);
+
+                    console.log("ipcBridge.ts: listenKeyForResult() returning " + event.value);
+                    resolve(event.value);
+                }
+            }
+
+            GlobalHotkeyService.addKeyEventListener(listener, true);
+
+        });
+
     });
 }

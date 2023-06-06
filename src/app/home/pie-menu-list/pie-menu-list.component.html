@@ -1,21 +1,23 @@
 <table #pieMenuList style="width: 100%">
     <tr>
         <th style="width: 35%">Name</th>
-        <th style="width: 20%">Color</th>
-        <th style="width: 25%">Shortcut</th>
+        <th style="">Color</th>
+        <th style="width: 35%">Shortcut</th>
         <th style="text-align: center;">Actions</th>
     </tr>
     <tbody>
     <tr *ngFor="let pieMenu of pieMenus; let i = index">
         <td>
-            <label>{{pieMenu.name}}</label>
+            <input nbInput value="{{pieMenu.name}}"
+                   style="background: transparent; padding: 0.4em 0.6em; width: 90%; font-weight: normal; color: var(--accordion-header-disabled-text-color);"/>
         </td>
         <td>
             <ngx-colors ngx-colors-trigger [(ngModel)]="pieMenu.selectionColor"></ngx-colors>
 
         </td>
         <td>
-            <label>{{pieMenu.hotkey}}</label>
+            <input nbInput value="{{pieMenu.hotkey}}" (focusin)="listenShortcut(pieMenu)" readonly (focusout)="cancelLastListener()"
+                   style="background: transparent; padding: 0.4em 0.6em; width: 90%; font-weight: normal; color: var(--accordion-header-disabled-text-color);"/>
         </td>
         <td style="text-align: center">
             <button nbButton ghost [routerLink]="['/pie-menu-editor', pieMenu.id]" status="primary"
@@ -37,7 +39,7 @@
 </table>
 
 <div style="text-align: center;"
-   [ngStyle]="{'display': pieMenus.length === 0 ? 'unset' : 'none'}">
+     [ngStyle]="{'display': pieMenus.length === 0 ? 'unset' : 'none'}">
     <div style="height: 2em;"></div>
     {{'PAGES.HOME.TABLE_EMPTY' | translate}}
     <div style="height: 2em;"></div>
