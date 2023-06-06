@@ -10,9 +10,13 @@
                 </button>
 
             </div>
-            <app-profile-list-item #profileListItemComponent *ngFor="let profId of profIds; trackBy trackIds"
-                                   [profId]="profId" (profileSelected)="updateSelectedProfile($event)"
-                                   (profileUpdated)="reloadProfEditor()"/>
+            <div style="max-height: 70vh; overflow-y: scroll; padding-right: 0.5em;">
+                <app-profile-list-item #profileListItemComponent *ngFor="let profId of profIds; trackBy trackIds"
+                                       [profId]="profId" (profileSelected)="updateSelectedProfile($event)"
+                                       [selectedProfileId]="selectedProfId"
+                                       (profileUpdated)="reloadProfEditor()"/>
+            </div>
+
         </div>
 
         <app-profile-editor #profileEditorComponent [profId]="selectedProfId"/>

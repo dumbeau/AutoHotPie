@@ -1,5 +1,7 @@
 <div
-    style="display: flex;align-content: center;align-items: center;justify-content: flex-start;flex-wrap: nowrap;flex-direction: row; margin-bottom: 1em;">
+    style="display: flex; align-content: center; align-items: center; justify-content: flex-start; flex-wrap: nowrap; flex-direction: row; padding: 0.5em; border-radius: 5px; margin-bottom: 5px;"
+    [style.background-color]="prof.id === selectedProfileId ? 'var(--color-basic-1000)' : 'transparent'"
+>
     <img
         style="cursor: pointer;"
         [src]="'data:image/png;base64, ' + this.prof.iconBase64"

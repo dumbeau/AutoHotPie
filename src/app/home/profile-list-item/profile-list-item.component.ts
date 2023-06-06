@@ -9,6 +9,7 @@ import {Profile} from '../../../preferences/Profile';
 
 export class ProfileListItemComponent implements OnInit {
     @Input() profId = '0';
+    @Input() selectedProfileId = '';
     @Output() profileSelected = new EventEmitter<string>();
     @Output() profileUpdated = new EventEmitter();
 
@@ -19,7 +20,7 @@ export class ProfileListItemComponent implements OnInit {
     prof = new Profile();
 
     selectProfile() {
-        this.profileSelected.emit(this.profId);
+        this.profileSelected.emit(this.prof.id);
     }
 
     startEditing() {
@@ -29,7 +30,7 @@ export class ProfileListItemComponent implements OnInit {
     completeEditing() {
         this.inputDisabled = true;
 
-        window.electronAPI.updateProfileName(this.profId, this.profNameInput.nativeElement.value)
+        window.electronAPI.updateProfileName(this.prof.id, this.profNameInput.nativeElement.value)
             .then((success: boolean) => {
                 if (success) {
                     this.prof.name = this.profNameInput.nativeElement.value;

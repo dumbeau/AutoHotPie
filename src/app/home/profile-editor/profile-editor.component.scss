@@ -13,3 +13,13 @@
     justify-content: flex-start;
     align-items: stretch;
 }
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: var(--color-basic-900);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
