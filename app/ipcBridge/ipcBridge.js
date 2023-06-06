@@ -129,8 +129,8 @@ function initializeIPCListeners() {
                 var _a, _b, _c;
                 if (event.type === KeyEvent_1.RespondType.KEY_DOWN
                     && ((_a = event.value.split('+').pop()) !== null && _a !== void 0 ? _a : 'PLACEHOLDER').trim().length == 1
-                    && ((_b = event.value.split('+').pop()) !== null && _b !== void 0 ? _b : '-') >= 'A'
-                    && ((_c = event.value.split('+').pop()) !== null && _c !== void 0 ? _c : '-') <= 'Z') {
+                    && ((_b = event.value.split('+').pop()) !== null && _b !== void 0 ? _b : 'PLACEHOLDER').trim() >= 'A'
+                    && ((_c = event.value.split('+').pop()) !== null && _c !== void 0 ? _c : 'PLACEHOLDER').trim() <= 'Z') {
                     GlobalHotkeyService_1.GlobalHotkeyService.removeKeyEventListener(listener);
                     console.log("ipcBridge.ts: listenKeyForResult() returning " + event.value);
                     resolve(event.value);

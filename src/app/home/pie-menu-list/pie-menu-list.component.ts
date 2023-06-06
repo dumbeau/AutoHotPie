@@ -11,8 +11,7 @@ export class PieMenuListComponent implements OnChanges {
     @Input() pieMenuIds: string[] = [];
     @Output() deletePieMenu = new EventEmitter<string>();
 
-    @ViewChild('pieMenuList') pieMenuList: any;
-
+    selectedInput: any;
     toBeDeletedPieId = '';
     pieMenus: Array<PieMenu> = [];
 
@@ -36,13 +35,20 @@ export class PieMenuListComponent implements OnChanges {
         window.electronAPI.listenKeyForResult().then((key: string) => {
 
             pieMenu.hotkey = key;
-
+            this.selectedInput?.blur();
             console.log('PieMenuListComponent.getLastKeyPress(): listenKeyForResult() returned ' + key);
+
             // window.electronAPI.updatePieMenu(pieMenu.toJsonString());
         });
     }
 
     cancelLastListener() {
         window.electronAPI.listenKeyForResult();
+    }
+
+    protected readonly onfocus = onfocus;
+
+    onFocus($event: FocusEvent) {
+        this.selectedInput = $event.target;
     }
 }

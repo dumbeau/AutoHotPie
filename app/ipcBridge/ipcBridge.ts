@@ -151,8 +151,8 @@ export function initializeIPCListeners() {
             const listener = (event: KeyEvent) => {
                 if (event.type === RespondType.KEY_DOWN
                     && (event.value.split('+').pop() ?? 'PLACEHOLDER').trim().length == 1
-                    && (event.value.split('+').pop() ?? '-') >= 'A'
-                    && (event.value.split('+').pop() ?? '-') <= 'Z') {
+                    && (event.value.split('+').pop() ?? 'PLACEHOLDER').trim() >= 'A'
+                    && (event.value.split('+').pop() ?? 'PLACEHOLDER').trim() <= 'Z') {
 
                     GlobalHotkeyService.removeKeyEventListener(listener);
 

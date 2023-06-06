@@ -1,11 +1,11 @@
-<table #pieMenuList style="width: 100%">
+<table style="width: 100%">
     <tr>
         <th style="width: 35%">Name</th>
         <th style="">Color</th>
         <th style="width: 35%">Shortcut</th>
         <th style="text-align: center;">Actions</th>
     </tr>
-    <tbody>
+    <tbody >
     <tr *ngFor="let pieMenu of pieMenus; let i = index">
         <td>
             <input nbInput value="{{pieMenu.name}}"
@@ -16,7 +16,7 @@
 
         </td>
         <td>
-            <input nbInput value="{{pieMenu.hotkey}}" (focusin)="listenShortcut(pieMenu)" readonly (focusout)="cancelLastListener()"
+            <input nbInput value="{{pieMenu.hotkey}}" (focusin)="listenShortcut(pieMenu)" (focus)="onFocus($event)" readonly (focusout)="cancelLastListener()"
                    style="background: transparent; padding: 0.4em 0.6em; width: 90%; font-weight: normal; color: var(--accordion-header-disabled-text-color);"/>
         </td>
         <td style="text-align: center">
