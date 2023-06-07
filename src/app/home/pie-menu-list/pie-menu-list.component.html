@@ -1,42 +1,13 @@
 <table style="width: 100%">
     <tr>
         <th style="width: 35%">Name</th>
-        <th style="">Color</th>
+        <th style="text-align: center; width: 12%">Color</th>
         <th style="width: 35%">Shortcut</th>
-        <th style="text-align: center;">Actions</th>
+        <th style="text-align: center">Actions</th>
     </tr>
-    <tbody >
-    <tr *ngFor="let pieMenu of pieMenus; let i = index">
-        <td>
-            <input nbInput value="{{pieMenu.name}}"
-                   style="background: transparent; padding: 0.4em 0.6em; width: 90%; font-weight: normal; color: var(--accordion-header-disabled-text-color);"/>
-        </td>
-        <td>
-            <ngx-colors ngx-colors-trigger [(ngModel)]="pieMenu.selectionColor"></ngx-colors>
-
-        </td>
-        <td>
-            <input nbInput value="{{pieMenu.hotkey}}" (focusin)="listenShortcut(pieMenu)" (focus)="onFocus($event)" readonly (focusout)="cancelLastListener()"
-                   style="background: transparent; padding: 0.4em 0.6em; width: 90%; font-weight: normal; color: var(--accordion-header-disabled-text-color);"/>
-        </td>
-        <td style="text-align: center">
-            <button nbButton ghost [routerLink]="['/pie-menu-editor', pieMenu.id]" status="primary"
-                    style="
-                    border: 1px solid var(--button-filled-basic-disabled-background-color);
-                    padding: 10px">
-                <nb-icon icon="edit-2-outline"/>
-            </button>
-            <button [nbPopover]="deleteConfirm" [nbPopoverPlacement]="NbPosition.BOTTOM" ghost nbButton status="danger"
-                    style="
-                    border: 1px solid var(--button-filled-basic-disabled-background-color);
-                    padding: 10px"
-                    (click)="toBeDeletedPieId = pieMenu.id">
-                <nb-icon icon="trash-outline"/>
-            </button>
-        </td>
-    </tr>
-    </tbody>
 </table>
+
+<app-pie-menu-list-row *ngFor="let pieMenu of pieMenus" [pieMenu]="pieMenu"></app-pie-menu-list-row>
 
 <div style="text-align: center;"
      [ngStyle]="{'display': pieMenus.length === 0 ? 'unset' : 'none'}">
@@ -45,10 +16,3 @@
     <div style="height: 2em;"></div>
 </div>
 
-<ng-template #deleteConfirm>
-    <div style="display: flex; flex-direction: column; padding: 1em; align-items: center; width: 25vw;">
-        <span style="text-align: center">{{ 'PAGES.HOME.DELETE_CONFIRM' | translate }}</span>
-        <button nbButton size="small" style="margin-top: 1em" status="danger"
-                (click)="deletePieMenu.emit(toBeDeletedPieId)">{{ 'GLOBAL.YES' | translate }}</button>
-    </div>
-</ng-template>

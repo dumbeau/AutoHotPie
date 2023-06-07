@@ -9,10 +9,8 @@ import {NbPosition} from '@nebular/theme';
 })
 export class PieMenuListComponent implements OnChanges {
     @Input() pieMenuIds: string[] = [];
-    @Output() deletePieMenu = new EventEmitter<string>();
 
     selectedInput: any;
-    toBeDeletedPieId = '';
     pieMenus: Array<PieMenu> = [];
 
     updatePieMenus() {
@@ -31,25 +29,4 @@ export class PieMenuListComponent implements OnChanges {
 
     protected readonly NbPosition = NbPosition;
 
-    listenShortcut(pieMenu: PieMenu) {
-        window.electronAPI.listenKeyForResult().then((key: string) => {
-
-            pieMenu.hotkey = key;
-            this.selectedInput?.blur();
-            console.log('PieMenuListComponent.getLastKeyPress(): listenKeyForResult() returned ' + key);
-
-            window.electronAPI.updatePieMenu(pieMenu.toJsonString());
-            // window.electronAPI.updatePieMenu(pieMenu.toJsonString());
-        });
-    }
-
-    cancelLastListener() {
-        window.electronAPI.listenKeyForResult();
-    }
-
-    protected readonly onfocus = onfocus;
-
-    onFocus($event: FocusEvent) {
-        this.selectedInput = $event.target;
-    }
 }

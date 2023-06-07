@@ -25,16 +25,6 @@ export class ProfileEditorComponent implements OnChanges {
         });
     }
 
-
-    deletePieMenu($event: any) {
-        window.electronAPI.removePieMenuFromProfile(this.profId, $event).then((success) => {
-            if (success) {
-                this.updateProfile(this.profId);
-                console.log('ProfileEditorComponent: successfully removed pie menu from profile');
-            }
-        });
-    }
-
     addPieMenu() {
         window.electronAPI.createPieMenu(
             'New Pie Menu',

@@ -1,0 +1,52 @@
+<table style="width: 100%">
+    <tr style="height: 0">
+        <th style="width: 35%"></th>
+        <th style="width: 12%"></th>
+        <th style="width: 35%"></th>
+        <th style=""></th>
+    </tr>
+    <tbody>
+    <tr>
+        <td>
+            <input #nameInput nbInput value="{{pieMenu.name}}" (keyup.enter)="onNameInputComplete()" (focusout)="onNameInputComplete()"
+                   style="background: transparent; width: 100%; padding: 0.4em 0.6em; font-weight: normal; color: var(--accordion-header-disabled-text-color);"/>
+        </td>
+        <td style="width: 100%; display: flex; flex-direction: row; flex-wrap: nowrap; align-content: center; justify-content: center; align-items: center;">
+            <ngx-colors ngx-colors-trigger [(ngModel)]="pieMenu.selectionColor"></ngx-colors>
+
+        </td>
+        <td>
+            <input #shortcutInput nbInput value="{{pieMenu.hotkey}}" (focusin)="listenShortcut()" readonly
+                   (focusout)="cancelLastListener()"
+                   style="background: transparent; padding: 0.4em 0.6em; width: 90%; font-weight: normal; color: var(--accordion-header-disabled-text-color);"/>
+        </td>
+        <td style="text-align: center;">
+            <button nbButton ghost [routerLink]="['/pie-menu-editor', pieMenu.id]" status="primary"
+                    style="
+                    border: 1px solid var(--button-filled-basic-disabled-background-color);
+                    padding: 10px">
+                <nb-icon icon="edit-2-outline"/>
+            </button>
+            <button [nbPopover]="deleteConfirm" [nbPopoverPlacement]="NbPosition.BOTTOM" ghost nbButton status="danger"
+                    style="
+                    border: 1px solid var(--button-filled-basic-disabled-background-color);
+                    padding: 10px">
+                <nb-icon icon="trash-outline"/>
+            </button>
+        </td>
+    </tr>
+
+
+    </tbody>
+
+
+</table>
+
+
+<ng-template #deleteConfirm>
+    <div style="display: flex; flex-direction: column; padding: 1em; align-items: center; width: 25vw;">
+        <span style="text-align: center">{{ 'PAGES.HOME.DELETE_CONFIRM' | translate }}</span>
+        <button nbButton size="small" style="margin-top: 1em" status="danger"
+                (click)="deletePieMenu()">{{ 'GLOBAL.YES' | translate }}</button>
+    </div>
+</ng-template>
