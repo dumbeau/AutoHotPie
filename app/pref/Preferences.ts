@@ -3,6 +3,7 @@ import {Profile} from "../../src/preferences/Profile";
 import {PieMenu} from "../../src/preferences/PieMenu";
 import {PieItem} from "../../src/preferences/PieItem";
 import {Settings} from "../../src/preferences/Settings";
+import {UserDataObject} from "../../src/preferences/UserDataObject";
 
 const AHP_SETTINGS_FILENAME = "settings.json"
 const PROFILE_SETTINGS_FILENAME = "profiles.json"
@@ -60,7 +61,7 @@ export class Preferences {
     static addPieMenuToProfile(profileId: string, pieMenuId: string) {
         const profile = Preferences.getProfile(profileId);
         profile.pieMenus.push(pieMenuId);
-        Preferences.updateProfile(profile);
+        Preferences.setUserData(profile);
     }
 
     static getPieMenu(id: string): PieMenu {
@@ -76,32 +77,35 @@ export class Preferences {
         return JSON.parse(fs.readFileSync(USER_SETTINGS_PATH + PIE_MENU_SETTINGS_FILENAME, 'utf8'));
     }
 
-    static addPieMenu(pieMenu: PieMenu) {
-        const pieMenus: Record<string, any> = Preferences.getPieMenus();
+    /**
+     * Updates the settings file for the given userData or creates a new one if it doesn't exist
+     * @param userData
+     */
+    static setUserData(userData: UserDataObject) {
+        let settingsFilename: string;
 
-        pieMenus[pieMenu.id] = Object.fromEntries(pieMenu.toMap());
+        let userDataRecords: Record<string, any>;
 
-        console.log("Preferences.addPieMenu: " + JSON.stringify(pieMenus));
-        fs.writeFileSync(USER_SETTINGS_PATH + PIE_MENU_SETTINGS_FILENAME, JSON.stringify(pieMenus));
-    }
+        if (userData instanceof Profile) {
+            settingsFilename = PROFILE_SETTINGS_FILENAME;
+            userDataRecords = Preferences.getAllProfilesInJSON();
+        } else if (userData instanceof PieMenu) {
+            settingsFilename = PIE_MENU_SETTINGS_FILENAME;
+            userDataRecords = Preferences.getAllPieMenusInJSON();
+        } else if (userData instanceof PieItem) {
+            settingsFilename = PIE_ITEMS_SETTINGS_FILENAME;
+            userDataRecords = Preferences.getAllPieItemsInJSON();
+        } else {
+            console.error("userData is either null or not a valid subclass of UserDataObject")
+            console.error("Aborting updateUserData")
+            return;
+        }
 
-    static addProfile(profile: Profile) {
-        const profiles: Record<string, any> = Preferences.getAllProfilesInJSON();
+        userDataRecords[userData.id] = Object.fromEntries(userData.toMap());
 
-        profiles[profile.id] = Object.fromEntries(profile.toMap());
+        console.log(JSON.stringify(userDataRecords));
 
-        console.log("P")
-        console.log("" + JSON.stringify(profiles));
-        fs.writeFileSync(USER_SETTINGS_PATH + PROFILE_SETTINGS_FILENAME, JSON.stringify(profiles));
-    }
-
-    static updateProfile(profile: Profile) {
-        const profiles: Record<string, any> = Preferences.getAllProfilesInJSON();
-
-        profiles[profile.id] = Object.fromEntries(profile.toMap());
-
-        console.log(JSON.stringify(profiles));
-        fs.writeFileSync(USER_SETTINGS_PATH + PROFILE_SETTINGS_FILENAME, JSON.stringify(profiles));
+        fs.writeFileSync(USER_SETTINGS_PATH + settingsFilename, JSON.stringify(userDataRecords));
     }
 
     static getPieItem(id: string) {

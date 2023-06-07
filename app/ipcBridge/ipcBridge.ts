@@ -44,7 +44,7 @@ export function initializeIPCListeners() {
         // args[0] = profName, args[1] = exePath, args[2] = iconBase64
 
         const id = Date.now().toString();
-        Preferences.addProfile(Profile.create(id, args[0], true, [], args[1], args[2]))
+        Preferences.setUserData(Profile.create(id, args[0], true, [], args[1], args[2]))
 
         return id;
     });
@@ -55,8 +55,7 @@ export function initializeIPCListeners() {
         const profile = Preferences.getProfile(args[0]);
         profile.name = args[1];
 
-        Preferences.updateProfile(profile);
-
+        Preferences.setUserData(profile);
         // return true if successful, false if failed
         return true;
     });
@@ -110,7 +109,7 @@ export function initializeIPCListeners() {
             args[3],
             []);
 
-        Preferences.addPieMenu(pie);
+        Preferences.setUserData(pie);
         Preferences.addPieMenuToProfile(args[4], pie.id);
 
         return true;
@@ -166,4 +165,10 @@ export function initializeIPCListeners() {
         });
 
     });
+    ipcMain.handle('updatePieMenu', (event, args) => {
+        console.log("updatePieMenu() called, updating pie menu");
+        // args[0] = JsonString of pie menu
+
+        Preferences.setUserData(PieMenu.fromJsonString(args[0]));
+    })
 }

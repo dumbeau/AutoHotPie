@@ -50,7 +50,7 @@ function initializeIPCListeners() {
         console.log("createProfile() called, creating new profile with name " + args[0] + "exePath " + args[1] + " and iconPath " + args[2] + "");
         // args[0] = profName, args[1] = exePath, args[2] = iconBase64
         const id = Date.now().toString();
-        Preferences_1.Preferences.addProfile(Profile_1.Profile.create(id, args[0], true, [], args[1], args[2]));
+        Preferences_1.Preferences.setUserData(Profile_1.Profile.create(id, args[0], true, [], args[1], args[2]));
         return id;
     });
     electron_1.ipcMain.handle('updateProfileName', (event, args) => {
@@ -58,7 +58,7 @@ function initializeIPCListeners() {
         // args[0] = profId, args[1] = newName
         const profile = Preferences_1.Preferences.getProfile(args[0]);
         profile.name = args[1];
-        Preferences_1.Preferences.updateProfile(profile);
+        Preferences_1.Preferences.setUserData(profile);
         // return true if successful, false if failed
         return true;
     });
@@ -92,7 +92,7 @@ function initializeIPCListeners() {
         // TODO: Implement listenHotkeyForResult
         // args[0] = pieName, args[1] = hotkey, args[2] = activationMode, args[3] = style, args[4] = profId
         const pie = PieMenu_1.PieMenu.create(Date.now().toString(), args[0], true, args[2], args[1], -1, false, args[3], []);
-        Preferences_1.Preferences.addPieMenu(pie);
+        Preferences_1.Preferences.setUserData(pie);
         Preferences_1.Preferences.addPieMenuToProfile(args[4], pie.id);
         return true;
     });
@@ -138,6 +138,11 @@ function initializeIPCListeners() {
             };
             GlobalHotkeyService_1.GlobalHotkeyService.addKeyEventListener(listener, true);
         });
+    });
+    electron_1.ipcMain.handle('updatePieMenu', (event, args) => {
+        console.log("updatePieMenu() called, updating pie menu");
+        // args[0] = JsonString of pie menu
+        Preferences_1.Preferences.setUserData(PieMenu_1.PieMenu.fromJsonString(args[0]));
     });
 }
 exports.initializeIPCListeners = initializeIPCListeners;

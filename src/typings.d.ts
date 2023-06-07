@@ -37,6 +37,12 @@ interface Window {
         updateProfileName: (profId: string, newName: string) => Promise<boolean>;
 
         /**
+         * Updates the properties of the pie menu in the user data file
+         * @returns True if successful, false if failed
+         */
+        updatePieMenu: (json: string) => Promise<boolean>;
+
+        /**
          * Returns the profile with the given ID
          *
          * @returns The profile settings (or properties) as a JSON string

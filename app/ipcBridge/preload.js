@@ -21,4 +21,5 @@ contextBridge.exposeInMainWorld('electronAPI', {
     toggleService: (serviceActive) => ipcRenderer.invoke('toggleService', [serviceActive]),
     listenKeyForResult: () => ipcRenderer.invoke('listenKeyForResult'),
     globalHotkeyServiceExited: (callback) => ipcRenderer.on('globalHotkeyServiceExited', callback),
+    updatePieMenu: (json) => ipcRenderer.invoke('updatePieMenu', [json]),
 })

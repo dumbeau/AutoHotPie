@@ -38,6 +38,7 @@ export class PieMenuListComponent implements OnChanges {
             this.selectedInput?.blur();
             console.log('PieMenuListComponent.getLastKeyPress(): listenKeyForResult() returned ' + key);
 
+            window.electronAPI.updatePieMenu(pieMenu.toJsonString());
             // window.electronAPI.updatePieMenu(pieMenu.toJsonString());
         });
     }
