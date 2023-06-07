@@ -29,4 +29,9 @@ export class ProfileEditorComponent implements OnChanges {
         window.electronAPI.createPieMenuIn(this.profId)
             .then(_ => this.refreshProfileView(this.profId));
     }
+
+    removePieMenuFromProf(event: string) {
+        window.electronAPI.removePieMenuFromProfile(this.profId, event).then(
+            () => {this.refreshProfileView(this.profId);});
+    }
 }

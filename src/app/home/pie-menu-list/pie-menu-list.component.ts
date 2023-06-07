@@ -9,11 +9,11 @@ import {NbPosition} from '@nebular/theme';
 })
 export class PieMenuListComponent implements OnChanges {
     @Input() pieMenuIds: string[] = [];
+    @Output() pieMenuRemoved = new EventEmitter<string>();
 
-    selectedInput: any;
     pieMenus: Array<PieMenu> = [];
 
-    updatePieMenus() {
+    refreshPieMenuList() {
         const newPieMenus: Array<PieMenu> = [];
         for (const pieMenuId of this.pieMenuIds) {
             window.electronAPI.getPieMenu(pieMenuId).then((pieMenuJson: string) => {
@@ -24,7 +24,7 @@ export class PieMenuListComponent implements OnChanges {
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        this.updatePieMenus();
+        this.refreshPieMenuList();
     }
 
     protected readonly NbPosition = NbPosition;

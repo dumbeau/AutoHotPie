@@ -109,4 +109,10 @@ export class Preferences {
 
         fs.writeFileSync(USER_SETTINGS_PATH + settingsFilename, JSON.stringify(userDataRecords));
     }
+
+    static removePieMenuFromProfile(profId: string, pieId: string) {
+        const profile = Preferences.getProfile(profId);
+        profile.pieMenus = profile.pieMenus.filter((id) => id !== pieId);
+        Preferences.setUserData(profile);
+    }
 }

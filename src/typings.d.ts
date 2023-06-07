@@ -92,6 +92,8 @@ interface Window {
 
         listenKeyForResult: () => Promise<string>;
 
+
+
         globalHotkeyServiceExited: (callback: () => void) => void;
 
     };

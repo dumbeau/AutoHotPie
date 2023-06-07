@@ -47,6 +47,6 @@
     <div style="display: flex; flex-direction: column; padding: 1em; align-items: center; width: 25vw;">
         <span style="text-align: center">{{ 'PAGES.HOME.DELETE_CONFIRM' | translate }}</span>
         <button nbButton size="small" style="margin-top: 1em" status="danger"
-                (click)="deletePieMenu()">{{ 'GLOBAL.YES' | translate }}</button>
+                (click)="pieMenuRemoved.emit(pieMenu.id)">{{ 'GLOBAL.YES' | translate }}</button>
     </div>
 </ng-template>

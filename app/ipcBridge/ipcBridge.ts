@@ -93,8 +93,8 @@ export function initializeIPCListeners() {
 
         return 'ctrl+shift+p';
     });
-    ipcMain.handle('createPieMenu', (event, args) => {
-        console.log("createPieMenu() called, creating pie menu");
+    ipcMain.handle('createPieMenuIn', (event, args) => {
+        console.log("createPieMenuIn() called, creating pie menu");
         // args[0] = profId
 
         const pie = PieMenu.create(
@@ -113,9 +113,11 @@ export function initializeIPCListeners() {
 
         return true;
     });
-    ipcMain.handle('removePieMenuFromProfile', () => {
+    ipcMain.handle('removePieMenuFromProfile', (event, args) => {
         console.log("removePieMenuFromProfile() called, removing pie menu from profile");
-        // TODO: Implement removePieMenuFromProfile
+        // args[0] = profId, args[1] = pieId
+
+        Preferences.removePieMenuFromProfile(args[0], args[1]);
 
         return true;
     });

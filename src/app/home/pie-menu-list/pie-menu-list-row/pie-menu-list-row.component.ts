@@ -1,4 +1,4 @@
-import {Component, Input, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, Output, ViewChild} from '@angular/core';
 import {NbPosition} from '@nebular/theme';
 import {PieMenu} from '../../../../preferences/PieMenu';
 
@@ -9,14 +9,11 @@ import {PieMenu} from '../../../../preferences/PieMenu';
 })
 export class PieMenuListRowComponent {
     @Input() pieMenu: PieMenu = new PieMenu();
+    @Output() pieMenuRemoved = new EventEmitter();
     @ViewChild('shortcutInput') shortcutInput: any;
     @ViewChild('nameInput') nameInput: any;
 
     protected readonly NbPosition = NbPosition;
-
-    deletePieMenu() {
-            //TODO: DELETE PIE MENU
-    }
 
     listenShortcut() {
         window.electronAPI.listenKeyForResult().then((key: string) => {
@@ -47,4 +44,6 @@ export class PieMenuListRowComponent {
         this.pieMenu.name = this.nameInput.nativeElement.value;
         window.electronAPI.updatePieMenu(this.pieMenu.toJsonString());
     }
+
+
 }
