@@ -147,10 +147,13 @@ export function initializeIPCListeners() {
             console.log("listenKeyForResult() called, listening for key");
 
             const listener = (event: KeyEvent) => {
-                if (event.type === RespondType.KEY_DOWN
+                if ((event.type === RespondType.KEY_DOWN
                     && (event.value.split('+').pop() ?? 'PLACEHOLDER').trim().length == 1
                     && (event.value.split('+').pop() ?? 'PLACEHOLDER').trim() >= 'A'
-                    && (event.value.split('+').pop() ?? 'PLACEHOLDER').trim() <= 'Z') {
+                    && (event.value.split('+').pop() ?? 'PLACEHOLDER').trim() <= 'Z')
+                    || (event.value.split('+').pop() ?? 'PLACEHOLDER').trim() === 'Delete'
+                    || (event.value.split('+').pop() ?? 'PLACEHOLDER').trim() === 'Back'
+                ) {
 
                     GlobalHotkeyService.removeKeyEventListener(listener);
 

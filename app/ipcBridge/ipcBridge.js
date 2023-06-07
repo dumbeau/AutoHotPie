@@ -125,11 +125,13 @@ function initializeIPCListeners() {
         return new Promise(resolve => {
             console.log("listenKeyForResult() called, listening for key");
             const listener = (event) => {
-                var _a, _b, _c;
-                if (event.type === KeyEvent_1.RespondType.KEY_DOWN
+                var _a, _b, _c, _d, _e;
+                if ((event.type === KeyEvent_1.RespondType.KEY_DOWN
                     && ((_a = event.value.split('+').pop()) !== null && _a !== void 0 ? _a : 'PLACEHOLDER').trim().length == 1
                     && ((_b = event.value.split('+').pop()) !== null && _b !== void 0 ? _b : 'PLACEHOLDER').trim() >= 'A'
-                    && ((_c = event.value.split('+').pop()) !== null && _c !== void 0 ? _c : 'PLACEHOLDER').trim() <= 'Z') {
+                    && ((_c = event.value.split('+').pop()) !== null && _c !== void 0 ? _c : 'PLACEHOLDER').trim() <= 'Z')
+                    || ((_d = event.value.split('+').pop()) !== null && _d !== void 0 ? _d : 'PLACEHOLDER').trim() === 'Delete'
+                    || ((_e = event.value.split('+').pop()) !== null && _e !== void 0 ? _e : 'PLACEHOLDER').trim() === 'Back') {
                     GlobalHotkeyService_1.GlobalHotkeyService.removeKeyEventListener(listener);
                     console.log("ipcBridge.ts: listenKeyForResult() returning " + event.value);
                     resolve(event.value);

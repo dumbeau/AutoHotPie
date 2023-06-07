@@ -21,7 +21,12 @@ export class PieMenuListRowComponent {
     listenShortcut() {
         window.electronAPI.listenKeyForResult().then((key: string) => {
 
-            this.pieMenu.hotkey = key;
+            if (key.trim() === 'None+Back' || key.trim() === 'None+Delete') {
+                this.pieMenu.hotkey = '';
+            } else {
+                this.pieMenu.hotkey = key;
+            }
+
             this.shortcutInput.nativeElement.blur();
             console.log('PieMenuListComponent.getLastKeyPress(): listenKeyForResult() returned ' + key);
 
