@@ -33,8 +33,12 @@ export class PieMenuListRowComponent {
         window.electronAPI.listenKeyForResult();
     }
 
-    onNameInputComplete() {
+
+    updatePieMenu() {
         this.nameInput.nativeElement.blur();
+
+        // this.pieMenu.selectionColor is auto updated in the color picker
+
         this.pieMenu.name = this.nameInput.nativeElement.value;
         window.electronAPI.updatePieMenu(this.pieMenu.toJsonString());
     }

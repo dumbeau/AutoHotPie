@@ -8,11 +8,11 @@
     <tbody>
     <tr>
         <td>
-            <input #nameInput nbInput value="{{pieMenu.name}}" (keyup.enter)="onNameInputComplete()" (focusout)="onNameInputComplete()"
+            <input #nameInput nbInput value="{{pieMenu.name}}" (keyup.enter)="updatePieMenu()" (focusout)="updatePieMenu()"
                    style="background: transparent; width: 100%; padding: 0.4em 0.6em; font-weight: normal; color: var(--accordion-header-disabled-text-color);"/>
         </td>
         <td style="width: 100%; display: flex; flex-direction: row; flex-wrap: nowrap; align-content: center; justify-content: center; align-items: center;">
-            <ngx-colors ngx-colors-trigger [(ngModel)]="pieMenu.selectionColor"></ngx-colors>
+            <ngx-colors ngx-colors-trigger [(ngModel)]="pieMenu.selectionColor" (input)="updatePieMenu()"></ngx-colors>
 
         </td>
         <td>

@@ -42,7 +42,7 @@ export class NewPieWizardComponent {
             + ' and activation mode: '
             + this.activationMode);
 
-        window.electronAPI.createPieMenu(this.pieName, this.hotkey, this.activationMode, this.style, 'global');
+        // window.electronAPI.createPieMenuIn(this.pieName, this.hotkey, this.activationMode, this.style, 'global');
     }
 
     prevPage() {

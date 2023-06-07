@@ -3,7 +3,7 @@ import * as child_process from "child_process";
 import {Preferences} from "../pref/Preferences";
 import {NativeAPI} from "../nativeAPI/NativeAPI";
 import {Profile} from "../../src/preferences/Profile";
-import {PieMenu} from "../../src/preferences/PieMenu";
+import {ActivationMode, PieMenu} from "../../src/preferences/PieMenu";
 import {GlobalHotkeyService} from "../globalHotkey/GlobalHotkeyService";
 import {KeyEvent, RespondType} from "../globalHotkey/KeyEvent";
 
@@ -95,22 +95,21 @@ export function initializeIPCListeners() {
     });
     ipcMain.handle('createPieMenu', (event, args) => {
         console.log("createPieMenu() called, creating pie menu");
-        // TODO: Implement listenHotkeyForResult
-        // args[0] = pieName, args[1] = hotkey, args[2] = activationMode, args[3] = style, args[4] = profId
+        // args[0] = profId
 
         const pie = PieMenu.create(
             Date.now().toString(),
-            args[0],
+            "New Pie Menu",
             true,
-            args[2],
-            args[1],
+            ActivationMode.RELEASE_ON_FUNCTION,
+            '',
             -1,
             false,
-            args[3],
+            '#FFFFFF',
             []);
 
         Preferences.setUserData(pie);
-        Preferences.addPieMenuToProfile(args[4], pie.id);
+        Preferences.addPieMenuToProfile(args[0], pie.id);
 
         return true;
     });

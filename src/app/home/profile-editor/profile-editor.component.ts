@@ -15,10 +15,10 @@ export class ProfileEditorComponent implements OnChanges {
     color: any;
 
     ngOnChanges(changes: SimpleChanges): void {
-        this.updateProfile(this.profId);
+        this.refreshProfileView(this.profId);
     }
 
-    updateProfile(profId: string): void {
+    refreshProfileView(profId: string): void {
         window.electronAPI.getProfile(profId).then((prof) => {
             console.log('ProfileEditorComponent: got profile: ' + prof);
             this.profile = Profile.fromJsonString(prof);
@@ -26,11 +26,7 @@ export class ProfileEditorComponent implements OnChanges {
     }
 
     addPieMenu() {
-        window.electronAPI.createPieMenu(
-            'New Pie Menu',
-            '',
-            ActivationMode.RELEASE_ON_FUNCTION,
-            '', this.profId)
-            .then(_ => this.updateProfile(this.profId));
+        window.electronAPI.createPieMenuIn(this.profId)
+            .then(_ => this.refreshProfileView(this.profId));
     }
 }

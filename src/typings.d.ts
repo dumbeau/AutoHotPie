@@ -66,14 +66,10 @@ interface Window {
 
         /**
          * Creates a new pie menu
-         * @param pieName
-         * @param hotkey
-         * @param activationMode One of the for values of ActivationMode
-         * @param style
          *
          * @returns True if successful, false if failed
          */
-        createPieMenu: (pieName: string, hotkey: string, activationMode: number, style: string, profId: string) => Promise<boolean>;
+        createPieMenuIn: (profId: string) => Promise<boolean>;
 
         /**
          *

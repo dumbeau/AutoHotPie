@@ -36,10 +36,6 @@ export class Preferences {
         return JSON.parse(fs.readFileSync(USER_SETTINGS_PATH + AHP_SETTINGS_FILENAME, 'utf8'));
     }
 
-    static getProfileIds(): string[] {
-        return Object.keys(JSON.parse(fs.readFileSync(USER_SETTINGS_PATH + PROFILE_SETTINGS_FILENAME, 'utf8')));
-    }
-
     private static getAllProfilesInJSON(): JSON {
         return JSON.parse(fs.readFileSync(USER_SETTINGS_PATH + PROFILE_SETTINGS_FILENAME, 'utf8'))
     }
@@ -58,12 +54,6 @@ export class Preferences {
         return Profile.fromJsonString(profile);
     }
 
-    static addPieMenuToProfile(profileId: string, pieMenuId: string) {
-        const profile = Preferences.getProfile(profileId);
-        profile.pieMenus.push(pieMenuId);
-        Preferences.setUserData(profile);
-    }
-
     static getPieMenu(id: string): PieMenu {
         const profile =
             "{\"" + id + "\":" + JSON.stringify(Preferences.getAllPieMenusInJSON()[id as keyof JSON]) + "}";
@@ -73,8 +63,20 @@ export class Preferences {
         return PieMenu.fromJsonString(profile);
     }
 
-    static getPieMenus(): JSON {
-        return JSON.parse(fs.readFileSync(USER_SETTINGS_PATH + PIE_MENU_SETTINGS_FILENAME, 'utf8'));
+    static getPieItem(id: string) {
+        const pieItems =
+            "{\"" + id + "\":" + JSON.stringify(Preferences.getAllPieItemsInJSON()[id as keyof JSON]) + "}";
+        return PieItem.fromJsonString(pieItems);
+    }
+
+    static getProfileIds(): string[] {
+        return Object.keys(JSON.parse(fs.readFileSync(USER_SETTINGS_PATH + PROFILE_SETTINGS_FILENAME, 'utf8')));
+    }
+
+    static addPieMenuToProfile(profileId: string, pieMenuId: string) {
+        const profile = Preferences.getProfile(profileId);
+        profile.pieMenus.push(pieMenuId);
+        Preferences.setUserData(profile);
     }
 
     /**
@@ -106,11 +108,5 @@ export class Preferences {
         console.log(JSON.stringify(userDataRecords));
 
         fs.writeFileSync(USER_SETTINGS_PATH + settingsFilename, JSON.stringify(userDataRecords));
-    }
-
-    static getPieItem(id: string) {
-        const pieItems =
-            "{\"" + id + "\":" + JSON.stringify(Preferences.getAllPieItemsInJSON()[id as keyof JSON]) + "}";
-        return PieItem.fromJsonString(pieItems);
     }
 }

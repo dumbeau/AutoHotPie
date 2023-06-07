@@ -15,7 +15,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
     getProfileIds: () => ipcRenderer.invoke('getProfileIds'),
     getPieMenu: (pieId) => ipcRenderer.invoke('getPieMenu', [pieId]),
     listenHotkeyForResult: () => ipcRenderer.invoke('listenHotkeyForResult'),
-    createPieMenu: (pieName, hotkey, activationMode, style, profId) => ipcRenderer.invoke('createPieMenu', [pieName, hotkey, activationMode, style, profId]),
+    createPieMenu: (profId) => ipcRenderer.invoke('createPieMenu', [profId]),
     removePieMenuFromProfile: (profId, pieId) => ipcRenderer.invoke('removePieMenuFromProfile', [profId, pieId]),
     getPieItem: (itemId) => ipcRenderer.invoke('getPieItem', [itemId]),
     toggleService: (serviceActive) => ipcRenderer.invoke('toggleService', [serviceActive]),

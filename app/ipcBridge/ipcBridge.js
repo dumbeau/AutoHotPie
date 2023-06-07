@@ -89,11 +89,10 @@ function initializeIPCListeners() {
     });
     electron_1.ipcMain.handle('createPieMenu', (event, args) => {
         console.log("createPieMenu() called, creating pie menu");
-        // TODO: Implement listenHotkeyForResult
-        // args[0] = pieName, args[1] = hotkey, args[2] = activationMode, args[3] = style, args[4] = profId
-        const pie = PieMenu_1.PieMenu.create(Date.now().toString(), args[0], true, args[2], args[1], -1, false, args[3], []);
+        // args[0] = profId
+        const pie = PieMenu_1.PieMenu.create(Date.now().toString(), "New Pie Menu", true, PieMenu_1.ActivationMode.RELEASE_ON_FUNCTION, '', -1, false, '#FFFFFF', []);
         Preferences_1.Preferences.setUserData(pie);
-        Preferences_1.Preferences.addPieMenuToProfile(args[4], pie.id);
+        Preferences_1.Preferences.addPieMenuToProfile(args[0], pie.id);
         return true;
     });
     electron_1.ipcMain.handle('removePieMenuFromProfile', () => {
