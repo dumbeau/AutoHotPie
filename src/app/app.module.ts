@@ -13,7 +13,6 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { HomeModule } from './home/home.module';
 import { DetailModule } from './detail/detail.module';
-import { NewPieWizardModule } from './new-pie-wizard/new-pie-wizard.module';
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -40,7 +39,6 @@ const httpLoaderFactory = (http: HttpClient): TranslateHttpLoader =>  new Transl
         HomeModule,
         DetailModule,
         AppRoutingModule,
-        NewPieWizardModule,
         TranslateModule.forRoot({
             loader: {
                 provide: TranslateLoader,
