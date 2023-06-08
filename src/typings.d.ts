@@ -13,27 +13,34 @@ interface Window {
         getSettings: () => Promise<Record<string, any>[]>;
         openInBrowser: (url: string) => void;
         isUpdateAvailable: () => Promise<boolean>;
+
         /**
          * Returns the path to the executable and the path to the icon of the foreground application
-         * @returns [exePath, exeIconPath]
+         * @returns JSON string of ForegroundWindow returned by ForegroundWindow.toJsonString()
          */
-        getForegroundApplication: () => Promise<string[]>;
+        getForegroundApplication: () => Promise<string>;
 
         /**
          * Creates a new profile
          *
          * @param profName The name of the new profile
          * @param exePath The path to the executable of the profile
-         * @param iconPath The path to the icon of the executable
+         * @param iconBase64 The base64 encoded icon of the profile
          * @returns The ID of the newly created profile, -1 if failed
          */
-        createProfile: (profName: string, exePath: string, iconPath: string) => Promise<number>;
+        createProfile: (profName: string, exePath: string, iconBase64: string) => Promise<string>;
 
         /**
          * Updates the name of a profile
          * @returns True if successful, false if failed
          */
         updateProfileName: (profId: string, newName: string) => Promise<boolean>;
+
+        /**
+         * Updates the properties of the pie menu in the user data file
+         * @returns True if successful, false if failed
+         */
+        updatePieMenu: (json: string) => Promise<boolean>;
 
         /**
          * Returns the profile with the given ID
@@ -59,14 +66,10 @@ interface Window {
 
         /**
          * Creates a new pie menu
-         * @param pieName
-         * @param hotkey
-         * @param activationMode One of the for values of ActivationMode
-         * @param style
          *
          * @returns True if successful, false if failed
          */
-        createPieMenu: (pieName: string, hotkey: string, activationMode: number, style: string) => Promise<boolean>;
+        createPieMenuIn: (profId: string) => Promise<boolean>;
 
         /**
          *
@@ -76,5 +79,22 @@ interface Window {
          * @returns True if successful, false if failed
          */
         removePieMenuFromProfile: (profId: string, pieId: string) => Promise<boolean>;
+
+        getPieItem: (pieItemId: string) => Promise<string | undefined>;
+
+        /**
+         * Toggle pie menu service.
+         * @param serviceActive
+         *
+         * @returns The status of the service after toggling, true if active, false if inactive
+         */
+        toggleService: (serviceActive: boolean) => Promise<boolean>;
+
+        listenKeyForResult: () => Promise<string>;
+
+        updateProfile: (json: string) => Promise<boolean>;
+
+        globalHotkeyServiceExited: (callback: () => void) => void;
+
     };
 }

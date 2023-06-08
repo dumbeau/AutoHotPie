@@ -1,5 +1,5 @@
-import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild} from '@angular/core';
-import {PieMenu} from '../../../helpers/PieMenu';
+import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
+import {PieMenu} from '../../../../app/src/preferences/PieMenu';
 import {NbPosition} from '@nebular/theme';
 
 @Component({
@@ -9,14 +9,11 @@ import {NbPosition} from '@nebular/theme';
 })
 export class PieMenuListComponent implements OnChanges {
     @Input() pieMenuIds: string[] = [];
-    @Output() deletePieMenu = new EventEmitter<string>();
+    @Output() pieMenuRemoved = new EventEmitter<string>();
 
-    @ViewChild('pieMenuList') pieMenuList: any;
-
-    toBeDeletedPieId = '';
     pieMenus: Array<PieMenu> = [];
 
-    updatePieMenus() {
+    refreshPieMenuList() {
         const newPieMenus: Array<PieMenu> = [];
         for (const pieMenuId of this.pieMenuIds) {
             window.electronAPI.getPieMenu(pieMenuId).then((pieMenuJson: string) => {
@@ -27,8 +24,9 @@ export class PieMenuListComponent implements OnChanges {
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        this.updatePieMenus();
+        this.refreshPieMenuList();
     }
 
     protected readonly NbPosition = NbPosition;
+
 }

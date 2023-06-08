@@ -42,6 +42,26 @@ body {
   --title-bar-height: 42px;
 }
 
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: var(--color-basic-1000);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
 // Generated with https://layout.bradwoods.io/customize
 ///* You can add global styles to this file, and also import other style files */
 //html, body {

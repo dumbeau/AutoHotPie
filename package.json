@@ -1,5 +1,5 @@
 {
-  "name": "auto-hot-pie-angular",
+  "name": "autohotpie",
   "version": "3.0.0",
   "description": "",
   "homepage": "https://github.com/dumbeau/AutoHotPie",
@@ -22,14 +22,13 @@
     "electron": "electron",
     "electron:serve-tsc": "tsc -p tsconfig.serve.json",
     "electron:local": "npm run build:prod && electron .",
-    "electron:build": "npm run build:prod && electron-builder build --publish=never",
+    "electron:build": "npm run build:prod && electron-builder build --publish=never && cp -r ./app/bin ./release/bin",
     "test": "ng test --watch=false",
     "test:watch": "ng test",
     "e2e": "npm run build:prod && playwright test -c e2e/playwright.config.ts e2e/",
     "e2e:show-trace": "playwright show-trace e2e/tracing/trace.zip",
     "version": "conventional-changelog -i CHANGELOG.md -s -r 0 && git add CHANGELOG.md",
-    "lint": "ng lint",
-    "package-win32-x64": "npm run build:prod && npx electron-packager . AutoHotPie --overwrite --platform=win32 --arch=x64 && cp bin -r AutoHotPie-win32-x64"
+    "lint": "ng lint"
   },
   "dependencies": {
     "@angular-slider/ngx-slider": "2.0.4",
@@ -47,8 +46,9 @@
     "@nebular/eva-icons": "11.0.0",
     "@nebular/theme": "11.0.0",
     "angular-ui-tree": "2.22.6",
-    "electron-packager": "17.1.1",
     "eva-icons": "^1.1.3",
+    "konva": "9.2.0",
+    "ng2-konva": "6.0.0",
     "ngx-colors": "3.5.2",
     "rxjs": "7.8.1",
     "tslib": "^2.5.0",

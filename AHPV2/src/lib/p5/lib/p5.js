@@ -23588,7 +23588,7 @@ console.log('P5 Loaded');
           PromiseConstructor.all(iterable) ['catch'](function () {
             /* empty */
           });
-        }); // helpers
+        }); // preferences
         var isThenable = function (it) {
           var then;
           return isObject(it) && typeof (then = it.then) == 'function' ? then : false;
@@ -74826,7 +74826,7 @@ console.log('P5 Loaded');
  * }
  * </code></div>
  */
-        _main.default.prototype.key = '';
+        _main.default.prototype.sendKey = '';
         /**
  * The variable keyCode is used to detect special keys such as BACKSPACE,
  * DELETE, ENTER, RETURN, TAB, ESCAPE, SHIFT, CONTROL, OPTION, ALT, UP_ARROW,
@@ -102179,7 +102179,7 @@ console.log('P5 Loaded');
  * @param  {Number} a The angle of rotation in radians
  * @param  {p5.Vector|Number[]} axis  the axis(es) to rotate around
  * @chainable
- * inspired by Toji's gl-matrix helpers, mat4 rotation
+ * inspired by Toji's gl-matrix preferences, mat4 rotation
  */
         _main.default.Matrix.prototype.rotate = function (a, x, y, z) {
           if (x instanceof _main.default.Vector) {

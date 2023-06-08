@@ -1,5 +1,5 @@
 import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
-import {Profile} from '../../../helpers/Profile';
+import {Profile} from '../../../../app/src/preferences/Profile';
 
 @Component({
   selector: 'app-profile-editor',
@@ -11,25 +11,31 @@ export class ProfileEditorComponent implements OnChanges {
 
     profSettingsRevealed = false;
     profile = new Profile();
+    color: any;
 
     ngOnChanges(changes: SimpleChanges): void {
-        this.updateProfile(changes.profId.currentValue);
+        this.refreshProfileView(this.profId);
     }
 
-    updateProfile(profId: string): void {
+    refreshProfileView(profId: string): void {
         window.electronAPI.getProfile(profId).then((prof) => {
             console.log('ProfileEditorComponent: got profile: ' + prof);
             this.profile = Profile.fromJsonString(prof);
         });
     }
 
+    addPieMenu() {
+        this.profSettingsRevealed = false;
+        window.electronAPI.createPieMenuIn(this.profId)
+            .then(_ => this.refreshProfileView(this.profId));
+    }
 
-    deletePieMenu($event: any) {
-        window.electronAPI.removePieMenuFromProfile(this.profId, $event).then((success) => {
-            if (success) {
-                this.updateProfile(this.profId);
-                console.log('ProfileEditorComponent: successfully removed pie menu from profile');
-            }
-        });
+    removePieMenuFromProf(event: string) {
+        window.electronAPI.removePieMenuFromProfile(this.profId, event).then(
+            () => {this.refreshProfileView(this.profId);});
+    }
+
+    updateProfile() {
+        window.electronAPI.updateProfile(this.profile.toJsonString());
     }
 }
