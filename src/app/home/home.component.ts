@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
 import {NbPopoverDirective, NbPosition, NbTrigger} from '@nebular/theme';
-import {ForegroundWindow} from '../../../app/nativeAPI/ForegroundWindow';
+import {ForegroundWindow} from '../../../app/src/nativeAPI/ForegroundWindow';
 
 @Component({
     selector: 'app-home',

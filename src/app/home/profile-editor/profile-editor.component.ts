@@ -1,6 +1,6 @@
 import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
-import {Profile} from '../../../../app/preferences/Profile';
-import {ActivationMode} from '../../../../app/preferences/PieMenu';
+import {Profile} from '../../../../app/src/preferences/Profile';
+import {ActivationMode} from '../../../../app/src/preferences/PieMenu';
 
 @Component({
   selector: 'app-profile-editor',

@@ -12,12 +12,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.initializeIPCListeners = void 0;
 const electron_1 = require("electron");
 const child_process = require("child_process");
-const Preferences_1 = require("../preferences/Preferences");
-const NativeAPI_1 = require("../nativeAPI/NativeAPI");
-const Profile_1 = require("../preferences/Profile");
-const PieMenu_1 = require("../preferences/PieMenu");
-const GlobalHotkeyService_1 = require("../nativeAPI/GlobalHotkeyService");
-const KeyEvent_1 = require("../nativeAPI/KeyEvent");
+const Preferences_1 = require("./preferences/Preferences");
+const NativeAPI_1 = require("./nativeAPI/NativeAPI");
+const Profile_1 = require("./preferences/Profile");
+const PieMenu_1 = require("./preferences/PieMenu");
+const GlobalHotkeyService_1 = require("./nativeAPI/GlobalHotkeyService");
+const KeyEvent_1 = require("./nativeAPI/KeyEvent");
 /**
  * Sets up IPC listeners for the main process,
  * see typings.d.ts for the list of available listeners and its documentation
