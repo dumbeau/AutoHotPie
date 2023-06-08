@@ -92,7 +92,7 @@ interface Window {
 
         listenKeyForResult: () => Promise<string>;
 
-
+        updateProfile: (json: string) => Promise<boolean>;
 
         globalHotkeyServiceExited: (callback: () => void) => void;
 

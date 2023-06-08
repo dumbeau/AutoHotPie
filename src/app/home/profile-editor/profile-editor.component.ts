@@ -1,6 +1,5 @@
 import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 import {Profile} from '../../../../app/src/preferences/Profile';
-import {ActivationMode} from '../../../../app/src/preferences/PieMenu';
 
 @Component({
   selector: 'app-profile-editor',
@@ -26,6 +25,7 @@ export class ProfileEditorComponent implements OnChanges {
     }
 
     addPieMenu() {
+        this.profSettingsRevealed = false;
         window.electronAPI.createPieMenuIn(this.profId)
             .then(_ => this.refreshProfileView(this.profId));
     }
@@ -33,5 +33,9 @@ export class ProfileEditorComponent implements OnChanges {
     removePieMenuFromProf(event: string) {
         window.electronAPI.removePieMenuFromProfile(this.profId, event).then(
             () => {this.refreshProfileView(this.profId);});
+    }
+
+    updateProfile() {
+        window.electronAPI.updateProfile(this.profile.toJsonString());
     }
 }

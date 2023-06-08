@@ -21,7 +21,15 @@
     </div>
 
     <div [style]="{'display': profSettingsRevealed ? 'unset' : 'none'}">
-        <h6 style="margin: 0;">{{"PAGES.HOME.PROF_SETTINGS" | translate}}</h6>
+        <h5 style="margin: 0;">{{"PAGES.HOME.PROF_SETTINGS" | translate}}</h5>
+
+        <div style="display: flex; flex-direction: row; align-content: center; justify-content: space-between; align-items: center;">
+            <div>
+                <p style="font-size: large; margin: 0.5em 0;">{{ "PAGES.HOME.enabled" | translate}}</p>
+                <p>{{ "PAGES.HOME.enabled_DESC" | translate}}</p>
+            </div>
+            <nb-toggle [(checked)]="profile.enabled" (checkedChange)="updateProfile()"></nb-toggle>
+        </div>
     </div>
 
 </div>

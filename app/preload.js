@@ -22,4 +22,5 @@ contextBridge.exposeInMainWorld('electronAPI', {
     listenKeyForResult: () => ipcRenderer.invoke('listenKeyForResult'),
     globalHotkeyServiceExited: (callback) => ipcRenderer.on('globalHotkeyServiceExited', callback),
     updatePieMenu: (json) => ipcRenderer.invoke('updatePieMenu', [json]),
+    updateProfile: (json) => ipcRenderer.invoke('updateProfile', [json]),
 })

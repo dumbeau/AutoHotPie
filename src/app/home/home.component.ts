@@ -1,5 +1,5 @@
-import {AfterViewInit, Component, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
-import {NbPopoverDirective, NbPosition, NbTrigger} from '@nebular/theme';
+import {Component, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
+import {NbPopoverDirective, NbPosition} from '@nebular/theme';
 import {ForegroundWindow} from '../../../app/src/nativeAPI/ForegroundWindow';
 
 @Component({

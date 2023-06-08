@@ -12,8 +12,7 @@ const EDITOR_WINDOW_HEIGHT = 720;
 let pieMenuWindow: BrowserWindow | undefined;
 let editorWindow: BrowserWindow | undefined;
 
-let tray = null
-
+let tray = null;
 
 // ----------------- Set up GlobalHotkeyService -----------------
 
@@ -117,7 +116,6 @@ initializeIPCListeners();
 
 // ----------------- Set up tray -----------------
 app.whenReady().then(() => {
-    // TODO
     tray = new Tray(__dirname + '/assets/favicon.ico')
     const contextMenu = Menu.buildFromTemplate([
         {label: 'AutoHotPie', type: "normal", enabled: false},

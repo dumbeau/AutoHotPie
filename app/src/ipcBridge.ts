@@ -149,22 +149,29 @@ export function initializeIPCListeners() {
             console.log("listenKeyForResult() called, listening for key");
 
             const listener = (event: KeyEvent) => {
-                if ((event.type === RespondType.KEY_DOWN
-                    && (event.value.split('+').pop() ?? 'PLACEHOLDER').trim().length == 1
-                    && (event.value.split('+').pop() ?? 'PLACEHOLDER').trim() >= 'A'
-                    && (event.value.split('+').pop() ?? 'PLACEHOLDER').trim() <= 'Z')
-                    || (event.value.split('+').pop() ?? 'PLACEHOLDER').trim() === 'Delete'
-                    || (event.value.split('+').pop() ?? 'PLACEHOLDER').trim() === 'Back'
-                ) {
+                if (event.type === RespondType.KEY_DOWN
+                    && !["Alt",
+                        "Control",
+                        "Modifiers",
+                        "LMenu",
+                        "RMenu",
+                        "Capital",
+                        "Tab",
+                        "Shift",
+                        "Escape",
+                        "LShiftKey",
+                        "RShiftKey",
+                        "LControlKey",
+                        "RControlKey",
+                        "ControlKey"].includes((event.value.split('+').pop() ?? 'PLACEHOLDER').trim())) {
 
-                    GlobalHotkeyService.removeKeyEventListener(listener);
-
+                    GlobalHotkeyService.getInstance().removeTempKeyListener();
                     console.log("ipcBridge.ts: listenKeyForResult() returning " + event.value);
                     resolve(event.value);
                 }
             }
 
-            GlobalHotkeyService.addKeyEventListener(listener, true);
+            GlobalHotkeyService.getInstance().addTempKeyListener(listener);
 
         });
 
@@ -174,5 +181,11 @@ export function initializeIPCListeners() {
         // args[0] = JsonString of pie menu
 
         Preferences.setUserData(PieMenu.fromJsonString(args[0]));
+    })
+    ipcMain.handle('updateProfile', (event, args) => {
+        console.log("updateProfile() called, updating profile");
+        // args[0] = JsonString of pie menu
+
+        Preferences.setUserData(Profile.fromJsonString(args[0]));
     })
 }

@@ -6,12 +6,12 @@ import { HomeRoutingModule } from './home-routing.module';
 import { HomeComponent } from './home.component';
 import { SharedModule } from '../shared/shared.module';
 import {
-  NbButtonModule,
-  NbCardModule,
-  NbFormFieldModule,
-  NbIconModule,
-  NbInputModule,
-  NbLayoutModule, NbPopoverModule, NbSelectModule
+    NbButtonModule,
+    NbCardModule,
+    NbFormFieldModule,
+    NbIconModule,
+    NbInputModule,
+    NbLayoutModule, NbPopoverModule, NbSelectModule, NbToggleModule
 } from '@nebular/theme';
 import {ProfileListItemComponent} from './profile-list-item/profile-list-item.component';
 import {PieMenuListComponent} from './pie-menu-list/pie-menu-list.component';
@@ -21,20 +21,21 @@ import { PieMenuListRowComponent } from './pie-menu-list/pie-menu-list-row/pie-m
 
 @NgModule({
   declarations: [HomeComponent, ProfileListItemComponent, PieMenuListComponent, ProfileEditorComponent, PieMenuListRowComponent],
-  imports: [
-    CommonModule,
-    SharedModule,
-    HomeRoutingModule,
-    NbButtonModule,
-    NbLayoutModule,
-    NgOptimizedImage,
-    NbInputModule,
-    NbIconModule,
-    NbFormFieldModule,
-    NgxColorsModule,
-    NbCardModule,
-    NbPopoverModule,
-    NbSelectModule
-  ]
+    imports: [
+        CommonModule,
+        SharedModule,
+        HomeRoutingModule,
+        NbButtonModule,
+        NbLayoutModule,
+        NgOptimizedImage,
+        NbInputModule,
+        NbIconModule,
+        NbFormFieldModule,
+        NgxColorsModule,
+        NbCardModule,
+        NbPopoverModule,
+        NbSelectModule,
+        NbToggleModule
+    ]
 })
 export class HomeModule {}
