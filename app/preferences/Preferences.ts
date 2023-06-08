@@ -1,9 +1,9 @@
 import * as fs from "fs";
-import {Profile} from "../../src/preferences/Profile";
-import {PieMenu} from "../../src/preferences/PieMenu";
-import {PieItem} from "../../src/preferences/PieItem";
-import {Settings} from "../../src/preferences/Settings";
-import {UserDataObject} from "../../src/preferences/UserDataObject";
+import {Profile} from "./Profile";
+import {PieMenu} from "./PieMenu";
+import {PieItem} from "./PieItem";
+import {Settings} from "./Settings";
+import {UserDataObject} from "./UserDataObject";
 
 const AHP_SETTINGS_FILENAME = "settings.json"
 const PROFILE_SETTINGS_FILENAME = "profiles.json"

@@ -1,10 +1,10 @@
 import {app, BrowserWindow} from 'electron';
 import * as path from 'path';
 import * as fs from 'fs';
-import {GlobalHotkeyService} from "./globalHotkey/GlobalHotkeyService";
+import {GlobalHotkeyService} from "./nativeAPI/GlobalHotkeyService";
 import {initializeIPCListeners} from "./ipcBridge/ipcBridge";
-import {Preferences} from "./pref/Preferences";
-import {KeyEvent} from "./globalHotkey/KeyEvent";
+import {Preferences} from "./preferences/Preferences";
+import {KeyEvent} from "./nativeAPI/KeyEvent";
 
 // Constants
 const EDITOR_WINDOW_WIDTH = 1080;

@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, Output, ViewChild} from '@angular/core';
 import {NbPosition} from '@nebular/theme';
-import {PieMenu} from '../../../../preferences/PieMenu';
+import {PieMenu} from '../../../../../app/preferences/PieMenu';
 
 @Component({
   selector: 'app-pie-menu-list-row',

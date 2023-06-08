@@ -19,7 +19,7 @@ export class GlobalHotkeyService {
     private hotkeyService: ChildProcessWithoutNullStreams;
 
     private constructor() {
-        this.hotkeyService = spawn(__dirname + '/../../bin/GlobalKeyEvent.exe');
+        this.hotkeyService = spawn(process.env.PORTABLE_EXECUTABLE_DIR +'/bin/GlobalKeyEvent.exe');
 
         this.hotkeyService.stdout.on("data", (data) => {
 

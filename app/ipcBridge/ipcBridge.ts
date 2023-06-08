@@ -1,11 +1,11 @@
 import {ipcMain} from "electron";
 import * as child_process from "child_process";
-import {Preferences} from "../pref/Preferences";
+import {Preferences} from "../preferences/Preferences";
 import {NativeAPI} from "../nativeAPI/NativeAPI";
-import {Profile} from "../../src/preferences/Profile";
-import {ActivationMode, PieMenu} from "../../src/preferences/PieMenu";
-import {GlobalHotkeyService} from "../globalHotkey/GlobalHotkeyService";
-import {KeyEvent, RespondType} from "../globalHotkey/KeyEvent";
+import {Profile} from "../preferences/Profile";
+import {ActivationMode, PieMenu} from "../preferences/PieMenu";
+import {GlobalHotkeyService} from "../nativeAPI/GlobalHotkeyService";
+import {KeyEvent, RespondType} from "../nativeAPI/KeyEvent";
 
 /**
  * Sets up IPC listeners for the main process,

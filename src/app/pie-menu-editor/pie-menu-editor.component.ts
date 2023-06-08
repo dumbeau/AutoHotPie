@@ -2,8 +2,8 @@ import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {ITreeOptions, KEYS, TREE_ACTIONS} from '@circlon/angular-tree-component';
 import {PieItemNode} from './PieItemNode';
 import {ActivatedRoute} from '@angular/router';
-import {PieMenu} from '../../preferences/PieMenu';
-import {PieItem} from '../../preferences/PieItem';
+import {PieMenu} from '../../../app/preferences/PieMenu';
+import {PieItem} from '../../../app/preferences/PieItem';
 
 @Component({
     selector: 'app-pie-menu-editor',
