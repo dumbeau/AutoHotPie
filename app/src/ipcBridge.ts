@@ -11,7 +11,7 @@ import {KeyEvent, RespondType} from "./nativeAPI/KeyEvent";
  * Sets up IPC listeners for the main process,
  * see typings.d.ts for the list of available listeners and its documentation
  * */
-export function initializeIPCListeners() {
+export function initElectronAPI() {
     ipcMain.handle('openInBrowser', (event, args) => {
         child_process.execSync('start ' + args[0]);
     });

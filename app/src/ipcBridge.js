@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.initializeIPCListeners = void 0;
+exports.initElectronAPI = void 0;
 const electron_1 = require("electron");
 const child_process = require("child_process");
 const Preferences_1 = require("./preferences/Preferences");
@@ -22,7 +22,7 @@ const KeyEvent_1 = require("./nativeAPI/KeyEvent");
  * Sets up IPC listeners for the main process,
  * see typings.d.ts for the list of available listeners and its documentation
  * */
-function initializeIPCListeners() {
+function initElectronAPI() {
     electron_1.ipcMain.handle('openInBrowser', (event, args) => {
         child_process.execSync('start ' + args[0]);
     });
@@ -161,5 +161,5 @@ function initializeIPCListeners() {
         Preferences_1.Preferences.setUserData(Profile_1.Profile.fromJsonString(args[0]));
     });
 }
-exports.initializeIPCListeners = initializeIPCListeners;
+exports.initElectronAPI = initElectronAPI;
 //# sourceMappingURL=ipcBridge.js.map
