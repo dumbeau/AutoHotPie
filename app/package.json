@@ -12,6 +12,7 @@
   "main": "main.js",
   "private": true,
   "dependencies": {
+      "dexie": "3.2.4"
   }
 
 }

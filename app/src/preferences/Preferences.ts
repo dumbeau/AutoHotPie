@@ -11,6 +11,9 @@ const PIE_MENU_SETTINGS_FILENAME = "pieMenus.json"
 const PIE_ITEMS_SETTINGS_FILENAME = "pieItems.json"
 const USER_SETTINGS_PATH = process.env.APPDATA + '/AHP/';
 
+/**
+ * @deprecated The project is migrating to dexie which uses indexedDB instead of JSON files
+ */
 export class Preferences {
     static init() {
         if (!fs.existsSync(process.env.APPDATA + '/AHP/')) {

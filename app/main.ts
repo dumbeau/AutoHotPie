@@ -5,12 +5,14 @@ import {GlobalHotkeyService} from "./src/nativeAPI/GlobalHotkeyService";
 import {initElectronAPI} from "./src/ipcBridge";
 import {Preferences} from "./src/preferences/Preferences";
 import {KeyEvent} from "./src/nativeAPI/KeyEvent";
+import {db} from "./src/preferences/AHPDB";
 
 // Constants
 const EDITOR_WINDOW_WIDTH = 1080;
 const EDITOR_WINDOW_HEIGHT = 720;
 let pieMenuWindow: BrowserWindow | undefined;
 let editorWindow: BrowserWindow | undefined;
+app.setPath("userData", process.env.APPDATA + "/AHP/");
 
 let tray = null;
 

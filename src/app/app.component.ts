@@ -2,6 +2,7 @@ import {Component, ViewChild} from '@angular/core';
 import { ElectronService } from './core/services';
 import { TranslateService } from '@ngx-translate/core';
 import { APP_CONFIG } from '../environments/environment';
+import {db} from "../../app/src/preferences/AHPDB";
 
 @Component({
   selector: 'app-root',
