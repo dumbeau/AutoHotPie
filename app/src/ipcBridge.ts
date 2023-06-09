@@ -6,6 +6,7 @@ import {Profile} from "./preferences/Profile";
 import {ActivationMode, PieMenu} from "./preferences/PieMenu";
 import {GlobalHotkeyService} from "./nativeAPI/GlobalHotkeyService";
 import {KeyEvent, RespondType} from "./nativeAPI/KeyEvent";
+import {Settings} from "./preferences/Settings";
 
 /**
  * Sets up IPC listeners for the main process,
@@ -13,10 +14,11 @@ import {KeyEvent, RespondType} from "./nativeAPI/KeyEvent";
  * */
 export function initElectronAPI() {
     ipcMain.handle('openInBrowser', (event, args) => {
+        console.debug("ipcBridge.ts openInBrowser(): opening " + args[0] + " in browser")
         child_process.execSync('start ' + args[0]);
     });
     ipcMain.handle('getSettings', () => {
-        console.log("getSettings() called, retrieving settings");
+        console.debug("ipcBridge.ts getSettings(): retrieving settings");
 
         const settings: { key: string; value: any; }[] = [];
         Object.entries(Preferences.getAHPSettings()).forEach((entry) => {
@@ -25,6 +27,43 @@ export function initElectronAPI() {
 
         return settings;
     });
+    ipcMain.handle('getProfileIds', () => {
+        const ids = Preferences.getProfileIds();
+        console.debug("ipcBridge.ts getProfileIds(): returning [" + ids + "]");
+
+        return ids;
+    });
+
+    ipcMain.handle('getPieItem', (event, args) => {
+        console.debug("getPieItem() called, retrieving pie item info for pie item id " + args[0] + "");
+        // args[0] = pieItemId
+
+        const pieItem = Preferences.getPieItem(args[0])?.toJsonString();
+
+        console.debug("ipcBridge.ts: getPieItem() returning " + pieItem);
+
+        return pieItem;
+    });
+    ipcMain.handle('getProfile', (event, args: string) => {
+        console.debug("getProfile() called, retrieving profile info for profile id " + args[0] + "");
+        // args[0] = profId
+
+        const profile = Preferences.getProfile(args[0]).toJsonString();
+
+        console.debug("ipcBridge.ts: getProfile() returning " + profile);
+
+        return profile;
+    });
+    ipcMain.handle('getPieMenu', (event, args) => {
+        console.log("getPieMenu() called, retrieving pie menu info for pie menu id " + args[0] + "");
+        // args[0] = pieId
+
+        const pieMenu = Preferences.getPieMenu(args[0]).toJsonString()
+        console.log("ipcBridge.ts: getPieMenu() returning " + pieMenu);
+
+        return pieMenu;
+    });
+
     ipcMain.handle('isUpdateAvailable', async () => {
         console.log("isUpdateAvailable() called, checking for updates");
         // TODO: Implement isUpdateAvailable
@@ -59,34 +98,6 @@ export function initElectronAPI() {
         // return true if successful, false if failed
         return true;
     });
-    ipcMain.handle('getProfile', (event, args: string) => {
-        console.log("getProfile() called, retrieving profile info for profile id " + args[0] + "");
-        // args[0] = profId
-
-
-        const profile = Preferences.getProfile(args[0]).toJsonString();
-
-        console.log("ipcBridge.ts: getProfile() returning " + profile);
-
-        return profile;
-    });
-    ipcMain.handle('getProfileIds', () => {
-        console.log("getProfileIds() called, retrieving profile id list");
-
-        const ids = Preferences.getProfileIds();
-        console.log("ipcBridge.ts: getProfileIds() returning [" + ids + "]");
-
-        return ids;
-    });
-    ipcMain.handle('getPieMenu', (event, args) => {
-        console.log("getPieMenu() called, retrieving pie menu info for pie menu id " + args[0] + "");
-        // args[0] = pieId
-
-        const pieMenu = Preferences.getPieMenu(args[0]).toJsonString()
-        console.log("ipcBridge.ts: getPieMenu() returning " + pieMenu);
-
-        return pieMenu;
-    });
     ipcMain.handle('listenHotkeyForResult', () => {
         console.log("listenHotkeyForResult() called, listening for hotkey");
         // TODO: Implement listenHotkeyForResult
@@ -120,17 +131,6 @@ export function initElectronAPI() {
         Preferences.removePieMenuFromProfile(args[0], args[1]);
 
         return true;
-    });
-    ipcMain.handle('getPieItem', (event, args) => {
-        console.log("getPieItem() called, retrieving pie item info for pie item id " + args[0] + "");
-        // TODO: Implement getPieItem
-        // args[0] = pieItemId
-
-        const pieItem = Preferences.getPieItem(args[0])?.toJsonString();
-
-        console.log("ipcBridge.ts: getPieItem() returning " + pieItem);
-
-        return pieItem;
     });
     ipcMain.handle('toggleService', (event, args) => {
         console.log("toggleService() called, the service is now " + args[0] + ". Turning it " + (!args[0] ? "on" : "off") + "");

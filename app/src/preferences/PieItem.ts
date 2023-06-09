@@ -67,8 +67,7 @@ export class PieItem extends UserDataObject {
                 json.iconPath,
                 json.useIconColor);
         } catch (e) {
-            console.error('Error parsing PieItem JSON: ' + e);
-            console.error('JSON: ' + jsonString);
+            console.error('Profile.fromJsonString: Error parsing PieItem JSON: ' + jsonString);
         }
     }
 }
