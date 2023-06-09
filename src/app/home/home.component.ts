@@ -26,7 +26,10 @@ export class HomeComponent implements OnInit, OnChanges {
   // eslint-disable-next-line @typescript-eslint/naming-convention
   protected readonly NbPosition = NbPosition;
 
-  get selectedProf(): Profile {
+  /**
+   * This function will possibly return undefined if when profiles is either empty or has not yet loaded.
+   */
+  get selectedProf(): Profile | undefined {
     return this.profiles.find((prof) => prof.id === this.selectedProfId) ?? this.profiles[0];
   }
 
@@ -84,10 +87,12 @@ export class HomeComponent implements OnInit, OnChanges {
       name: this.profInput.nativeElement.value,
       pieMenus: []
     };
+
     db.profile.add(newProf).then((id) => {
       this.profiles.push(newProf);
     });
 
+    console.log('HomeComponent createProfile(): Created new profile: ' + newProf.name);
   }
 
   updateSelectedProfile($event: number) {

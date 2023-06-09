@@ -6,28 +6,12 @@ import {db, Profile} from '../../../../app/src/preferences/AHPDB';
   templateUrl: './profile-editor.component.html',
   styleUrls: ['./profile-editor.component.scss']
 })
-export class ProfileEditorComponent implements OnChanges {
+export class ProfileEditorComponent {
   @Input() profile: Profile = {id: 0, enabled: false, exePath: '', iconBase64: '', name: '', pieMenus: []};
 
   profSettingsRevealed = false;
 
   color: any;
-
-  ngOnChanges(changes: SimpleChanges): void {
-    // this.refreshProfileView(this.profId);
-  }
-
-  refreshProfileView(profId: number): void {
-    db.profile.get(profId).then((prof) => {
-      if (prof === undefined) {
-        console.log('ProfileEditorComponent refreshProfileView(): profile not found');
-        return;
-      }
-
-      console.log('ProfileEditorComponent refreshProfileView(): ' + prof);
-      this.profile = prof;
-    });
-  }
 
   addPieMenu() {
     this.profSettingsRevealed = false;
@@ -36,18 +20,20 @@ export class ProfileEditorComponent implements OnChanges {
       activationMode: '',
       escapeRadius: 0,
       hotkey: '',
-      name: '',
+      name: 'New Pie Menu',
       openInScreenCenter: false,
       pieItems: [],
       selectionColor: '',
-      enabled: false})
+      enabled: true})
       .then((pieMenuId) => {
-        db.profile.update(this.profile, {pieMenus: [...this.profile.pieMenus, pieMenuId]})
-          .then(() => { this.profile.pieMenus.push(pieMenuId as number); });
+        db.profile.update(this.profile, {pieMenus: [...this.profile.pieMenus, pieMenuId]});
     });
+
+    console.log('ProfileEditorComponent.addPieMenu(): this.profile.pieMenus = ' + this.profile.pieMenus);
   }
 
   removePieMenuFromProf(event: number) {
+    console.log('ProfileEditorComponent.removePieMenuFromProf(): event = ' + event);
     db.profile.update(
       this.profile.id ?? 0,
       {pieMenus: this.profile.pieMenus.filter((pieMenuId) => pieMenuId !== event)})
@@ -55,6 +41,8 @@ export class ProfileEditorComponent implements OnChanges {
   }
 
   updateProfile() {
-    // window.electronAPI.updateProfile(this.profile.toJsonString());
+    db.profile.update(this.profile.id ?? 0, this.profile);
+
+    console.log('ProfileEditorComponent.updateProfile(): this.profile = ' + this.profile);
   }
 }

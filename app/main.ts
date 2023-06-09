@@ -17,6 +17,9 @@ app.setPath("userData", process.env.APPDATA + "/AHP/");
 let tray = null;
 
 Preferences.init(); // Load/Init preferences
+
+// User data is initialized in app.component.ts and can only be initialized there (with minimal code).
+
 initGlobalHotkeyService();
 initElectronWindows();
 initElectronAPI();

@@ -19,7 +19,7 @@
 
         </div>
 
-        <app-profile-editor #profileEditorComponent [profile]="selectedProf"/>
+        <app-profile-editor *ngIf="selectedProf" #profileEditorComponent [profile]="selectedProf"/>
 
     </section>
 </div>

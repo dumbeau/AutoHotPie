@@ -1,32 +1,30 @@
 import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
-import {PieMenu} from '../../../../app/src/preferences/PieMenu';
-import {NbPosition} from '@nebular/theme';
+import {db, PieMenu} from '../../../../app/src/preferences/AHPDB';
 
 @Component({
-    selector: 'app-pie-menu-list',
-    templateUrl: './pie-menu-list.component.html',
-    styleUrls: ['./pie-menu-list.component.scss']
+  selector: 'app-pie-menu-list',
+  templateUrl: './pie-menu-list.component.html',
+  styleUrls: ['./pie-menu-list.component.scss']
 })
 export class PieMenuListComponent implements OnChanges {
-    @Input() pieMenuIds: number[] = [];
-    @Output() pieMenuRemoved = new EventEmitter<number>();
+  @Input() pieMenuIds: number[] = [];
+  @Output() pieMenuRemoved = new EventEmitter<number>();
 
-    pieMenus: Array<PieMenu> = [];
+  pieMenus: Array<PieMenu> = [];
 
-    refreshPieMenuList() {
-        const newPieMenus: Array<PieMenu> = [];
-        // for (const pieMenuId of this.pieMenuIds) {
-        //     window.electronAPI.getPieMenu(pieMenuId).then((pieMenuJson: string) => {
-        //         newPieMenus.push(PieMenu.fromJsonString(pieMenuJson));
-        //     });
-        // }
-        this.pieMenus = newPieMenus;
-    }
+  refreshPieMenuList() {
+    db.pieMenu.bulkGet(this.pieMenuIds).then((pieMenus) => {
+      this.pieMenus = [];
 
-    ngOnChanges(changes: SimpleChanges): void {
-        this.refreshPieMenuList();
-    }
+      for (const pieMenu of pieMenus) {
+        if (pieMenu !== undefined) {
+          this.pieMenus.push(pieMenu);
+        }
+      }
+    });
+  }
 
-    protected readonly NbPosition = NbPosition;
-
+  ngOnChanges(changes: SimpleChanges): void {
+    this.refreshPieMenuList();
+  }
 }
