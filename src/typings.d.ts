@@ -80,6 +80,10 @@ interface Window {
          */
         removePieMenuFromProfile: (profId: string, pieId: string) => Promise<boolean>;
 
+      /**
+       * @deprecated
+       * @param pieItemId
+       */
         getPieItem: (pieItemId: string) => Promise<string | undefined>;
 
         /**

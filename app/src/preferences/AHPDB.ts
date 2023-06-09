@@ -30,14 +30,14 @@ export interface PieMenu {
   escapeRadius: number;
   openInScreenCenter: boolean;
   selectionColor: string;
-  pieItems: PieItem[];
+  pieItems: number[];
 }
 
 export interface Profile {
   id?: number;
   name: string;
   enabled: boolean;
-  pieMenus: PieMenu[];
+  pieMenus: number[];
   exePath: string;
   iconBase64: string;
 }

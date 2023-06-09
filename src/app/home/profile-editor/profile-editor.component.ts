@@ -1,5 +1,5 @@
 import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
-import {Profile} from '../../../../app/src/preferences/Profile';
+import {db, Profile} from '../../../../app/src/preferences/AHPDB';
 
 @Component({
   selector: 'app-profile-editor',
@@ -7,35 +7,54 @@ import {Profile} from '../../../../app/src/preferences/Profile';
   styleUrls: ['./profile-editor.component.scss']
 })
 export class ProfileEditorComponent implements OnChanges {
-    @Input() profId = '0';
+  @Input() profile: Profile = {id: 0, enabled: false, exePath: '', iconBase64: '', name: '', pieMenus: []};
 
-    profSettingsRevealed = false;
-    profile = new Profile();
-    color: any;
+  profSettingsRevealed = false;
 
-    ngOnChanges(changes: SimpleChanges): void {
-        this.refreshProfileView(this.profId);
-    }
+  color: any;
 
-    refreshProfileView(profId: string): void {
-        window.electronAPI.getProfile(profId).then((prof) => {
-            console.log('ProfileEditorComponent: got profile: ' + prof);
-            this.profile = Profile.fromJsonString(prof);
-        });
-    }
+  ngOnChanges(changes: SimpleChanges): void {
+    // this.refreshProfileView(this.profId);
+  }
 
-    addPieMenu() {
-        this.profSettingsRevealed = false;
-        window.electronAPI.createPieMenuIn(this.profId)
-            .then(_ => this.refreshProfileView(this.profId));
-    }
+  refreshProfileView(profId: number): void {
+    db.profile.get(profId).then((prof) => {
+      if (prof === undefined) {
+        console.log('ProfileEditorComponent refreshProfileView(): profile not found');
+        return;
+      }
 
-    removePieMenuFromProf(event: string) {
-        window.electronAPI.removePieMenuFromProfile(this.profId, event).then(
-            () => {this.refreshProfileView(this.profId);});
-    }
+      console.log('ProfileEditorComponent refreshProfileView(): ' + prof);
+      this.profile = prof;
+    });
+  }
 
-    updateProfile() {
-        window.electronAPI.updateProfile(this.profile.toJsonString());
-    }
+  addPieMenu() {
+    this.profSettingsRevealed = false;
+
+    db.pieMenu.add({
+      activationMode: '',
+      escapeRadius: 0,
+      hotkey: '',
+      name: '',
+      openInScreenCenter: false,
+      pieItems: [],
+      selectionColor: '',
+      enabled: false})
+      .then((pieMenuId) => {
+        db.profile.update(this.profile, {pieMenus: [...this.profile.pieMenus, pieMenuId]})
+          .then(() => { this.profile.pieMenus.push(pieMenuId as number); });
+    });
+  }
+
+  removePieMenuFromProf(event: number) {
+    db.profile.update(
+      this.profile.id ?? 0,
+      {pieMenus: this.profile.pieMenus.filter((pieMenuId) => pieMenuId !== event)})
+      .then(() => { this.profile.pieMenus = this.profile.pieMenus.filter((pieMenuId) => pieMenuId !== event); });
+  }
+
+  updateProfile() {
+    // window.electronAPI.updateProfile(this.profile.toJsonString());
+  }
 }

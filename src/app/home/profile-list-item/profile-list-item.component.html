@@ -1,10 +1,10 @@
 <div
     style="display: flex; align-content: center; align-items: center; justify-content: flex-start; flex-wrap: nowrap; flex-direction: row; padding: 0.5em; border-radius: 5px; margin-bottom: 5px;"
-    [style.background-color]="prof.id === selectedProfileId ? 'var(--color-basic-1000)' : 'transparent'"
+    [style.background-color]="profile.id === selectedProfileId ? 'var(--color-basic-1000)' : 'transparent'"
 >
     <img
         style="cursor: pointer;"
-        [src]="'data:image/png;base64, ' + this.prof.iconBase64"
+        [src]="'data:image/png;base64, ' + this.profile.iconBase64"
         width="32px"
         height="32px"
         (click)="selectProfile()"
@@ -16,7 +16,7 @@
                #profNameInput
                (keyup.enter)="completeEditing()"
                (focusout)="completeEditing()"
-               [value]="prof.name"
+               [value]="profile.name"
                [disabled]="inputDisabled"/>
         <button
             nbButton

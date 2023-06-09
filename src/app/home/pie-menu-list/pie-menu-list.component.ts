@@ -8,18 +8,18 @@ import {NbPosition} from '@nebular/theme';
     styleUrls: ['./pie-menu-list.component.scss']
 })
 export class PieMenuListComponent implements OnChanges {
-    @Input() pieMenuIds: string[] = [];
-    @Output() pieMenuRemoved = new EventEmitter<string>();
+    @Input() pieMenuIds: number[] = [];
+    @Output() pieMenuRemoved = new EventEmitter<number>();
 
     pieMenus: Array<PieMenu> = [];
 
     refreshPieMenuList() {
         const newPieMenus: Array<PieMenu> = [];
-        for (const pieMenuId of this.pieMenuIds) {
-            window.electronAPI.getPieMenu(pieMenuId).then((pieMenuJson: string) => {
-                newPieMenus.push(PieMenu.fromJsonString(pieMenuJson));
-            });
-        }
+        // for (const pieMenuId of this.pieMenuIds) {
+        //     window.electronAPI.getPieMenu(pieMenuId).then((pieMenuJson: string) => {
+        //         newPieMenus.push(PieMenu.fromJsonString(pieMenuJson));
+        //     });
+        // }
         this.pieMenus = newPieMenus;
     }
 
