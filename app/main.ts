@@ -14,7 +14,6 @@ let editorWindow: BrowserWindow | undefined;
 
 let tray = null;
 
-
 Preferences.init(); // Load/Init preferences
 initGlobalHotkeyService();
 initElectronWindows();
@@ -27,29 +26,23 @@ function initGlobalHotkeyService() {
 
     GlobalHotkeyService.addKeyEventListener(
         (event: KeyEvent) => {
-            console.log("Main process received a key event from the global hotkey service: " + event.type + " " + event.value);
+            console.debug("main.ts", "Main process received a key event from the global hotkey service: " + event.type + " " + event.value);
         })
         .setOnCloseListener(() => {
-            console.log("Main process received the exit signal from the global hotkey service.");
+            console.debug("main.ts", "Main process received the exit signal from the global hotkey service.");
+
             editorWindow?.webContents.send('globalHotkeyServiceExited')
         });
 }
 function initElectronWindows() {
     try {
-        // This method will be called when Electron has finished
-        // initialization and is ready to create browser windows.
-        // Some APIs can only be used after this event occurs.
-        // Added 400 ms to fix the black background issue while using transparent window. More detais at https://github.com/electron/electron/issues/15947
+
+        // Added 400 ms to fix the black background issue while using transparent window.
+        // More details at https://github.com/electron/electron/issues/15947
         app.on('ready', () => setTimeout(createWindow, 400));
 
-        // Quit when all windows are closed.
-        app.on('window-all-closed', () => {
-            // On OS X it is common for applications and their menu bar
-            // to stay active until the user quits explicitly with Cmd + Q
-            if (process.platform !== 'darwin') {
-                app.quit();
-            }
-        });
+        // Note: windows-all-closed listener is removed
+        // because we want to keep the app running in the background
 
         app.on('activate', () => {
             // On OS X it's common to re-create a window in the app when the
@@ -60,8 +53,7 @@ function initElectronWindows() {
         });
 
     } catch (e) {
-        // Catch Error
-        // throw e;
+        console.error(e);
     }
 }
 function createWindow(): BrowserWindow {
@@ -70,6 +62,7 @@ function createWindow(): BrowserWindow {
         minHeight: EDITOR_WINDOW_HEIGHT,
         width: EDITOR_WINDOW_WIDTH,
         height: EDITOR_WINDOW_HEIGHT,
+        // TODO: Uncomment the following line for release build
         // titleBarStyle: 'hidden',
         titleBarOverlay: {
             color: '#2f3241',
@@ -104,8 +97,9 @@ function createWindow(): BrowserWindow {
     const editorWindowURL = new URL(path.join('file:', __dirname, editorWindowPath));
     editorWindow.loadURL(editorWindowURL.href);
 
+    // TODO: The following line currently DOESN't work with release build
+    // https://github.com/maximegris/angular-electron/issues/58
     pieMenuWindow.loadURL('file://' + __dirname + '/../src/app/pie-menu-ui/pie-menu-ui.component.html');
-
 
     editorWindow.on('close', (event) => {
         event.preventDefault();
@@ -114,9 +108,6 @@ function createWindow(): BrowserWindow {
 
     return editorWindow;
 }
-
-// ----------------- Set up IPC listeners -----------------
-
 function initSystemTray() {
     app.whenReady().then(() => {
         tray = new Tray(__dirname + '/assets/favicon.ico')
@@ -146,9 +137,7 @@ function initSystemTray() {
                 }
             },
         ])
-        tray.setToolTip('This is my application.')
+        tray.setToolTip('Pie menyuuus!')
         tray.setContextMenu(contextMenu)
     })
 }
-
-// ----------------- Set up tray -----------------
