@@ -24,20 +24,10 @@ import {NgxColorsModule} from 'ngx-colors';
   ],
   imports: [
     CommonModule,
-    PieMenuUIRoutingModule,
-    RouterOutlet,
-    SharedModule,
-    NbButtonModule,
     NbLayoutModule,
-    NgOptimizedImage,
-    NbInputModule,
-    NbIconModule,
-    NbFormFieldModule,
-    NgxColorsModule,
-    NbCardModule,
-    NbPopoverModule,
-    NbSelectModule,
-    NbToggleModule
+    PieMenuUIRoutingModule,
+    NbButtonModule,
+    RouterOutlet
   ]
 })
 export class PieMenuUIModule { }

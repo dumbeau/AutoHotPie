@@ -1,9 +1,13 @@
-import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
-import {PageNotFoundComponent} from './shared/components';
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
+import { PageNotFoundComponent } from './shared/components';
 
-import {HomeRoutingModule} from './home/home-routing.module';
-import {DetailRoutingModule} from './detail/detail-routing.module';
+import { HomeRoutingModule } from './home/home-routing.module';
+import { DetailRoutingModule } from './detail/detail-routing.module';
+
+// Please keep the following line. It is not certain where this is being used
+// but the program will crash without this import
+import {PieMenuEditorModule} from './pie-menu-editor/pie-menu-editor.module';
 import {SettingsComponent} from './settings/settings.component';
 import {SettingsModule} from './settings/settings.module';
 import {HelpAndAboutComponent} from './help-and-about/help-and-about.component';
@@ -40,7 +44,11 @@ const routes: Routes = [
     PieMenuEditorRoutingModule,
     PieMenuUIRoutingModule,
     SettingsModule,
-    HelpAndAboutModule
+    HelpAndAboutModule,
+
+    // This import is not really used but to keep the IDE acknowledge
+    // to not remove this import
+    PieMenuEditorModule
   ],
   exports: [RouterModule]
 })

@@ -85,6 +85,16 @@ function createWindow(): BrowserWindow {
       contextIsolation: true,  // false if you want to run e2e test with Spectron
     },
   });
+  // Path when running electron executable
+  let editorWindowPath = './index.html';
+
+  if (fs.existsSync(path.join(__dirname, '../dist/index.html'))) {
+    // Path when running electron in local folder
+    editorWindowPath = '../dist/index.html';
+  }
+
+  const editorWindowURL = new URL(path.join('file:', __dirname, editorWindowPath));
+  editorWindow.loadURL(editorWindowURL.href);
 
   pieMenuWindow = new BrowserWindow({
     webPreferences: {
@@ -94,20 +104,18 @@ function createWindow(): BrowserWindow {
     },
   });
 
+  // ------------ Creating Editor Window End ------------
+
   // Path when running electron executable
-  let editorWindowPath = './index.html';
+  let pieMenuPath = './index.html#pieMenuUI';
 
   if (fs.existsSync(path.join(__dirname, '../dist/index.html'))) {
     // Path when running electron in local folder
-    editorWindowPath = '../dist/index.html';
+    pieMenuPath = '../dist/index.html#pieMenuUI';
   }
 
-  let editorWindowURL = new URL(path.join('file:', __dirname, editorWindowPath));
-  editorWindow.loadURL(editorWindowURL.href);
-
-  editorWindowPath = '../dist/index.html#pieMenuUI';
-  editorWindowURL = new URL(path.join('file:', __dirname, editorWindowPath));
-  pieMenuWindow.loadURL(editorWindowURL.href);
+  const pieMenuURL = new URL(path.join('file:', __dirname, pieMenuPath));
+  pieMenuWindow.loadURL(pieMenuURL.href);
 
   editorWindow.on('close', (event) => {
     event.preventDefault();
