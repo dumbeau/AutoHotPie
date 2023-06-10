@@ -1,9 +1,21 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { PieMenuUIComponent } from './pie-menu-ui.component';
-import {NbButtonModule, NbLayoutModule} from "@nebular/theme";
-import {RouterOutlet} from "@angular/router";
-
+import {NgModule} from '@angular/core';
+import {CommonModule, NgOptimizedImage} from '@angular/common';
+import {PieMenuUIComponent} from './pie-menu-ui.component';
+import {
+  NbButtonModule,
+  NbCardModule,
+  NbFormFieldModule,
+  NbIconModule,
+  NbInputModule,
+  NbLayoutModule,
+  NbPopoverModule,
+  NbSelectModule,
+  NbToggleModule
+} from '@nebular/theme';
+import {RouterOutlet} from '@angular/router';
+import {PieMenuUIRoutingModule} from './pie-menu-ui-routing-module';
+import {SharedModule} from '../shared/shared.module';
+import {NgxColorsModule} from 'ngx-colors';
 
 
 @NgModule({
@@ -12,9 +24,20 @@ import {RouterOutlet} from "@angular/router";
   ],
   imports: [
     CommonModule,
-    NbLayoutModule,
+    PieMenuUIRoutingModule,
+    RouterOutlet,
+    SharedModule,
     NbButtonModule,
-    RouterOutlet
+    NbLayoutModule,
+    NgOptimizedImage,
+    NbInputModule,
+    NbIconModule,
+    NbFormFieldModule,
+    NgxColorsModule,
+    NbCardModule,
+    NbPopoverModule,
+    NbSelectModule,
+    NbToggleModule
   ]
 })
 export class PieMenuUIModule { }
