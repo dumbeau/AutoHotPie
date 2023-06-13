@@ -1,4 +1,5 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, ViewChild} from '@angular/core';
+import {Settings} from '../../../app/src/preferences/Settings';
 
 @Component({
   selector: 'app-settings',

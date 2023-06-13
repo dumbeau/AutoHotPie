@@ -24,38 +24,40 @@ import {
 } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import {NgOptimizedImage} from '@angular/common';
+import {PieMenuUIModule} from './pie-menu-ui/pie-menu-ui.module';
 
 // AoT requires an exported function for factories
 const httpLoaderFactory = (http: HttpClient): TranslateHttpLoader =>  new TranslateHttpLoader(http, './assets/i18n/', '.json');
 
 @NgModule({
   declarations: [AppComponent],
-    imports: [
-        BrowserModule,
-        FormsModule,
-        HttpClientModule,
-        CoreModule,
-        SharedModule,
-        HomeModule,
-        DetailModule,
-        AppRoutingModule,
-        TranslateModule.forRoot({
-            loader: {
-                provide: TranslateLoader,
-                useFactory: httpLoaderFactory,
-                deps: [HttpClient]
-            }
-        }),
-        BrowserAnimationsModule,
-        NbThemeModule.forRoot({name: 'dark'}),
-        NbLayoutModule,
-        NbEvaIconsModule,
-        NbIconModule,
-        NbButtonModule,
-        NbListModule,
-        NbToggleModule,
-        NgOptimizedImage
-    ],
+  imports: [
+    BrowserModule,
+    FormsModule,
+    HttpClientModule,
+    CoreModule,
+    SharedModule,
+    HomeModule,
+    PieMenuUIModule,
+    DetailModule,
+    AppRoutingModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: httpLoaderFactory,
+        deps: [HttpClient]
+      }
+    }),
+    BrowserAnimationsModule,
+    NbThemeModule.forRoot({name: 'dark'}),
+    NbLayoutModule,
+    NbEvaIconsModule,
+    NbIconModule,
+    NbButtonModule,
+    NbListModule,
+    NbToggleModule,
+    NgOptimizedImage
+  ],
   providers: [],
   exports: [
   ],

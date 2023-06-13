@@ -1,5 +1,6 @@
 
 <div
+  *ngIf="!isPieMenu()"
   style="
     position:fixed;
     z-index: 999;
@@ -36,9 +37,9 @@
   </button>
 
 </div>
-<nb-layout>
+<nb-layout *ngIf="loaded">
 
-  <nb-layout-column style="padding: var(--title-bar-height) 0 0 0;">
+  <nb-layout-column style="padding: 0 0 0 0;" [style.padding-top]="isPieMenu() ? 0 : 'var(--title-bar-height)'">
     <router-outlet></router-outlet>
 
   </nb-layout-column>

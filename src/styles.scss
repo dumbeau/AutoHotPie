@@ -1,7 +1,6 @@
 @use 'themes' as *;
 
 @use '@nebular/theme/styles/globals' as *;
-@import '@circlon/angular-tree-component/css/angular-tree-component.css';
 
 @include nb-install() {
   @include nb-theme-global();

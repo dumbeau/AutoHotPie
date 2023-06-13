@@ -1,53 +1,38 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
-import {Profile} from '../../../../app/src/preferences/Profile';
+import {db, Profile} from '../../../../app/src/preferences/AHPDB';
 
 @Component({
-    selector: 'app-profile-list-item',
-    templateUrl: './profile-list-item.component.html',
-    styleUrls: ['./profile-list-item.component.scss']
+  selector: 'app-profile-list-item',
+  templateUrl: './profile-list-item.component.html',
+  styleUrls: ['./profile-list-item.component.scss']
 })
 
-export class ProfileListItemComponent implements OnInit {
-    @Input() profId = '0';
-    @Input() selectedProfileId = '';
-    @Output() profileSelected = new EventEmitter<string>();
-    @Output() profileUpdated = new EventEmitter();
+export class ProfileListItemComponent {
+  @Input() profile: Profile = {id: 0, enabled: false, exePath: '', iconBase64: '', name: '', pieMenus: []};
+  @Input() selectedProfileId = 0;
+  @Output() profileSelected = new EventEmitter<number>();
+  @Output() profileUpdated = new EventEmitter();
 
-    @ViewChild('profNameInput') profNameInput: any;
-    @ViewChild('editButton') editButton: any;
+  @ViewChild('profNameInput') profNameInput: any;
+  @ViewChild('editButton') editButton: any;
 
-    inputDisabled = true;
-    prof = new Profile();
+  inputDisabled = true;
 
-    selectProfile() {
-        this.profileSelected.emit(this.prof.id);
-    }
+  selectProfile() {
+    this.profileSelected.emit(this.profile.id);
+  }
 
-    startEditing() {
-        this.inputDisabled = !this.inputDisabled;
-    }
+  startEditing() {
+    this.inputDisabled = !this.inputDisabled;
+  }
 
-    completeEditing() {
-        this.inputDisabled = true;
+  completeEditing() {
+    this.inputDisabled = true;
 
-        window.electronAPI.updateProfileName(this.prof.id, this.profNameInput.nativeElement.value)
-            .then((success: boolean) => {
-                if (success) {
-                    this.prof.name = this.profNameInput.nativeElement.value;
-                    this.profileUpdated.emit();
-                } else {
-                    console.log('Failed to update profile name');
-                }
-            });
-    }
-
-    ngOnInit(): void {
-        console.log('Requesting profile with id ' + this.profId);
-
-        window.electronAPI.getProfile(this.profId).then((profJson: string) => {
-
-            this.prof = Profile.fromJsonString(profJson);
-        });
-    }
+    db.profile.update(this.profile.id ?? 0, {name: this.profNameInput.nativeElement.value}).then(() => {
+      this.profile.name = this.profNameInput.nativeElement.value;
+      console.log('ProfileListItemComponent completeEditing(): Profile name updated');
+    });
+  }
 
 }

@@ -1,41 +1,48 @@
 import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
-import {Profile} from '../../../../app/src/preferences/Profile';
+import {db, Profile} from '../../../../app/src/preferences/AHPDB';
 
 @Component({
   selector: 'app-profile-editor',
   templateUrl: './profile-editor.component.html',
   styleUrls: ['./profile-editor.component.scss']
 })
-export class ProfileEditorComponent implements OnChanges {
-    @Input() profId = '0';
+export class ProfileEditorComponent {
+  @Input() profile: Profile = {id: 0, enabled: false, exePath: '', iconBase64: '', name: '', pieMenus: []};
 
-    profSettingsRevealed = false;
-    profile = new Profile();
-    color: any;
+  profSettingsRevealed = false;
 
-    ngOnChanges(changes: SimpleChanges): void {
-        this.refreshProfileView(this.profId);
-    }
+  color: any;
 
-    refreshProfileView(profId: string): void {
-        window.electronAPI.getProfile(profId).then((prof) => {
-            console.log('ProfileEditorComponent: got profile: ' + prof);
-            this.profile = Profile.fromJsonString(prof);
-        });
-    }
+  addPieMenu() {
+    this.profSettingsRevealed = false;
 
-    addPieMenu() {
-        this.profSettingsRevealed = false;
-        window.electronAPI.createPieMenuIn(this.profId)
-            .then(_ => this.refreshProfileView(this.profId));
-    }
+    db.pieMenu.add({
+      activationMode: '',
+      escapeRadius: 0,
+      hotkey: '',
+      name: 'New Pie Menu',
+      openInScreenCenter: false,
+      pieItems: [],
+      selectionColor: '',
+      enabled: true})
+      .then((pieMenuId) => {
+        db.profile.update(this.profile, {pieMenus: [...this.profile.pieMenus, pieMenuId]});
+    });
 
-    removePieMenuFromProf(event: string) {
-        window.electronAPI.removePieMenuFromProfile(this.profId, event).then(
-            () => {this.refreshProfileView(this.profId);});
-    }
+    console.log('ProfileEditorComponent.addPieMenu(): this.profile.pieMenus = ' + this.profile.pieMenus);
+  }
 
-    updateProfile() {
-        window.electronAPI.updateProfile(this.profile.toJsonString());
-    }
+  removePieMenuFromProf(event: number) {
+    console.log('ProfileEditorComponent.removePieMenuFromProf(): event = ' + event);
+    db.profile.update(
+      this.profile.id ?? 0,
+      {pieMenus: this.profile.pieMenus.filter((pieMenuId) => pieMenuId !== event)})
+      .then(() => { this.profile.pieMenus = this.profile.pieMenus.filter((pieMenuId) => pieMenuId !== event); });
+  }
+
+  updateProfile() {
+    db.profile.update(this.profile.id ?? 0, this.profile);
+
+    console.log('ProfileEditorComponent.updateProfile(): this.profile = ' + this.profile);
+  }
 }
