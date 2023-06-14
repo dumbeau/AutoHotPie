@@ -1,4 +1,4 @@
-import {ipcMain} from "electron";
+import {app, ipcMain} from "electron";
 import * as child_process from "child_process";
 import {Preferences} from "./preferences/Preferences";
 import {NativeAPI} from "./nativeAPI/NativeAPI";
@@ -51,6 +51,11 @@ export function initElectronAPI() {
             GlobalHotkeyService.getInstance();
             return true;
         }
+    });
+    ipcMain.handle('getVersion', () => {
+      console.log("getVersion() called, retrieving version");
+      console.log("ipcBridge.ts: getVersion() returning " + app.getVersion());
+      return app.getVersion();
     });
     ipcMain.handle('listenKeyForResult', () => {
         return new Promise(resolve => {

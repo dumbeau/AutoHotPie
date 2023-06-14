@@ -11,5 +11,6 @@ contextBridge.exposeInMainWorld('electronAPI', {
   getForegroundApplication: () => ipcRenderer.invoke('getForegroundApplication'),
   toggleService: (serviceActive) => ipcRenderer.invoke('toggleService', [serviceActive]),
   listenKeyForResult: () => ipcRenderer.invoke('listenKeyForResult'),
+  getVersion: () => ipcRenderer.invoke('getVersion'),
   globalHotkeyServiceExited: (callback) => ipcRenderer.on('globalHotkeyServiceExited', callback),
 })

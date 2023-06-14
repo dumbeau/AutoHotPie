@@ -32,5 +32,6 @@ interface Window {
 
     globalHotkeyServiceExited: (callback: () => void) => void;
 
+    getVersion: () => Promise<string>;
   };
 }

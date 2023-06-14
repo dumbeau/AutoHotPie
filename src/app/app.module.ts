@@ -17,10 +17,10 @@ import { DetailModule } from './detail/detail.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
-  NbThemeModule,
-  NbLayoutModule,
-  NbIconModule,
-  NbButtonModule, NbListModule, NbToggleModule
+    NbThemeModule,
+    NbLayoutModule,
+    NbIconModule,
+    NbButtonModule, NbListModule, NbToggleModule, NbPopoverModule
 } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import {NgOptimizedImage} from '@angular/common';
@@ -31,33 +31,34 @@ const httpLoaderFactory = (http: HttpClient): TranslateHttpLoader =>  new Transl
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [
-    BrowserModule,
-    FormsModule,
-    HttpClientModule,
-    CoreModule,
-    SharedModule,
-    HomeModule,
-    PieMenuUIModule,
-    DetailModule,
-    AppRoutingModule,
-    TranslateModule.forRoot({
-      loader: {
-        provide: TranslateLoader,
-        useFactory: httpLoaderFactory,
-        deps: [HttpClient]
-      }
-    }),
-    BrowserAnimationsModule,
-    NbThemeModule.forRoot({name: 'dark'}),
-    NbLayoutModule,
-    NbEvaIconsModule,
-    NbIconModule,
-    NbButtonModule,
-    NbListModule,
-    NbToggleModule,
-    NgOptimizedImage
-  ],
+    imports: [
+        BrowserModule,
+        FormsModule,
+        HttpClientModule,
+        CoreModule,
+        SharedModule,
+        HomeModule,
+        PieMenuUIModule,
+        DetailModule,
+        AppRoutingModule,
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: httpLoaderFactory,
+                deps: [HttpClient]
+            }
+        }),
+        BrowserAnimationsModule,
+        NbThemeModule.forRoot({name: 'dark'}),
+        NbLayoutModule,
+        NbEvaIconsModule,
+        NbIconModule,
+        NbButtonModule,
+        NbListModule,
+        NbToggleModule,
+        NgOptimizedImage,
+        NbPopoverModule
+    ],
   providers: [],
   exports: [
   ],

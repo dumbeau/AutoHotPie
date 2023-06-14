@@ -4,6 +4,7 @@ import {TranslateService} from '@ngx-translate/core';
 import {APP_CONFIG} from '../environments/environment';
 import {db} from '../../app/src/preferences/AHPDB';
 import {Router} from '@angular/router';
+import {NbPosition} from "@nebular/theme";
 
 @Component({
   selector: 'app-root',
@@ -12,6 +13,8 @@ import {Router} from '@angular/router';
 })
 export class AppComponent {
   @ViewChild('icon') icon: any;
+
+  version = '0.0.0';
   activePage = 'none';
   serviceActive = true;
   loaded = false;
@@ -22,6 +25,10 @@ export class AppComponent {
     private translate: TranslateService
   ) {
     this.initAppdata();
+
+    window.electronAPI.getVersion().then((version) => {
+      this.version = version;
+    });
 
     this.translate.setDefaultLang('en');
     console.log('APP_CONFIG', APP_CONFIG);
@@ -86,4 +93,22 @@ export class AppComponent {
   isPieMenu() {
     return this.router.url === '/pieMenuUI';
   }
+
+  openInBrowser(emitter: string) {
+    switch (emitter) {
+      case 'github':
+        window.electronAPI.openInBrowser('https://github.com/dumbeau/AutoHotPie');
+        break;
+      case 'paypal':
+        window.electronAPI.openInBrowser(
+          'https://www.paypal.com/donate?business=RBTDTCUBK4Z8S&no_recurring=1&item_name=Support+Pie+Menus+Development&currency_code=USD');
+        break;
+      case 'bug':
+        window.electronAPI.openInBrowser('https://github.com/dumbeau/AutoHotPie/issues/new');
+        break;
+    }
+  }
+
+  protected readonly NbPosition = NbPosition;
+
 }

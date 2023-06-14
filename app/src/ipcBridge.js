@@ -57,6 +57,11 @@ function initElectronAPI() {
             return true;
         }
     });
+    electron_1.ipcMain.handle('getVersion', () => {
+        console.log("getVersion() called, retrieving version");
+        console.log("ipcBridge.ts: getVersion() returning " + electron_1.app.getVersion());
+        return electron_1.app.getVersion();
+    });
     electron_1.ipcMain.handle('listenKeyForResult', () => {
         return new Promise(resolve => {
             console.log("listenKeyForResult() called, listening for key");
