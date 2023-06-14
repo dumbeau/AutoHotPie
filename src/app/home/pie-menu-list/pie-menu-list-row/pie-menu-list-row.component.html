@@ -16,9 +16,7 @@
 
         </td>
         <td>
-            <input #shortcutInput nbInput value="{{pieMenu.hotkey}}" (focusin)="listenShortcut()" readonly
-                   (focusout)="cancelLastListener()"
-                   style="background: transparent; padding: 0.4em 0.6em; width: 90%; font-weight: normal; color: var(--accordion-header-disabled-text-color);"/>
+          <app-shortcut-input #shortcutInput [(hotkey)]="pieMenu.hotkey" (focusout)="shortcutInputFocusout()"></app-shortcut-input>
         </td>
         <td style="text-align: center;">
             <button nbButton ghost [routerLink]="['/pie-menu-editor', pieMenu.id]" status="primary"

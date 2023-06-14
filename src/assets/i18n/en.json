@@ -11,11 +11,22 @@
   },
   "PAGES": {
     "EDITOR": {
+      "OPENURL_PLACEHOLDER": "URL",
+      "DROP_PIE_MENU": "Drag a pie menu from the top right panel and drop it here",
+      "SELECT": "Select",
+      "FILE_PATH_PLACEHOLDER": "File path",
+      "COMMAND_PLACEHOLDER": "Write the command you want to execute here",
+      "LEFT": "Left",
+      "MIDDLE": "Middle",
+      "RIGHT": "Right",
+      "TEXT_PLACEHOLDER": "Write the text you want to send here",
+      "TEXT": "Text",
       "TREE_TITLE": "Pie Item Tree",
       "PREVIEW": "Preview",
       "PROP": "Properties",
       "SAVE": "Save",
-      "ESCAPE_RADIUS": "Escape radius"
+      "ESCAPE_RADIUS": "Escape radius",
+      "SHORTCUTS": "Shortcuts"
     },
     "SETTINGS": {
       "SETTINGS": "Settings",

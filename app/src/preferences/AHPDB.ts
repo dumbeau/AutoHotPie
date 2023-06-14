@@ -1,5 +1,5 @@
 import Dexie, {Table} from "dexie";
-enum ActionType {
+export enum ActionType {
   sendkey = 'SEND_KEY',
   sendtext = 'SEND_TEXT',
   mouseclick = 'MOUSE_CLICK',
@@ -9,14 +9,16 @@ enum ActionType {
   resizewindow = 'RESIZE_WINDOW',
   movewindow = 'MOVE_WINDOW',
   openurl = 'OPEN_URL',
-  switchapp = 'SWITCH_APP',
-  none = 'NONE',
+  switchapp = 'SWITCH_APP'
+}
+export interface Action {
+  type: ActionType;
 }
 export interface PieItem {
   id?: number;
   name: string;
   enabled: boolean;
-  actions: string[];
+  actions: Action[];
   iconPath: string;
   useIconColor: boolean;
 }

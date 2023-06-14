@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
+import {Action, ActionType} from "../../../app/src/preferences/AHPDB";
 
 @Component({
   selector: 'app-pie-menu-editor',
@@ -8,6 +9,17 @@ import {ActivatedRoute} from '@angular/router';
 })
 export class PieMenuEditorComponent implements OnInit {
   @Input() pieMenuId: string;
+  actions: Action[] = [
+    {type: ActionType.sendkey},
+    {type: ActionType.sendtext},
+    {type: ActionType.mouseclick},
+    {type: ActionType.command},
+    {type: ActionType.openfolder},
+    {type: ActionType.submenu},
+    {type: ActionType.resizewindow},
+    {type: ActionType.movewindow},
+    {type: ActionType.openurl},
+    {type: ActionType.switchapp}];
 
   constructor(private activatedRoute: ActivatedRoute) {
     this.pieMenuId = this.activatedRoute.snapshot.paramMap.get('pieMenuId') ?? '';

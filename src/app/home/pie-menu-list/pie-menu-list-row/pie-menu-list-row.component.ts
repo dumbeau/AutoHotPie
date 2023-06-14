@@ -24,24 +24,9 @@ export class PieMenuListRowComponent {
 
   protected readonly NbPosition = NbPosition;
 
-  listenShortcut() {
-    window.electronAPI.listenKeyForResult().then((key: string) => {
-
-      if (key.trim() === 'None+Back' || key.trim() === 'None+Delete') {
-        this.pieMenu.hotkey = '';
-      } else {
-        this.pieMenu.hotkey = key;
-      }
-
-      this.shortcutInput.nativeElement.blur();
-      console.log('PieMenuListComponent.getLastKeyPress(): listenKeyForResult() returned ' + key);
-
-      db.pieMenu.put(this.pieMenu);
-    });
-  }
-
-  cancelLastListener() {
-    window.electronAPI.listenKeyForResult();
+  shortcutInputFocusout() {
+    console.log('PieMenuListRowComponent: Updating shortcut for pie menu to ', this.pieMenu.hotkey);
+    db.pieMenu.put(this.pieMenu);
   }
 
 
