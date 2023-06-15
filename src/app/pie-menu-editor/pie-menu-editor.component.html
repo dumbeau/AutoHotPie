@@ -40,9 +40,13 @@
 
             <div *ngFor="let action of actions; let i = index"
                      style="display: flex; flex-direction: column; flex-wrap: nowrap; align-content: flex-start; justify-content: flex-start; align-items: center; ">
-              <button *ngIf="i !== 0" nbButton fullWidth ghost size="tiny" style="margin-bottom: 2px; border-radius: 1em">Move up</button>
+              <button
+                (click)="moveUp(i)"
+                *ngIf="i !== 0" nbButton fullWidth ghost size="tiny" style="margin-bottom: 2px; border-radius: 1em">Move up</button>
               <app-action [action]="action" style="height: fit-content"></app-action>
-              <button *ngIf="i !== actions.length - 1" nbButton fullWidth ghost size="tiny" style="margin-top: 2px; border-radius: 1em">Move down</button>
+              <button
+                (click)="moveDown(i)"
+                *ngIf="i !== actions.length - 1" nbButton fullWidth ghost size="tiny" style="margin-top: 2px; border-radius: 1em">Move down</button>
 
               <nb-icon style="min-height: 64px" icon="arrow-downward-outline"></nb-icon>
             </div>

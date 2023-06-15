@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {Action, ActionType} from "../../../app/src/preferences/AHPDB";
+import {Action, ActionType} from '../../../app/src/preferences/AHPDB';
 
 @Component({
   selector: 'app-pie-menu-editor',
@@ -27,5 +27,21 @@ export class PieMenuEditorComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+  moveUp(i: number) {
+    if (i > 0) {
+      const temp = this.actions[i - 1];
+      this.actions[i - 1] = this.actions[i];
+      this.actions[i] = temp;
+    }
+  }
+
+  moveDown(i: number) {
+    if (i < this.actions.length - 1) {
+      const temp = this.actions[i + 1];
+      this.actions[i + 1] = this.actions[i];
+      this.actions[i] = temp;
+    }
   }
 }
