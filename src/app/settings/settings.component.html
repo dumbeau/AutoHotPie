@@ -2,7 +2,7 @@
   <section class="layout">
     <nb-list style="width: 100%">
       <nb-list-item #settingList *ngFor="let setting of settings | async" style=" display: flex; flex-direction: row; justify-content: space-between; ">
-        <div>
+        <div style="width: 100%">
           <h3>{{ "PAGES.SETTINGS." + setting.key | translate}}</h3>
           <p>{{ "PAGES.SETTINGS." + setting.key + "_DESC" | translate}}</p>
         </div>

@@ -1,5 +1,5 @@
 <div
-  style="background: var(--color-basic-900); border-radius: 10px; padding: 1em 0.5em 1em 1.3em;overflow-y: scroll; width: 50vh; height: 100%; display: flex; flex-direction: column; flex-wrap: nowrap; align-content: space-between; justify-content: flex-start; align-items: center;">
+  class="action-card">
 
   <div class="setting-row">
     <nb-select placeholder="Action" [(selected)]="action.type" size="small">
@@ -16,7 +16,8 @@
     </nb-select>
     <nb-form-field>
       <nb-icon nbPrefix icon="repeat-outline" pack="eva"></nb-icon>
-      <input type="number" nbInput fieldSize="small" style="width: 5.5em; padding-right: 0.5em">
+      <input type="number" min="1" max="99" value="1" nbInput fieldSize="small"
+             style="width: 5.5em; padding-right: 0.5em">
     </nb-form-field>
   </div>
 
@@ -30,7 +31,7 @@
     <div class="setting-row" style="margin-top: 1em">
       {{ 'PAGES.EDITOR.SHORTCUTS' | translate }}
       <textarea nbInput fullWidth placeholder="{{ 'PAGES.EDITOR.TEXT_PLACEHOLDER' | translate }}"
-                style="resize: vertical; margin-left: 1em"></textarea>
+                style="resize: vertical; margin-left: 1em; max-height: 10em;"></textarea>
     </div>
   </div>
   <div *ngIf="action.type === ActionType.mouseclick" style="width: 100%">
@@ -45,9 +46,9 @@
     </div>
     <div class="setting-row" style="margin-top: 1em">
       {{ 'PAGES.EDITOR.SHORTCUTS' | translate }}
-      <nb-checkbox >Ctrl</nb-checkbox>
-      <nb-checkbox >Alt</nb-checkbox>
-      <nb-checkbox >Shift</nb-checkbox>
+      <nb-checkbox>Ctrl</nb-checkbox>
+      <nb-checkbox>Alt</nb-checkbox>
+      <nb-checkbox>Shift</nb-checkbox>
 
     </div>
   </div>
@@ -55,7 +56,7 @@
     <div class="setting-row" style="margin-top: 1em">
       {{ 'PAGES.EDITOR.SHORTCUTS' | translate }}
       <input nbInput fullWidth placeholder="{{ 'PAGES.EDITOR.COMMAND_PLACEHOLDER' | translate }}"
-                style="resize: vertical; margin-left: 1em">
+             style="resize: vertical; margin-left: 1em">
     </div>
   </div>
   <div *ngIf="action.type === ActionType.openfolder" style="width: 100%">
@@ -64,13 +65,17 @@
       <input nbInput fullWidth placeholder="{{ 'PAGES.EDITOR.FILE_PATH_PLACEHOLDER' | translate }}"
              style="resize: vertical; margin-left: 1em">
     </div>
-    <button nbButton fullWidth="true" status="primary" style="margin-top: 1em">{{ 'PAGES.EDITOR.SELECT' | translate }}</button>
+    <button nbButton fullWidth="true" status="primary"
+            style="margin-top: 1em">{{ 'PAGES.EDITOR.SELECT' | translate }}</button>
   </div>
   <div *ngIf="action.type === ActionType.submenu" style="width: 100%">
     <div class="setting-row" style="margin-top: 1em">
       {{ 'PAGES.EDITOR.DROP_PIE_MENU' | translate }}
-      <nb-card style="width: 100%; height: 100%"></nb-card>
     </div>
+    <nb-card style="width: 100%; height: 80%; margin-top: 1em;">
+      <nb-card-body style="width: 100%; height: 100%">
+      </nb-card-body>
+    </nb-card>
   </div>
   <div *ngIf="action.type === ActionType.resizewindow" style="width: 100%">
     <div class="setting-row" style="margin-top: 1em">

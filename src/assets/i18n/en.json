@@ -11,6 +11,7 @@
   },
   "PAGES": {
     "EDITOR": {
+      "ACTIONS": "Actions",
       "OPENURL_PLACEHOLDER": "URL",
       "DROP_PIE_MENU": "Drag a pie menu from the top right panel and drop it here",
       "SELECT": "Select",
