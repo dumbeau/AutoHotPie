@@ -8,8 +8,8 @@
 }
 
 .growM {
-  width: 25em;
-  min-width: 25em;
+  width: 26em;
+  min-width: 26em;
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
@@ -37,4 +37,13 @@ li {
 
 .cdk-drag-placeholder {
   opacity: 0;
+}
+
+.tab {
+  margin: 0 !important;
+  border-radius: 0.5em 0.5em 0 0 !important;
+  background-color: var(--actions-background-color) !important;
+  border: solid 2px var(--accordion-header-border-color) !important;
+  border-bottom: none;
+  color: var(--accordion-header-disabled-text-color) !important;
 }

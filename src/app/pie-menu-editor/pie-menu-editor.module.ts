@@ -4,13 +4,13 @@ import { PieMenuEditorComponent } from './pie-menu-editor.component';
 import {TranslateModule} from '@ngx-translate/core';
 import {PreferencesEditorComponent} from './preferences-editor/preferences-editor.component';
 import {
-    NbButtonGroupModule,
-    NbButtonModule, NbCardModule, NbCheckboxModule,
-    NbFormFieldModule,
-    NbIconModule, NbInputModule,
-    NbListModule, NbRadioModule,
-    NbSelectModule, NbTabsetModule,
-    NbToggleModule
+  NbButtonGroupModule,
+  NbButtonModule, NbCardModule, NbCheckboxModule,
+  NbFormFieldModule,
+  NbIconModule, NbInputModule,
+  NbListModule, NbRadioModule,
+  NbSelectModule, NbTabsetModule, NbTagModule,
+  NbToggleModule
 } from '@nebular/theme';
 import {RouterLink} from '@angular/router';
 import { ActionComponent } from './action/action.component';
@@ -41,7 +41,8 @@ import {CdkDrag, CdkDropList} from "@angular/cdk/drag-drop";
     NbCardModule,
     NbTabsetModule,
     CdkDropList,
-    CdkDrag
+    CdkDrag,
+    NbTagModule
   ]
 })
 export class PieMenuEditorModule { }
