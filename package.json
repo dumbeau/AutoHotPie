@@ -7,7 +7,7 @@
     "name": "dumbeau"
   },
   "license": "MIT",
-  "keywords": [],
+  "keywords": ["macro","radial","pie","menu"],
   "main": "app/main.js",
   "private": true,
   "scripts": {
