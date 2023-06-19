@@ -1,3 +1,6 @@
+/**
+ * Key event respond type.
+ */
 export enum RespondType {
   KEY_UP = 'KEY_UP', KEY_DOWN = 'KEY_DOWN', MOUSE_UP = 'MOUSE_UP', MOUSE_DOWN = 'MOUSE_DOWN'
 }
