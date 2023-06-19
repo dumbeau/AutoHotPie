@@ -46,6 +46,7 @@
     "@nebular/theme": "11.0.0",
     "angular-ui-tree": "2.22.6",
     "eva-icons": "^1.1.3",
+    "hotkeys-js": "^3.10.2",
     "konva": "9.2.0",
     "ng2-konva": "6.0.0",
     "ngx-colors": "3.5.2",
