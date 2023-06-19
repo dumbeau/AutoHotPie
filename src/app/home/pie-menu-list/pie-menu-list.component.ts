@@ -8,7 +8,7 @@ import {db, PieMenu} from '../../../../app/src/preferences/AHPDB';
 })
 export class PieMenuListComponent implements OnChanges {
   @Input() pieMenuIds: number[] = [];
-  @Output() pieMenuRemoved = new EventEmitter<number>();
+  @Output() pieMenuChange = new EventEmitter<{remove: number|undefined; add: number|undefined}>();
 
   pieMenus: Array<PieMenu> = [];
 

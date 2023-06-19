@@ -55,9 +55,9 @@ export class AHPDB extends Dexie {
     super('myDatabase');
     this.version(1).stores({
       // TODO: Change the schema string to be directly generated from the interface
-      pieItem: "++id, name, enabled, actions, iconPath, useIconColor",
-      pieMenu: "++id, name, enabled, activationMode, hotkey, escapeRadius, openInScreenCenter, selectionColor, pieItems",
-      profile: "++id, name, enabled, pieMenus, exePath, iconBase64",
+      pieItem: "++id, name, enabled, *actions, iconPath, useIconColor",
+      pieMenu: "++id, name, enabled, activationMode, hotkey, escapeRadius, openInScreenCenter, selectionColor, *pieItems",
+      profile: "++id, name, enabled, *pieMenus, exePath, iconBase64",
     });
   }
 }

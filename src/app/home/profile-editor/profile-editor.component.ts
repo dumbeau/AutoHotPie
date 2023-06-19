@@ -1,5 +1,6 @@
-import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
+import {Component, Input, TemplateRef} from '@angular/core';
 import {db, Profile} from '../../../../app/src/preferences/AHPDB';
+import {NbDialogService, NbPosition} from '@nebular/theme';
 
 @Component({
   selector: 'app-profile-editor',
@@ -13,7 +14,10 @@ export class ProfileEditorComponent {
 
   color: any;
 
-  addPieMenu() {
+  constructor(private dialogService: NbDialogService) {
+  }
+
+  newPieMenu() {
     this.profSettingsRevealed = false;
 
     db.pieMenu.add({
@@ -24,20 +28,35 @@ export class ProfileEditorComponent {
       openInScreenCenter: false,
       pieItems: [],
       selectionColor: '',
-      enabled: true})
+      enabled: true
+    })
       .then((pieMenuId) => {
-        db.profile.update(this.profile, {pieMenus: [...this.profile.pieMenus, pieMenuId]});
-    });
+        this.addPieMenu(pieMenuId as number);
+      });
 
     console.log('ProfileEditorComponent.addPieMenu(): this.profile.pieMenus = ' + this.profile.pieMenus);
   }
 
-  removePieMenuFromProf(event: number) {
+  onPieMenuChanged(event: { remove: number | undefined; add: number | undefined }) {
     console.log('ProfileEditorComponent.removePieMenuFromProf(): event = ' + event);
-    db.profile.update(
-      this.profile.id ?? 0,
-      {pieMenus: this.profile.pieMenus.filter((pieMenuId) => pieMenuId !== event)})
-      .then(() => { this.profile.pieMenus = this.profile.pieMenus.filter((pieMenuId) => pieMenuId !== event); });
+
+    let newPieMenuList = this.profile.pieMenus;
+    if (event.remove !== undefined) {
+      newPieMenuList = newPieMenuList.filter((pieMenuId) => pieMenuId !== event.remove);
+    }
+    if (event.add !== undefined) {
+      newPieMenuList = [...newPieMenuList, event.add];
+    }
+
+    if (event.remove !== undefined || event.add !== undefined) {
+      db.profile.update(
+        this.profile.id ?? 0,
+        {pieMenus: newPieMenuList})
+        .then(() => {
+          this.profile.pieMenus = newPieMenuList;
+        });
+    }
+
   }
 
   updateProfile() {
@@ -45,4 +64,20 @@ export class ProfileEditorComponent {
 
     console.log('ProfileEditorComponent.updateProfile(): this.profile = ' + this.profile);
   }
+
+  openPieMenuSelector(pieMenuSelectorDialog: TemplateRef<any>) {
+    this.dialogService.open(pieMenuSelectorDialog, {
+      context: db.pieMenu.where('id').noneOf(this.profile.pieMenus).toArray(),
+    });
+  }
+
+  protected readonly NbPosition = NbPosition;
+
+  addPieMenu(id: number) {
+    if (this.profile.pieMenus.includes(id)) {
+      return;
+    }
+    db.profile.update(this.profile, {pieMenus: [...this.profile.pieMenus, id]});
+  }
 }
+
