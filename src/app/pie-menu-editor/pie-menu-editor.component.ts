@@ -1,6 +1,9 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {Action, ActionType, PieItem, PieMenu, Profile} from '../../../app/src/preferences/AHPDB';
+import {PieMenu} from '../../../app/src/userData/PieMenu';
+import {PieItem} from '../../../app/src/userData/PieItem';
+import {Action} from '../../../app/src/actions/Action';
+import {SendKeyAction} from '../../../app/src/actions/SendKeyAction';
 
 @Component({
   selector: 'app-pie-menu-editor',
@@ -18,16 +21,7 @@ export class PieMenuEditorComponent implements OnInit {
   pieItems: Map<number, PieItem> = new Map<number, PieItem>();
 
   actions: Action[] = [
-    {type: ActionType.sendkey},
-    {type: ActionType.sendtext},
-    {type: ActionType.mouseclick},
-    {type: ActionType.command},
-    {type: ActionType.openfolder},
-    {type: ActionType.submenu},
-    {type: ActionType.resizewindow},
-    {type: ActionType.movewindow},
-    {type: ActionType.openurl},
-    {type: ActionType.switchapp}];
+    new SendKeyAction('a')];
 
   constructor(private activatedRoute: ActivatedRoute) {
     // TODO: REPLACE following hardcoded pieMenus with real data from database.
@@ -81,6 +75,6 @@ export class PieMenuEditorComponent implements OnInit {
   }
 
   addAction() {
-    this.actions.push({type: ActionType.sendkey});
+    this.actions.push(new SendKeyAction(''));
   }
 }

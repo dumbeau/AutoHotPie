@@ -1,6 +1,7 @@
 import {Component, Input, TemplateRef} from '@angular/core';
-import {db, Profile} from '../../../../app/src/preferences/AHPDB';
+import {db} from '../../../../app/src/userData/AHPDatabase';
 import {NbDialogService, NbPosition} from '@nebular/theme';
+import {Profile} from '../../../../app/src/userData/Profile';
 
 @Component({
   selector: 'app-profile-editor',
@@ -13,6 +14,8 @@ export class ProfileEditorComponent {
   profSettingsRevealed = false;
 
   color: any;
+
+  protected readonly nbPosition = NbPosition;
 
   constructor(private dialogService: NbDialogService) {
   }
@@ -70,8 +73,6 @@ export class ProfileEditorComponent {
       context: db.pieMenu.where('id').noneOf(this.profile.pieMenus).toArray(),
     });
   }
-
-  protected readonly NbPosition = NbPosition;
 
   addPieMenu(id: number) {
     if (this.profile.pieMenus.includes(id)) {

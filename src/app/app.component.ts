@@ -2,9 +2,9 @@ import {Component, ViewChild} from '@angular/core';
 import {ElectronService} from './core/services';
 import {TranslateService} from '@ngx-translate/core';
 import {APP_CONFIG} from '../environments/environment';
-import {db} from '../../app/src/preferences/AHPDB';
+import {db} from '../../app/src/userData/AHPDatabase';
 import {Router} from '@angular/router';
-import {NbPosition} from "@nebular/theme";
+import {NbPosition} from '@nebular/theme';
 
 @Component({
   selector: 'app-root',
@@ -18,6 +18,8 @@ export class AppComponent {
   activePage = 'none';
   serviceActive = true;
   loaded = false;
+
+  protected readonly nbPosition = NbPosition;
 
   constructor(
     private router: Router,
@@ -109,6 +111,5 @@ export class AppComponent {
     }
   }
 
-  protected readonly NbPosition = NbPosition;
 
 }

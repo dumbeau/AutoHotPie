@@ -1,5 +1,4 @@
 import {Component, EventEmitter, Input, Output, ViewChild} from '@angular/core';
-import {db} from "../../../../../app/src/preferences/AHPDB";
 
 @Component({
   selector: 'app-shortcut-input',

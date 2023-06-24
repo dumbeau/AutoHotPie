@@ -5,14 +5,12 @@ type HotkeyEventListener = (event: KeyEvent) => void;
 type OnProcessExitListener = () => void;
 
 /**
- * This class is used to start the Global Hotkey Service and listen to the response from it.
+ * This singleton class provides functions for managing the global hotkey service's lifecycle.
  * */
 export class GlobalHotkeyService {
 
   private static instance: GlobalHotkeyService | undefined;
 
-  // [0] is reserved for temporary listeners, which only one can be added at a time, new temporary
-  // listeners will replace the old one.
   private static onHotkeyEvent: HotkeyEventListener[] = [];
   private static onProcessExit: OnProcessExitListener | undefined
 
@@ -40,6 +38,7 @@ export class GlobalHotkeyService {
       this.tempListener?.(KeyEvent.fromString(data.toString()));
     })
 
+    // When the hotkey service is closed/crashed, we need to call the onProcessExit callback.
     this.hotkeyService.on('close', () => GlobalHotkeyService.onProcessExit?.())
   }
 

@@ -1,5 +1,7 @@
 import {Component, Input} from '@angular/core';
-import {Action, ActionType} from '../../../../app/src/preferences/AHPDB';
+import {SendKeyAction} from '../../../../app/src/actions/SendKeyAction';
+import {Action} from '../../../../app/src/actions/Action';
+import {ActionType} from '../../../../app/src/actions/ActionType';
 
 @Component({
   selector: 'app-action',
@@ -7,7 +9,7 @@ import {Action, ActionType} from '../../../../app/src/preferences/AHPDB';
   styleUrls: ['./action.component.scss']
 })
 export class ActionComponent {
-  @Input() action: Action = {type: ActionType.sendkey};
+  @Input() action: Action = new SendKeyAction('a');
 
-  protected readonly ActionType = ActionType;
+  protected readonly actionType = ActionType;
 }

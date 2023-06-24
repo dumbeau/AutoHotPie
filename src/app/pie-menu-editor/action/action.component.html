@@ -21,20 +21,20 @@
     </nb-form-field>
   </div>
 
-  <div *ngIf="action.type === ActionType.sendkey" style="width: 100%">
+  <div *ngIf="action.type === actionType.sendkey" style="width: 100%">
     <div class="setting-row" style="margin-top: 1em">
       {{ 'PAGES.EDITOR.SHORTCUTS' | translate }}
       <app-shortcut-input></app-shortcut-input>
     </div>
   </div>
-  <div *ngIf="action.type === ActionType.sendtext" style="width: 100%">
+  <div *ngIf="action.type === actionType.sendtext" style="width: 100%">
     <div class="setting-row" style="margin-top: 1em">
       {{ 'PAGES.EDITOR.SHORTCUTS' | translate }}
       <textarea nbInput fullWidth placeholder="{{ 'PAGES.EDITOR.TEXT_PLACEHOLDER' | translate }}"
                 style="resize: vertical; margin-left: 1em; max-height: 10em;"></textarea>
     </div>
   </div>
-  <div *ngIf="action.type === ActionType.mouseclick" style="width: 100%">
+  <div *ngIf="action.type === actionType.mouseclick" style="width: 100%">
     <div class="setting-row" style="margin-top: 1em">
       {{ 'PAGES.EDITOR.SHORTCUTS' | translate }}
       <nb-radio-group style="width: 70%">
@@ -52,14 +52,14 @@
 
     </div>
   </div>
-  <div *ngIf="action.type === ActionType.command" style="width: 100%">
+  <div *ngIf="action.type === actionType.command" style="width: 100%">
     <div class="setting-row" style="margin-top: 1em">
       {{ 'PAGES.EDITOR.SHORTCUTS' | translate }}
       <input nbInput fullWidth placeholder="{{ 'PAGES.EDITOR.COMMAND_PLACEHOLDER' | translate }}"
              style="resize: vertical; margin-left: 1em">
     </div>
   </div>
-  <div *ngIf="action.type === ActionType.openfolder" style="width: 100%">
+  <div *ngIf="action.type === actionType.openfolder" style="width: 100%">
     <div class="setting-row" style="margin-top: 1em">
       {{ 'PAGES.EDITOR.SHORTCUTS' | translate }}
       <input nbInput fullWidth placeholder="{{ 'PAGES.EDITOR.FILE_PATH_PLACEHOLDER' | translate }}"
@@ -68,7 +68,7 @@
     <button nbButton fullWidth="true" status="primary"
             style="margin-top: 1em">{{ 'PAGES.EDITOR.SELECT' | translate }}</button>
   </div>
-  <div *ngIf="action.type === ActionType.submenu" style="width: 100%">
+  <div *ngIf="action.type === actionType.submenu" style="width: 100%">
     <div class="setting-row" style="margin-top: 1em">
       {{ 'PAGES.EDITOR.DROP_PIE_MENU' | translate }}
     </div>
@@ -77,24 +77,24 @@
       </nb-card-body>
     </nb-card>
   </div>
-  <div *ngIf="action.type === ActionType.resizewindow" style="width: 100%">
+  <div *ngIf="action.type === actionType.resizewindow" style="width: 100%">
     <div class="setting-row" style="margin-top: 1em">
       This action has no options
     </div>
   </div>
-  <div *ngIf="action.type === ActionType.movewindow" style="width: 100%">
+  <div *ngIf="action.type === actionType.movewindow" style="width: 100%">
     <div class="setting-row" style="margin-top: 1em">
       This action has no options
     </div>
   </div>
-  <div *ngIf="action.type === ActionType.openurl" style="width: 100%">
+  <div *ngIf="action.type === actionType.openurl" style="width: 100%">
     <div class="setting-row" style="margin-top: 1em">
       {{ 'PAGES.EDITOR.SHORTCUTS' | translate }}
       <input nbInput fullWidth placeholder="{{ 'PAGES.EDITOR.OPENURL_PLACEHOLDER' | translate }}"
              style="resize: vertical; margin-left: 1em">
     </div>
   </div>
-  <div *ngIf="action.type === ActionType.switchapp" style="width: 100%">
+  <div *ngIf="action.type === actionType.switchapp" style="width: 100%">
     <div class="setting-row" style="margin-top: 1em">
       {{ 'PAGES.EDITOR.SHORTCUTS' | translate }}
       <app-shortcut-input></app-shortcut-input>

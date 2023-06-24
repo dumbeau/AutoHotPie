@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {NbPosition} from '@nebular/theme';
-import {db, PieMenu} from '../../../../../app/src/preferences/AHPDB';
+import {db} from '../../../../../app/src/userData/AHPDatabase';
+import {PieMenu} from '../../../../../app/src/userData/PieMenu';
 
 @Component({
   selector: 'app-pie-menu-list-row',
@@ -24,7 +25,7 @@ export class PieMenuListRowComponent implements OnInit {
 
   nProfilesConnected = 1;
 
-  protected readonly NbPosition = NbPosition;
+  protected readonly nbPosition = NbPosition;
 
   shortcutInputFocusout() {
     console.log('PieMenuListRowComponent: Updating shortcut for pie menu to ', this.pieMenu.hotkey);

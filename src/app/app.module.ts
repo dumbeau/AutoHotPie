@@ -25,12 +25,13 @@ import {
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import {NgOptimizedImage} from '@angular/common';
 import {PieMenuUIModule} from './pie-menu-ui/pie-menu-ui.module';
+import { WelcomePageComponent } from './welcome-page/welcome-page.component';
 
 // AoT requires an exported function for factories
 const httpLoaderFactory = (http: HttpClient): TranslateHttpLoader =>  new TranslateHttpLoader(http, './assets/i18n/', '.json');
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, WelcomePageComponent],
     imports: [
         BrowserModule,
         FormsModule,
