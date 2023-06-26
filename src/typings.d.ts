@@ -10,7 +10,6 @@ interface Window {
   process: any;
   require: any;
   electronAPI: {
-    getSettings: () => Promise<Record<string, any>[]>;
     openInBrowser: (url: string) => void;
     isUpdateAvailable: () => Promise<boolean>;
 

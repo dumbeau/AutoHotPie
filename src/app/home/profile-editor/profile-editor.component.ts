@@ -2,6 +2,7 @@ import {Component, Input, TemplateRef} from '@angular/core';
 import {db} from '../../../../app/src/userData/AHPDatabase';
 import {NbDialogService, NbPosition} from '@nebular/theme';
 import {Profile} from '../../../../app/src/userData/Profile';
+import {PieMenu} from '../../../../app/src/userData/PieMenu';
 
 @Component({
   selector: 'app-profile-editor',
@@ -9,7 +10,7 @@ import {Profile} from '../../../../app/src/userData/Profile';
   styleUrls: ['./profile-editor.component.scss']
 })
 export class ProfileEditorComponent {
-  @Input() profile: Profile = new Profile('', '');
+  @Input() profile: Profile = new Profile('');
 
   profSettingsRevealed = false;
 
@@ -23,16 +24,7 @@ export class ProfileEditorComponent {
   newPieMenu() {
     this.profSettingsRevealed = false;
 
-    db.pieMenu.add({
-      activationMode: '',
-      escapeRadius: 0,
-      hotkey: '',
-      name: 'New Pie Menu',
-      openInScreenCenter: false,
-      pieItems: [],
-      selectionColor: '',
-      enabled: true
-    })
+    db.pieMenu.add(new PieMenu())
       .then((pieMenuId) => {
         this.addPieMenu(pieMenuId as number);
       });

@@ -14,16 +14,6 @@ export function initElectronAPI() {
         console.debug("ipcBridge.ts openInBrowser(): opening " + args[0] + " in browser")
         child_process.execSync('start ' + args[0]);
     });
-    ipcMain.handle('getSettings', () => {
-        console.debug("ipcBridge.ts getSettings(): retrieving settings");
-
-        const settings: { key: string; value: any; }[] = [];
-        Object.entries(Preferences.getAHPSettings()).forEach((entry) => {
-            settings.push({key: entry[0], value: entry[1]});
-        });
-
-        return settings;
-    });
 
     ipcMain.handle('isUpdateAvailable', async () => {
         console.log("isUpdateAvailable() called, checking for updates");

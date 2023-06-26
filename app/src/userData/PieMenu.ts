@@ -1,4 +1,4 @@
-enum PieMenuActivationMode {
+export enum PieMenuActivationMode {
   RELEASE_THEN_HOVER_OVER = "releaseThenHoverOver",
   HOVER_OVER_THEN_RELEASE = "hoverOverThenRelease",
   HOVER_OVER_ALL = "hoverOverAll",

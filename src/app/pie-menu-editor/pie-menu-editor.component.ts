@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {PieMenu} from '../../../app/src/userData/PieMenu';
+import {PieMenu, PieMenuActivationMode} from '../../../app/src/userData/PieMenu';
 import {PieItem} from '../../../app/src/userData/PieItem';
 import {Action} from '../../../app/src/actions/Action';
 import {SendKeyAction} from '../../../app/src/actions/SendKeyAction';
@@ -25,28 +25,22 @@ export class PieMenuEditorComponent implements OnInit {
 
   constructor(private activatedRoute: ActivatedRoute) {
     // TODO: REPLACE following hardcoded pieMenus with real data from database.
-    this.openedPieMenus.set(1, {
-      id: 1,
-      name: 'Test1',
-      enabled: true,
-      activationMode: '',
-      hotkey: 'string',
-      escapeRadius: 0,
-      openInScreenCenter: false,
-      selectionColor: 'string',
-      pieItems: []
-    });
-    this.openedPieMenus.set(2, {
-      id: 2,
-      name: 'Test2',
-      enabled: true,
-      activationMode: '',
-      hotkey: 'string',
-      escapeRadius: 0,
-      openInScreenCenter: false,
-      selectionColor: 'string',
-      pieItems: []
-    });
+    this.openedPieMenus.set(1, new PieMenu(
+      'Test',
+      true, PieMenuActivationMode.HOVER_OVER_THEN_RELEASE,
+      'string',
+      0,
+      false,
+      'string',
+      [], 1));
+    this.openedPieMenus.set(2, new PieMenu(
+      'Test2',
+      true, PieMenuActivationMode.HOVER_OVER_THEN_RELEASE,
+      'string',
+      0,
+      false,
+      'string',
+      [], 2));
     this.pieMenuId = this.activatedRoute.snapshot.paramMap.get('pieMenuId') ?? '';
     console.log('PieMenuEditorComponent constructor called. pieMenuId: ' + this.pieMenuId);
   }
