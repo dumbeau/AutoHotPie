@@ -10,7 +10,7 @@ import {PieMenu} from '../../../../../app/src/userData/PieMenu';
 })
 export class PieMenuListRowComponent implements OnInit {
   @Input() pieMenu: PieMenu = new PieMenu();
-  @Output() pieMenuChange = new EventEmitter<{remove: number|undefined; add: number|undefined}>();
+  @Output() pieMenuChange = new EventEmitter<{ remove: number | undefined; add: number | undefined }>();
   @ViewChild('shortcutInput') shortcutInput: any;
   @ViewChild('nameInput') nameInput: any;
 
@@ -18,9 +18,20 @@ export class PieMenuListRowComponent implements OnInit {
 
   protected readonly nbPosition = NbPosition;
 
-  shortcutInputFocusout() {
+  async shortcutInputFocusout() {
     console.log('PieMenuListRowComponent: Updating shortcut for pie menu to ', this.pieMenu.hotkey);
-    db.pieMenu.put(this.pieMenu);
+
+    if ((await db.pieMenu.where('hotkey').equals(this.pieMenu.hotkey).count()) > 0) {
+      // TODO: Let user determine if they want to take over the hotkey
+      db.pieMenu.where('hotkey').equals(this.pieMenu.hotkey)
+        .modify((pieMenu: PieMenu) => pieMenu.hotkey = '')
+        .then(() => {
+          db.pieMenu.put(this.pieMenu);
+          this.pieMenuChange.emit();
+        });
+    } else {
+      db.pieMenu.put(this.pieMenu);
+    }
   }
 
   updatePieMenu() {
@@ -40,7 +51,7 @@ export class PieMenuListRowComponent implements OnInit {
 
 
   duplicatePieMenu() {
-    if (this.nProfilesConnected > 1){
+    if (this.nProfilesConnected > 1) {
       console.log('PieMenuListRowComponent.duplicatePieMenu(): Duplicating pie menu ' + this.pieMenu.id);
 
       db.pieMenu.add({

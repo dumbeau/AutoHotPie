@@ -33,6 +33,18 @@ export class ProfileEditorComponent {
   }
 
   onPieMenuChanged(event: { remove: number | undefined; add: number | undefined }) {
+    // Force update if no change
+    // Gosh this has caused me like 3 hours of debugging :smiley_face::smiley_face::smiley_face::smiley_face:
+    // and I finally know that when event is going to be undefined if both remove and add is undefined
+    // because they're not passed in the event
+    if (event === undefined) {
+      this.profile.pieMenus = [...this.profile.pieMenus];
+
+      console.log('ProfileEditorComponent.removePieMenuFromProf(): Forcing update');
+
+      return;
+    }
+
     console.log('ProfileEditorComponent.removePieMenuFromProf(): event = ' + event);
 
     let newPieMenuList = this.profile.pieMenus;
@@ -51,7 +63,6 @@ export class ProfileEditorComponent {
           this.profile.pieMenus = newPieMenuList;
         });
     }
-
   }
 
   updateProfile() {
