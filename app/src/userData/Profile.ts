@@ -1,8 +1,10 @@
-export interface Profile {
-  id?: number;
-  name: string;
-  enabled: boolean;
-  pieMenus: number[];
-  exePath: string;
-  iconBase64: string;
+export class Profile {
+  constructor(
+    public exePath: string,
+    public iconBase64: string,
+    public name = "New Profile",
+    public enabled = true,
+    public pieMenus: number[] = [],
+    public id?: number
+  ) {}
 }

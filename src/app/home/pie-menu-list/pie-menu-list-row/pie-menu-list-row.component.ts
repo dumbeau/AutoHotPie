@@ -9,16 +9,7 @@ import {PieMenu} from '../../../../../app/src/userData/PieMenu';
   styleUrls: ['./pie-menu-list-row.component.scss']
 })
 export class PieMenuListRowComponent implements OnInit {
-  @Input() pieMenu: PieMenu = {
-    activationMode: '',
-    enabled: true,
-    escapeRadius: 0,
-    hotkey: '',
-    name: '',
-    openInScreenCenter: false,
-    pieItems: [],
-    selectionColor: ''
-  };
+  @Input() pieMenu: PieMenu = new PieMenu();
   @Output() pieMenuChange = new EventEmitter<{remove: number|undefined; add: number|undefined}>();
   @ViewChild('shortcutInput') shortcutInput: any;
   @ViewChild('nameInput') nameInput: any;

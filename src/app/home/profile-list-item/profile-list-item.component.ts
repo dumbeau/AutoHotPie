@@ -9,7 +9,7 @@ import {Profile} from '../../../../app/src/userData/Profile';
 })
 
 export class ProfileListItemComponent {
-  @Input() profile: Profile = {id: 0, enabled: false, exePath: '', iconBase64: '', name: '', pieMenus: []};
+  @Input() profile: Profile = new Profile('', '');
   @Input() selectedProfileId = 0;
   @Output() profileSelected = new EventEmitter<number>();
   @Output() profileUpdated = new EventEmitter();

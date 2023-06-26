@@ -1,10 +1,12 @@
 import {Action} from "../actions/Action";
 
-export interface PieItem {
-  id?: number;
-  name: string;
-  enabled: boolean;
-  actions: Action[];
-  iconPath: string;
-  useIconColor: boolean;
+export class PieItem {
+  constructor(
+    public iconPath: string,
+    public name = "New Pie Item",
+    public enabled = true,
+    public actions: Action[] = [],
+    public useIconColor = true,
+    public id?: number
+  ) {}
 }

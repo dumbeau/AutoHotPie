@@ -9,7 +9,7 @@ import {Profile} from '../../../../app/src/userData/Profile';
   styleUrls: ['./profile-editor.component.scss']
 })
 export class ProfileEditorComponent {
-  @Input() profile: Profile = {id: 0, enabled: false, exePath: '', iconBase64: '', name: '', pieMenus: []};
+  @Input() profile: Profile = new Profile('', '');
 
   profSettingsRevealed = false;
 
