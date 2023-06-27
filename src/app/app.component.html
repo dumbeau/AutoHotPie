@@ -21,14 +21,14 @@
     [routerLink]="activePage === 'settings' ? '/home' : '/settings'"
     (click)="setActive('settings')"
     nbButton ghost size="small" >
-    {{'GLOBAL.SETTINGS' | translate}}
+    {{'TITLE_BAR.SETTINGS' | translate}}
   </button>
   <button
     style="margin-left: 0.5em"
     [nbPopover]="helpPopover"
     [nbPopoverPlacement]="nbPosition.BOTTOM"
     nbButton ghost size="small">
-    {{'GLOBAL.HELP' | translate}}
+    {{'TITLE_BAR.HELP' | translate}}
   </button>
 
   <div style="flex-grow: 1; -webkit-app-region: drag; height: 100%"></div>

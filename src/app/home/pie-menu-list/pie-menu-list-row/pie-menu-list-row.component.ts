@@ -1,5 +1,5 @@
-import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
-import {NbPosition} from '@nebular/theme';
+import {Component, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild} from '@angular/core';
+import {NbDialogService, NbPosition} from '@nebular/theme';
 import {db} from '../../../../../app/src/userData/AHPDatabase';
 import {PieMenu} from '../../../../../app/src/userData/PieMenu';
 
@@ -13,25 +13,16 @@ export class PieMenuListRowComponent implements OnInit {
   @Output() pieMenuChange = new EventEmitter<{ remove: number | undefined; add: number | undefined }>();
   @ViewChild('shortcutInput') shortcutInput: any;
   @ViewChild('nameInput') nameInput: any;
+  @ViewChild('hotkeyAcquisitionDialog') confirmReplaceDialog: any;
+
+  newHotkey = '';
+  prevHotkey = '';
 
   nProfilesConnected = 1;
 
   protected readonly nbPosition = NbPosition;
 
-  async shortcutInputFocusout() {
-    console.log('PieMenuListRowComponent: Updating shortcut for pie menu to ', this.pieMenu.hotkey);
-
-    if ((await db.pieMenu.where('hotkey').equals(this.pieMenu.hotkey).count()) > 0) {
-      // TODO: Let user determine if they want to take over the hotkey
-      db.pieMenu.where('hotkey').equals(this.pieMenu.hotkey)
-        .modify((pieMenu: PieMenu) => pieMenu.hotkey = '')
-        .then(() => {
-          db.pieMenu.put(this.pieMenu);
-          this.pieMenuChange.emit();
-        });
-    } else {
-      db.pieMenu.put(this.pieMenu);
-    }
+  constructor(private dialogService: NbDialogService) {
   }
 
   updatePieMenu() {
@@ -49,7 +40,6 @@ export class PieMenuListRowComponent implements OnInit {
     });
   }
 
-
   duplicatePieMenu() {
     if (this.nProfilesConnected > 1) {
       console.log('PieMenuListRowComponent.duplicatePieMenu(): Duplicating pie menu ' + this.pieMenu.id);
@@ -66,6 +56,34 @@ export class PieMenuListRowComponent implements OnInit {
       }).then((id) => {
         this.pieMenuChange.emit({remove: this.pieMenu.id, add: id as number});
       });
+    }
+  }
+
+  acquireHotkey(success = true) {
+    if (!success) {
+      this.pieMenu.hotkey = this.prevHotkey;
+      return;
+    }
+    db.pieMenu.where('hotkey').equals(this.newHotkey)
+      .modify((pieMenu: PieMenu) => pieMenu.hotkey = '')
+      .then(() => {
+        db.pieMenu.put(this.pieMenu);
+        this.pieMenuChange.emit();
+      });
+  }
+
+  async shortcutInputChanged(newHotkey: string) {
+    console.log('PieMenuListRowComponent: Updating shortcut for pie menu to ', newHotkey);
+    this.newHotkey = newHotkey;
+    this.prevHotkey = this.pieMenu.hotkey;
+
+    this.pieMenu.hotkey = newHotkey;
+
+    if ((await db.pieMenu.where('hotkey').equals(newHotkey).count()) > 0) {
+      this.dialogService.open(this.confirmReplaceDialog);
+
+    } else {
+      db.pieMenu.put(this.pieMenu);
     }
   }
 }

@@ -24,8 +24,7 @@
 
     </td>
     <td>
-      <app-shortcut-input #shortcutInput [(hotkey)]="pieMenu.hotkey"
-                          (focusout)="shortcutInputFocusout()"></app-shortcut-input>
+      <app-shortcut-input #shortcutInput [hotkey]="pieMenu.hotkey" (hotkeyChange)="shortcutInputChanged($event)"></app-shortcut-input>
     </td>
     <td style="text-align: center;">
       <button nbButton ghost [routerLink]="['/pie-menu-editor', pieMenu.id]" status="primary"
@@ -54,6 +53,17 @@
   <div style="display: flex; flex-direction: column; padding: 1em; align-items: center; width: 25vw;">
     <span style="text-align: center">{{ 'PAGES.HOME.DELETE_CONFIRM' | translate }}</span>
     <button nbButton size="small" style="margin-top: 1em" status="danger"
-            (click)="pieMenuChange.emit({remove:pieMenu.id, add:undefined})">{{ 'GLOBAL.YES' | translate }}</button>
+            (click)="pieMenuChange.emit({remove:pieMenu.id, add:undefined})">{{ 'GENERAL.YES' | translate }}</button>
   </div>
+</ng-template>
+
+<ng-template #hotkeyAcquisitionDialog let-ref="dialogRef">
+  <nb-card>
+    <nb-card-header>{{ 'PAGES.HOME.HOTKEY_INUSE' | translate }}</nb-card-header>
+    <nb-card-body>{{ 'PAGES.HOME.HOTKEY_INUSE_DESC' | translate }}</nb-card-body>
+    <nb-card-footer>
+      <button nbButton status="primary" (click)="acquireHotkey(false); ref.close()">{{ 'PAGES.HOME.CANCEL' | translate }}</button>
+      <button nbButton (click)="acquireHotkey(); ref.close()">{{ 'PAGES.HOME.YES' | translate}}</button>
+    </nb-card-footer>
+  </nb-card>
 </ng-template>

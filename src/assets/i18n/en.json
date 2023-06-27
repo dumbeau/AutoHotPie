@@ -1,13 +1,15 @@
 {
-  "GLOBAL": {
+  "DIALOG": {
+    "HOTKEY_INUSE": "Hotkey is already in use",
+    "HOTKEY_INUSE_DESC": "The hotkey you selected is already in use by another pie menu. Continuing will remove the hotkey from the other pie menus. Do you want to continue?"
+  },
+  "GENERAL": {
     "CANCEL": "Cancel",
-    "NEXT": "Next",
-    "DONE": "Done!",
-    "FILE": "File",
+    "YES": "Yes"
+  },
+  "TITLE_BAR": {
     "SETTINGS": "Settings",
-    "HELP": "Help",
-    "YES": "Yes",
-    "PREV": "Prev"
+    "HELP": "Help"
   },
   "PAGES": {
     "PIE_MENU_SELECTOR": {
