@@ -58,7 +58,7 @@ export class AppComponent {
     if ((await db.profile.count()) === 0) {
       console.log(AppComponent.name, ':: ', 'Creating global profile because none exists');
 
-      const pieMenuId = await db.pieMenu.add(new PieMenu(
+      const pieMenuId = await db.pieMenu.put(new PieMenu(
         'Default Pie Menu',
         true,
         PieMenuActivationMode.HOVER_OVER_THEN_RELEASE,
@@ -69,7 +69,7 @@ export class AppComponent {
         [],
         1
         ));
-      await db.profile.add(new Profile(
+      await db.profile.put(new Profile(
         'Default Profile',
         [pieMenuId as number],
         '',

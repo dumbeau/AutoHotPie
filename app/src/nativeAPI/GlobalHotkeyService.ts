@@ -1,5 +1,6 @@
 import {ChildProcessWithoutNullStreams, spawn} from "child_process";
 import {KeyEvent} from "./KeyEvent";
+import * as fs from "fs";
 
 type HotkeyEventListener = (event: KeyEvent) => void;
 type OnProcessExitListener = () => void;
@@ -23,10 +24,11 @@ export class GlobalHotkeyService {
    * @private
    */
   private constructor() {
-    // TODO: Comment out the following line and uncomment the next line for release build.
-    console.warn('At GlobalHotkeyService.ts line.23: You HAVE to comment out this line in GlobalHotkeyService.ts for release build!');
-    this.hotkeyService = spawn('./bin/GlobalKeyEvent.exe');
-    // this.hotkeyService = spawn(process.env.PORTABLE_EXECUTABLE_DIR +'/bin/GlobalKeyEvent.exe');
+    if (!fs.existsSync('./bin/GlobalKeyEvent.exe')) {
+      this.hotkeyService = spawn(process.env.PORTABLE_EXECUTABLE_DIR + '/bin/GlobalKeyEvent.exe');
+    } else {
+      this.hotkeyService = spawn('./bin/GlobalKeyEvent.exe');
+    }
 
     this.hotkeyService.stdout.on("data", (data) => {
 
