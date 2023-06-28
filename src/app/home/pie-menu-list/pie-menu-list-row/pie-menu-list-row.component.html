@@ -59,11 +59,11 @@
 
 <ng-template #hotkeyAcquisitionDialog let-ref="dialogRef">
   <nb-card>
-    <nb-card-header>{{ 'PAGES.HOME.HOTKEY_INUSE' | translate }}</nb-card-header>
-    <nb-card-body>{{ 'PAGES.HOME.HOTKEY_INUSE_DESC' | translate }}</nb-card-body>
+    <nb-card-header>{{ 'DIALOG.HOTKEY_INUSE' | translate }}</nb-card-header>
+    <nb-card-body>{{ 'DIALOG.HOTKEY_INUSE_DESC' | translate }}</nb-card-body>
     <nb-card-footer>
-      <button nbButton status="primary" (click)="acquireHotkey(false); ref.close()">{{ 'PAGES.HOME.CANCEL' | translate }}</button>
-      <button nbButton (click)="acquireHotkey(); ref.close()">{{ 'PAGES.HOME.YES' | translate}}</button>
+      <button nbButton status="primary" (click)="acquireHotkey(false); ref.close()">{{ 'GENERAL.CANCEL' | translate }}</button>
+      <button nbButton (click)="acquireHotkey(); ref.close()">{{ 'GENERAL.YES' | translate}}</button>
     </nb-card-footer>
   </nb-card>
 </ng-template>

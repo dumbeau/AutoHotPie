@@ -5,7 +5,7 @@ import {APP_CONFIG} from '../environments/environment';
 import {db} from '../../app/src/userData/AHPDatabase';
 import {Router} from '@angular/router';
 import {NbPosition} from '@nebular/theme';
-import {PieMenu} from '../../app/src/userData/PieMenu';
+import {PieMenu, PieMenuActivationMode} from '../../app/src/userData/PieMenu';
 import {Profile} from '../../app/src/userData/Profile';
 
 @Component({
@@ -35,6 +35,7 @@ export class AppComponent {
     });
 
     this.translate.setDefaultLang('en');
+
     console.log('APP_CONFIG', APP_CONFIG);
 
     if (electronService.isElectron) {
@@ -47,22 +48,40 @@ export class AppComponent {
     }
 
     window.electronAPI.globalHotkeyServiceExited(() => {
-      console.log('App component: globalHotkeyServiceExited');
+      console.log(AppComponent.name, ':: ', 'globalHotkeyServiceExited');
     });
   }
 
   async initAppdata() {
+    console.log(AppComponent.name, ':: ', 'Initializing app data');
+
     if ((await db.profile.count()) === 0) {
-      db.pieMenu.add(new PieMenu()
-      ).then((pieMenuId) => {
-        db.profile.add(new Profile('Global Profile', [pieMenuId as number]))
-          .then(() => {
-            this.loaded = true;
-          });
-      });
-    } else {
-      this.loaded = true;
+      console.log(AppComponent.name, ':: ', 'Creating global profile because none exists');
+
+      const pieMenuId = await db.pieMenu.add(new PieMenu(
+        'Default Pie Menu',
+        true,
+        PieMenuActivationMode.HOVER_OVER_THEN_RELEASE,
+        '',
+        0,
+        false,
+        '',
+        [],
+        1
+        ));
+      await db.profile.add(new Profile(
+        'Default Profile',
+        [pieMenuId as number],
+        '',
+        undefined,
+        true,
+        1
+      ));
+
     }
+
+    console.log(AppComponent.name, '::', 'App data initialized');
+    this.loaded = true;
   }
 
   setActive(emitter: string) {
