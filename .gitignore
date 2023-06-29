@@ -71,3 +71,5 @@ Thumbs.db
 /app/src/preferences/Settings.js
 /app/src/preferences/UserDataObject.js
 /app/src/nativeAPI/ForegroundWindowService.js
+/app/src/settings/AHPSettings.js
+/app/src/ipcBridge.js
