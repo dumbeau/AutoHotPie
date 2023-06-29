@@ -15,6 +15,7 @@ const child_process = require("child_process");
 const NativeAPI_1 = require("./nativeAPI/NativeAPI");
 const GlobalHotkeyService_1 = require("./nativeAPI/GlobalHotkeyService");
 const KeyEvent_1 = require("./nativeAPI/KeyEvent");
+const AHPSettings_1 = require("./settings/AHPSettings");
 /**
  * Sets up IPC listeners for the main process,
  * see typings.d.ts for the list of available listeners and its documentation
@@ -52,6 +53,13 @@ function initElectronAPI() {
         console.log("getVersion() called, retrieving version");
         console.log("ipcBridge.ts: getVersion() returning " + electron_1.app.getVersion());
         return electron_1.app.getVersion();
+    });
+    electron_1.ipcMain.handle('getSetting', (event, args) => {
+        return AHPSettings_1.AHPSettings.store.get(args[0]);
+    });
+    electron_1.ipcMain.handle('setSetting', (event, args) => {
+        console.log("ipcBridge", ":: ", "set ", args[0], " to ", args[1]);
+        return AHPSettings_1.AHPSettings.store.set(args[0], args[1]);
     });
     electron_1.ipcMain.handle('listenKeyForResult', () => {
         return new Promise(resolve => {

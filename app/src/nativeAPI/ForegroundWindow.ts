@@ -1,11 +1,10 @@
-/**
- * Contains information about a foreground window.
- */
-export class ForegroundWindow {
-    title: string;
-    exePath: string;
-    iconBase64: string;
+export interface IForegroundWindow {
+  title: string;
+  exePath: string;
+  iconBase64: string;
+}
 
+export class ForegroundWindow implements IForegroundWindow {
   /**
    * Creates a new ForegroundWindow. Only intended for use within this class.
    * Please use the static create() method instead.
@@ -14,31 +13,9 @@ export class ForegroundWindow {
    * @param iconBase64
    * @private
    */
-    private constructor(title: string, exePath: string, iconBase64: string) {
-        this.title = title;
-        this.exePath = exePath;
-        this.iconBase64 = iconBase64;
-    }
-
-    static fromJsonString(jsonString: string) {
-        try {
-            const json = JSON.parse(jsonString);
-
-            return new ForegroundWindow(
-                json.title,
-                json.exePath,
-                json.iconBase64);
-        } catch (e) {
-            console.error('Error parsing ForegroundWindow JSON: ' + e);
-            console.error('JSON: ' + jsonString);
-        }
-    }
-
-    private static create(title: string, exePath: string, iconBase64: string) {
-        return new ForegroundWindow(title, exePath, iconBase64);
-    }
-
-    toJSONString() {
-        return JSON.stringify(this);
-    }
+  constructor(
+    public title: string,
+    public exePath: string,
+    public iconBase64: string) {
+  }
 }

@@ -1,9 +1,9 @@
 import {app, ipcMain} from "electron";
 import * as child_process from "child_process";
-import {Preferences} from "./preferences/Preferences";
-import {NativeAPI} from "./nativeAPI/NativeAPI";
 import {GlobalHotkeyService} from "./nativeAPI/GlobalHotkeyService";
 import {KeyEvent, RespondType} from "./nativeAPI/KeyEvent";
+import {ahpSettings} from "./settings/AHPSettings";
+import {ForegroundWindowService} from "./nativeAPI/ForegroundWindowService";
 
 /**
  * Sets up IPC listeners for the main process,
@@ -23,7 +23,7 @@ export function initElectronAPI() {
     ipcMain.handle('getForegroundApplication', () => {
         console.log("getForegroundApplication() called, retrieving foreground application info");
 
-        const fgDetail = NativeAPI.instance.getForegroundWindow()?.toJSONString();
+        const fgDetail = JSON.stringify(ForegroundWindowService.foregroundWindow);
 
         console.log("ipcBridge.ts: getForegroundApplication() returning " + fgDetail);
 
@@ -46,6 +46,13 @@ export function initElectronAPI() {
       console.log("getVersion() called, retrieving version");
       console.log("ipcBridge.ts: getVersion() returning " + app.getVersion());
       return app.getVersion();
+    });
+    ipcMain.handle('getSetting', (event, args) => {
+      return ahpSettings.get(args[0]);
+    });
+    ipcMain.handle('setSetting', (event, args) => {
+      console.log("ipcBridge", ":: ", "set ", args[0], " to ", args[1])
+      return ahpSettings.set(args[0], args[1]);
     });
     ipcMain.handle('listenKeyForResult', () => {
         return new Promise(resolve => {

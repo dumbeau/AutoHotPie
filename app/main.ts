@@ -92,6 +92,8 @@ function createWindow(): BrowserWindow {
   }
 
   const editorWindowURL = new URL(path.join('file:', __dirname, editorWindowPath));
+
+  // TODO: Remove the following line for production build
   editorWindow.loadURL(editorWindowURL.href);
 
   pieMenuWindow = new BrowserWindow({

@@ -4,14 +4,14 @@ import {app} from "electron";
 import * as Store from "electron-store";
 import {SettingsConstants} from "../constants/SettingsConstants";
 
-interface AHPSettings {
+interface AHPSettingsSchema {
   pieMenuCancelKey: string;
   settingsVersion: string;
   runOnStartup: boolean;
   runOnAppQuit: boolean;
 }
 
-const schema: Schema<AHPSettings> = {
+const schema: Schema<AHPSettingsSchema> = {
   pieMenuCancelKey: {
     type: 'object',
     default: new KeyEvent(RespondType.MOUSE_DOWN, 'Right')
@@ -39,6 +39,6 @@ app.setPath("userData", SettingsConstants.DEFAULT_SETTINGS_PATH);
  * ahpSettings.set('', [value]) will set the value of the key
  * Details could be found here: https://github.com/sindresorhus/electron-store#readme
  */
-export const ahpSettings = new Store<AHPSettings>({
+export const ahpSettings = new Store<AHPSettingsSchema>({
   schema
 });

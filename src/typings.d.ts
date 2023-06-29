@@ -32,5 +32,8 @@ interface Window {
     globalHotkeyServiceExited: (callback: () => void) => void;
 
     getVersion: () => Promise<string>;
+
+    getSetting: (settingName: string) => any;
+    setSetting: (settingName: string, value: any) => any;
   };
 }
