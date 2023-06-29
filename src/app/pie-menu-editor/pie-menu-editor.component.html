@@ -1,5 +1,5 @@
 <div
-    style="
+  style="
     z-index: 999;
     padding: 5px;
     width: 100%;
@@ -12,22 +12,72 @@
     justify-content: space-between;
     align-content: center">
 
-    <button nbButton size="small" status="success" routerLink="/home"><nb-icon icon="arrow-ios-back-outline"/></button>
+  <button nbButton size="small" status="success" routerLink="/home">
+    <nb-icon icon="arrow-ios-back-outline"/>
+  </button>
 
-    <div style="flex-grow: 1; -webkit-app-region: drag; height: 100%"></div>
-    <button nbButton size="small" status="primary">{{ "PAGES.EDITOR.SAVE" | translate }}</button>
+  <div
+    style="flex-grow: 1; -webkit-app-region: drag; height: 100%; display: flex; flex-direction: row; flex-wrap: nowrap; align-content: center;justify-content: center; align-items: flex-end;">
+    <nb-tag-list>
+      <nb-tag *ngFor="let pieMenu of openedPieMenus | keyvalue" [text]="pieMenu.value.name"
+              [removable]="openedPieMenus.size > 1"></nb-tag>
+    </nb-tag-list>
+  </div>
+  <button nbButton size="small" status="primary">{{ "PAGES.EDITOR.SAVE" | translate }}</button>
 
 </div>
 
-<section class="layout">
-  <div class="grow1">
-    <label style="margin: 0; color: var(--button-ghost-basic-text-color);">{{"PAGES.EDITOR.TREE_TITLE" | translate}}</label>
-  </div>
-  <div class="grow3">
-    <label style="margin: 0; color: var(--button-ghost-basic-text-color);">{{"PAGES.EDITOR.PREVIEW" | translate}}</label>
-  </div>
-  <div class="grow1">
-    <label style="margin: 0; color: var(--button-ghost-basic-text-color);">{{"PAGES.EDITOR.PROP" | translate}}</label>
-    <app-preferences-editor />
-  </div>
-</section>
+<div style="height: 100vh; display: flex;padding-bottom: calc(var(--title-bar-height) * 2);flex-direction: column;">
+  <section class="layout">
+    <div class="growL"
+         style=" background: var(--accordion-header-disabled-text-color); border-radius: 1em; padding: 0.5em 1em;">
+      <label
+        style="margin: 0; color: var(--button-ghost-basic-text-color);">{{"PAGES.EDITOR.PREVIEW" | translate}}</label>
+    </div>
+
+    <div class="growM">
+      <nb-tabset fullWidth style="display: contents">
+        <nb-tab tabTitle="Settings" style="width: 100%">
+          <app-preferences-editor/>
+
+        </nb-tab>
+        <nb-tab tabTitle="Actions" style="margin-top: 1em;">
+          <div style="padding-right: 5px; display: flex; flex-direction: column; align-items: center;">
+
+            <div *ngFor="let action of actions; let i = index"
+                 style="display: flex; flex-direction: column; flex-wrap: nowrap; align-content: flex-start; justify-content: flex-start; align-items: center; ">
+              <div style="display: flex">
+                <app-action [action]="action" style="height: fit-content"></app-action>
+                <div style="display: flex; flex-direction: column; margin-left: 0.5em;">
+                  <button
+                    (click)="moveUp(i)"
+                    *ngIf="i !== 0" nbButton fullWidth ghost size="tiny" style="margin-bottom: 2px;">
+                    <nb-icon icon="arrow-upward-outline"/>
+                  </button>
+                  <button
+                    (click)="moveDown(i)"
+                    *ngIf="i !== actions.length - 1" nbButton fullWidth ghost size="tiny"
+                    style="margin-bottom: 2px;">
+                    <nb-icon icon="arrow-downward-outline"/>
+                  </button>
+                  <button nbButton ghost size="tiny" (click)="deleteAction(i)">
+                    <nb-icon icon="trash-2-outline"></nb-icon>
+                  </button>
+                </div>
+              </div>
+
+              <nb-icon style="min-height: 32px" icon="arrow-downward-outline"></nb-icon>
+            </div>
+            <button nbButton ghost style="height: 64px; width: 64px; border: solid;margin-bottom: 3em;"
+                    (click)="addAction()">
+              <nb-icon icon="plus-outline" style="min-width: 32px; height: 32px"></nb-icon>
+            </button>
+          </div>
+        </nb-tab>
+      </nb-tabset>
+    </div>
+
+
+  </section>
+</div>
+

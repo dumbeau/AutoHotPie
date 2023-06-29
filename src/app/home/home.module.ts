@@ -1,17 +1,17 @@
-import { NgModule } from '@angular/core';
+import {NgModule} from '@angular/core';
 import {CommonModule, NgOptimizedImage} from '@angular/common';
 
-import { HomeRoutingModule } from './home-routing.module';
+import {HomeRoutingModule} from './home-routing.module';
 
-import { HomeComponent } from './home.component';
-import { SharedModule } from '../shared/shared.module';
+import {HomeComponent} from './home.component';
+import {SharedModule} from '../shared/shared.module';
 import {
-    NbButtonModule,
-    NbCardModule,
-    NbFormFieldModule,
-    NbIconModule,
-    NbInputModule,
-    NbLayoutModule, NbPopoverModule, NbSelectModule, NbToggleModule
+  NbButtonModule,
+  NbCardModule, NbDialogModule,
+  NbFormFieldModule,
+  NbIconModule,
+  NbInputModule,
+  NbLayoutModule, NbPopoverModule, NbSelectModule, NbToggleModule, NbTooltipModule
 } from '@nebular/theme';
 import {ProfileListItemComponent} from './profile-list-item/profile-list-item.component';
 import {PieMenuListComponent} from './pie-menu-list/pie-menu-list.component';
@@ -21,21 +21,24 @@ import { PieMenuListRowComponent } from './pie-menu-list/pie-menu-list-row/pie-m
 
 @NgModule({
   declarations: [HomeComponent, ProfileListItemComponent, PieMenuListComponent, ProfileEditorComponent, PieMenuListRowComponent],
-    imports: [
-        CommonModule,
-        SharedModule,
-        HomeRoutingModule,
-        NbButtonModule,
-        NbLayoutModule,
-        NgOptimizedImage,
-        NbInputModule,
-        NbIconModule,
-        NbFormFieldModule,
-        NgxColorsModule,
-        NbCardModule,
-        NbPopoverModule,
-        NbSelectModule,
-        NbToggleModule
-    ]
+  imports: [
+    CommonModule,
+    SharedModule,
+    HomeRoutingModule,
+    NbButtonModule,
+    NbLayoutModule,
+    NgOptimizedImage,
+    NbInputModule,
+    NbIconModule,
+    NbFormFieldModule,
+    NgxColorsModule,
+    NbCardModule,
+    NbPopoverModule,
+    NbSelectModule,
+    NbToggleModule,
+    NbDialogModule.forChild({}),
+    NbTooltipModule
+  ]
 })
-export class HomeModule {}
+export class HomeModule {
+}

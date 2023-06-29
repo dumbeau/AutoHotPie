@@ -12,7 +12,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.initElectronAPI = void 0;
 const electron_1 = require("electron");
 const child_process = require("child_process");
-const Preferences_1 = require("./preferences/Preferences");
 const NativeAPI_1 = require("./nativeAPI/NativeAPI");
 const GlobalHotkeyService_1 = require("./nativeAPI/GlobalHotkeyService");
 const KeyEvent_1 = require("./nativeAPI/KeyEvent");
@@ -24,14 +23,6 @@ function initElectronAPI() {
     electron_1.ipcMain.handle('openInBrowser', (event, args) => {
         console.debug("ipcBridge.ts openInBrowser(): opening " + args[0] + " in browser");
         child_process.execSync('start ' + args[0]);
-    });
-    electron_1.ipcMain.handle('getSettings', () => {
-        console.debug("ipcBridge.ts getSettings(): retrieving settings");
-        const settings = [];
-        Object.entries(Preferences_1.Preferences.getAHPSettings()).forEach((entry) => {
-            settings.push({ key: entry[0], value: entry[1] });
-        });
-        return settings;
     });
     electron_1.ipcMain.handle('isUpdateAvailable', () => __awaiter(this, void 0, void 0, function* () {
         console.log("isUpdateAvailable() called, checking for updates");
@@ -56,6 +47,11 @@ function initElectronAPI() {
             GlobalHotkeyService_1.GlobalHotkeyService.getInstance();
             return true;
         }
+    });
+    electron_1.ipcMain.handle('getVersion', () => {
+        console.log("getVersion() called, retrieving version");
+        console.log("ipcBridge.ts: getVersion() returning " + electron_1.app.getVersion());
+        return electron_1.app.getVersion();
     });
     electron_1.ipcMain.handle('listenKeyForResult', () => {
         return new Promise(resolve => {

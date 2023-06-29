@@ -11,7 +11,6 @@ import {Settings} from '../../../app/src/preferences/Settings';
 export class SettingsComponent {
   @ViewChild('settingList') settingList: any;
 
-  settings: Promise<Record<string, any>[]> = window.electronAPI.getSettings();
   displaySettingPage = true;
 
   constructor(private cd: ChangeDetectorRef) {

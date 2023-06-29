@@ -1,8 +1,19 @@
+/**
+ * Contains information about a foreground window.
+ */
 export class ForegroundWindow {
     title: string;
     exePath: string;
     iconBase64: string;
 
+  /**
+   * Creates a new ForegroundWindow. Only intended for use within this class.
+   * Please use the static create() method instead.
+   * @param title
+   * @param exePath
+   * @param iconBase64
+   * @private
+   */
     private constructor(title: string, exePath: string, iconBase64: string) {
         this.title = title;
         this.exePath = exePath;

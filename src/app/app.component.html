@@ -21,14 +21,14 @@
     [routerLink]="activePage === 'settings' ? '/home' : '/settings'"
     (click)="setActive('settings')"
     nbButton ghost size="small" >
-    {{'GLOBAL.SETTINGS' | translate}}
+    {{'TITLE_BAR.SETTINGS' | translate}}
   </button>
   <button
-    [class]="activePage === 'help' ? 'btn-active' : 'btn-normal'"
-    [routerLink]="activePage === 'help' ? '/home' : '/helpAndAbout'"
-    (click)="setActive('help')"
+    style="margin-left: 0.5em"
+    [nbPopover]="helpPopover"
+    [nbPopoverPlacement]="nbPosition.BOTTOM"
     nbButton ghost size="small">
-    {{'GLOBAL.HELP' | translate}}
+    {{'TITLE_BAR.HELP' | translate}}
   </button>
 
   <div style="flex-grow: 1; -webkit-app-region: drag; height: 100%"></div>
@@ -46,3 +46,24 @@
 
 </nb-layout>
 
+<ng-template #helpPopover>
+  <div style="display: flex;flex-direction: column;">
+    <button nbButton ghost size="small" style="margin: 5px" (click)="openInBrowser('github');">
+      {{'PAGES.SETTINGS.VIEW_ON_GITHUB' | translate}}
+    </button>
+    <button nbButton ghost size="small" style="margin: 0 5px 5px 5px;" (click)="openInBrowser('paypal')">
+      {{'PAGES.SETTINGS.DONATE_WITH_PAYPAL' | translate}}
+    </button>
+    <button nbButton ghost size="small" style="margin: 0 5px 5px 5px;" (click)="openInBrowser('bug')">
+      {{'PAGES.SETTINGS.ABOUT_REPORT_BUG' | translate}}
+    </button>
+    <button nbButton ghost size="small" style="margin: 0 5px 5px 5px;" routerLink="/helpAndAbout">
+      {{'PAGES.SETTINGS.ABOUT' | translate}}
+    </button>
+    <div width="100%" style="height: 2px; margin: 0 5px; background: var(--accordion-header-disabled-text-color);"></div>
+    <button nbButton ghost size="small" style="margin: 5px; display: flex; flex-direction: row; align-content: center; justify-content: space-between; align-items: center;">
+      <nb-icon icon="refresh-outline" /> {{'PAGES.SETTINGS.VERSION' | translate}} : {{version}}
+    </button>
+  </div>
+
+</ng-template>

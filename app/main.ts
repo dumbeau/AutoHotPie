@@ -3,28 +3,26 @@ import * as path from 'path';
 import * as fs from 'fs';
 import {GlobalHotkeyService} from "./src/nativeAPI/GlobalHotkeyService";
 import {initElectronAPI} from "./src/ipcBridge";
-import {Preferences} from "./src/preferences/Preferences";
 import {KeyEvent} from "./src/nativeAPI/KeyEvent";
-import {db} from "./src/preferences/AHPDB";
+import {SettingsConstants} from "./src/constants/SettingsConstants";
+import {EditorConstants} from "./src/constants/EditorConstants";
 
-// Constants
-const EDITOR_WINDOW_WIDTH = 1080;
-const EDITOR_WINDOW_HEIGHT = 720;
+// Variables
 let pieMenuWindow: BrowserWindow | undefined;
 let editorWindow: BrowserWindow | undefined;
-app.setPath("userData", process.env.APPDATA + "/AHP/");
+app.setPath("userData", SettingsConstants.DEFAULT_SETTINGS_PATH);
 
 let tray = null;
 
-Preferences.init(); // Load/Init preferences
-
+// Initialization
 // User data is initialized in app.component.ts and can only be initialized there (with minimal code).
-
 initGlobalHotkeyService();
 initElectronWindows();
 initElectronAPI();
 initSystemTray();
 
+
+// Functions
 function initGlobalHotkeyService() {
   // Start GlobalHotkeyService
   GlobalHotkeyService.getInstance();
@@ -65,10 +63,10 @@ function initElectronWindows() {
 
 function createWindow(): BrowserWindow {
   editorWindow = new BrowserWindow({
-    minWidth: EDITOR_WINDOW_WIDTH,
-    minHeight: EDITOR_WINDOW_HEIGHT,
-    width: EDITOR_WINDOW_WIDTH,
-    height: EDITOR_WINDOW_HEIGHT,
+    minWidth: EditorConstants.WINDOW_WIDTH,
+    minHeight: EditorConstants.WINDOW_HEIGHT,
+    width: EditorConstants.WINDOW_WIDTH,
+    height: EditorConstants.WINDOW_HEIGHT,
     // TODO: Uncomment the following line for release build
     // titleBarStyle: 'hidden',
     titleBarOverlay: {

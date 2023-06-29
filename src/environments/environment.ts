@@ -1,4 +1,5 @@
 export const APP_CONFIG = {
-  production: false,
+  // TODO: Set to true for production
+  production: true,
   environment: 'LOCAL'
 };

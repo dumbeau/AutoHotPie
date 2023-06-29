@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
-import {db, PieMenu} from '../../../../app/src/preferences/AHPDB';
+import {db} from '../../../../app/src/userData/AHPDatabase';
+import {PieMenu} from '../../../../app/src/userData/PieMenu';
 
 @Component({
   selector: 'app-pie-menu-list',
@@ -8,7 +9,7 @@ import {db, PieMenu} from '../../../../app/src/preferences/AHPDB';
 })
 export class PieMenuListComponent implements OnChanges {
   @Input() pieMenuIds: number[] = [];
-  @Output() pieMenuRemoved = new EventEmitter<number>();
+  @Output() pieMenuChange = new EventEmitter<{remove: number|undefined; add: number|undefined}>();
 
   pieMenus: Array<PieMenu> = [];
 

@@ -1,5 +1,6 @@
-import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
-import {db, Profile} from '../../../../app/src/preferences/AHPDB';
+import {Component, EventEmitter, Input, Output, ViewChild} from '@angular/core';
+import {db} from '../../../../app/src/userData/AHPDatabase';
+import {Profile} from '../../../../app/src/userData/Profile';
 
 @Component({
   selector: 'app-profile-list-item',
@@ -8,7 +9,7 @@ import {db, Profile} from '../../../../app/src/preferences/AHPDB';
 })
 
 export class ProfileListItemComponent {
-  @Input() profile: Profile = {id: 0, enabled: false, exePath: '', iconBase64: '', name: '', pieMenus: []};
+  @Input() profile: Profile = new Profile('');
   @Input() selectedProfileId = 0;
   @Output() profileSelected = new EventEmitter<number>();
   @Output() profileUpdated = new EventEmitter();

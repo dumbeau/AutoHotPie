@@ -1,7 +1,8 @@
 import {Component, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
 import {NbPopoverDirective, NbPosition} from '@nebular/theme';
 import {ForegroundWindow} from '../../../app/src/nativeAPI/ForegroundWindow';
-import {db, Profile} from '../../../app/src/preferences/AHPDB';
+import {db} from '../../../app/src/userData/AHPDatabase';
+import {Profile} from '../../../app/src/userData/Profile';
 
 @Component({
   selector: 'app-home',
@@ -37,7 +38,7 @@ export class HomeComponent implements OnInit, OnChanges {
     // Not using db.profile.toArray() as it doesn't trigger the UI update
     db.profile.each((prof) => {
       this.profiles.push(prof);
-    }).then((profiles) => {
+    }).then(() => {
       this.selectedProfId = this.profiles[0].id ?? 0;
     });
   }
@@ -80,15 +81,14 @@ export class HomeComponent implements OnInit, OnChanges {
       return;
     }
 
-    const newProf: Profile = {
-      enabled: true,
-      exePath: this.focusedFgWin.exePath,
-      iconBase64: this.focusedFgWin.iconBase64,
-      name: this.profInput.nativeElement.value,
-      pieMenus: []
-    };
+    const newProf = new Profile(
+      this.profInput.nativeElement.value,
+      undefined,
+      this.focusedFgWin.exePath,
+      this.focusedFgWin.iconBase64
+    );
 
-    db.profile.add(newProf).then((id) => {
+    db.profile.add(newProf).then(() => {
       this.profiles.push(newProf);
     });
 

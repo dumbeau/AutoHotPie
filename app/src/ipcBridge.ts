@@ -1,4 +1,4 @@
-import {ipcMain} from "electron";
+import {app, ipcMain} from "electron";
 import * as child_process from "child_process";
 import {Preferences} from "./preferences/Preferences";
 import {NativeAPI} from "./nativeAPI/NativeAPI";
@@ -13,16 +13,6 @@ export function initElectronAPI() {
     ipcMain.handle('openInBrowser', (event, args) => {
         console.debug("ipcBridge.ts openInBrowser(): opening " + args[0] + " in browser")
         child_process.execSync('start ' + args[0]);
-    });
-    ipcMain.handle('getSettings', () => {
-        console.debug("ipcBridge.ts getSettings(): retrieving settings");
-
-        const settings: { key: string; value: any; }[] = [];
-        Object.entries(Preferences.getAHPSettings()).forEach((entry) => {
-            settings.push({key: entry[0], value: entry[1]});
-        });
-
-        return settings;
     });
 
     ipcMain.handle('isUpdateAvailable', async () => {
@@ -51,6 +41,11 @@ export function initElectronAPI() {
             GlobalHotkeyService.getInstance();
             return true;
         }
+    });
+    ipcMain.handle('getVersion', () => {
+      console.log("getVersion() called, retrieving version");
+      console.log("ipcBridge.ts: getVersion() returning " + app.getVersion());
+      return app.getVersion();
     });
     ipcMain.handle('listenKeyForResult', () => {
         return new Promise(resolve => {

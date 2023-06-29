@@ -5,7 +5,11 @@
 @include nb-install() {
   @include nb-theme-global();
 };
-
+.cdk-global-scrollblock{
+  // This is needed so white space does not appear on the right side of the screen
+  // when open a select element, specifically in pie menu editor.
+  overflow-y: hidden;
+}
 body {
   overflow: hidden;
 }
