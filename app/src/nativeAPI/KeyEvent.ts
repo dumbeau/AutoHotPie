@@ -1,3 +1,5 @@
+import {logger} from "../../main";
+
 /**
  * Key event respond type.
  */
@@ -18,7 +20,7 @@ export class KeyEvent {
   }
 
   public static fromString(respond: string){
-      console.log("Creating KeyEvent object from string: " + respond);
+      logger.debug("Creating KeyEvent object from string: " + respond);
 
       return new KeyEvent(respond.split(',')[0] as RespondType, respond.split(',')[1]);
   }

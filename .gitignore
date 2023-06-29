@@ -70,3 +70,4 @@ Thumbs.db
 /app/src/preferences/Preferences.js
 /app/src/preferences/Settings.js
 /app/src/preferences/UserDataObject.js
+/app/src/nativeAPI/ForegroundWindowService.js

@@ -3,21 +3,21 @@
     <nb-list style="width: 100%">
       <nb-list-item style=" display: flex; flex-direction: row; justify-content: space-between; ">
         <div style="width: 100%">
-          <h3>{{ "PAGES.SETTINGS.PIE_MENU_CANCEL_KEY" | translate}}</h3>
+          <h4 style="margin: 0">{{ "PAGES.SETTINGS.PIE_MENU_CANCEL_KEY" | translate}}</h4>
           <p>{{ "PAGES.SETTINGS.PIE_MENU_CANCEL_KEY_DESC" | translate}}</p>
         </div>
-        <app-shortcut-input></app-shortcut-input>
+        <app-shortcut-input [hotkey]="pieMenuCancelKey" (hotkeyChange)="setPieMenuCancelKey($event)"></app-shortcut-input>
       </nb-list-item>
       <nb-list-item style=" display: flex; flex-direction: row; justify-content: space-between; ">
         <div style="width: 100%">
-          <h3>{{ "PAGES.SETTINGS.RUN_ON_STARTUP" | translate}}</h3>
+          <h4 style="margin: 0">{{ "PAGES.SETTINGS.RUN_ON_STARTUP" | translate}}</h4>
           <p>{{ "PAGES.SETTINGS.RUN_ON_STARTUP_DESC" | translate}}</p>
         </div>
-        <nb-toggle></nb-toggle>
+        <nb-toggle [checked]="runOnStartup" (checkedChange)="setRunOnStartup($event)"></nb-toggle>
       </nb-list-item>
       <nb-list-item style=" display: flex; flex-direction: row; justify-content: space-between; ">
         <div style="width: 100%">
-          <h3>{{ "PAGES.SETTINGS.RUN_ON_APP_QUIT" | translate}}</h3>
+          <h4 style="margin: 0">{{ "PAGES.SETTINGS.RUN_ON_APP_QUIT" | translate}}</h4>
           <p>{{ "PAGES.SETTINGS.RUN_ON_APP_QUIT_DESC" | translate}}</p>
         </div>
         <nb-toggle [checked]="runOnAppQuit" (checkedChange)="setRunOnAppQuit($event)"></nb-toggle>

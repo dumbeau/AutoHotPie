@@ -42,7 +42,8 @@ export class PieMenuEditorComponent implements OnInit {
       'string',
       [], 2));
     this.pieMenuId = this.activatedRoute.snapshot.paramMap.get('pieMenuId') ?? '';
-    console.log('PieMenuEditorComponent constructor called. pieMenuId: ' + this.pieMenuId);
+
+    window.log.debug('Pie Menu Editor is opening pie menu of id: ' + this.pieMenuId);
   }
 
   ngOnInit(): void {

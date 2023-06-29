@@ -42,7 +42,7 @@ export class PieMenuListRowComponent implements OnInit {
 
   duplicatePieMenu() {
     if (this.nProfilesConnected > 1) {
-      console.log('PieMenuListRowComponent.duplicatePieMenu(): Duplicating pie menu ' + this.pieMenu.id);
+      window.log.info('Duplicating pie menu ' + this.pieMenu.id + ' (name: ' + this.pieMenu.name + ')');
 
       db.pieMenu.add({
         activationMode: this.pieMenu.activationMode,
@@ -62,6 +62,7 @@ export class PieMenuListRowComponent implements OnInit {
   acquireHotkey(success = true) {
     if (!success) {
       this.pieMenu.hotkey = this.prevHotkey;
+      window.log.info('Hotkey of pie menu ' + this.pieMenu.id + ' (name: ' + this.pieMenu.name + ') not changed per user request');
       return;
     }
     db.pieMenu.where('hotkey').equals(this.newHotkey)
@@ -69,11 +70,13 @@ export class PieMenuListRowComponent implements OnInit {
       .then(() => {
         db.pieMenu.put(this.pieMenu);
         this.pieMenuChange.emit();
+        window.log.info('Hotkey of pie menu ' + this.pieMenu.id + ' (name: ' + this.pieMenu.name + ') changed to ' + this.newHotkey);
+        window.log.info('All other pie menus with hotkey ' + this.newHotkey + ' had their hotkey removed');
       });
   }
 
   async shortcutInputChanged(newHotkey: string) {
-    console.log('PieMenuListRowComponent: Updating shortcut for pie menu to ', newHotkey);
+    window.log.info('Trying to change hotkey of pie menu ' + this.pieMenu.id + ' (name: ' + this.pieMenu.name + ') to ' + newHotkey);
     this.newHotkey = newHotkey;
     this.prevHotkey = this.pieMenu.hotkey;
 
@@ -81,9 +84,11 @@ export class PieMenuListRowComponent implements OnInit {
 
     if ((await db.pieMenu.where('hotkey').equals(newHotkey).count()) > 0) {
       this.dialogService.open(this.confirmReplaceDialog);
-
+      window.log.info('Hotkey of pie menu ' + this.pieMenu.id + ' (name: ' + this.pieMenu.name + ') already in use, ' +
+        'prompting user to replace it');
     } else {
       db.pieMenu.put(this.pieMenu);
+      window.log.info('Hotkey of pie menu ' + this.pieMenu.id + ' (name: ' + this.pieMenu.name + ') changed to ' + newHotkey);
     }
   }
 }

@@ -60,7 +60,7 @@ export class HomeComponent implements OnInit, OnChanges {
       this.selectingApp = false;
 
       window.electronAPI.getForegroundApplication().then((value) => {
-        this.focusedFgWin = ForegroundWindow.fromJsonString(value);
+        this.focusedFgWin = JSON.parse(value) as ForegroundWindow;
 
         if (this.focusedFgWin === undefined) {
           console.warn('HomeComponent: Failed to retrieve foreground window details.');
@@ -71,13 +71,12 @@ export class HomeComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log('HomeComponent: ngOnChanges() called');
+    window.log.debug('HomeComponent: ngOnChanges() called');
   }
 
   createProfile() {
     if (this.focusedFgWin === undefined) {
-      console.warn('HomeComponent: Foreground window details are empty.');
-      console.warn('HomeComponent: Aborting profile creation.');
+      window.log.info('There is no focused foreground window. Aborting profile creation.');
       return;
     }
 
@@ -90,9 +89,8 @@ export class HomeComponent implements OnInit, OnChanges {
 
     db.profile.add(newProf).then(() => {
       this.profiles.push(newProf);
+      window.log.info('Profile of id ' + newProf.id + ' created with name ' + newProf.name);
     });
-
-    console.log('HomeComponent createProfile(): Created new profile: ' + newProf.name);
   }
 
   updateSelectedProfile($event: number) {
@@ -100,7 +98,7 @@ export class HomeComponent implements OnInit, OnChanges {
   }
 
   reloadProfEditor() {
-    console.log('home.component.ts: Reloading profile editor');
+    window.log.info('Reloading profile editor');
     this.profileEditorComponent.ngOnChanges();
   }
 

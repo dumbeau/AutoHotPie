@@ -1,6 +1,6 @@
-import fs from "fs";
 import {spawnSync} from "child_process";
 import {IForegroundWindow} from "./ForegroundWindow";
+import * as fs from "fs";
 
 export class ForegroundWindowService {
   /**

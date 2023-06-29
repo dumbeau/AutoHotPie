@@ -9,6 +9,14 @@ interface NodeModule {
 interface Window {
   process: any;
   require: any;
+  log: {
+    trace: (message: string) => void;
+    debug: (message: string) => void;
+    info: (message: string) => void;
+    warn: (message: string) => void;
+    error: (message: string) => void;
+    fatal: (message: string) => void;
+  };
   electronAPI: {
     openInBrowser: (url: string) => void;
     isUpdateAvailable: () => Promise<boolean>;
@@ -33,7 +41,7 @@ interface Window {
 
     getVersion: () => Promise<string>;
 
-    getSetting: (settingName: string) => any;
+    getSetting: (settingName: string) => Promise<any>;
     setSetting: (settingName: string, value: any) => any;
   };
 }

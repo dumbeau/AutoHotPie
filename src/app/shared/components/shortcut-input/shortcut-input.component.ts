@@ -19,7 +19,7 @@ export class ShortcutInputComponent {
         this.hotkey = key;
       }
 
-      console.log('PieMenuListComponent.getLastKeyPress(): listenKeyForResult() returned ' + key);
+      window.log.info('Updating hotkey to ' + this.hotkey);
 
       this.hotkeyChange.emit(this.hotkey);
 

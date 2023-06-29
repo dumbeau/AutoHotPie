@@ -27,9 +27,10 @@ export class ProfileEditorComponent {
     db.pieMenu.add(new PieMenu())
       .then((pieMenuId) => {
         this.addPieMenu(pieMenuId as number);
+
+        window.log.info('Created new pie menu, the id is ' + pieMenuId);
       });
 
-    console.log('ProfileEditorComponent.addPieMenu(): this.profile.pieMenus = ' + this.profile.pieMenus);
   }
 
   onPieMenuChanged(event: { remove: number | undefined; add: number | undefined }) {
@@ -40,19 +41,17 @@ export class ProfileEditorComponent {
     if (event === undefined) {
       this.profile.pieMenus = [...this.profile.pieMenus];
 
-      console.log('ProfileEditorComponent.removePieMenuFromProf(): Forcing update');
-
       return;
     }
-
-    console.log('ProfileEditorComponent.removePieMenuFromProf(): event = ' + event);
 
     let newPieMenuList = this.profile.pieMenus;
     if (event.remove !== undefined) {
       newPieMenuList = newPieMenuList.filter((pieMenuId) => pieMenuId !== event.remove);
+      window.log.info('Removed pie menu ' + event.remove + ' from profile ' + this.profile.id);
     }
     if (event.add !== undefined) {
       newPieMenuList = [...newPieMenuList, event.add];
+      window.log.info('Added pie menu ' + event.add + ' to profile ' + this.profile.id);
     }
 
     if (event.remove !== undefined || event.add !== undefined) {
@@ -68,7 +67,7 @@ export class ProfileEditorComponent {
   updateProfile() {
     db.profile.update(this.profile.id ?? 0, this.profile);
 
-    console.log('ProfileEditorComponent.updateProfile(): this.profile = ' + this.profile);
+    window.log.info('Updated profile ' + this.profile.id + ' (name: ' + this.profile.name + ')');
   }
 
   openPieMenuSelector(pieMenuSelectorDialog: TemplateRef<any>) {

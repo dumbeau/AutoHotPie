@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, Output, ViewChild} from '@angular/core';
 import {db} from '../../../../app/src/userData/AHPDatabase';
 import {Profile} from '../../../../app/src/userData/Profile';
+import {logger} from "../../../../app/main";
 
 @Component({
   selector: 'app-profile-list-item',
@@ -32,7 +33,7 @@ export class ProfileListItemComponent {
 
     db.profile.update(this.profile.id ?? 0, {name: this.profNameInput.nativeElement.value}).then(() => {
       this.profile.name = this.profNameInput.nativeElement.value;
-      console.log('ProfileListItemComponent completeEditing(): Profile name updated');
+      window.log.info('Profile of id ' + this.profile.id + ' updated its name to ' + this.profile.name);
     });
   }
 

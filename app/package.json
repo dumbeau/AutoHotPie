@@ -12,6 +12,8 @@
   "main": "main.js",
   "private": true,
   "dependencies": {
+    "log4js": "6.9.1"
+
   }
 
 }
