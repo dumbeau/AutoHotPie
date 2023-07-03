@@ -1,10 +1,9 @@
 import {app, ipcMain} from "electron";
 import * as child_process from "child_process";
-import {GlobalHotkeyService} from "./nativeAPI/GlobalHotkeyService";
-import {KeyEvent, RespondType} from "./nativeAPI/KeyEvent";
 import {ahpSettings} from "./settings/AHPSettings";
 import {ForegroundWindowService} from "./nativeAPI/ForegroundWindowService";
 import {logger, rendererLogger} from "../main";
+import {getGHotkeyServiceInstance, isGHotkeyServiceRunning, KeyEvent, RespondType} from "mousekeyhook.js";
 
 /**
  * Sets up IPC listeners for the main process,
@@ -36,11 +35,11 @@ export function initElectronAPI() {
     logger.info("Toggling Global Hotkey Service. Turning it " + (!args[0] ? "on" : "off") + "");
     // args[0] = serviceActive
 
-    if (GlobalHotkeyService.isRunning()) {
-      GlobalHotkeyService.getInstance().exitProcess();
+    if (isGHotkeyServiceRunning()) {
+      getGHotkeyServiceInstance().exitProcess();
       return false;
     } else {
-      GlobalHotkeyService.getInstance();
+      getGHotkeyServiceInstance();
       return true;
     }
   });
@@ -81,13 +80,13 @@ export function initElectronAPI() {
             "RControlKey",
             "ControlKey"].includes((event.value.split('+').pop() ?? 'PLACEHOLDER').trim())) {
 
-          GlobalHotkeyService.getInstance().removeTempKeyListener();
+          getGHotkeyServiceInstance().removeTempKeyListener();
           logger.info("Hotkey " + event.value + " is pressed");
           resolve(event.value);
         }
       }
 
-      GlobalHotkeyService.getInstance().addTempKeyListener(listener);
+      getGHotkeyServiceInstance().addTempKeyListener(listener);
 
     });
 

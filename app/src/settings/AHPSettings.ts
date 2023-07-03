@@ -1,8 +1,8 @@
 import {Schema} from "electron-store";
-import {KeyEvent, RespondType} from "../nativeAPI/KeyEvent";
 import {app} from "electron";
 import * as Store from "electron-store";
 import {SettingsConstants} from "../constants/SettingsConstants";
+import {KeyEvent, RespondType} from "mousekeyhook.js";
 
 interface AHPSettingsSchema {
   pieMenuCancelKey: string;

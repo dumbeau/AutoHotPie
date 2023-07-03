@@ -1,12 +1,11 @@
 import {app, BrowserWindow, Menu, Tray} from 'electron';
 import * as path from 'path';
 import * as fs from 'fs';
-import {GlobalHotkeyService} from "./src/nativeAPI/GlobalHotkeyService";
 import {initElectronAPI, initLoggerForRenderer} from "./src/ipcBridge";
-import {KeyEvent} from "./src/nativeAPI/KeyEvent";
 import {SettingsConstants} from "./src/constants/SettingsConstants";
 import {EditorConstants} from "./src/constants/EditorConstants";
 import * as log4js from "log4js";
+import {getGHotkeyServiceInstance, KeyEvent} from "mousekeyhook.js";
 
 // Variables
 log4js.configure({
@@ -44,13 +43,12 @@ initSystemTray();
 // Functions
 function initGlobalHotkeyService() {
   logger.info('Initializing global hotkey service');
-  GlobalHotkeyService.getInstance();
 
-  GlobalHotkeyService.addKeyEventListener(
+  getGHotkeyServiceInstance().onHotkeyEvent.push(
     (event: KeyEvent) => {
       logger.debug('onKeyEvent - ' + event.type + ' ' + event.value);
-    })
-    .setOnCloseListener(() => {
+    });
+  getGHotkeyServiceInstance().onProcessExit = (() => {
       logger.debug('Global hotkey service exited.');
 
       editorWindow?.webContents.send('globalHotkeyServiceExited')
