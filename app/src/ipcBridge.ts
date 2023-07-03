@@ -4,7 +4,7 @@ import {GlobalHotkeyService} from "./nativeAPI/GlobalHotkeyService";
 import {KeyEvent, RespondType} from "./nativeAPI/KeyEvent";
 import {ahpSettings} from "./settings/AHPSettings";
 import {ForegroundWindowService} from "./nativeAPI/ForegroundWindowService";
-import {logger} from "../main";
+import {logger, rendererLogger} from "../main";
 
 /**
  * Sets up IPC listeners for the main process,
@@ -95,10 +95,10 @@ export function initElectronAPI() {
 }
 
 export function initLoggerForRenderer() {
-  ipcMain.handle('trace', (event, args) => logger.trace(args[0]));
-  ipcMain.handle('info', (event, args) => logger.info(args[0]));
-  ipcMain.handle('debug', (event, args) => logger.debug(args[0]));
-  ipcMain.handle('warn', (event, args) => logger.warn(args[0]));
-  ipcMain.handle('error', (event, args) => logger.error(args[0]));
-  ipcMain.handle('fatal', (event, args) => logger.fatal(args[0]));
+  ipcMain.handle('trace', (event, args) => rendererLogger.trace(args[0]));
+  ipcMain.handle('info', (event, args) => rendererLogger.info(args[0]));
+  ipcMain.handle('debug', (event, args) => rendererLogger.debug(args[0]));
+  ipcMain.handle('warn', (event, args) => rendererLogger.warn(args[0]));
+  ipcMain.handle('error', (event, args) => rendererLogger.error(args[0]));
+  ipcMain.handle('fatal', (event, args) => rendererLogger.fatal(args[0]));
 }

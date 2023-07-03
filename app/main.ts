@@ -17,11 +17,14 @@ log4js.configure({
     productionFilter: { type: "logLevelFilter", appender: "production", level: "info" },
   },
   categories: {
-    default: { appenders: ["productionFilter", "devConsole", "devFile"], level: "trace" }
+    default: { appenders: ["productionFilter", "devConsole", "devFile"], level: "trace" },
+    main: { appenders: ["productionFilter", "devConsole", "devFile"], level: "trace" },
+    renderer: { appenders: ["productionFilter", "devConsole", "devFile"], level: "trace" },
   }
 });
 
-export const logger = log4js.getLogger();
+export const logger = log4js.getLogger("main");
+export const rendererLogger = log4js.getLogger("renderer");
 let pieMenuWindow: BrowserWindow | undefined;
 let editorWindow: BrowserWindow | undefined;
 app.setPath("userData", SettingsConstants.DEFAULT_SETTINGS_PATH);
