@@ -21,6 +21,7 @@ interface Window {
     openInBrowser: (url: string) => void;
     isUpdateAvailable: () => Promise<boolean>;
     openDialogForResult: (defaultPath: string) => Promise<string>;
+    getFileIcon: (path: string) => Promise<string>;
 
     /**
      * Returns the path to the executable and the path to the icon of the foreground application

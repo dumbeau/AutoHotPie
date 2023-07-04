@@ -1,9 +1,10 @@
 import {app, ipcMain, dialog} from "electron";
 import * as child_process from "child_process";
 import {ahpSettings} from "./settings/AHPSettings";
-import {ForegroundWindowService} from "./nativeAPI/ForegroundWindowService";
 import {logger, rendererLogger} from "../main";
+import * as activeWindow from "active-win";
 import {getGHotkeyServiceInstance, isGHotkeyServiceRunning, KeyEvent, RespondType} from "mousekeyhook.js";
+import {ReadonlyWindowDetails} from "./appWindow/WindowDetails";
 
 /**
  * Sets up IPC listeners for the main process,
@@ -21,15 +22,26 @@ export function initElectronAPI() {
     // TODO: Implement isUpdateAvailable
     return true;
   });
-  ipcMain.handle('getForegroundApplication', () => {
+  ipcMain.handle('getForegroundApplication', async () => {
     logger.info("Retrieving information about the foreground application");
 
-    const fgDetail = JSON.stringify(ForegroundWindowService.foregroundWindow);
+    const result = activeWindow.sync();
 
-    logger.debug("Foreground Window Service returned " + fgDetail);
+    if (result === undefined) return "";
 
-    return fgDetail ?? "";
+    const base64Icon = (await app.getFileIcon(result.owner.path)).toDataURL();
+
+    return JSON.stringify(new ReadonlyWindowDetails(
+      result.title,
+      result.id,
+      result.bounds,
+      result.owner,
+      result.memoryUsage,
+      base64Icon,
+    ))
   });
+
+  ipcMain.handle('getFileIcon', (event, args) => app.getFileIcon(args[0]));
 
   ipcMain.handle('toggleService', (event, args) => {
     logger.info("Toggling Global Hotkey Service. Turning it " + (!args[0] ? "on" : "off") + "");

@@ -1,8 +1,8 @@
 import {Component, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
 import {NbPopoverDirective, NbPosition} from '@nebular/theme';
-import {ForegroundWindow} from '../../../app/src/nativeAPI/ForegroundWindow';
 import {db} from '../../../app/src/userData/AHPDatabase';
 import {Profile} from '../../../app/src/userData/Profile';
+import {ReadonlyWindowDetails} from '../../../app/src/appWindow/WindowDetails';
 
 @Component({
   selector: 'app-home',
@@ -17,7 +17,7 @@ export class HomeComponent implements OnInit, OnChanges {
 
   selectingApp = false;
 
-  focusedFgWin: ForegroundWindow | undefined;
+  activeWindow: ReadonlyWindowDetails | undefined;
   remainingSec = 5;
 
   selectedProfId = 1;
@@ -60,9 +60,11 @@ export class HomeComponent implements OnInit, OnChanges {
       this.selectingApp = false;
 
       window.electronAPI.getForegroundApplication().then((value) => {
-        this.focusedFgWin = JSON.parse(value) as ForegroundWindow;
+        this.activeWindow = JSON.parse(value) as ReadonlyWindowDetails;
 
-        if (this.focusedFgWin === undefined) {
+        window.log.debug('activeWindow: ' + value);
+
+        if (this.activeWindow === undefined) {
           console.warn('HomeComponent: Failed to retrieve foreground window details.');
         }
 
@@ -75,7 +77,7 @@ export class HomeComponent implements OnInit, OnChanges {
   }
 
   createProfile() {
-    if (this.focusedFgWin === undefined) {
+    if (this.activeWindow === undefined) {
       window.log.info('There is no focused foreground window. Aborting profile creation.');
       return;
     }
@@ -83,8 +85,8 @@ export class HomeComponent implements OnInit, OnChanges {
     const newProf = new Profile(
       this.profInput.nativeElement.value,
       undefined,
-      [this.focusedFgWin.exePath],
-      this.focusedFgWin.iconBase64
+      [this.activeWindow.owner.path],
+      this.activeWindow.base64Icon
     );
 
     db.profile.add(newProf).then(() => {
@@ -107,7 +109,7 @@ export class HomeComponent implements OnInit, OnChanges {
       return;
     }
 
-    this.focusedFgWin = undefined;
+    this.activeWindow = undefined;
   }
 
 }

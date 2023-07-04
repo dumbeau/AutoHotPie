@@ -31,7 +31,7 @@
         <input #profInput nbInput placeholder="{{'PAGES.HOME.PROF_NAME_HINT' | translate}}" style="width: 18em" >
         <div class="select-app-section">
             <button nbButton ghost style="border: 2px solid; width: 100%; height: 100%"
-                    [style.display]="!selectingApp && focusedFgWin === undefined ? 'unset' : 'none'"
+                    [style.display]="!selectingApp && activeWindow === undefined ? 'unset' : 'none'"
                     (click)="getActiveApp()">
                 {{"PAGES.HOME.CLICK_TO_SELECT_APP" | translate}}
             </button>
@@ -40,17 +40,17 @@
                 Open your application in {{remainingSec}}
             </div>
 
-            <div [style.display]="focusedFgWin !== undefined? 'flex' : 'none'"
+            <div [style.display]="activeWindow !== undefined? 'flex' : 'none'"
                  style="display: flex; flex-direction: column; justify-content: center; align-content: center; align-items: center; height: 100%">
-                <img [src]="'data:image/png;base64, ' + focusedFgWin?.iconBase64 ?? ''" alt="app icon"
+                <img [src]="activeWindow?.base64Icon ?? ''" alt="app icon"
                      style="width: 32px; height: 32px; margin: 1em">
 
-                {{ focusedFgWin?.exePath?.split('\\')?.pop() ?? "" }}
+                {{ activeWindow?.owner?.path?.split('\\')?.pop() ?? "" }}
             </div>
 
         </div>
         <button nbButton status="primary" style="align-self: center; margin-top: 1em"
-                [disabled]="focusedFgWin === undefined || profInput.value === ''"
+                [disabled]="activeWindow === undefined || profInput.value === ''"
                 (click)="createProfile()">{{"PAGES.HOME.CREATE_PROF" | translate}}</button>
     </div>
 </ng-template>
