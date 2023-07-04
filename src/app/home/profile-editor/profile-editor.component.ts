@@ -82,5 +82,19 @@ export class ProfileEditorComponent {
     }
     db.profile.update(this.profile, {pieMenus: [...this.profile.pieMenus, id]});
   }
+
+  async addMissingExeClicked() {
+    window.log.info('Waiting for user to select exe');
+    const path: string = await window.electronAPI.openDialogForResult(this.profile.exes[0]);
+
+    window.log.info('User selected exe ' + path);
+
+    db.profile.update(this.profile, {exes: [...this.profile.exes, path]});
+
+  }
+
+  removeExecutableVersion($event: string) {
+    db.profile.update(this.profile, {exes: this.profile.exes.filter((exe) => exe !== $event)});
+  }
 }
 

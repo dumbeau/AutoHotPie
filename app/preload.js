@@ -14,6 +14,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   globalHotkeyServiceExited: (callback) => ipcRenderer.on('globalHotkeyServiceExited', callback),
   getSetting: (settingName) => ipcRenderer.invoke('getSetting', [settingName]),
   setSetting: (settingName, value) => ipcRenderer.invoke('setSetting', [settingName, value]),
+  openDialogForResult: (defaultPath) => ipcRenderer.invoke('openDialogForResult', [defaultPath]),
 })
 
 contextBridge.exposeInMainWorld('log', {

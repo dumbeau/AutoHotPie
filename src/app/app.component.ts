@@ -72,7 +72,7 @@ export class AppComponent {
       await db.profile.put(new Profile(
         'Default Profile',
         [pieMenuId as number],
-        '',
+        [],
         undefined,
         true,
         1

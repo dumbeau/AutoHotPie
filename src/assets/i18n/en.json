@@ -12,6 +12,10 @@
     "HELP": "Help"
   },
   "PAGES": {
+    "PROFILE": {
+      "SETTINGS": "Executable versions",
+      "ADD_MISSING_EXE": "Add missing version..."
+    },
     "PIE_MENU_SELECTOR": {
       "CANCEL": "Cancel"
     },

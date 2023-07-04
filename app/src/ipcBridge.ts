@@ -1,4 +1,4 @@
-import {app, ipcMain} from "electron";
+import {app, ipcMain, dialog} from "electron";
 import * as child_process from "child_process";
 import {ahpSettings} from "./settings/AHPSettings";
 import {ForegroundWindowService} from "./nativeAPI/ForegroundWindowService";
@@ -58,6 +58,10 @@ export function initElectronAPI() {
   ipcMain.handle('setSetting', (event, args) => {
     logger.info("Setting " + args[0] + " to " + args[1] + "");
     return ahpSettings.set(args[0], args[1]);
+  });
+  ipcMain.handle('openDialogForResult', (event, args) => {
+    // args[0] = default path
+    return dialog.showOpenDialogSync({defaultPath: args[0], filters: [{name: "Executables", extensions: ["exe"]}], properties: ['openFile'] })
   });
   ipcMain.handle('listenKeyForResult', () => {
     return new Promise(resolve => {

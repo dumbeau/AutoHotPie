@@ -30,6 +30,10 @@ export class ShortcutInputComponent {
   }
 
   stopListeningShortcut() {
-    window.electronAPI.listenKeyForResult();
+    try {
+      window.electronAPI.listenKeyForResult();
+    } catch (e) {
+
+    }
   }
 }

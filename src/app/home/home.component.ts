@@ -83,7 +83,7 @@ export class HomeComponent implements OnInit, OnChanges {
     const newProf = new Profile(
       this.profInput.nativeElement.value,
       undefined,
-      this.focusedFgWin.exePath,
+      [this.focusedFgWin.exePath],
       this.focusedFgWin.iconBase64
     );
 

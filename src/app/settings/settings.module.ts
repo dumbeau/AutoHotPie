@@ -4,7 +4,7 @@ import {SettingsComponent} from './settings.component';
 import {NbButtonGroupModule, NbButtonModule, NbIconModule, NbListModule, NbToggleModule} from '@nebular/theme';
 import {RouterLink} from '@angular/router';
 import {TranslateModule} from '@ngx-translate/core';
-import {SharedModule} from "../shared/shared.module";
+import {SharedModule} from '../shared/shared.module';
 
 @NgModule({
   declarations: [ SettingsComponent ],
