@@ -6,19 +6,14 @@ import {KeyEvent, RespondType} from "mousekeyhook.js";
 
 interface AHPSettingsSchema {
   pieMenuCancelKey: string;
-  settingsVersion: string;
   runOnStartup: boolean;
   runOnAppQuit: boolean;
 }
 
 const schema: Schema<AHPSettingsSchema> = {
   pieMenuCancelKey: {
-    type: 'object',
-    default: new KeyEvent(RespondType.MOUSE_DOWN, 'Right')
-  },
-  settingsVersion: {
     type: 'string',
-    default: '0.0.0' // 0.0.0 means the settings is first created. i.e. the user is using the app for the first time.
+    default: JSON.stringify(new KeyEvent(RespondType.MOUSE_DOWN, 'Escape'))
   },
   runOnStartup: {
     type: 'boolean',
@@ -40,5 +35,9 @@ app.setPath("userData", SettingsConstants.DEFAULT_SETTINGS_PATH);
  * Details could be found here: https://github.com/sindresorhus/electron-store#readme
  */
 export const ahpSettings = new Store<AHPSettingsSchema>({
-  schema
+  schema, migrations: {
+    '3.0.2': (store) => {
+      store.set('pieMenuCancelKey', JSON.stringify(new KeyEvent(RespondType.KEY_DOWN, 'Escape')));
+    }
+  }
 });

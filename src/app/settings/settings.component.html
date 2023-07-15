@@ -6,7 +6,7 @@
           <h4 style="margin: 0">{{ "PAGES.SETTINGS.PIE_MENU_CANCEL_KEY" | translate}}</h4>
           <p>{{ "PAGES.SETTINGS.PIE_MENU_CANCEL_KEY_DESC" | translate}}</p>
         </div>
-        <app-shortcut-input [hotkey]="pieMenuCancelKey" (hotkeyChange)="setPieMenuCancelKey($event)"></app-shortcut-input>
+        <app-shortcut-input [isSingleKey]="true" [hotkey]="pieMenuCancelKey" (hotkeyChange)="setPieMenuCancelKey($event)"></app-shortcut-input>
       </nb-list-item>
       <nb-list-item style=" display: flex; flex-direction: row; justify-content: space-between; ">
         <div style="width: 100%">

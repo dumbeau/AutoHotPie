@@ -75,26 +75,15 @@ export function initElectronAPI() {
     // args[0] = default path
     return dialog.showOpenDialogSync({defaultPath: args[0], filters: [{name: "Executables", extensions: ["exe"]}], properties: ['openFile'] })
   });
-  ipcMain.handle('listenKeyForResult', () => {
+  ipcMain.handle('listenKeyForResult', (event, args) => {
+    // args[0] = ignoredKeys
+
     return new Promise(resolve => {
       logger.info("Listening for valid hotkey once");
 
       const listener = (event: KeyEvent) => {
         if (event.type === RespondType.KEY_DOWN
-          && !["Alt",
-            "Control",
-            "Modifiers",
-            "LMenu",
-            "RMenu",
-            "Capital",
-            "Tab",
-            "Shift",
-            "Escape",
-            "LShiftKey",
-            "RShiftKey",
-            "LControlKey",
-            "RControlKey",
-            "ControlKey"].includes((event.value.split('+').pop() ?? 'PLACEHOLDER').trim())) {
+          && !args[0].includes((event.value.split('+').pop() ?? 'PLACEHOLDER').trim())) {
 
           getGHotkeyServiceInstance().removeTempKeyListener();
           logger.info("Hotkey " + event.value + " is pressed");

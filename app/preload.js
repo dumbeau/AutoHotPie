@@ -9,7 +9,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   isUpdateAvailable: () => ipcRenderer.invoke('isUpdateAvailable'),
   getForegroundApplication: () => ipcRenderer.invoke('getForegroundApplication'),
   toggleService: (serviceActive) => ipcRenderer.invoke('toggleService', [serviceActive]),
-  listenKeyForResult: () => ipcRenderer.invoke('listenKeyForResult'),
+  listenKeyForResult: (ignoredKeys) => ipcRenderer.invoke('listenKeyForResult', [ignoredKeys]),
   getVersion: () => ipcRenderer.invoke('getVersion'),
   globalHotkeyServiceExited: (callback) => ipcRenderer.on('globalHotkeyServiceExited', callback),
   getSetting: (settingName) => ipcRenderer.invoke('getSetting', [settingName]),

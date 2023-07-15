@@ -1,4 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
+import {KeyEvent} from "mousekeyhook.js";
 
 @Component({
   selector: 'app-settings',
@@ -27,9 +28,11 @@ export class SettingsComponent implements OnInit {
     });
 
     window.electronAPI.getSetting('pieMenuCancelKey').then((value) => {
-      this.pieMenuCancelKey = value;
+      window.log.info('Retrieved pieMenuCancelKey from settings: ' + value);
 
-      window.log.info('Retrieved pieMenuCancelKey from settings: ' + this.pieMenuCancelKey);
+      this.pieMenuCancelKey = (JSON.parse(value) as KeyEvent).value;
+
+      window.log.info('The value is: ' + this.pieMenuCancelKey);
     });
   }
 
@@ -44,7 +47,6 @@ export class SettingsComponent implements OnInit {
   }
 
   setPieMenuCancelKey($event: string) {
-    // TODO: This should not use the normal shortcut input component, it should detect only one key
     this.pieMenuCancelKey = $event;
     window.electronAPI.setSetting('pieMenuCancelKey', $event);
   }
