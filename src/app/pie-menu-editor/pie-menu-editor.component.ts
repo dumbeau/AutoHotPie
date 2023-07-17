@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {PieMenuState} from './PieMenuState';
+import {PieMenuState, PieMenuStateManager} from './state/PieMenuState';
 import {db} from '../../../app/src/userData/AHPDatabase';
 import {PieItem} from '../../../app/src/userData/PieItem';
 
@@ -12,8 +12,7 @@ import {PieItem} from '../../../app/src/userData/PieItem';
 export class PieMenuEditorComponent {
   @Input() pieMenuId: number;
 
-  pieMenuStates: PieMenuState[] = [];
-  activePieMenuStateId = 0;
+  pieMenuStates: ReadonlyArray<PieMenuState> = PieMenuStateManager.instance.readonlyPieMenuStates;
 
   // pieMenuStateLoaded is used to prevent the work area from loading until the pie menu state has created.
   pieMenuStateLoaded?: Promise<boolean>;
@@ -48,7 +47,12 @@ export class PieMenuEditorComponent {
     }
 
     const pieMenuState = new PieMenuState(pieMenu, pieItems);
-    this.pieMenuStates.push(pieMenuState);
+
+    PieMenuStateManager.instance.addPieMenuState(pieMenuState);
     this.pieMenuStateLoaded = Promise.resolve(true);
+  }
+
+  clearState() {
+    PieMenuStateManager.instance.clearPieMenuStates();
   }
 }

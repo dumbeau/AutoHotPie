@@ -12,7 +12,7 @@
     justify-content: space-between;
     align-content: center">
 
-  <button nbButton size="small" status="success" routerLink="/home">
+  <button nbButton size="small" status="success" (click)="clearState()" routerLink="/home">
     <nb-icon icon="arrow-ios-back-outline"/>
   </button>
 
@@ -27,8 +27,7 @@
 
 </div>
 
-<app-pie-menu-editor-work-area *ngIf="pieMenuStateLoaded | async"
-                               [pieMenuState]="pieMenuStates[activePieMenuStateId]"
+<app-work-area-component *ngIf="pieMenuStateLoaded | async"
                                style="height: 100vh;
                                display: flex;
                                padding-bottom: calc(var(--title-bar-height) * 2);
