@@ -3,6 +3,7 @@ import {db} from '../../../../app/src/userData/AHPDatabase';
 import {NbDialogService, NbPosition} from '@nebular/theme';
 import {Profile} from '../../../../app/src/userData/Profile';
 import {PieMenu} from '../../../../app/src/userData/PieMenu';
+import {PieItem} from '../../../../app/src/userData/PieItem';
 
 @Component({
   selector: 'app-profile-editor',
@@ -21,15 +22,18 @@ export class ProfileEditorComponent {
   constructor(private dialogService: NbDialogService) {
   }
 
-  newPieMenu() {
+  async newPieMenu() {
     this.profSettingsRevealed = false;
 
-    db.pieMenu.add(new PieMenu())
-      .then((pieMenuId) => {
-        this.addPieMenu(pieMenuId as number);
+    const pieItemId = await db.pieItem.add(new PieItem(''));
 
-        window.log.info('Created new pie menu, the id is ' + pieMenuId);
-      });
+    const newPieMenu = new PieMenu();
+    newPieMenu.pieItems.push(pieItemId as number);
+
+    const pieMenuId = await db.pieMenu.add(newPieMenu);
+
+    this.addPieMenu(pieMenuId as number);
+    window.log.info('Created new pie menu, the id is ' + pieMenuId);
 
   }
 

@@ -16,12 +16,14 @@ import {RouterLink} from '@angular/router';
 import { ActionComponent } from './action/action.component';
 import {SharedModule} from "../shared/shared.module";
 import {CdkDrag, CdkDropList} from "@angular/cdk/drag-drop";
+import { PieMenuEditorWorkAreaComponent } from './pie-menu-editor-work-area/pie-menu-editor-work-area.component';
 
 @NgModule({
   declarations: [
     PieMenuEditorComponent,
     PreferencesEditorComponent,
-    ActionComponent
+    ActionComponent,
+    PieMenuEditorWorkAreaComponent
   ],
   imports: [
     CommonModule,
