@@ -15,7 +15,7 @@ export class AHPDatabase extends Dexie {
     this.version(1).stores({
       pieItem: "++id, name, enabled, *actions, iconPath, useIconColor",
       pieMenu: "++id, name, enabled, activationMode, hotkey, escapeRadius, openInScreenCenter, selectionColor, *pieItems",
-      profile: "++id, name, enabled, *pieMenus, exePath, iconBase64",
+      profile: "++id, name, enabled, *pieMenus, *exes, iconBase64",
     });
   }
 }

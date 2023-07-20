@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PreferencesEditorComponent } from './preferences-editor.component';
+import { SettingsTabComponent } from './settings-tab.component';
 
 describe('PreferencesEditorComponent', () => {
-  let component: PreferencesEditorComponent;
-  let fixture: ComponentFixture<PreferencesEditorComponent>;
+  let component: SettingsTabComponent;
+  let fixture: ComponentFixture<SettingsTabComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PreferencesEditorComponent ]
+      declarations: [ SettingsTabComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(PreferencesEditorComponent);
+    fixture = TestBed.createComponent(SettingsTabComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

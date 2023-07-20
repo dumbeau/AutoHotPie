@@ -11,7 +11,7 @@ export class HelpAndAboutComponent {
   checkUpdate() {
     this.updateBtnText = 'PAGES.SETTINGS.ABOUT_CHECKING_FOR_UPDATES';
     window.electronAPI.isUpdateAvailable().then((isUpdateAvailable) => {
-      console.log('isUpdateAvailable: ' + isUpdateAvailable);
+      window.log.info('Update available: ' + isUpdateAvailable);
       if (isUpdateAvailable) {
         this.updateBtnText = 'PAGES.SETTINGS.ABOUT_UPDATE_AVAILABLE';
       } else {

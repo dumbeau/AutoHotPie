@@ -1,8 +1,8 @@
 import {Component, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
 import {NbPopoverDirective, NbPosition} from '@nebular/theme';
-import {ForegroundWindow} from '../../../app/src/nativeAPI/ForegroundWindow';
 import {db} from '../../../app/src/userData/AHPDatabase';
 import {Profile} from '../../../app/src/userData/Profile';
+import {ReadonlyWindowDetails} from '../../../app/src/appWindow/WindowDetails';
 
 @Component({
   selector: 'app-home',
@@ -17,7 +17,7 @@ export class HomeComponent implements OnInit, OnChanges {
 
   selectingApp = false;
 
-  focusedFgWin: ForegroundWindow | undefined;
+  activeWindow: ReadonlyWindowDetails | undefined;
   remainingSec = 5;
 
   selectedProfId = 1;
@@ -60,9 +60,11 @@ export class HomeComponent implements OnInit, OnChanges {
       this.selectingApp = false;
 
       window.electronAPI.getForegroundApplication().then((value) => {
-        this.focusedFgWin = ForegroundWindow.fromJsonString(value);
+        this.activeWindow = JSON.parse(value) as ReadonlyWindowDetails;
 
-        if (this.focusedFgWin === undefined) {
+        window.log.debug('activeWindow: ' + value);
+
+        if (this.activeWindow === undefined) {
           console.warn('HomeComponent: Failed to retrieve foreground window details.');
         }
 
@@ -71,28 +73,26 @@ export class HomeComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log('HomeComponent: ngOnChanges() called');
+    window.log.debug('HomeComponent: ngOnChanges() called');
   }
 
   createProfile() {
-    if (this.focusedFgWin === undefined) {
-      console.warn('HomeComponent: Foreground window details are empty.');
-      console.warn('HomeComponent: Aborting profile creation.');
+    if (this.activeWindow === undefined) {
+      window.log.info('There is no focused foreground window. Aborting profile creation.');
       return;
     }
 
     const newProf = new Profile(
       this.profInput.nativeElement.value,
       undefined,
-      this.focusedFgWin.exePath,
-      this.focusedFgWin.iconBase64
+      [this.activeWindow.owner.path],
+      this.activeWindow.base64Icon
     );
 
     db.profile.add(newProf).then(() => {
       this.profiles.push(newProf);
+      window.log.info('Profile of id ' + newProf.id + ' created with name ' + newProf.name);
     });
-
-    console.log('HomeComponent createProfile(): Created new profile: ' + newProf.name);
   }
 
   updateSelectedProfile($event: number) {
@@ -100,7 +100,7 @@ export class HomeComponent implements OnInit, OnChanges {
   }
 
   reloadProfEditor() {
-    console.log('home.component.ts: Reloading profile editor');
+    window.log.info('Reloading profile editor');
     this.profileEditorComponent.ngOnChanges();
   }
 
@@ -109,7 +109,7 @@ export class HomeComponent implements OnInit, OnChanges {
       return;
     }
 
-    this.focusedFgWin = undefined;
+    this.activeWindow = undefined;
   }
 
 }

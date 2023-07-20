@@ -4,11 +4,11 @@ import {Action} from '../../../../app/src/actions/Action';
 import {ActionType} from '../../../../app/src/actions/ActionType';
 
 @Component({
-  selector: 'app-action',
-  templateUrl: './action.component.html',
-  styleUrls: ['./action.component.scss']
+  selector: 'app-action-card',
+  templateUrl: './action-card.component.html',
+  styleUrls: ['./action-card.component.scss']
 })
-export class ActionComponent {
+export class ActionCardComponent {
   @Input() action: Action = new SendKeyAction('a');
 
   protected readonly actionType = ActionType;

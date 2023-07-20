@@ -36,27 +36,27 @@ export class AppComponent {
 
     this.translate.setDefaultLang('en');
 
-    console.log('APP_CONFIG', APP_CONFIG);
+    window.log.info('APP_CONFIG ' + APP_CONFIG);
 
     if (electronService.isElectron) {
-      console.log(process.env);
-      console.log('Run in electron');
-      console.log('Electron ipcRenderer', this.electronService.ipcRenderer);
-      console.log('NodeJS childProcess', this.electronService.childProcess);
+      window.log.info('' + process.env);
+      window.log.info('Run in electron');
+      window.log.info('Electron ipcRenderer ' + this.electronService.ipcRenderer);
+      window.log.info('NodeJS childProcess ' + this.electronService.childProcess);
     } else {
-      console.log('Run in browser');
+      window.log.info('Run in browser');
     }
 
     window.electronAPI.globalHotkeyServiceExited(() => {
-      console.log(AppComponent.name, ':: ', 'globalHotkeyServiceExited');
+      window.log.info('Global hotkey service exited as notified by the main process');
     });
   }
 
   async initAppdata() {
-    console.log(AppComponent.name, ':: ', 'Initializing app data');
+    window.log.info('Initializing/Loading app data');
 
     if ((await db.profile.count()) === 0) {
-      console.log(AppComponent.name, ':: ', 'Creating global profile because none exists');
+      window.log.info('No profile found, creating default profile');
 
       const pieMenuId = await db.pieMenu.put(new PieMenu(
         'Default Pie Menu',
@@ -72,7 +72,7 @@ export class AppComponent {
       await db.profile.put(new Profile(
         'Default Profile',
         [pieMenuId as number],
-        '',
+        [],
         undefined,
         true,
         1
@@ -80,7 +80,7 @@ export class AppComponent {
 
     }
 
-    console.log(AppComponent.name, '::', 'App data initialized');
+    window.log.info('App data loaded');
     this.loaded = true;
   }
 

@@ -1,16 +1,33 @@
 import {app, BrowserWindow, Menu, Tray} from 'electron';
 import * as path from 'path';
 import * as fs from 'fs';
-import {GlobalHotkeyService} from "./src/nativeAPI/GlobalHotkeyService";
-import {initElectronAPI} from "./src/ipcBridge";
-import {KeyEvent} from "./src/nativeAPI/KeyEvent";
+import {initElectronAPI, initLoggerForRenderer} from "./src/ipcBridge";
 import {SettingsConstants} from "./src/constants/SettingsConstants";
 import {EditorConstants} from "./src/constants/EditorConstants";
+import * as log4js from "log4js";
+import {getGHotkeyServiceInstance, KeyEvent} from "mousekeyhook.js";
 
 // Variables
+log4js.configure({
+  appenders: {
+    devConsole: { type: "console" },
+    devFile: { type: "file", filename: "debug.log" },
+    production: { type: "file", filename: "info.log" },
+    productionFilter: { type: "logLevelFilter", appender: "production", level: "info" },
+  },
+  categories: {
+    default: { appenders: ["productionFilter", "devConsole", "devFile"], level: "trace" },
+    main: { appenders: ["productionFilter", "devConsole", "devFile"], level: "trace" },
+    renderer: { appenders: ["productionFilter", "devConsole", "devFile"], level: "trace" },
+  }
+});
+
+export const logger = log4js.getLogger("main");
+export const rendererLogger = log4js.getLogger("renderer");
 let pieMenuWindow: BrowserWindow | undefined;
 let editorWindow: BrowserWindow | undefined;
 app.setPath("userData", SettingsConstants.DEFAULT_SETTINGS_PATH);
+
 
 let tray = null;
 
@@ -19,20 +36,20 @@ let tray = null;
 initGlobalHotkeyService();
 initElectronWindows();
 initElectronAPI();
+initLoggerForRenderer();
 initSystemTray();
 
 
 // Functions
 function initGlobalHotkeyService() {
-  // Start GlobalHotkeyService
-  GlobalHotkeyService.getInstance();
+  logger.info('Initializing global hotkey service');
 
-  GlobalHotkeyService.addKeyEventListener(
+  getGHotkeyServiceInstance().onHotkeyEvent.push(
     (event: KeyEvent) => {
-      console.debug("main.ts", "Main process received a key event from the global hotkey service: " + event.type + " " + event.value);
-    })
-    .setOnCloseListener(() => {
-      console.debug("main.ts", "Main process received the exit signal from the global hotkey service.");
+      logger.debug('onKeyEvent - ' + event.type + ' ' + event.value);
+    });
+  getGHotkeyServiceInstance().onProcessExit = (() => {
+      logger.debug('Global hotkey service exited.');
 
       editorWindow?.webContents.send('globalHotkeyServiceExited')
     });
@@ -57,7 +74,7 @@ function initElectronWindows() {
     });
 
   } catch (e) {
-    console.error(e);
+    logger.error(e);
   }
 }
 
@@ -92,6 +109,8 @@ function createWindow(): BrowserWindow {
   }
 
   const editorWindowURL = new URL(path.join('file:', __dirname, editorWindowPath));
+
+  // TODO: Remove the following line for production build
   editorWindow.loadURL(editorWindowURL.href);
 
   pieMenuWindow = new BrowserWindow({
@@ -137,13 +156,13 @@ function initSystemTray() {
       {
         label: 'Restart', type: "normal", click: () => {
           // TODO: IMPLEMENTATION
-          console.log("Item1 clicked")
+          logger.warn("Item1 clicked")
         }
       },
       {
         label: 'Reload Service', type: "normal", click: () => {
           // TODO: IMPLEMENTATION
-          console.log("Item1 clicked")
+          logger.warn("Item1 clicked")
         }
       },
       {

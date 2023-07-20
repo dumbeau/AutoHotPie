@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ActionComponent } from './action.component';
+import { WorkAreaComponent } from './work-area.component';
 
-describe('ActionComponent', () => {
-  let component: ActionComponent;
-  let fixture: ComponentFixture<ActionComponent>;
+describe('PieMenuEditorWorkAreaComponent', () => {
+  let component: WorkAreaComponent;
+  let fixture: ComponentFixture<WorkAreaComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ActionComponent ]
+      declarations: [ WorkAreaComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ActionComponent);
+    fixture = TestBed.createComponent(WorkAreaComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

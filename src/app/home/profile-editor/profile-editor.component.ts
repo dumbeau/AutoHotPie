@@ -3,6 +3,7 @@ import {db} from '../../../../app/src/userData/AHPDatabase';
 import {NbDialogService, NbPosition} from '@nebular/theme';
 import {Profile} from '../../../../app/src/userData/Profile';
 import {PieMenu} from '../../../../app/src/userData/PieMenu';
+import {PieItem} from '../../../../app/src/userData/PieItem';
 
 @Component({
   selector: 'app-profile-editor',
@@ -21,15 +22,19 @@ export class ProfileEditorComponent {
   constructor(private dialogService: NbDialogService) {
   }
 
-  newPieMenu() {
+  async newPieMenu() {
     this.profSettingsRevealed = false;
 
-    db.pieMenu.add(new PieMenu())
-      .then((pieMenuId) => {
-        this.addPieMenu(pieMenuId as number);
-      });
+    const pieItemId = await db.pieItem.add(new PieItem(''));
 
-    console.log('ProfileEditorComponent.addPieMenu(): this.profile.pieMenus = ' + this.profile.pieMenus);
+    const newPieMenu = new PieMenu();
+    newPieMenu.pieItems.push(pieItemId as number);
+
+    const pieMenuId = await db.pieMenu.add(newPieMenu);
+
+    this.addPieMenu(pieMenuId as number);
+    window.log.info('Created new pie menu, the id is ' + pieMenuId);
+
   }
 
   onPieMenuChanged(event: { remove: number | undefined; add: number | undefined }) {
@@ -40,19 +45,17 @@ export class ProfileEditorComponent {
     if (event === undefined) {
       this.profile.pieMenus = [...this.profile.pieMenus];
 
-      console.log('ProfileEditorComponent.removePieMenuFromProf(): Forcing update');
-
       return;
     }
-
-    console.log('ProfileEditorComponent.removePieMenuFromProf(): event = ' + event);
 
     let newPieMenuList = this.profile.pieMenus;
     if (event.remove !== undefined) {
       newPieMenuList = newPieMenuList.filter((pieMenuId) => pieMenuId !== event.remove);
+      window.log.info('Removed pie menu ' + event.remove + ' from profile ' + this.profile.id);
     }
     if (event.add !== undefined) {
       newPieMenuList = [...newPieMenuList, event.add];
+      window.log.info('Added pie menu ' + event.add + ' to profile ' + this.profile.id);
     }
 
     if (event.remove !== undefined || event.add !== undefined) {
@@ -68,7 +71,7 @@ export class ProfileEditorComponent {
   updateProfile() {
     db.profile.update(this.profile.id ?? 0, this.profile);
 
-    console.log('ProfileEditorComponent.updateProfile(): this.profile = ' + this.profile);
+    window.log.info('Updated profile ' + this.profile.id + ' (name: ' + this.profile.name + ')');
   }
 
   openPieMenuSelector(pieMenuSelectorDialog: TemplateRef<any>) {
@@ -82,6 +85,20 @@ export class ProfileEditorComponent {
       return;
     }
     db.profile.update(this.profile, {pieMenus: [...this.profile.pieMenus, id]});
+  }
+
+  async addMissingExeClicked() {
+    window.log.info('Waiting for user to select exe');
+    const path: string = await window.electronAPI.openDialogForResult(this.profile.exes[0]);
+
+    window.log.info('User selected exe ' + path);
+
+    db.profile.update(this.profile, {exes: [...this.profile.exes, path]});
+
+  }
+
+  removeExecutableVersion($event: string) {
+    db.profile.update(this.profile, {exes: this.profile.exes.filter((exe) => exe !== $event)});
   }
 }
 

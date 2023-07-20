@@ -12,6 +12,9 @@
   "main": "main.js",
   "private": true,
   "dependencies": {
+    "log4js": "6.9.1",
+    "mousekeyhook.js": "0.1.2-development",
+    "active-win": "8.1.0"
   }
 
 }

@@ -23,6 +23,9 @@ node_modules
 .settings/
 *.sublime-workspace
 
+# deprecated
+/AHPNativeAPI
+
 # IDE - VSCode
 .vscode/*
 .vscode/settings.json
@@ -70,3 +73,9 @@ Thumbs.db
 /app/src/preferences/Preferences.js
 /app/src/preferences/Settings.js
 /app/src/preferences/UserDataObject.js
+/app/src/nativeAPI/ForegroundWindowService.js
+/app/src/settings/AHPSettings.js
+/app/src/ipcBridge.js
+
+/app/src/appWindow/WindowDetails.js
+/app/src/appWindow/WindowDetails.js.map
