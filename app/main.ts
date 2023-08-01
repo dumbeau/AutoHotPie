@@ -114,6 +114,10 @@ function createWindow(): BrowserWindow {
   editorWindow.loadURL(editorWindowURL.href);
 
   pieMenuWindow = new BrowserWindow({
+    transparent: true,
+    frame: false,
+    fullscreen: true,
+    resizable: false,
     webPreferences: {
       nodeIntegration: false,
       preload: path.join(__dirname, 'preload.js'),
