@@ -19,6 +19,3 @@ Detailed instructions for contributing to a GitHub project can be found [here](h
 2. Run `npm install` to install the project dependencies.
 3. Run `npm run electron:local` to start the development server.
 4. You should see the AutoHotPie V3 application open on your screen.
-
-Next steps
----

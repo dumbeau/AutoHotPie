@@ -1,4 +1,4 @@
-# AHP Development Guide
+# Introduction
 
 This repository uses https://github.com/maximegris/angular-electron as the code base.
 
