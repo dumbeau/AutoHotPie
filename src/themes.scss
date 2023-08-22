@@ -14,6 +14,7 @@ $nb-themes: nb-register-theme((
   //color-basic-800: #787878,
   color-basic-900: #1f2122,
   color-basic-1000: #161818,
+  //color-basic-1000: 'transparent',
   color-basic-1100: #000200,
 
   color-primary-focus: #0c6966,
@@ -32,6 +33,7 @@ $nb-themes: nb-register-theme((
   outline-width: 0,
   button-hero-control-glow-color: #FFFFFF00,
   button-hero-basic-glow-color: #FFFFFF00,
+  background-color-solid: var(--color-basic-1000),
   input-basic-focus-background-color: var(--input-basic-hover-background-color),
   text-control-color: var(--color-basic-1100),
 
