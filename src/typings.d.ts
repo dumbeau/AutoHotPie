@@ -19,6 +19,7 @@ interface Window {
   };
   electronAPI: {
     getActionList: () => Promise<number[]>;
+    getDetailedActionList: () => Promise<string[]>;
     openInBrowser: (url: string) => void;
     isUpdateAvailable: () => Promise<boolean>;
     openDialogForResult: (defaultPath: string) => Promise<string>;

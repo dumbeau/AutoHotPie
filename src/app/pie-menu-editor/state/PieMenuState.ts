@@ -1,6 +1,6 @@
 import {PieMenu} from '../../../../app/src/userData/PieMenu';
 import {PieItem} from '../../../../app/src/userData/PieItem';
-
+import {Action} from '../../../../app/src/actions/Action';
 // singleton
 export class PieMenuStateManager {
   private static manager: PieMenuStateManager;
@@ -52,5 +52,19 @@ export class PieMenuState {
     public pieMenu: PieMenu,
     public pieItems: Map<number, PieItem>,
   ) {
+  }
+
+  public getPieItemActions(id: number): Action[] {
+    return this.pieItems.get(id)?.actions ?? [];
+  }
+
+  public setPieItemActions(id: number, actions: Action[]) {
+    if (this.pieItems.get(id) === undefined) {
+      return;
+    }
+
+    // this.pieItems.get(id)?.actions must not be undefined
+    // eslint-disable-next-line  @typescript-eslint/no-non-null-assertion
+    this.pieItems.get(id)!.actions = actions;
   }
 }

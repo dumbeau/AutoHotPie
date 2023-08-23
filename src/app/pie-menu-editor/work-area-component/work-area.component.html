@@ -14,7 +14,7 @@
       <nb-tab tabTitle="Actions" style="margin-top: 1em;">
         <div style="padding-right: 5px; display: flex; flex-direction: column; align-items: center;">
 
-          <div *ngFor="let action of actions; let i = index"
+          <div *ngFor="let action of pieMenuState.pieItems.get(this.selectedPieItemId ?? -1)?.actions; let i = index"
                style="display: flex; flex-direction: column; flex-wrap: nowrap; align-content: flex-start; justify-content: flex-start; align-items: center; ">
             <div style="display: flex">
               <app-action-card [action]="action" style="height: fit-content"></app-action-card>
@@ -26,7 +26,7 @@
                 </button>
                 <button
                   (click)="moveDown(i)"
-                  *ngIf="i !== actions.length - 1" nbButton fullWidth ghost size="tiny"
+                  *ngIf="i !== pieMenuState.getPieItemActions(this.selectedPieItemId ?? -1).length - 1" nbButton fullWidth ghost size="tiny"
                   style="margin-bottom: 2px;">
                   <nb-icon icon="arrow-downward-outline"/>
                 </button>
