@@ -2,10 +2,10 @@ import {app, BrowserWindow, Menu, Tray} from 'electron';
 import * as path from 'path';
 import * as fs from 'fs';
 import {initElectronAPI, initLoggerForRenderer} from "./src/ipcBridge";
-import {SettingsConstants} from "./src/constants/SettingsConstants";
 import {EditorConstants} from "./src/constants/EditorConstants";
 import * as log4js from "log4js";
 import {getGHotkeyServiceInstance, KeyEvent} from "mousekeyhook.js";
+import {AHPEnv} from "autohotpie-core/lib/AHPEnv";
 
 // Variables
 log4js.configure({
@@ -26,8 +26,7 @@ export const logger = log4js.getLogger("main");
 export const rendererLogger = log4js.getLogger("renderer");
 let pieMenuWindow: BrowserWindow | undefined;
 let editorWindow: BrowserWindow | undefined;
-app.setPath("userData", SettingsConstants.DEFAULT_SETTINGS_PATH);
-
+app.setPath("userData", AHPEnv.DEFAULT_DATA_PATH);
 
 let tray = null;
 
@@ -49,10 +48,10 @@ function initGlobalHotkeyService() {
       logger.debug('onKeyEvent - ' + event.type + ' ' + event.value);
     });
   getGHotkeyServiceInstance().onProcessExit = (() => {
-      logger.debug('Global hotkey service exited.');
+    logger.debug('Global hotkey service exited.');
 
-      editorWindow?.webContents.send('globalHotkeyServiceExited')
-    });
+    editorWindow?.webContents.send('globalHotkeyServiceExited')
+  });
 }
 
 function initElectronWindows() {
@@ -109,9 +108,9 @@ function createWindow(): BrowserWindow {
   }
 
   const editorWindowURL = new URL(path.join('file:', __dirname, editorWindowPath));
-
-  // TODO: Remove the following line for production build
   editorWindow.loadURL(editorWindowURL.href);
+
+  // ------------ Create Editor Window End ------------
 
   pieMenuWindow = new BrowserWindow({
     // transparent: true,
@@ -125,8 +124,6 @@ function createWindow(): BrowserWindow {
     },
   });
 
-  // ------------ Creating Editor Window End ------------
-
   // Path when running electron executable
   let pieMenuPath = './index.html#pieMenuUI';
 
@@ -136,6 +133,8 @@ function createWindow(): BrowserWindow {
   }
 
   const pieMenuURL = new URL(path.join('file:', __dirname, pieMenuPath));
+
+  // TODO: Remove the following line for production build
   pieMenuWindow.loadURL(pieMenuURL.href);
 
   editorWindow.on('close', (event) => {

@@ -75,6 +75,10 @@ export function initElectronAPI() {
     // args[0] = default path
     return dialog.showOpenDialogSync({defaultPath: args[0], filters: [{name: "Executables", extensions: ["exe"]}], properties: ['openFile'] })
   });
+  ipcMain.handle('getActionList', () => {
+    // TODO: Implement getActionList
+    // return dialog.showOpenDialogSync({defaultPath: args[0], filters: [{name: "Executables", extensions: ["exe"]}], properties: ['openFile'] })
+  });
   ipcMain.handle('listenKeyForResult', (event, args) => {
     // args[0] = ignoredKeys
 

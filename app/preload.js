@@ -16,6 +16,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   setSetting: (settingName, value) => ipcRenderer.invoke('setSetting', [settingName, value]),
   openDialogForResult: (defaultPath) => ipcRenderer.invoke('openDialogForResult', [defaultPath]),
   getFileIcon: (path) => ipcRenderer.sendSync('getFileIcon', [path]),
+  getActionList: () => ipcRenderer.invoke('getActionList'),
 })
 
 contextBridge.exposeInMainWorld('log', {

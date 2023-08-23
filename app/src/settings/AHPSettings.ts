@@ -1,8 +1,8 @@
 import {Schema} from "electron-store";
 import {app} from "electron";
 import * as Store from "electron-store";
-import {SettingsConstants} from "../constants/SettingsConstants";
 import {KeyEvent, RespondType} from "mousekeyhook.js";
+import {AHPEnv} from "autohotpie-core/lib/AHPEnv";
 
 interface AHPSettingsSchema {
   pieMenuCancelKey: string;
@@ -27,7 +27,7 @@ const schema: Schema<AHPSettingsSchema> = {
 
 // Set the path of the settings file to be in the userData folder of AHPv3
 // This is to ensure the path is correct no matter when ahpSettings is initialized
-app.setPath("userData", SettingsConstants.DEFAULT_SETTINGS_PATH);
+app.setPath("userData", AHPEnv.DEFAULT_DATA_PATH);
 
 /**
  * ahpSettings.get('') will return the value of the key
