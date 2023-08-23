@@ -8,6 +8,7 @@ interface AHPSettingsSchema {
   pieMenuCancelKey: string;
   runOnStartup: boolean;
   runOnAppQuit: boolean;
+  plugins: string[];
 }
 
 const schema: Schema<AHPSettingsSchema> = {
@@ -22,6 +23,15 @@ const schema: Schema<AHPSettingsSchema> = {
   runOnAppQuit: {
     type: 'boolean',
     default: true
+  },
+  plugins: {
+    type: 'array',
+    items: {
+      type: 'string'
+    },
+    default: [
+      'ahp-action-send-text'
+    ]
   }
 };
 
