@@ -79,3 +79,7 @@ Thumbs.db
 
 /app/src/appWindow/WindowDetails.js
 /app/src/appWindow/WindowDetails.js.map
+/debug.log
+/info.log
+/plugin_packages/
+/app/src/plugin/AHPPluginManager.js
