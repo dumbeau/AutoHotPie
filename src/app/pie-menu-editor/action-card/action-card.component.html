@@ -32,6 +32,8 @@
         fullWidth
         placeholder="{{ 'PAGES.EDITOR.TEXT_PLACEHOLDER' | translate }}"
         style="resize: vertical; margin-left: 1em; max-height: 10em;"></textarea>
+      <app-shortcut-input
+        *ngIf="param.type === 'hotkeys'"></app-shortcut-input>
     </div>
   </div>
 

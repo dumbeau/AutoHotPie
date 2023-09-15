@@ -30,7 +30,8 @@ const schema: Schema<AHPSettingsSchema> = {
       type: 'string'
     },
     default: [
-      'ahp-action-send-text'
+      'ahp-action-send-text',
+      'ahp-action-send-keys'
     ]
   }
 };
