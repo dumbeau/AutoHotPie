@@ -3,22 +3,38 @@
 
   <div class="setting-row">
     <nb-select placeholder="Action" [(selected)]="action.type" size="small">
-      <nb-option value="SEND_KEY">Send key</nb-option>
-      <nb-option value="SEND_TEXT">Send text</nb-option>
-      <nb-option value="MOUSE_CLICK">Mouse click</nb-option>
-      <nb-option value="COMMAND">Command</nb-option>
-      <nb-option value="OPEN_FOLDER">Open folder</nb-option>
-      <nb-option value="SUB_MENU">Sub menu</nb-option>
-      <nb-option value="RESIZE_WINDOW">Resize window</nb-option>
-      <nb-option value="MOVE_WINDOW">Move window</nb-option>
-      <nb-option value="OPEN_URL">Open URL</nb-option>
-      <nb-option value="SWITCH_APP">Switch App</nb-option>
+      <nb-option
+        *ngFor="let pluginProperty of pluginPropertyList; let i = index"
+        (selectionChange)="selectedPluginPropertyIndex = i"
+        [value]="pluginProperty.name">{{pluginProperty.name}}</nb-option>
+
     </nb-select>
     <nb-form-field>
       <nb-icon nbPrefix icon="repeat-outline" pack="eva"></nb-icon>
       <input type="number" min="1" max="99" value="1" nbInput fieldSize="small"
              style="width: 5.5em; padding-right: 0.5em">
     </nb-form-field>
+  </div>
+
+  <div
+    *ngIf="selectedPluginPropertyIndex >= 0"
+    [style.width]="'100%'"
+  >
+    <div
+      *ngFor="let param of pluginPropertyList[selectedPluginPropertyIndex].parameters"
+      class="setting-row"
+      style="margin-top: 1em"
+    >
+      {{ param.name }}
+      <textarea
+        *ngIf="param.type === 'string'"
+        nbInput
+        fullWidth
+        placeholder="{{ 'PAGES.EDITOR.TEXT_PLACEHOLDER' | translate }}"
+        style="resize: vertical; margin-left: 1em; max-height: 10em;"></textarea>
+      <app-shortcut-input
+        *ngIf="param.type === 'hotkeys'"></app-shortcut-input>
+    </div>
   </div>
 
   <div *ngIf="action.type === actionType.sendkey" style="width: 100%">

@@ -2,32 +2,16 @@ import {app, BrowserWindow, Menu, Tray} from 'electron';
 import * as path from 'path';
 import * as fs from 'fs';
 import {initElectronAPI, initLoggerForRenderer} from "./src/ipcBridge";
-import {SettingsConstants} from "./src/constants/SettingsConstants";
 import {EditorConstants} from "./src/constants/EditorConstants";
-import * as log4js from "log4js";
 import {getGHotkeyServiceInstance, KeyEvent} from "mousekeyhook.js";
+import {AHPEnv} from "autohotpie-core/lib/AHPEnv";
+import {Log} from "autohotpie-core";
+import {AHPPluginManager} from "./src/plugin/AHPPluginManager";
 
 // Variables
-log4js.configure({
-  appenders: {
-    devConsole: { type: "console" },
-    devFile: { type: "file", filename: "debug.log" },
-    production: { type: "file", filename: "info.log" },
-    productionFilter: { type: "logLevelFilter", appender: "production", level: "info" },
-  },
-  categories: {
-    default: { appenders: ["productionFilter", "devConsole", "devFile"], level: "trace" },
-    main: { appenders: ["productionFilter", "devConsole", "devFile"], level: "trace" },
-    renderer: { appenders: ["productionFilter", "devConsole", "devFile"], level: "trace" },
-  }
-});
-
-export const logger = log4js.getLogger("main");
-export const rendererLogger = log4js.getLogger("renderer");
 let pieMenuWindow: BrowserWindow | undefined;
 let editorWindow: BrowserWindow | undefined;
-app.setPath("userData", SettingsConstants.DEFAULT_SETTINGS_PATH);
-
+app.setPath("userData", AHPEnv.DEFAULT_DATA_PATH);
 
 let tray = null;
 
@@ -38,21 +22,21 @@ initElectronWindows();
 initElectronAPI();
 initLoggerForRenderer();
 initSystemTray();
-
+AHPPluginManager.loadPlugins();
 
 // Functions
 function initGlobalHotkeyService() {
-  logger.info('Initializing global hotkey service');
+  Log.main.info('Initializing global hotkey service');
 
   getGHotkeyServiceInstance().onHotkeyEvent.push(
     (event: KeyEvent) => {
-      logger.debug('onKeyEvent - ' + event.type + ' ' + event.value);
+      Log.main.debug('onKeyEvent - ' + event.type + ' ' + event.value);
     });
   getGHotkeyServiceInstance().onProcessExit = (() => {
-      logger.debug('Global hotkey service exited.');
+    Log.main.debug('Global hotkey service exited.');
 
-      editorWindow?.webContents.send('globalHotkeyServiceExited')
-    });
+    editorWindow?.webContents.send('globalHotkeyServiceExited')
+  });
 }
 
 function initElectronWindows() {
@@ -74,7 +58,7 @@ function initElectronWindows() {
     });
 
   } catch (e) {
-    logger.error(e);
+    Log.main.error(e);
   }
 }
 
@@ -109,9 +93,9 @@ function createWindow(): BrowserWindow {
   }
 
   const editorWindowURL = new URL(path.join('file:', __dirname, editorWindowPath));
-
-  // TODO: Remove the following line for production build
   editorWindow.loadURL(editorWindowURL.href);
+
+  // ------------ Create Editor Window End ------------
 
   pieMenuWindow = new BrowserWindow({
     // transparent: true,
@@ -125,8 +109,6 @@ function createWindow(): BrowserWindow {
     },
   });
 
-  // ------------ Creating Editor Window End ------------
-
   // Path when running electron executable
   let pieMenuPath = './index.html#pieMenuUI';
 
@@ -136,6 +118,8 @@ function createWindow(): BrowserWindow {
   }
 
   const pieMenuURL = new URL(path.join('file:', __dirname, pieMenuPath));
+
+  // TODO: Remove the following line for production build
   pieMenuWindow.loadURL(pieMenuURL.href);
 
   editorWindow.on('close', (event) => {
@@ -160,13 +144,13 @@ function initSystemTray() {
       {
         label: 'Restart', type: "normal", click: () => {
           // TODO: IMPLEMENTATION
-          logger.warn("Item1 clicked")
+          Log.main.warn("Item1 clicked")
         }
       },
       {
         label: 'Reload Service', type: "normal", click: () => {
           // TODO: IMPLEMENTATION
-          logger.warn("Item1 clicked")
+          Log.main.warn("Item1 clicked")
         }
       },
       {
