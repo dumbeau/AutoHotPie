@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Annotation" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <defs>
+    <style>
+      .cls-1 {
+        stroke-width: 170px;
+      }
+
+      .cls-1, .cls-2, .cls-3 {
+        fill: none;
+        stroke-miterlimit: 10;
+      }
+
+      .cls-1, .cls-3 {
+        stroke: #fff;
+      }
+
+      .cls-2 {
+        stroke: #231f20;
+        stroke-width: 120px;
+      }
+
+      .cls-3 {
+        stroke-width: 202px;
+      }
+    </style>
+  </defs>
+  <circle class="cls-3" cx="512" cy="512" r="396.92"/>
+  <g>
+    <circle class="cls-2" cx="512" cy="512" r="396.92"/>
+    <path class="cls-1" d="m231.34,231.34c150.05-150.05,390.35-154.86,546.18-14.4"/>
+  </g>
+</svg>
