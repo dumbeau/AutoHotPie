@@ -157,7 +157,7 @@ loadPieMenus(){
 				Hotkey, % pieKey.hotkey, pieLabel
 				If (profile.pieEnableKey.useEnableKey == true) && (profile.pieEnableKey.toggle == false)
 					{ ;initialize off if modkey active no toggle				
-					Hotkey, % pieKey.hotkey, Off
+					Try Hotkey, % pieKey.hotkey, Off
 					}
 				}			
 			If (profile.pieEnableKey.useEnableKey == true)
@@ -192,20 +192,20 @@ loadPieMenus(){
 					Hotkey, % pieKey.hotkey, pieLabel
 					If (profile.pieEnableKey.useEnableKey == true) && (profile.pieEnableKey.toggle == false)
 						{ ;initialize off if modkey active no toggle				
-						Hotkey, % pieKey.hotkey, Off
+						Try Hotkey, % pieKey.hotkey, Off
 						}
 					}			
 				If (profile.pieEnableKey.useEnableKey == true)
 					{
 					If (profile.pieEnableKey.toggle == true)
 						{
-						Hotkey, % profile.pieEnableKey.enableKey, togglePieLabel				
+							Try Hotkey, % profile.pieEnableKey.enableKey, togglePieLabel				
 						}
 					else
 						{
-						Hotkey, % profile.pieEnableKey.enableKey, onPieLabel
+						Try Hotkey, % profile.pieEnableKey.enableKey, onPieLabel
 						upHotkey := profile.pieEnableKey.enableKey " up"
-						Hotkey, % upHotkey, offPieLabel
+						Try Hotkey, % upHotkey, offPieLabel
 						}
 					}
 			}			          
@@ -227,7 +227,7 @@ loadSliceHotkeys(activePieMenu, hotkeysOn){
 		{
 			;If hotkey is in another pie menu, continue			
 			if ( !hasValue(key, profileKeyArray) )
-				Hotkey, % key, Off
+				Try Hotkey, % key, Off ;This has Issues!!!!
 			else
 				continue		
 		}
@@ -1617,7 +1617,7 @@ Class pieEnableKey{
 			{
 			Hotkey, IfWinNotActive, ahk_group regApps
 			for menus in Settings.appProfiles[1].pieKeys
-				Hotkey, % Settings.appProfiles[1].pieKeys[menus].hotkey, On
+				Try Hotkey, % Settings.appProfiles[1].pieKeys[menus].hotkey, On
 			return
 			}
 		Else
@@ -1640,28 +1640,34 @@ Class pieEnableKey{
 			; return
 			}
 		}
-	modOff(){
-		If (!WinActive("ahk_group regApps"))
-			{
+	modOff(){	
+		;Ignore if pie Menu is running
+		If (PieLaunchedState)
+			return
+		
+		If (!WinActive("ahk_group regApps")) ;Is DefaultProfile?
+			{			
 			Hotkey, IfWinNotActive, ahk_group regApps
 			for menus in Settings.appProfiles[1].pieKeys
 				{
 				If (Settings.appProfiles[1].pieKeys[menus].hotkey != ActivePieHotkey || true) ; Not sure why I added this
-					; msgbox, % Settings.appProfiles[1].pieKeys[menus].hotkey
-					Hotkey, % Settings.appProfiles[1].pieKeys[menus].hotkey, Off
+					; msgbox, % Settings.appProfiles[1].pieKeys[menus].hotkey					
+					; if(ActivePieHotkey != Settings.appProfiles[1].pieKeys[menus].hotkey)
+						Try Hotkey, % Settings.appProfiles[1].pieKeys[menus].hotkey, Off					
 				}
 			}
-		Else
-			{
+		Else ;Other application profile
+			{ 
 			; ActiveProfile := getActiveProfile()
-			Hotkey, IfWinActive, % ActiveProfile[1]
+			Hotkey, IfWinActive, % ActiveProfile[1]			
 			for ahkHandleIndex, ahkHandle in ActiveProfile.ahkHandles
 				{
 				Hotkey, IfWinActive, % ahkHandle
 				for pieKeyIndex, pieKey in ActiveProfile.pieKeys
 					{
-					; msgbox, % pieKey.hotkey
-					Try Hotkey, % pieKey.hotkey, Off
+					; msgbox, % pieKey.hotkey	
+					; if (ActivePieHotkey != pieKey.hotkey)		
+						Try Hotkey, % pieKey.hotkey, Off
 					}
 				}
 			; for menus in Settings.appProfiles[ActiveProfile[2]].pieKeys
@@ -1802,17 +1808,19 @@ blockBareKeys(hotkeyInput, hotkeyArray, blockState=true){
 		}
 		bareKey := removeCharacters(hotkeyInput, "+^!#")
 
+
+
 		If (hasValue(bareKey, hotkeyArray) && hasValue("+" + bareKey, hotkeyArray)){
 			; msgbox, both
 			return
 		}
-		If (bareKey == hotkeyInput){		
+		If (bareKey == hotkeyInput){			
 			return
 		}
 			
 		If (blockState == true) ; fix this
 			{		
-				; If !(hasValue(bareKey, hotkeyArray))
+				; If !(hasValue(bareKey, hotkeyArray))				
 				
 				Try	Hotkey, % bareKey, pieLabel
 				Try Hotkey, % "+" . bareKey, pieLabel							
@@ -1820,7 +1828,7 @@ blockBareKeys(hotkeyInput, hotkeyArray, blockState=true){
 				Try Hotkey, % "+" . bareKey, On
 			}
 		Else
-			{				
+			{							
 				If !(hasValue(bareKey, hotkeyArray)){
 					Try Hotkey, % bareKey, Off			
 				}
@@ -1987,8 +1995,8 @@ print(value,varName=""){
 		}		
 		return
 	}
-	if (DebugMode == false)		
-		return		
+	; if (DebugMode == false)		
+	; 	return		
 	if (IsObject(value)) ;Array or Object
 	{
 		showArrString := ""
@@ -2017,6 +2025,10 @@ print(value,varName=""){
 		return
 	}	
 }
+
+; print(var, thing=""){
+; 	OutputDebug, % var . "`n"
+; }
 
 ;For mouseClick pie function
 lButtonWait(clickButton,sleepTime=3){	

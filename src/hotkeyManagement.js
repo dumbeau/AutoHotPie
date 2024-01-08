@@ -106,8 +106,9 @@ var hotkeyManagement = {
 
 function processHotkeyInputEvent(event){
     hm = hotkeyManagement;
+    
     var keyNumber = event.keyCode    
-    if (event.type == "mouseup"){//Mousebutton        
+    if (event.type == "mouseup"){//Mousebutton       
         
         if (event.button == 0){
             hm.listenForKeyPage.hotkeyInputField.focus();
@@ -120,8 +121,7 @@ function processHotkeyInputEvent(event){
         if (ignoreKeys.includes(event.key)){
             hm.listenForKeyPage.hotkeyInputField.focus();
             return}
-        keyNumber = event.keyCode
-        
+        keyNumber = event.keyCode        
     } 
     
     // console.log(keyNumber)

@@ -1,7 +1,7 @@
 {
   "name": "autohotpie",
   "productName": "AutoHotPie",
-  "version": "1.0.26-alpha",
+  "version": "1.0.27-alpha",
   "description": "Universal Pie Menus for Windows",
   "main": "main.js",
   "scripts": {
@@ -10,7 +10,8 @@
     "make": "electron-forge make",
     "publish": "electron-forge publish",
     "lint": "echo \"No linting configured\"",
-    "build-installer": "electron-builder"
+    "build-ahk": "build-ahk.bat",
+    "build-installer": "build-ahk.bat && electron-builder"
   },
   "build": {
     "appId": "AutoHotPie",
@@ -84,6 +85,7 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
+    "@electron-forge/cli": "^6.3.0",
     "electron": "^22.0.0",
     "electron-builder": "^22.13.1"
   },

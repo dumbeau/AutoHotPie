@@ -153,8 +153,12 @@ var editPieMenu = {
                 draggingElement.isDragging = false;
                 //Check if hovered over another slice to validate swap                
                 let swapLabelElement = releaseElement;
-                if (swapLabelElement && swapLabelElement.type == "sliceLabel") {
-                    editPieMenu.slice.swap(clickedElement.data, swapLabelElement.data);                    
+                if (swapLabelElement && swapLabelElement.type == "sliceLabel") {                    
+                    if(mouseEvent.ctrlKey){
+                        editPieMenu.slice.copyTo(clickedElement.data, swapLabelElement.data);                    
+                    } else {
+                        editPieMenu.slice.swap(clickedElement.data, swapLabelElement.data);                    
+                    }                    
                 }                
                 disp.setActiveCanvas(2);
                 disp.clearActiveCanvas();                     
@@ -325,6 +329,19 @@ var editPieMenu = {
                 let s1Index = selectedPieMenu.functions.indexOf(slice1);
                 let s2Index = selectedPieMenu.functions.indexOf(slice2);            
                 [selectedPieMenu.functions[s1Index],selectedPieMenu.functions[s2Index]] = [selectedPieMenu.functions[s2Index],selectedPieMenu.functions[s1Index]];
+            }
+            editPieMenu.pieMenuDisplay.loadPieMenuElements(editPieMenu.selectedPieMenu);                     
+            
+        },
+        copyTo: function(slice1, slice2){
+            if (slice1.params.isBack == true || slice2.params.isBack == true){
+                
+            }else{
+                let selectedPieMenu = editPieMenu.selectedPieMenu;   
+                let s1Index = selectedPieMenu.functions.indexOf(slice1);
+                let s2Index = selectedPieMenu.functions.indexOf(slice2); 
+                selectedPieMenu.functions[s2Index] = new PieFunction(selectedPieMenu.functions[s1Index]);                
+                // [selectedPieMenu.functions[s1Index],selectedPieMenu.functions[s2Index]] = [selectedPieMenu.functions[s2Index],selectedPieMenu.functions[s1Index]];
             }
             editPieMenu.pieMenuDisplay.loadPieMenuElements(editPieMenu.selectedPieMenu);                     
             
@@ -990,7 +1007,7 @@ var editPieMenu = {
             setSliderDivValue(editPieMenu.globalAppearanceSettings.iconSizeSlider,AutoHotPieSettings.global.globalAppearance.iconSize,16,128);
             this.iconSizeSlider.on('mousedown mousemove change', (event) => {
                 let newValue = handleSliderDiv(event);
-                (typeof(newValue) === 'number') && (AutoHotPieSettings.global.globalAppearance.iconSize = newValue)                
+                (typeof(newValue) === 'number') && (AutoHotPieSettings.global.globalAppearance.iconSize = newValue)
                 editPieMenu.pieMenuDisplay.refresh();
             })
         },
@@ -1431,7 +1448,7 @@ var editPieMenu = {
             },
             runScript:{
                 chooseFileBtn: document.getElementById('run-script-choose-btn'),
-                runScriptExe: document.getElementById('run-script-text-input'),
+                runScriptExeInput: document.getElementById('run-script-text-input'),
                 removeBtn: document.getElementById('remove-script-btn')
             },
             openFolder:{
@@ -1696,8 +1713,8 @@ var editPieMenu = {
                             case "runScript":
                                 let scriptFilename = electron.openScriptFile()
                                 if(scriptFilename){                    
-                                    editPieMenu.selectedSlice.params.filePath = scriptFilename;   
-                                    editPieMenu.sliceSettings.sliceFunction.runScript.runScriptExe.innerHTML = scriptFilename; 
+                                    editPieMenu.selectedSlice.params.filePath = scriptFilename;                                       
+                                    editPieMenu.sliceSettings.sliceFunction.runScript.runScriptExeInput.value = scriptFilename; 
                                     console.log(scriptFilename);        
                                     setDefaultLabel(nodePath.basename(scriptFilename),"RunScript.png");          
                                 } else {
@@ -1903,15 +1920,20 @@ var editPieMenu = {
                 let scriptFilename = electron.openScriptFile()
                 if(scriptFilename){                    
                     editPieMenu.selectedSlice.params.filePath = scriptFilename;   
-                    editPieMenu.sliceSettings.sliceFunction.runScript.runScriptExe.innerHTML = scriptFilename;                    
+                    console.log(scriptFilename);
+                    editPieMenu.sliceSettings.sliceFunction.runScript.runScriptExeInput.value = scriptFilename;                    
                 }                
                 editPieMenu.sliceSettings.loadSelectedPieKey();
                 return
             })            
             this.sliceFunction.runScript.removeBtn.addEventListener('click',function(event){
                 editPieMenu.selectedSlice.params.filePath = "";
-                editPieMenu.sliceSettings.sliceFunction.runScript.runScriptExe.innerHTML = "No file selected";
+                // editPieMenu.sliceSettings.sliceFunction.runScript.runScriptExe.innerHTML = "No file selected";
+                editPieMenu.sliceSettings.sliceFunction.runScript.runScriptExeInput.value = "";
                 editPieMenu.sliceSettings.loadSelectedPieKey(); 
+             });
+             this.sliceFunction.runScript.runScriptExeInput.addEventListener('change', (e) => {
+                editPieMenu.selectedSlice.params.filePath = e.target.value;               
              });
 
              //Menu Select
@@ -2185,10 +2207,10 @@ var editPieMenu = {
                     if (ahkParamObj.filePath == ""){
                         // scriptControl.displayText.setAttribute('class','text-muted');
                         
-                        editPieMenu.sliceSettings.sliceFunction.runScript.runScriptExe.innerHTML = "No file selected";
+                        editPieMenu.sliceSettings.sliceFunction.runScript.runScriptExeInput.value = "";
                     }else{
                         // scriptControl.displayText.removeAttribute('class');                              
-                        editPieMenu.sliceSettings.sliceFunction.runScript.runScriptExe.innerHTML = editPieMenu.selectedSlice.params.filePath;                
+                        editPieMenu.sliceSettings.sliceFunction.runScript.runScriptExeInput.value = editPieMenu.selectedSlice.params.filePath;                
                     }
                     break;
                 case "Menu Select": //Menu select function

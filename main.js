@@ -162,17 +162,20 @@ const template = [
      label: 'File',
      submenu: [
         {
-          label: 'Import Settings',          
+          label: 'Import Settings',  
+          // accelerator: 'CmdOrCtrl+I',        
           click: (event) => {  
             // ipcMain.send('menuSelected', event)
             mainWindow.webContents.send('menuSelected', 'importSettings')            
           }    
         },
         {
-          label: 'Export Settings',          
+          label: 'Export Settings',  
+          // accelerator: 'CmdOrCtrl+E',        
           click: () => {
             mainWindow.webContents.send('menuSelected', 'exportSettings')            
-          }          
+          }   
+
         },        
         {
           label: 'Create portable AHK package',          
@@ -184,10 +187,11 @@ const template = [
           type: 'separator'
         },
         { 
-          label: 'Save and Run',          
+          label: 'Save and Run',    
+          // accelerator: 'CmdOrCtrl+S',      
           click: () => {
             mainWindow.webContents.send('menuSelected', 'saveAndRun')
-          }
+          }          
         },
         { 
           label: 'Close without running',          
@@ -196,16 +200,46 @@ const template = [
           }
         }
      ]
+  },
+  {
+    label: 'Edit',
+    submenu: [
+      {
+        label: 'Undo',
+        // accelerator: 'CmdOrCtrl+Z',
+        role: 'undo',
+        click: () => {}
+      },
+      {
+        label: 'Redo',
+        // accelerator: 'Shift+CmdOrCtrl+Z',
+        role: 'redo',
+        click: () => {}
+      },
+      { type: 'separator' },
+      {
+        label: 'Cut',
+        // accelerator: 'CmdOrCtrl+X',
+        role: 'cut',
+        click: () => {}
+      },
+      {
+        label: 'Copy',
+        // accelerator: 'CmdOrCtrl+C',
+        role: 'copy',
+        click: () => {}
+      },
+      { 
+        label: 'Paste',
+        // accelerator: 'CmdOrCtrl+V',
+        role: 'paste',
+        click: () => {}
+      }      
+    ]
   },  
   {
      role: 'help',
-     submenu: [
-        {
-           label: 'Check for Updates',
-           click: () => {
-            shell.openExternal('https://github.com/dumbeau/AutoHotPie/releases')             
-           }
-        },
+     submenu: [        
         {
           label: 'View on Github',
           click: () => {
@@ -223,15 +257,29 @@ const template = [
           click: () => {
             mainWindow.webContents.openDevTools();
           }
+
         },
         {
           label: 'Open resources folder',
           click: () => {
             mainWindow.webContents.send('menuSelected', 'openResources')
           }
+          
+        },
+        {
+          label: 'Check for Updates',
+          click: () => {
+            shell.openExternal('https://github.com/dumbeau/AutoHotPie/releases')             
+          }
+        },
+        {
+          label: app.getVersion(),
+          enabled: false
         }
      ]
   }
 ]
+
+
 const menu = Menu.buildFromTemplate(template)
 Menu.setApplicationMenu(menu)

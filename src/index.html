@@ -136,13 +136,13 @@
                     <div class="d-flex justify-content-center" style="width: 100%;margin-top: 22px;">
                         <div id="pie-menu-settings-tabs" style="margin: 1px;width: 996px;">
                             <ul class="nav nav-tabs nav-justified" role="tablist" style="font-size: 20px;">
-                                <li class="nav-item" role="presentation"><a class="nav-link active" role="tab" data-bs-toggle="tab" id="global-appearance-tab" href="#tab-27">Global</a></li>
-                                <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" id="launch-settings-tab" href="#tab-8">Launch Settings</a></li>
+                                <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" id="global-appearance-tab" href="#tab-27">Global</a></li>
+                                <li class="nav-item" role="presentation"><a class="nav-link active" role="tab" data-bs-toggle="tab" id="launch-settings-tab" href="#tab-8">Launch Settings</a></li>
                                 <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-9">Menu Appearance</a></li>
                                 <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-10">Functions</a></li>
                             </ul>
                             <div class="tab-content">
-                                <div class="tab-pane active" role="tabpanel" id="tab-27">
+                                <div class="tab-pane" role="tabpanel" id="tab-27">
                                     <div class="d-flex justify-content-center" style="padding-top: 20px;">
                                         <div id="global-menu-appearance-settings-div" style="border: 1px solid var(--bs-gray);border-radius: 14px;padding: 24px;width: 100%;max-width: 568px;">
                                             <div class="d-inline-flex d-lg-flex align-items-lg-start" style="background: rgb(34,34,34);transform: translateY(-35px);width: 59px;padding-right: 10px;padding-left: 10px;">
@@ -169,14 +169,14 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="tab-pane" role="tabpanel" id="tab-8">
+                                <div class="tab-pane active" role="tabpanel" id="tab-8">
                                     <div style="margin-bottom: 15px;width: auto;padding: 27px;">
                                         <div class="d-flex align-items-center" style="margin-bottom: 9px;padding-left: 158px;">
                                             <h5 class="d-xxl-flex align-items-xxl-center" style="margin-bottom: -10px;margin-right: 15px;margin-top: -11px;">Activation Mode:</h5><button class="btn btn-primary" data-bs-toggle="tooltip" data-bss-tooltip="" data-bs-placement="right" id="change-activation-mode-btn" type="button" style="margin-right: 21px;min-width: 100px;" title="Change the behavior of launching the pie menu, activating sub menus and launching functions.">Change Activation Mode</button>
                                         </div>
                                         <div id="hotkey-action-div">
                                             <div class="d-flex justify-content-start align-items-center" id="hotkey-action-div" name="photoshop-tool-div" style="margin-bottom: 9px;padding-left: 109px;">
-                                                <h5 class="text-nowrap d-xxl-flex align-items-xxl-center" style="margin-right: 14px;margin-top: 4px;">In-menu hotkey action:</h5><select id="hotkey-action-select" class="form-select" style="height: 38px;max-width: 413px;width: 165px;">
+                                                <h5 class="text-nowrap d-xxl-flex align-items-xxl-center" style="margin-right: 14px;margin-top: 4px;">In-menu Pie Key Action:</h5><select id="hotkey-action-select" class="form-select" style="height: 38px;max-width: 413px;width: 165px;">
                                                     <option value="Exit Menu" selected="">Exit Menu</option>
                                                     <option value="Select">Select</option>
                                                     <option value="None">None</option>
@@ -201,8 +201,8 @@
                                             <div class="form-check form-switch" data-bs-toggle="tooltip" data-bss-tooltip="" data-bs-placement="right" title="Allow functions to be clicked."><input class="form-check-input" type="checkbox" id="clickable-functions-checkbox"><label class="form-check-label" for="formCheck-7"></label></div>
                                         </div>
                                         <div class="d-flex align-items-center" style="margin-bottom: 9px;">
-                                            <div class="d-flex justify-content-end" style="width: 323.844px;">
-                                                <h5 class="d-xxl-flex align-items-xxl-center" style="margin-bottom: -10px;margin-top: -11px;margin-right: 15px;">Open Pie Menu in center of screen:</h5>
+                                            <div class="d-flex justify-content-end" style="width: 326.844px;">
+                                                <h5 class="d-xxl-flex align-items-xxl-center" style="margin-bottom: -10px;margin-top: -11px;margin-right: 15px;">Open Pie Menu in Center of Screen:</h5>
                                             </div>
                                             <div class="form-check form-switch" title="Allow functions to be clicked."><input class="form-check-input" type="checkbox" id="force-center-screen-checkbox"><label class="form-check-label" for="force-center-screen-checkbox"></label></div>
                                         </div>
@@ -347,7 +347,7 @@
                                             </div>
                                             <div id="function-tabs" style="padding-top: 14px;">
                                                 <ul class="nav nav-tabs" role="tablist" name="hidden-tab-items">
-                                                    <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-13">Send Key</a></li>
+                                                    <li class="nav-item" role="presentation"><a class="nav-link active" role="tab" data-bs-toggle="tab" href="#tab-13">Send Key</a></li>
                                                     <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-14">Mouse Click</a></li>
                                                     <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-15">Run Script</a></li>
                                                     <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-16">Repeat Last</a></li>
@@ -359,10 +359,10 @@
                                                     <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-22">Open Folder</a></li>
                                                     <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-35">Menu Select</a></li>
                                                     <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-26">Open URL</a></li>
-                                                    <li class="nav-item" role="presentation"><a class="nav-link active" role="tab" data-bs-toggle="tab" href="#tab-36">Switch Application</a></li>
+                                                    <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-36">Switch Application</a></li>
                                                 </ul>
                                                 <div class="tab-content">
-                                                    <div class="tab-pane" role="tabpanel" id="tab-13">
+                                                    <div class="tab-pane active" role="tabpanel" id="tab-13">
                                                         <div class="d-flex align-items-center" id="send-keys-div" style="margin-bottom: 12px;">
                                                             <h5 class="d-flex align-items-xxl-center" style="margin-right: 15px;">Keys:</h5><button class="btn btn-primary" id="send-key-assign-key-btn" type="button" style="margin-right: 14px;" name="send-keystroke-btn-0">Assign Key</button>
                                                             <div id="send-key-button-list"></div><button class="btn btn-primary" id="send-key-add-keystroke-btn" type="button" style="margin-right: 9px;" name="send-keystroke-btn-add"><i class="icon ion-android-add" style="margin-right: 7px;"></i>Add Keystroke</button>
@@ -403,7 +403,7 @@
                                                         <div class="d-flex align-items-center">
                                                             <div class="d-flex justify-content-start" style="padding-top: 12px;padding-bottom: 12px;width: 100%;">
                                                                 <div class="d-flex align-items-center" style="width: 100%;">
-                                                                    <h5 class="d-xxl-flex align-items-xxl-center" style="margin-bottom: -10px;margin-right: 15px;margin-top: -11px;">File:</h5><button class="btn btn-secondary" data-bs-toggle="tooltip" data-bss-tooltip="" id="run-script-choose-btn" type="button" style="margin-right: 2px;min-width: 100px;" title="Choose a file to run or folder to open">Choose File...</button><input class="bg-dark border rounded-0 border-dark flex-grow-1" type="text" id="run-script-text-input" style="font-size: 16px;color: var(--bs-white);text-align: left;padding-top: 1px;padding-bottom: 1px;padding-left: 8px;margin-left: 8px;margin-right: 5px;" placeholder="Enter Run command or file" maxlength="40">
+                                                                    <h5 class="d-xxl-flex align-items-xxl-center" style="margin-bottom: -10px;margin-right: 15px;margin-top: -11px;">File:</h5><button class="btn btn-secondary" data-bs-toggle="tooltip" data-bss-tooltip="" id="run-script-choose-btn" type="button" style="margin-right: 2px;min-width: 100px;" title="Choose a file to run or folder to open">Choose File...</button><input class="bg-dark border rounded-0 border-dark flex-grow-1" type="text" id="run-script-text-input" style="font-size: 16px;color: var(--bs-white);text-align: left;padding-top: 1px;padding-bottom: 1px;padding-left: 8px;margin-left: 8px;margin-right: 5px;" placeholder="Enter Run command or file">
                                                                     <div class="d-flex justify-content-center align-items-center" id="remove-script-btn" style="width: 28.5781px;height: 31px;"><i class="fa fa-remove"></i></div>
                                                                 </div>
                                                             </div>
@@ -492,7 +492,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="tab-pane active" role="tabpanel" id="tab-36">
+                                                    <div class="tab-pane" role="tabpanel" id="tab-36">
                                                         <div class="d-flex justify-content-start" style="padding-top: 12px;padding-bottom: 12px;width: 100%;">
                                                             <div class="d-flex align-items-center" style="width: 100%;">
                                                                 <h5 class="d-xxl-flex align-items-xxl-center" style="margin-bottom: -10px;margin-right: 15px;margin-top: -11px;">Application:</h5><button class="btn btn-primary" data-bs-toggle="tooltip" data-bss-tooltip="" id="switch-app-get-focused-exe-button" type="button" style="margin-right: 12px;min-width: 100px;" title="Focus the application to use.">Get Focused</button><button class="btn btn-secondary" id="switch-app-find-exe-button" type="button" style="margin-right: 2px;min-width: 100px;" title="Choose a file to run or folder to open">Choose exe...</button><input class="bg-dark border rounded-0 border-dark flex-grow-1" type="text" id="switch-app-exe-text-input" style="font-size: 16px;color: var(--bs-white);text-align: left;padding-top: 1px;padding-bottom: 1px;padding-left: 8px;margin-left: 8px;margin-right: 5px;" maxlength="40" placeholder="some-application.exe">
@@ -1133,25 +1133,25 @@
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="assets/js/bs-init.js"></script>
-    <script src="jscolor.js"></script>
-    <script src="renderer.js"></script>
-    <script src="ahpClasses.js"></script>
-    <script src="profileManagement.js"></script>
-    <script src="exitConfirm.js"></script>
-    <script src="menuFunctions.js"></script>
-    <script src="runningPieMenu.js"></script>
-    <script src="createNewProfile.js"></script>
-    <script src="createNewScript.js"></script>
-    <script src="confirmation.js"></script>
-    <script src="functionSelect.js"></script>
-    <script src="hotkeyManagement.js"></script>
-    <script src="editPieMenu.js"></script>
-    <script src="editScript.js"></script>
-    <script src="errorPage.js"></script>
-    <script src="iconManager.js"></script>
-    <script src="createNewPieMenu.js"></script>
-    <script src="changeActivationMode.js"></script>
-    <script src="initializePages.js"></script>
+    <script src="file:///src/jscolor.js"></script>
+    <script src="file:///src/renderer.js"></script>
+    <script src="file:///src/ahpClasses.js"></script>
+    <script src="file:///src/profileManagement.js"></script>
+    <script src="file:///src/exitConfirm.js"></script>
+    <script src="file:///src/menuFunctions.js"></script>
+    <script src="file:///src/runningPieMenu.js"></script>
+    <script src="file:///src/createNewProfile.js"></script>
+    <script src="file:///src/createNewScript.js"></script>
+    <script src="file:///src/confirmation.js"></script>
+    <script src="file:///src/functionSelect.js"></script>
+    <script src="file:///src/hotkeyManagement.js"></script>
+    <script src="file:///src/editPieMenu.js"></script>
+    <script src="file:///src/editScript.js"></script>
+    <script src="file:///src/errorPage.js"></script>
+    <script src="file:///src/iconManager.js"></script>
+    <script src="file:///src/createNewPieMenu.js"></script>
+    <script src="file:///src/changeActivationMode.js"></script>
+    <script src="file:///src/initializePages.js"></script>
 </body>
 
 </html>

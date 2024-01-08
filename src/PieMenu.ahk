@@ -14,6 +14,7 @@ SetControlDelay, 0	; Changed to 0 upon recommendation of documentation
 #Include %A_ScriptDir%\lib\Json.ahk
 
 
+
 ;Set Per monitor DPI awareness: https://www.autohotkey.com/boards/viewtopic.php?p=295182#p295182
 DllCall("SetThreadDpiAwarenessContext", "ptr", -3, "ptr")
 CoordMode, Mouse, Screen
@@ -152,8 +153,10 @@ pieLabel: ;Fixed hotkey overlap "r and ^r", refactor this
 	
 	;Push hotkey to hotkeyArray to be blocked when pie menus are running.
 	for k, pieKey in ActiveProfile.pieKeys
-	{		
+	{
+		
 		hotKeyArray.Push(pieKey.hotkey)		
+		; OutputDebug, % pieKey.hotkey		
 		; if (pieKey.hotkey == ActivePieHotkey)
 		; {
 		; 	for k2, pieMenu in pieKey.pieMenus
@@ -168,22 +171,23 @@ pieLabel: ;Fixed hotkey overlap "r and ^r", refactor this
 		; 		}				
 		; 	}
 		; }		
-	}		
-	; msgbox, % hotkeyArray[1]
-	; msgbox, % hotkeyArray[2]
-	; msgbox, % hotkeyArray[3]
-	; msgbox, % hotkeyArray[4]
+	}	
 	
 	
+
 	for k, menu in ActiveProfile.pieKeys
-		{		
+		{
 		if (menu.hotkey == ActivePieHotkey)
-			{				
+			{			
 			blockBareKeys(ActivePieHotkey, hotKeyArray, true)			
 			funcAddress := runPieMenu(profileIndex, k)
 			PieLaunchedState := false
+
+			if (ActiveProfile.pieEnableKey.useEnableKey)	
+				pieEnableKey.modOff()
 			
 			blockBareKeys(ActivePieHotkey, hotKeyArray, false)
+			
 				;deactivate dummy keys
 			ActivePieHotkey := ""
 			; msgbox, % funcAddress.label			
