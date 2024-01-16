@@ -38,6 +38,9 @@ The HTML/CSS is supplied by [Bootstrap Studio](https://bootstrapstudio.io/) (I k
 3. Save and Click `Export` or press `Ctrl+E`.
 4. Run the electron app, `npm run build` will run a script to update the index.html that comes out of bs studio.
 
+### Create installer
+Just run `npm run build-installer` and the installers will be created in the `/dist` directory.
+
 Whenever you make changes to the bsdesign file, Save and Export your changes.
 
 # Questions?
