@@ -1,4 +1,4 @@
-# AutoHotPie (Pie-Menus-V2)
+# AutoHotPie
 
 ![2022-AHP-Update---Square-220224-2](https://user-images.githubusercontent.com/36665762/155584629-fd483863-2005-420f-ab3e-44369fe01884.gif)
 
