@@ -6,8 +6,8 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "build-ahk": "build-ahk.bat",
-    "build-installer": "build-ahk.bat && electron-builder"
+    "build-ahk": "build\\build-ahk.bat",
+    "build-installer": "build-ahk && electron-builder"
   },
   "build": {
     "appId": "AutoHotPie",
