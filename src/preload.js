@@ -25,6 +25,7 @@ if (__dirname.includes('app.asar\\src')) {
 }
 console.log("App folder: " + PieMenuFolder);
 var UserDataFolder = path.join(ipcRenderer.sendSync('getUserDataFolder'));
+console.log("User Data folder: " + UserDataFolder);
 
 if (!fs.existsSync(path.resolve(UserDataFolder,'User Scripts'))){      
   fs.mkdir(path.resolve(UserDataFolder,'User Scripts'), (err) => {if(err){throw err;}})

@@ -1,15 +1,14 @@
 <!DOCTYPE html>
-<html lang="en" style="height: 100%;">
+<html data-bs-theme="light" lang="en" style="height: 100%;">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>AutoHotPie</title>
+    <title>AutoHotPie Settings</title>
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400&amp;display=swap">
     <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
     <link rel="stylesheet" href="assets/fonts/ionicons.min.css">
-    <link rel="stylesheet" href="assets/fonts/simple-line-icons.min.css">
     <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 
@@ -34,7 +33,7 @@
             <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-28">Icon Manager</a></li>
             <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-29">Edit Script</a></li>
             <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-32">Error</a></li>
-            <li class="nav-item" role="presentation"><a class="nav-link active" role="tab" data-bs-toggle="tab" href="#tab-33">Loading</a></li>
+            <li class="nav-item" role="presentation"><a class="nav-link active" role="tab" data-bs-toggle="tab" href="#tab-33" name="loading-tab">Loading</a></li>
         </ul>
         <div class="tab-content" style="height: 100%;">
             <div class="tab-pane" role="tabpanel" id="tab-1">
@@ -137,9 +136,9 @@
                         <div id="pie-menu-settings-tabs" style="margin: 1px;width: 996px;">
                             <ul class="nav nav-tabs nav-justified" role="tablist" style="font-size: 20px;">
                                 <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" id="global-appearance-tab" href="#tab-27">Global</a></li>
-                                <li class="nav-item" role="presentation"><a class="nav-link active" role="tab" data-bs-toggle="tab" id="launch-settings-tab" href="#tab-8">Launch Settings</a></li>
+                                <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" id="launch-settings-tab" href="#tab-8">Launch Settings</a></li>
                                 <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-9">Menu Appearance</a></li>
-                                <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-10">Functions</a></li>
+                                <li class="nav-item" role="presentation"><a class="nav-link active" role="tab" data-bs-toggle="tab" href="#tab-10">Functions</a></li>
                             </ul>
                             <div class="tab-content">
                                 <div class="tab-pane" role="tabpanel" id="tab-27">
@@ -169,7 +168,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="tab-pane active" role="tabpanel" id="tab-8">
+                                <div class="tab-pane" role="tabpanel" id="tab-8">
                                     <div style="margin-bottom: 15px;width: auto;padding: 27px;">
                                         <div class="d-flex align-items-center" style="margin-bottom: 9px;padding-left: 158px;">
                                             <h5 class="d-xxl-flex align-items-xxl-center" style="margin-bottom: -10px;margin-right: 15px;margin-top: -11px;">Activation Mode:</h5><button class="btn btn-primary" data-bs-toggle="tooltip" data-bss-tooltip="" data-bs-placement="right" id="change-activation-mode-btn" type="button" style="margin-right: 21px;min-width: 100px;" title="Change the behavior of launching the pie menu, activating sub menus and launching functions.">Change Activation Mode</button>
@@ -289,7 +288,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="tab-pane" role="tabpanel" id="tab-10">
+                                <div class="tab-pane active" role="tabpanel" id="tab-10">
                                     <div style="width: auto;padding-right: 27px;padding-left: 27px;">
                                         <div class="justify-content-start" id="pie-menu-display-description" style="padding-top: 12px;padding-bottom: 12px;height: 65px;margin-top: 33px;">
                                             <div class="d-flex align-items-center"></div>
@@ -346,7 +345,7 @@
                                                 </div>
                                             </div>
                                             <div id="function-tabs" style="padding-top: 14px;">
-                                                <ul class="nav nav-tabs" role="tablist" name="hidden-tab-items">
+                                                <ul class="nav nav-tabs" role="tablist" name="hidden-tab-items" style="display:none">
                                                     <li class="nav-item" role="presentation"><a class="nav-link active" role="tab" data-bs-toggle="tab" href="#tab-13">Send Key</a></li>
                                                     <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-14">Mouse Click</a></li>
                                                     <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-15">Run Script</a></li>
@@ -974,7 +973,7 @@
                 <div style="padding-left: 50px;padding-right: 50px;padding-top: 50px;padding-bottom: 50px;">
                     <div class="accordion" role="tablist" id="accordion-1" style="box-shadow: 2px 4px 18px 0px rgb(0,0,0);">
                         <div class="accordion-item">
-                            <h2 class="accordion-header" role="tab"><button class="accordion-button" data-bs-toggle="collapse" data-bs-target="#accordion-1 .item-1" aria-expanded="true" aria-controls="accordion-1 .item-1" style="font-size: 27px;">Stock Icons</button></h2>
+                            <h2 class="accordion-header" role="tab"><button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#accordion-1 .item-1" aria-expanded="true" aria-controls="accordion-1 .item-1" style="font-size: 27px;">Stock Icons</button></h2>
                             <div class="accordion-collapse collapse show item-1" role="tabpanel" data-bs-parent="#accordion-1" style="background: var(--bs-body-color);">
                                 <div class="accordion-body">
                                     <div class="d-flex justify-content-center" style="margin-bottom: 5px;">
@@ -1009,7 +1008,7 @@
                             </div>
                         </div>
                         <div class="accordion-item">
-                            <h2 class="accordion-header" role="tab"><button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#accordion-1 .item-2" aria-expanded="false" aria-controls="accordion-1 .item-2" style="font-size: 27px;">User Icons</button></h2>
+                            <h2 class="accordion-header" role="tab"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#accordion-1 .item-2" aria-expanded="false" aria-controls="accordion-1 .item-2" style="font-size: 27px;">User Icons</button></h2>
                             <div class="accordion-collapse collapse item-2" role="tabpanel" data-bs-parent="#accordion-1" style="background: var(--bs-body-color);">
                                 <div class="accordion-body">
                                     <div class="d-flex justify-content-center" style="margin-bottom: 5px;">
@@ -1120,7 +1119,7 @@
                     </div>
                 </div>
             </div>
-            <div class="tab-pane active" role="tabpanel" id="tab-33">
+            <div class="tab-pane active" role="tabpanel" id="tab-33" name="loading-pane">
                 <div class="text-center d-flex flex-column justify-content-center align-items-center" style="width: 100%;height: 100vh;">
                     <div style="height: 20%;"></div>
                     <div class="text-center d-flex flex-column justify-content-center align-items-center" style="height: 60%;"><img id="loading-animation-2" src="assets/img/runPieMenus.gif" style="width: 300px;"></div>
@@ -1133,25 +1132,27 @@
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="assets/js/bs-init.js"></script>
-    <script src="./jscolor.js"></script>
-    <script src="./renderer.js"></script>
-    <script src="./ahpClasses.js"></script>
-    <script src="./profileManagement.js"></script>
-    <script src="./exitConfirm.js"></script>
-    <script src="./menuFunctions.js"></script>
-    <script src="./runningPieMenu.js"></script>
-    <script src="./createNewProfile.js"></script>
-    <script src="./createNewScript.js"></script>
-    <script src="./confirmation.js"></script>
-    <script src="./functionSelect.js"></script>
-    <script src="./hotkeyManagement.js"></script>
-    <script src="./editPieMenu.js"></script>
-    <script src="./editScript.js"></script>
-    <script src="./errorPage.js"></script>
-    <script src="./iconManager.js"></script>
-    <script src="./createNewPieMenu.js"></script>
-    <script src="./changeActivationMode.js"></script>
-    <script src="./initializePages.js"></script>
+    <!-- UPDATED ON COMPILE -->
+<script src="./lib\jscolor.js"></script>
+<script src="./lib\renderer.js"></script>
+<script src="./classes\ahpClasses.js"></script>
+<script src="./changeActivationMode.js"></script>
+<script src="./confirmation.js"></script>
+<script src="./createNewPieMenu.js"></script>
+<script src="./createNewProfile.js"></script>
+<script src="./createNewScript.js"></script>
+<script src="./editPieMenu.js"></script>
+<script src="./editScript.js"></script>
+<script src="./errorPage.js"></script>
+<script src="./exitConfirm.js"></script>
+<script src="./functionSelect.js"></script>
+<script src="./hotkeyManagement.js"></script>
+<script src="./iconManager.js"></script>
+<script src="./menuFunctions.js"></script>
+<script src="./profileManagement.js"></script>
+<script src="./runningPieMenu.js"></script>
+<script src="./initializePages.js"></script>
+<!-- END OF UPDATED ON COMPILE -->
 </body>
 
 </html>

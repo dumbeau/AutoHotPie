@@ -5,9 +5,11 @@
   "description": "Universal Pie Menus for Windows",
   "main": "main.js",
   "scripts": {
-    "start": "electron .",
+    "start": "npm run build && electron .",
+    "build":"npm run refresh-index-scripts",    
+    "build-installer": "npm run build && npm run build-ahk && electron-builder",
     "build-ahk": "build\\build-ahk.bat",
-    "build-installer": "build-ahk && electron-builder"
+    "refresh-index-scripts":"node build\\refreshIndexScripts.js"
   },
   "build": {
     "appId": "AutoHotPie",
