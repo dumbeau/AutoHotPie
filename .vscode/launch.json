@@ -27,7 +27,7 @@
             "type": "autohotkey",
             "request": "launch",
             "runtime": "${env:ProgramFiles}/AutoHotkey/AutoHotkeyU64.exe",
-            "program": "${workspaceFolder}/src/ahk/PieMenu.ahk",
+            "program": "${workspaceFolder}/src/PieMenu.ahk",
             "args": []
         }
     ]
