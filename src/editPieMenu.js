@@ -985,6 +985,7 @@ var editPieMenu = {
             this.tab.addEventListener('click',()=>{
 
                 let fonts = font.get();
+                console.log(fonts);
                 fonts.forEach( (font) => {
                     editPieMenu.globalAppearanceSettings.fontFamilySelect.append(`<option value="${font}">${font}</option>`)
                 });

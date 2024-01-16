@@ -10,19 +10,14 @@ const child_process = require('child_process');
 const { clearInterval } = require("timers");
 
 // Font Lbraries
-// const fontList = require('font-list');
-const fontManager = require('electron-font-manager')
+const fontList = require('font-list');
+// const fontManager = require('electron-font-manager'); //Depreciated, going back to font-list
 // const fontManager = require("fontmanager-redux");
 
 const nodeDir = require('node-dir');
-const uuidv4 = require('uuid')
+// const uuidv4 = require('uuid');
 
 var PieMenuFolder
-// if(ipcRenderer.sendSync('isDev')){  
-//   PieMenuFolder = path.resolve(__dirname);
-// } else {
-//   PieMenuFolder = path.resolve(__dirname, '..','..','src');
-// }
 if (__dirname.includes('app.asar\\src')) {
   PieMenuFolder = path.resolve(__dirname, '..','..','src');  
 } else {
@@ -634,16 +629,18 @@ contextBridge.exposeInMainWorld('nodePath',{
 })
 
 contextBridge.exposeInMainWorld('font',{
-  // list: [],
+  list: [],
   get: function(){
-    let fontFamilies = fontManager.getAvailableFontFamilies();
-    // this.list = fontFamilies;    
-    return fontFamilies
+    return this.list;
+  },
+  refresh: async function(){
+    let fontFamilies = await fontList.getFonts({disableQuoting:true});
+    this.list = fontFamilies;    
   },
   getMembers: function(familiy){
-    let memebers = fontManager.getAvailableMembersOfFontFamily(familiy);
-    console.log(memebers);
-    return memebers        
+    // let members = fontManager.getAvailableMembersOfFontFamily(familiy);
+    let members = fontList.getFontsSync({disableQuoting:true, family:familiy});    
+    return members        
   }
 });
 

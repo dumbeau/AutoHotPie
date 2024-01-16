@@ -63,15 +63,19 @@ var hotkeyManagement = {
                         
             this.winBtnCheck.addEventListener("click", function(event){
                 hm.hotkeyObj.winKey = ep.winBtnCheck.checked;
+                hm.validateAHKKey(hm.hotkeyObj.ahkKey);          
             });
             this.shiftBtnCheck.addEventListener("click", function(event){                    
                 hm.hotkeyObj.shiftKey = ep.shiftBtnCheck.checked; 
+                hm.validateAHKKey(hm.hotkeyObj.ahkKey);          
             });
             this.ctrlBtnCheck.addEventListener("click", function(event){
-                hm.hotkeyObj.ctrlKey = ep.ctrlBtnCheck.checked;                
+                hm.hotkeyObj.ctrlKey = ep.ctrlBtnCheck.checked; 
+                hm.validateAHKKey(hm.hotkeyObj.ahkKey);          
             });
             this.altBtnCheck.addEventListener("click", function(event){ 
-                hm.hotkeyObj.altKey = ep.altBtnCheck.checked;                            
+                hm.hotkeyObj.altKey = ep.altBtnCheck.checked;     
+                hm.validateAHKKey(hm.hotkeyObj.ahkKey);                                 
             });
             this.hotkeyAcceptBtn.on("click", function(event){                 
                 
@@ -265,9 +269,10 @@ async function assignKey(options){
         ]   
         lp.specialKeyMenu.empty();
         specialKeys.forEach(element => {
-            if (!hotkeyManagement.invalidKeyCodes.includes(element.keyCode)){                
-                addButtonItem(element);
-            }                    
+            addButtonItem(element);
+            // if (!hotkeyManagement.invalidKeyCodes.includes(element.keyCode)){                
+            //     addButtonItem(element);
+            // }                    
         });
         function addButtonItem(specialKeyObj){
             lp.specialKeyMenu.append($("<a class=\"dropdown-item\" name=" + specialKeyObj.keyCode + ">" + specialKeyObj.key + "</a>"))

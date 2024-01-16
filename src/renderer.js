@@ -12,6 +12,7 @@ document.getElementsByName("hidden-tab-items").forEach(function(tabs,index){
 })
 
 iconManager.refreshIconLibrary();
+font.refresh();
 
 
 function rgbToHex(rgbArray) {

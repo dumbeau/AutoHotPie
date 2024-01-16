@@ -75,6 +75,9 @@ var profileManagement = {
             let pieKey = this.selectedProfile.pieKeys[pieKeyIndex].hotkey
             usedAHKKeys.push(pieKey)
         }
+        if (this.selectedProfile.pieEnableKey.useEnableKey){
+            usedAHKKeys.push(this.selectedProfile.pieEnableKey.enableKey);
+        }
         return usedAHKKeys;
     },
     profileList: {
@@ -367,11 +370,10 @@ var profileManagement = {
                 if (target && target.name == "color"){   
                     // console.log(ran)             
                     profileManagement.selectedProfile.pieKeys[pieKeyIndex].pieMenus[0].selectionColor = hexToRgb(target.value);
-                }               
-
-                
+                }
             });           
             this.overviewTable.addEventListener('click', function(e){
+                try{
                 let target = e.target 
                 let pieKeyIndex = $(target).closest('td').parent()[0].sectionRowIndex
                 let selectedPieKey = profileManagement.selectedProfile.pieKeys[pieKeyIndex]                
@@ -396,6 +398,7 @@ var profileManagement = {
                         profileManagement.open()
                     }); 
                 }
+            }catch(err){{console.log(err)}}
             });
             this.newPieMenuBtn.addEventListener('click', function(e){                
                 createNewPieMenu().then(val => { 
