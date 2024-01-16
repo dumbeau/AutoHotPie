@@ -20,6 +20,14 @@ In order to activate a pie menu with a pen button, go into your pen software and
 ## External controllers or Remotes
 Most bluetooth controllers can have their buttons assigned to a keystroke in their software, however most do not send their 'key-up' signal when their button is released.  To handle this, use the 'Hover over all selections' launch mode.  The pie menu will stay open after the button is pressed, and selections can be hovered over to be selected.
 
+# Development
+Download this source code and run:
+```
+npm install
+```
+[AutoHotKey v1.1](https://www.autohotkey.com/) needs to be installed to compile AHK code.
+
+
 # Questions?
 
 [Discord](https://discord.gg/yszsupzR7d)
