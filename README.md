@@ -22,18 +22,23 @@ In order to activate a pie menu with a pen button, go into your pen software and
 
 Most bluetooth controllers can have their buttons assigned to a keystroke in their software, however most do not send their 'key-up' signal when their button is released. To handle this, use the 'Hover over all selections' launch mode. The pie menu will stay open after the button is pressed, and selections can be hovered over to be selected.
 
-# Development
-
-Download this source code and run:
-
-```
-npm install
-```
+# Develop with this Codebase
 
 [AutoHotKey v1.1](https://www.autohotkey.com/) needs to be installed to compile AHK code.
 
-The HTML/CSS is supplied by bootstrap studio (I know I'm a piece of garbage)
-When you open "AutoHotPie Settings.bsdesign", go the the Settings > Export, and set the export destination to the src directory of this codebase.
+### Setting up the electron app
+1. Download this codebase and unzip.
+2. Run `npm install` in the project directory.
+3. Use the included vscode configurations to run the electron app or the AutoHotKey Pie Menus script respectively.  Otherwise, use `npm run start`.
+
+### Modifying the HTML/CSS
+The HTML/CSS is supplied by [Bootstrap Studio](https://bootstrapstudio.io/) (I know I'm a piece of garbage).
+1. Open "AutoHotPie Settings.bsdesign"
+2. Go the `Settings > Export`, and set the export destination to the src directory of this codebase.
+3. Save and Click `Export` or press `Ctrl+E`.
+4. Run the electron app, `npm run build` will run a script to update the index.html that comes out of bs studio.
+
+Whenever you make changes to the bsdesign file, Save and Export your changes.
 
 # Questions?
 
