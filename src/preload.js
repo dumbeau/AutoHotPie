@@ -173,6 +173,9 @@ contextBridge.exposeInMainWorld('pieMenus', {
           shell: true,
           detached: true
       });
+
+      console.log(child);
+
       // You can also use a variable to save the output for when the script closes later
       child.on('error', (error) => {
           console.log(error)
@@ -217,7 +220,7 @@ contextBridge.exposeInMainWorld('pieMenus', {
         }
     
         function isPieMenuRunning(){
-          let query = (runAHK) ? "AutoHotKey.exe" : "PieMenu.exe";
+          let query = (runAHK) ? "AutoHotkey" : "PieMenu.exe";
           let platform = process.platform;
             let cmd = '';
             switch (platform) {
@@ -226,7 +229,9 @@ contextBridge.exposeInMainWorld('pieMenus', {
                 case 'linux' : cmd = `ps -A`; break;
                 default: break;
             }
-            child_process.exec(cmd, (err, stdout, stderr) => {                
+            child_process.exec(cmd, (err, stdout, stderr) => { 
+                  
+
                 pieRunningState = stdout.toLowerCase().indexOf(query.toLowerCase()) > -1;                
                 if (pieRunningState){
                   resolve();
