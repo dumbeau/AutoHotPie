@@ -34,7 +34,7 @@ Most bluetooth controllers can have their buttons assigned to a keystroke in the
 ### Modifying the HTML/CSS
 The HTML/CSS is supplied by [Bootstrap Studio](https://bootstrapstudio.io/) (I know I'm a piece of garbage).
 1. Open "AutoHotPie Settings.bsdesign"
-2. Go the `Settings > Export`, and set the export destination to the src directory of this codebase.
+2. Go the `Settings > Export`, and set the export destination to the `/src` directory of this codebase.
 3. Save and Click `Export` or press `Ctrl+E`.
 4. Run the electron app, `npm run build` will run a script to update the index.html that comes out of bs studio.
 5. Whenever you make changes to the bsdesign file, Save and Export your changes.
