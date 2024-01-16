@@ -27,7 +27,7 @@ Most bluetooth controllers can have their buttons assigned to a keystroke in the
 [AutoHotKey v1.1](https://www.autohotkey.com/) needs to be installed to compile AHK code.
 
 ### Setting up the electron app
-1. Download this source code.
+1. Download this codebase and unzip.
 2. Run `npm install` in the project directory.
 3. Use the included vscode configurations to run the electron app or the AutoHotKey Pie Menus script respectively.  Otherwise, use `npm run start`.
 
