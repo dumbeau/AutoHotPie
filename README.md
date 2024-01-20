@@ -10,6 +10,10 @@ Go to [releases](https://github.com/dumbeau/AutoHotPie/releases), download the l
 
 # General Usage
 
+### Macro mouses
+
+Some macro mice don't send their key_up events when their key is released (Logitech MX Master, Elecom mice).  You can either use the hover or click modes, or you can use the\ Back (4th Click) or Forward (5th Click) and then they will work as they typically respond to the button release.  If you want more menus, consider setting either of these to the Profile Enable Key and pie menus to bare keys to create a pie menu macro layer.
+
 ### Pen Tablets
 
 In order to activate a pie menu with a pen button, go into your pen software and set a key to send '4th click / Forward' or '5th Click / Back'. You may use any other key, but other keys may not send their 'key-up' signal when the pen button is released. You can then set the Pie menu key to respond to '4th click / Forward' or '5th Click / Back' in the 'Special Keys' menu.
