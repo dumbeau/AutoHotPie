@@ -183,11 +183,66 @@ loadPieMenus(){
 	
 	;Load app settings to hotkeys
     appProfiles := Settings.appProfiles    
+
     for k, profile in appProfiles {	
 		profile.pieEnableKey.enableState := false	;add enableState key to every profile.  Only for visual.
+	}
+
+	;// first, turn on the hotkeys for the custom contexts (if any), so that they have highest precendence
+	;// (from AHK help, Hotkey command:
+	;// "If more than one variant of a hotkey is eligible to fire, only the one created earliest will fire.")
+	for k, profile in appProfiles {
 		if (profile.enable == false)
 			continue
-		if (profile.ahkHandles[1] == "ahk_group regApps")
+		;// we require the json ahkHandles setting to be a simple string that ends in 'Func' (such as 'myFunc')
+		;// if we find that, then AHP will check for the success of that Func to determine if the context is applied
+		if (SubStr(profile.ahkHandles[1], -3) = "Func")     ;custom context
+		{
+			; msgbox % "custom context func for profile #" k "`nfunc=" profile.ahkHandles[1]
+			fn := Func(profile.ahkHandles[1])
+			; %fn%()
+			if IsFunc(fn)
+				Hotkey, If, % fn
+			else
+			{
+				MsgBox, % "Custom context function '" profile.ahkHandles[1] "' is not found.`n`nProfile '" profile.name "' will be disabled."
+				profile.enable := false
+			}
+
+			;// all this pieKeys code was copied as written below
+			for k, pieKey in profile.pieKeys			
+				{
+				if (pieKey.enable == false)
+					continue							
+				Hotkey, % pieKey.hotkey, pieLabel
+				If (profile.pieEnableKey.useEnableKey == true) && (profile.pieEnableKey.toggle == false)
+					{ ;initialize off if modkey active no toggle				
+					Try Hotkey, % pieKey.hotkey, Off
+					}
+				}			
+			If (profile.pieEnableKey.useEnableKey == true)
+				{
+				If (profile.pieEnableKey.toggle == true)
+					{					
+					Hotkey, % profile.pieEnableKey.enableKey, togglePieLabel				
+					}
+				else
+					{
+					Hotkey, % profile.pieEnableKey.enableKey, onPieLabel
+					upHotkey := profile.pieEnableKey.enableKey " up"
+					Hotkey, % upHotkey, offPieLabel
+					}
+				}
+		}
+	}
+
+    ;// second, turn on the hotkeys for the default profile, and for the app-specific profiles
+	for k, profile in appProfiles {	
+		if (profile.enable == false)
+			continue
+		if (SubStr(profile.ahkHandles[1], -3) = "Func") ;already handled above
+			continue
+		else if (profile.ahkHandles[1] == "ahk_group regApps")    ;default context
 		{
 			Hotkey, IfWinNotActive, ahk_group regApps
 			for k, pieKey in profile.pieKeys			
@@ -215,7 +270,7 @@ loadPieMenus(){
 					}
 				}
         }
-		else
+		else                                                ;app specific context
 		{
 		for ahkHandleIndex, ahkHandle in profile.ahkHandles
 			{
@@ -1612,18 +1667,27 @@ toggleEnableState(profile){
 	
 Class pieEnableKey{
 	modToggle(){
-		If (!WinActive("ahk_group regApps"))
-			{		
-			toggleEnableState(Settings.appProfiles[1])							
+		ActiveProfile := getActiveProfile()
+		toggleEnableState(ActiveProfile)
+		activeProfileString := getProfileString(ActiveProfile)
+		; msgbox % activeProfileString
+		if (SubStr(activeProfileString, -3) = "Func")       ;custom context
+			{
+			fn := Func(activeProfileString)
+			Hotkey, If, % fn
+			for pieKeyIndex, pieKey in ActiveProfile.pieKeys
+				Try Hotkey, % pieKey.hotkey, Toggle
+			return
+			}
+		else if (activeProfileString = "ahk_group regApps")   ;default context
+			{
 			Hotkey, IfWinNotActive, ahk_group regApps
 			for menus in Settings.appProfiles[1].pieKeys
 				Hotkey, % Settings.appProfiles[1].pieKeys[menus].hotkey, Toggle
 			return
 			}
-		Else
+		Else                                                ;app specific context
 			{
-			ActiveProfile := getActiveProfile()
-			toggleEnableState(ActiveProfile)
 			for ahkHandleIndex, ahkHandle in ActiveProfile.ahkHandles
 			{
 				Hotkey, IfWinActive, % ahkHandle
@@ -1644,16 +1708,26 @@ Class pieEnableKey{
 		}
 	modOn(){
 		PieMenuRanWithMod := false
-		If (!WinActive("ahk_group regApps"))
+		ActiveProfile := getActiveProfile()
+		activeProfileString := getProfileString(ActiveProfile)
+		; msgbox % activeProfileString
+		if (SubStr(activeProfileString, -3) = "Func")       ;custom context
+			{
+			fn := Func(activeProfileString)
+			Hotkey, If, % fn
+			for pieKeyIndex, pieKey in ActiveProfile.pieKeys
+				Try Hotkey, % pieKey.hotkey, On
+			return
+			}
+		else if (activeProfileString = "ahk_group regApps")   ;default context
 			{
 			Hotkey, IfWinNotActive, ahk_group regApps
 			for menus in Settings.appProfiles[1].pieKeys
 				Try Hotkey, % Settings.appProfiles[1].pieKeys[menus].hotkey, On
 			return
 			}
-		Else
+		Else                                                ;app specific context
 			{
-			ActiveProfile := getActiveProfile()
 			for ahkHandleIndex, ahkHandle in ActiveProfile.ahkHandles
 			{
 				Hotkey, IfWinActive, % ahkHandle
@@ -1676,7 +1750,17 @@ Class pieEnableKey{
 		If (PieLaunchedState)
 			return
 		
-		If (!WinActive("ahk_group regApps")) ;Is DefaultProfile?
+		ActiveProfile := getActiveProfile()
+		activeProfileString := getProfileString(ActiveProfile)
+		; msgbox % activeProfileString
+		if (SubStr(activeProfileString, -3) = "Func")       ;custom context
+			{
+			fn := Func(activeProfileString)
+			Hotkey, If, % fn
+			for pieKeyIndex, pieKey in ActiveProfile.pieKeys
+				Try Hotkey, % pieKey.hotkey, Off
+			}
+		else if (activeProfileString = "ahk_group regApps")   ;default context
 			{			
 			Hotkey, IfWinNotActive, ahk_group regApps
 			for menus in Settings.appProfiles[1].pieKeys
@@ -1708,6 +1792,7 @@ Class pieEnableKey{
 			; 	}				
 			; return			
 			}				
+
 		If (getActiveProfile().pieEnableKey.sendOriginalFunc && PieMenuRanWithMod == false){
 			; Send, %A_ThisHotkey%
 			; msgbox, % "{" . StrReplace(A_ThisHotkey, " up","") . "}"
@@ -1768,6 +1853,31 @@ runPieFunction(functionObj)
 
 getActiveProfile()
 	{
+	;// check to see which hotkey condition matches
+	;// we check in the same order as the hotkeys are turned on in loadPieMenus()
+	;// that is: first check for custom func contexts, then default profile, then app specific profiles
+	for profileIndex, profile in Settings.appProfiles
+	{
+		if (profile.enable == false)
+			continue
+		for k, pieKey in profile.pieKeys
+		{
+			if (pieKey.enable == false)
+				continue
+			; tooltip, % "getActiveProfile`nthis hotkey = " A_ThisHotkey "`npieKey.hotkey=" pieKey.hotkey
+			if (pieKey.hotkey = A_ThisHotkey)
+			{
+				if (SubStr(profile.ahkHandles[1], -3) = "Func")       ;custom context
+				{
+					; msgbox % profile.ahkHandles[1] "`n" profileIndex
+					fn := Func(profile.ahkHandles[1])
+					if %fn%()
+						return profile
+				}
+			}
+		}
+	}
+
 	If (!WinActive("ahk_group regApps"))
 		{
 		return Settings.appProfiles[1]
@@ -1791,10 +1901,11 @@ getActiveProfile()
 
 getProfileString(profile)
 {
-	; the json ahkHandles setting can be one of two things:
+	; the json ahkHandles setting can be one of three things:
 	; 1. "ahk_group regApps" for the default pie menu (bad choice of setting value though because its really if that ahkgroup is NOT active)
 	; 2. array of exes for focused app context sensitivity (prefixed with "ahk_exe " due to appendAHKTag() )
 	;    if 2, then we need to loop through and figure out which of the exes is currently active
+	; 3. a string ending in 'Func' containing the name of the function for a user defined custom context
 	firstAhkHandle := profile.ahkHandles[1]
 	if (SubStr(firstAhkHandle, 1, 7) = "ahk_exe")
 	{
@@ -1835,7 +1946,10 @@ blockBareKeys(hotkeyInput, hotkeyArray, blockState=true){
 	
 	for ahkHandleIndex, ahkHandle in ActiveProfile.ahkHandles
 	{
-		if (ahkHandle == "ahk_group regApps"){
+		if (SubStr(ahkHandle, -3) = "Func") {      ;custom context
+			fn := Func(ahkHandle)
+			Hotkey, If, % fn
+		} else if (ahkHandle == "ahk_group regApps"){
 			Hotkey, IfWinNotActive, ahk_group regApps
 		} else {
 			Hotkey, IfWinActive, % ahkHandle

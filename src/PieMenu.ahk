@@ -110,11 +110,17 @@ pieLabel: ;Fixed hotkey overlap "r and ^r", refactor this
 
 	ActiveProfile := getActiveProfile()
 	activeProfileString := getProfileString(ActiveProfile)
-	if (activeProfileString = "ahk_group regApps")
+	; tooltip % activeProfileString
+	if (SubStr(activeProfileString, -3) = "Func")       ;custom context
+	{
+		fn := Func(activeProfileString)
+		Hotkey, If, % fn
+	}
+	else if (activeProfileString = "ahk_group regApps")   ;default context
 	{
 		Hotkey, IfWinNotActive, ahk_group regApps
 	}
-	else
+	else                                                ;app specific context
 	{
 		Hotkey, IfWinActive, % activeProfileString
 	}
