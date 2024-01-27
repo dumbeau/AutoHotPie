@@ -453,9 +453,8 @@ getActiveMonitorDimensions()
 	}
 
 
-runPieMenu(profileNum, index, activePieNum=1)
+runPieMenu(p_activeProfile, index, activePieNum=1)
 	{
-	p_activeProfile := Settings.appProfiles[profileNum]
 	activePieKey := p_activeProfile.pieKeys[index]
 
 	PieOpenLocX := 0
@@ -1789,28 +1788,31 @@ getActiveProfile()
 			
 		}	
 	}
-getActiveProfileString()
+
+getProfileString(profile)
+{
+	; the json ahkHandles setting can be one of two things:
+	; 1. "ahk_group regApps" for the default pie menu (bad choice of setting value though because its really if that ahkgroup is NOT active)
+	; 2. array of exes for focused app context sensitivity (prefixed with "ahk_exe " due to appendAHKTag() )
+	;    if 2, then we need to loop through and figure out which of the exes is currently active
+	firstAhkHandle := profile.ahkHandles[1]
+	if (SubStr(firstAhkHandle, 1, 7) = "ahk_exe")
 	{
-	If (!WinActive("ahk_group regApps"))
-		{
-		return "ahk_group regApps"
-		}	
-	WinGet, activeWinProc, ProcessName, A
-	WinGetClass, activeWinClass, A
-	for profileIndex, profile in Settings.appProfiles ;Could refactor 
-		{
+		WinGet, activeWinProc, ProcessName, A
+		WinGetClass, activeWinClass, A
 		for ahkHandleIndex, ahkHandle in profile.ahkHandles
-			{
+		{
 			testAHKHandle := StrSplit(ahkHandle, " ", ,2)[2]
 			if (testAHKHandle == activeWinProc) || (testAHKHandle == activeWinClass)
 				{
 				; msgbox, profile.name
 				return testAHKHandle ; Could refactor and just pass the profile back as index 2
 				}				
-			}
-			
 		}	
 	}
+	else
+		return firstAhkHandle
+}
 
 hasValue(var, arr) {
 	arrOfKeys := []
