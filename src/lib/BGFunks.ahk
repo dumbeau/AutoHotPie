@@ -113,6 +113,8 @@ loadSettingsFile(){
 					AHPSettingsOpened := pie_openSettings()
 					if (AHPSettingsOpened == false){
 						Msgbox, % "No valid settings file found.`n`nPlace a valid settings file here and relaunch to load manually:`n" . UserDataFolder . "`n`nFolder will be opened when this message box is closed."
+						if !(FileExist(UserDataFolder))
+							FileCreateDir, %UserDataFolder%
 						Run, %UserDataFolder%
 						exitapp
 					}
