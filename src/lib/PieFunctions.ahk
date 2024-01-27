@@ -63,6 +63,17 @@ pie_sendKey(keyObject)
 	; msgbox, % keyObject.keys[4]	
 	
 
+pie_sendText(params)
+{
+	for index, txt in params.text
+	{
+		; msgbox pie_sendText`n%txt%
+		if (index = 1) ; just incase someone malforms the json
+			SendInput, {Text}%txt%
+	}
+}
+
+
 
 pie_mouseClick(params)
 	{
