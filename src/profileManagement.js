@@ -1,4 +1,3 @@
-
 var handleAppClose = {
     initialize:function(){
         addCloseWindowListener(e => {
@@ -472,6 +471,3 @@ var globalSettings = {
     githubBtn: document.getElementById('github-btn'),
     donateBtn: document.getElementById('paypal-donate-btn')
 }
-// profileManagement.initialize();
-// handleAppClose.initialize();
-// globalSettings.initialize();

@@ -1,2 +1,1 @@
-﻿#Requires AutoHotkey v1.1
-
+﻿#Requires AutoHotkey v2

@@ -124,6 +124,47 @@ loadSettingsFile(){
 	}
 }
 
+verifyFont(){
+	labelFont := Settings.global.globalAppearance.font
+	; labelFont := "Fake non real font name"
+	fontSize := Settings.global.globalAppearance.fontSize
+	StartDrawGDIP()
+	testFontDraw := Ceil(StrSplit(Gdip_TextToGraphics(G, "Test", "x20 y20 Center vCenter c00FFFFFF r4 s" . fontSize, labelFont),"|")[3])
+	reloadCountFile := A_WorkingDir . "\reloadCount.txt"
+	if (testFontDraw == 0){
+		print("Font not found.  Reloading...")
+		; Define the path to the file in the working directory
+		
+		; Read the current reload count from the file
+		FileRead, reloadCount, %reloadCountFile%
+		; If the file doesn't exist or is empty, initialize the count to 0
+		if (ErrorLevel || reloadCount == "")
+			reloadCount := 0
+		; Increment the reload count
+		if (reloadCount > 3){
+			print("Font not found after 3 attempts.  Using Arial.")
+			Settings.global.globalAppearance.font := "Arial"
+			Settings.global.globalAppearance.fontSize := 12
+			FileDelete, %reloadCountFile%
+		} else {
+			reloadCount++
+			; Write the new count back to the file
+			FileDelete, %reloadCountFile%
+			FileAppend, %reloadCount%, %reloadCountFile%
+			sleep, 500
+			Reload
+		}
+	} else {
+		; Font found, remove the reload count file if it exists.
+		FileDelete, %reloadCountFile%
+	}	
+	Gdip_SetCompositingMode(G, 1) ;idk if this matters but it looked p nice for images
+	ClearDrawGDIP()
+	EndDrawGDIP()
+}
+
+
+
 loadPieMenus(){
 	;Copy global profiles to other profiles
 	for k, pieKey in Settings.appProfiles[1].pieKeys
@@ -773,15 +814,6 @@ runPieMenu(profileNum, index, activePieNum=1)
 							pieLabelShown := false	
 							; msgbox, % "pieRegion=" pieRegion . "`nfPieRegion= " . fPieRegion . "`nButtons= " . (LButtonPressed_LastState != LButtonPressed) . "`npieLabelShown=" . pieLabelShown . "`nupdatePie=" . updatePie
 							
-							; if (ActivePieNumber != lastActivePieNumber){  ;Testing submenus
-							; 	msgbox, % ActivePieNumber
-							; }
-							; lastActivePieNumber := ActivePieNumber
-
-
-							;Handle Submenu selection							
-							; If ( (activePie.functions[pieRegion+1].function == "submenu") && (fPieRegion == 0) && (hoverToSelectActive == true) or ((activePie.functions[pieRegion+1].function == "submenu") && (updatePie == true)))
-							; If ( (activePie.functions[pieRegion+1].function == "submenu") && (mouse.distance > selectionRadius) && (hoverToSelectActive == true)) or ((activePie.functions[pieRegion+1].function == "submenu") && (updatePie == true))
 							If ( (activePie.functions[pieRegion+1].function == "submenu") && (mouse.distance > selectionRadius) && (hoverToSelectActive == true)) or ((activePie.functions[pieRegion+1].function == "submenu") && (updatePie == true))
 							{								
 								loadSliceHotkeys(activePie, false)		
@@ -1368,7 +1400,7 @@ drawPieLabel(activePieProfile, sliceFunction, xPos, yPos, selected:=0, anchor:="
 	textYOffset := Ceil(1*Mon.pieDPIScale) ;For slightly off center text
 
 	Gdip_SetSmoothingMode(G, 4)
-	textHeight := Ceil(StrSplit(Gdip_TextToGraphics(G, "W", textOptionsTest, labelFont),"|")[3])
+	textHeight := Ceil(StrSplit(Gdip_TextToGraphics(G, "W", textOptionsTest, labelFont),"|")[3]) ;Should this be index 4?
 
 
 	if (sliceHotkey != ""){
