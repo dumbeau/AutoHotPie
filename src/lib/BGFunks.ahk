@@ -1828,7 +1828,7 @@ blockBareKeys(hotkeyInput, hotkeyArray, blockState=true){
 	; msgbox, % "input: " . hotkeyInput
 	; msgbox, % hotkeyArray[1]
 	; msgbox, % hotkeyArray[2]
-	if hotkeyArray[1] = ""
+	if (hotkeyArray[1] = "")
 		return
 	
 	for ahkHandleIndex, ahkHandle in ActiveProfile.ahkHandles
@@ -1836,7 +1836,7 @@ blockBareKeys(hotkeyInput, hotkeyArray, blockState=true){
 		if (ahkHandle == "ahk_group regApps"){
 			Hotkey, IfWinNotActive, ahk_group regApps
 		} else {
-			Hotkey, IfWinActive, % fullAHKHandle
+			Hotkey, IfWinActive, % ahkHandle
 		}
 		bareKey := removeCharacters(hotkeyInput, "+^!#")
 
