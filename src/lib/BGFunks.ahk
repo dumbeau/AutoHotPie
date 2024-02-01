@@ -94,21 +94,27 @@ loadSettingsFile(){
 				break
 			}
 			if (loopFileFound){
+				; msgbox json found in scriptdir`ntherefore standalone=true
 				IsStandalone := true
 				return
 			} else {
+				; msgbox no json found in scriptdir`, so checking appdata
 				;Try opening from User AppData folder
 				settingsFileName := "AHPSettings.json"
 				UserDataFolder := A_AppData . "\AutoHotPie"
 				settingsFilePath := UserDataFolder . "\" . settingsFileName	
-				if ( FileExist(UserDataFolder) ){
+				if ( FileExist(settingsFilePath) ){
+					; msgbox json found in appdata`n%settingsFilePath%
 					FileRead, Settings, %settingsFilePath%					
 					Settings := Json.Load(Settings)							
 				} else {
+					; msgbox no json found in appdata
 					;Try to open AHP Settings
 					AHPSettingsOpened := pie_openSettings()
 					if (AHPSettingsOpened == false){
 						Msgbox, % "No valid settings file found.`n`nPlace a valid settings file here and relaunch to load manually:`n" . UserDataFolder . "`n`nFolder will be opened when this message box is closed."
+						if !(FileExist(UserDataFolder))
+							FileCreateDir, %UserDataFolder%
 						Run, %UserDataFolder%
 						exitapp
 					}
