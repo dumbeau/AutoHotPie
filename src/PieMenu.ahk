@@ -107,41 +107,24 @@ pieLabel: ;Fixed hotkey overlap "r and ^r", refactor this
 	PieLaunchedState := true
 	ActivePieHotkey := A_ThisHotkey
 
-	; msgbox, % ActivePieHotkey
-	; msgbox, % WinActive("ahk_exe explorer.exe")
-	If (!WinActive("ahk_group regApps"))
+
+	ActiveProfile := getActiveProfile()
+	activeProfileString := getProfileString(ActiveProfile)
+	; tooltip % activeProfileString
+	if (SubStr(activeProfileString, -3) = "Func")       ;custom context
 	{
-		profileIndex := 1
-		ActiveProfile := Settings.appProfiles[1]
+		fn := Func(activeProfileString)
+		Hotkey, If, % fn
+	}
+	else if (activeProfileString = "ahk_group regApps")   ;default context
+	{
 		Hotkey, IfWinNotActive, ahk_group regApps
 	}
-	else ;Registered applications
+	else                                                ;app specific context
 	{
-		;Get application and key
-		; WinGet, activeWinProc, ProcessName, A
-		activeWinProc := getActiveProfileString()
-		;lookup profile and key index
-		for profileIndex, profile in Settings.appProfiles
-		{
-			if profileIndex == 1
-				continue
-			; if ahk_group regApps not contains activeWindow
-			for ahkHandleIndex, ahkHandle in profile.ahkHandles
-			{
-				testAHKHandle := StrSplit(ahkHandle, " ", ,2)[2] ;Will test multiple program, may be broken
-				; msgbox, % testAHKHandle . " " activeWinProc
-				if (testAHKHandle == activeWinProc) ;Is this the right profile?
-				{
-					; msgbox, what
-					ActiveProfile := profile
-					; Hotkey, IfWinActive, % "ahk_exe " + activeWinProc
-					Hotkey, IfWinActive, % activeWinProc
-					break 2
-				}
-			}
-		}
+		Hotkey, IfWinActive, % activeProfileString
 	}
-
+	
 	;Push hotkey to hotkeyArray to be blocked when pie menus are running.
 	for k, pieKey in ActiveProfile.pieKeys
 	{
@@ -169,7 +152,7 @@ pieLabel: ;Fixed hotkey overlap "r and ^r", refactor this
 		if (menu.hotkey == ActivePieHotkey)
 		{
 			blockBareKeys(ActivePieHotkey, hotKeyArray, true)
-			funcAddress := runPieMenu(profileIndex, k)
+			funcAddress := runPieMenu(ActiveProfile, k)
 			PieLaunchedState := false
 
 			if (ActiveProfile.pieEnableKey.useEnableKey)
