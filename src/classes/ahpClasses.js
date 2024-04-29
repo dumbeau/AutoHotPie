@@ -1823,7 +1823,7 @@ class PieFunction {
                 shift:false,
                 ctrl:false,
                 alt:false,
-                drag:true
+                drag:false
             }
                 break;
             case "runScript":
