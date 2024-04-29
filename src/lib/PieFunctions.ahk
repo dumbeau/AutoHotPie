@@ -105,21 +105,22 @@ pie_mouseClick(params)
 		RemapLButton := ""
 		return
 	}
-pie_runScript(script)
-	{
-	script := script.filepath	
-	Try
-	{
-	If (SubStr(script, 1, 14) = "%A_WorkingDir%")
-		run, % A_WorkingDir . SubStr(script, 15)
-	else
-		run, % script
-	return
-	} catch e {
-		msgbox, % "Cannot run the script at:`n`n" . script
-	return
-	}
-	}
+pie_runScript(script) {
+    script := script.filepath
+    Try {
+        If (SubStr(script, 1, 14) = "%A_WorkingDir%") {
+            script := A_WorkingDir . SubStr(script, 15)
+        }
+        script := StrReplace(script, "%PieOpenLocX%", PieOpenLocX)
+        script := StrReplace(script, "%PieOpenLocY%", PieOpenLocY)
+        Run, % script
+        return
+    }
+    catch e {
+        MsgBox, % "Cannot run the script at:`n`n" . script
+        return
+    }
+}
 pie_openFolder(params){
 	directory := params.filePath	
 	if (FileExist(directory)){
