@@ -1,7 +1,7 @@
 {
   "name": "autohotpie",
   "productName": "AutoHotPie",
-  "version": "1.0.28-alpha",
+  "version": "1.0.29-alpha",
   "description": "Universal Pie Menus for Windows",
   "main": "main.js",
   "scripts": {

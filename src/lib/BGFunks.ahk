@@ -228,16 +228,16 @@ loadPieMenus(){
 				}			
 			If (profile.pieEnableKey.useEnableKey == true)
 				{
-				If (profile.pieEnableKey.toggle == true)
-					{					
-					Hotkey, % profile.pieEnableKey.enableKey, togglePieLabel				
-					}
-				else
-					{
-					Hotkey, % profile.pieEnableKey.enableKey, onPieLabel
-					upHotkey := profile.pieEnableKey.enableKey " up"
-					Hotkey, % upHotkey, offPieLabel
-					}
+					If (profile.pieEnableKey.toggle == true)
+						{					
+						Hotkey, % profile.pieEnableKey.enableKey, togglePieLabel				
+						}
+					else
+						{
+						Hotkey, % profile.pieEnableKey.enableKey, onPieLabel
+						upHotkey := profile.pieEnableKey.enableKey " up"
+						Hotkey, % upHotkey, offPieLabel
+						}
 				}
 		}
 	}
@@ -1680,16 +1680,21 @@ Class pieEnableKey{
 		if (SubStr(activeProfileString, -3) = "Func")       ;custom context
 			{
 			fn := Func(activeProfileString)
-			Hotkey, If, % fn
-			for pieKeyIndex, pieKey in ActiveProfile.pieKeys
-				Try Hotkey, % pieKey.hotkey, Toggle
+			Hotkey, If, % fn			
+			for pieKeyIndex, pieKey in ActiveProfile.pieKeys {
+				if (!pieKey.ignoreProfileEnableKey)
+					Try Hotkey, % pieKey.hotkey, Toggle				
+			}
+				
 			return
 			}
 		else if (activeProfileString = "ahk_group regApps")   ;default context
 			{
 			Hotkey, IfWinNotActive, ahk_group regApps
-			for menus in Settings.appProfiles[1].pieKeys
-				Hotkey, % Settings.appProfiles[1].pieKeys[menus].hotkey, Toggle
+			for pieKeyIndex, pieKey in Settings.appProfiles[1].pieKeys {
+				if (!pieKey.ignoreProfileEnableKey)
+					Try Hotkey, % pieKey.hotkey, Toggle ;Try may be unnecessary
+			}
 			return
 			}
 		Else                                                ;app specific context
@@ -1699,8 +1704,8 @@ Class pieEnableKey{
 				Hotkey, IfWinActive, % ahkHandle
 				for pieKeyIndex, pieKey in ActiveProfile.pieKeys
 				{
-					; msgbox, % pieKey.hotkey
-					Try Hotkey, % pieKey.hotkey, Toggle
+					if (!pieKey.ignoreProfileEnableKey)
+						Try Hotkey, % pieKey.hotkey, Toggle
 				}
 			}
 			; Hotkey, IfWinActive, % ActiveProfile.ahkHandles
@@ -1721,15 +1726,20 @@ Class pieEnableKey{
 			{
 			fn := Func(activeProfileString)
 			Hotkey, If, % fn
-			for pieKeyIndex, pieKey in ActiveProfile.pieKeys
-				Try Hotkey, % pieKey.hotkey, On
+			for pieKeyIndex, pieKey in ActiveProfile.pieKeys {
+				if (!pieKey.ignoreProfileEnableKey)
+					Try Hotkey, % pieKey.hotkey, On
+			}
+				
 			return
 			}
 		else if (activeProfileString = "ahk_group regApps")   ;default context
 			{
 			Hotkey, IfWinNotActive, ahk_group regApps
-			for menus in Settings.appProfiles[1].pieKeys
-				Try Hotkey, % Settings.appProfiles[1].pieKeys[menus].hotkey, On
+			for pieKeyIndex, pieKey in Settings.appProfiles[1].pieKeys {
+				if (!pieKey.ignoreProfileEnableKey)
+					Try Hotkey, % pieKey.hotkey, On
+			}				
 			return
 			}
 		Else                                                ;app specific context
@@ -1759,24 +1769,25 @@ Class pieEnableKey{
 		ActiveProfile := getActiveProfile()
 		activeProfileString := getProfileString(ActiveProfile)
 		; msgbox % activeProfileString
-		if (SubStr(activeProfileString, -3) = "Func")       ;custom context
-			{
+		if (SubStr(activeProfileString, -3) = "Func") {       ;custom context		
 			fn := Func(activeProfileString)
 			Hotkey, If, % fn
-			for pieKeyIndex, pieKey in ActiveProfile.pieKeys
-				Try Hotkey, % pieKey.hotkey, Off
-			}
-		else if (activeProfileString = "ahk_group regApps")   ;default context
-			{			
+			for pieKeyIndex, pieKey in ActiveProfile.pieKeys {
+				if (!pieKey.ignoreProfileEnableKey)
+					Try Hotkey, % pieKey.hotkey, Off
+			}				
+		}
+		else if (activeProfileString = "ahk_group regApps") {   ;default context						
 			Hotkey, IfWinNotActive, ahk_group regApps
-			for menus in Settings.appProfiles[1].pieKeys
-				{
-				If (Settings.appProfiles[1].pieKeys[menus].hotkey != ActivePieHotkey || true) ; Not sure why I added this
-					; msgbox, % Settings.appProfiles[1].pieKeys[menus].hotkey					
-					; if(ActivePieHotkey != Settings.appProfiles[1].pieKeys[menus].hotkey)
-						Try Hotkey, % Settings.appProfiles[1].pieKeys[menus].hotkey, Off					
-				}
+			for pieKeyIndex, pieKey in Settings.appProfiles[1].pieKeys {
+					If (pieKey.hotkey != ActivePieHotkey || true) { ; Not sure why I added this
+						; msgbox, % Settings.appProfiles[1].pieKeys[menus].hotkey					
+						; if(ActivePieHotkey != Settings.appProfiles[1].pieKeys[menus].hotkey)
+						If (!pieKey.ignoreProfileEnableKey)
+							Try Hotkey, % pieKey.hotkey, Off	
+					}				
 			}
+		}
 		Else ;Other application profile
 			{ 
 			; ActiveProfile := getActiveProfile()
@@ -1787,7 +1798,8 @@ Class pieEnableKey{
 				for pieKeyIndex, pieKey in ActiveProfile.pieKeys
 					{
 					; msgbox, % pieKey.hotkey	
-					; if (ActivePieHotkey != pieKey.hotkey)		
+					; if (ActivePieHotkey != pieKey.hotkey)	
+					If (!pieKey.ignoreProfileEnableKey)	
 						Try Hotkey, % pieKey.hotkey, Off
 					}
 				}

@@ -15,7 +15,7 @@
 <body style="height: 100%;">
     <div id="app-tabs" style="height: 100%;">
         <ul class="nav nav-tabs" role="tablist" name="hidden-tab-items" style="display:none">
-            <li class="nav-item" role="presentation"><a class="nav-link active" role="tab" data-bs-toggle="tab" href="#tab-1">Home</a></li>
+            <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-1">Home</a></li>
             <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-2">Edit Pie Menu</a></li>
             <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-3">Create New Profile</a></li>
             <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-34">Focus Timer</a></li>
@@ -33,10 +33,10 @@
             <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-28">Icon Manager</a></li>
             <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-29">Edit Script</a></li>
             <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-32">Error</a></li>
-            <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-33" name="loading-tab">Loading</a></li>
+            <li class="nav-item" role="presentation"><a class="nav-link active" role="tab" data-bs-toggle="tab" href="#tab-33" name="loading-tab">Loading</a></li>
         </ul>
         <div class="tab-content" style="height: 100%;">
-            <div class="tab-pane active" role="tabpanel" id="tab-1">
+            <div class="tab-pane" role="tabpanel" id="tab-1">
                 <div class="d-flex" style="height: 71px;background: linear-gradient(270deg, var(--bs-blue), var(--bs-teal));">
                     <div class="d-flex justify-content-start align-items-center align-items-md-center" style="width: 40%;"><button class="btn btn-secondary" id="settings-btn" type="button" style="margin-right: 14px;margin-left: 50px;"><i class="icon ion-gear-a" style="margin-right: 12px;"></i>Settings</button></div>
                     <div class="d-flex justify-content-center align-items-center align-items-md-center" style="width: 20%;"></div>
@@ -136,9 +136,9 @@
                         <div id="pie-menu-settings-tabs" style="margin: 1px;width: 996px;">
                             <ul class="nav nav-tabs nav-justified" role="tablist" style="font-size: 20px;">
                                 <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" id="global-appearance-tab" href="#tab-27">Global</a></li>
-                                <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" id="launch-settings-tab" href="#tab-8">Launch Settings</a></li>
+                                <li class="nav-item" role="presentation"><a class="nav-link active" role="tab" data-bs-toggle="tab" id="launch-settings-tab" href="#tab-8">Launch Settings</a></li>
                                 <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-9">Menu Appearance</a></li>
-                                <li class="nav-item" role="presentation"><a class="nav-link active" role="tab" data-bs-toggle="tab" href="#tab-10">Functions</a></li>
+                                <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-10">Functions</a></li>
                             </ul>
                             <div class="tab-content">
                                 <div class="tab-pane" role="tabpanel" id="tab-27">
@@ -168,7 +168,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="tab-pane" role="tabpanel" id="tab-8">
+                                <div class="tab-pane active" role="tabpanel" id="tab-8">
                                     <div style="margin-bottom: 15px;width: auto;padding: 27px;">
                                         <div class="d-flex align-items-center" style="margin-bottom: 9px;padding-left: 158px;">
                                             <h5 class="d-xxl-flex align-items-xxl-center" style="margin-bottom: -10px;margin-right: 15px;margin-top: -11px;">Activation Mode:</h5><button class="btn btn-primary" data-bs-toggle="tooltip" data-bss-tooltip="" data-bs-placement="right" id="change-activation-mode-btn" type="button" style="margin-right: 21px;min-width: 100px;" title="Change the behavior of launching the pie menu, activating sub menus and launching functions.">Change Activation Mode</button>
@@ -198,6 +198,12 @@
                                                 <h5 class="d-xxl-flex align-items-xxl-center" style="margin-bottom: -10px;margin-top: -11px;margin-right: 15px;">Clickable Functions:</h5>
                                             </div>
                                             <div class="form-check form-switch" data-bs-toggle="tooltip" data-bss-tooltip="" data-bs-placement="right" title="Allow functions to be clicked."><input class="form-check-input" type="checkbox" id="clickable-functions-checkbox"><label class="form-check-label" for="formCheck-7"></label></div>
+                                        </div>
+                                        <div class="d-flex align-items-center" style="margin-bottom: 9px;">
+                                            <div class="d-flex justify-content-end" style="width: 323.844px;">
+                                                <h5 class="d-xxl-flex align-items-xxl-center" style="margin-bottom: -10px;margin-top: -11px;margin-right: 15px;">Ignore Profile Enable Key:</h5>
+                                            </div>
+                                            <div class="form-check form-switch" data-bs-toggle="tooltip" data-bss-tooltip="" data-bs-placement="right" title="If checked, this hotkey will function regardless of the Profile Enable Key state."><input class="form-check-input" type="checkbox" id="ignore-profile-enable-key-checkbox"><label class="form-check-label" for="clickable-functions-checkbox-1"></label></div>
                                         </div>
                                         <div class="d-flex align-items-center" style="margin-bottom: 9px;">
                                             <div class="d-flex justify-content-end" style="width: 326.844px;">
@@ -288,7 +294,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="tab-pane active" role="tabpanel" id="tab-10">
+                                <div class="tab-pane" role="tabpanel" id="tab-10">
                                     <div style="width: auto;padding-right: 27px;padding-left: 27px;">
                                         <div class="justify-content-start" id="pie-menu-display-description" style="padding-top: 12px;padding-bottom: 12px;height: 65px;margin-top: 33px;">
                                             <div class="d-flex align-items-center"></div>
@@ -1119,7 +1125,7 @@
                     </div>
                 </div>
             </div>
-            <div class="tab-pane" role="tabpanel" id="tab-33" name="loading-pane">
+            <div class="tab-pane active" role="tabpanel" id="tab-33" name="loading-pane">
                 <div class="text-center d-flex flex-column justify-content-center align-items-center" style="width: 100%;height: 100vh;">
                     <div style="height: 20%;"></div>
                     <div class="text-center d-flex flex-column justify-content-center align-items-center" style="height: 60%;"><img id="loading-animation-2" src="assets/img/runPieMenus.gif" style="width: 300px;"></div>

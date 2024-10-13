@@ -1730,6 +1730,7 @@ class PieKey {
             enable: true,
             labelDelay: 0,
             globalMenu: false,
+            ignoreProfileEnableKey: false,
             activationMode: {
                 submenuMode: 1,
                 pieKeyAction: "None",
@@ -1763,7 +1764,7 @@ class PieMenu {
             labelRadius: 80,
             labelRoundness: 10,
             pieAngle: 0,
-            functions: [],
+            functions: []
         }  
         deepMerge(deepMerge(this, defaults),_pieMenu); 
         this.functions = [];       

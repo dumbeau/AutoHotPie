@@ -1023,6 +1023,7 @@ var editPieMenu = {
         },      
         escapeRadiusCheckbox: $('#enable-escape-radius-checkbox'),
         escapeRadiusSlider: $('#escape-radius-slider'),
+        ignoreProfileEnableKeyCheckbox: $('#ignore-profile-enable-key-checkbox'),
         clickableFunctionsCheckbox: document.getElementById('clickable-functions-checkbox'),
         openMenuInCenterCheckbox: $('#force-center-screen-checkbox'),
         decoupleMouse:{
@@ -1070,6 +1071,10 @@ var editPieMenu = {
                 editPieMenu.pieMenuDisplay.refresh();
             });
 
+            this.ignoreProfileEnableKeyCheckbox.change((e)=>{
+                editPieMenu.selectedPieKey.activationMode.ignoreProfileEnableKey = this.ignoreProfileEnableKeyCheckbox.is(":checked");
+            });
+
             let clickableFunctionsCheckbox = this.clickableFunctionsCheckbox
             clickableFunctionsCheckbox.addEventListener('click',function(){                
                 editPieMenu.selectedPieKey.activationMode.clickableFunctions = clickableFunctionsCheckbox.checked;                                
@@ -1091,7 +1096,8 @@ var editPieMenu = {
                 this.pieKeyAction.select.val(actMode.pieKeyAction);
             } else {this.pieKeyAction.div.hide();}
             this.clickableFunctionsCheckbox.checked = actMode.clickableFunctions;
-            this.escapeRadiusCheckbox.prop('checked', editPieMenu.selectedPieKey.activationMode.escapeRadius.enable);        
+            this.escapeRadiusCheckbox.prop('checked', editPieMenu.selectedPieKey.activationMode.escapeRadius.enable);  
+            this.ignoreProfileEnableKeyCheckbox.prop('checked', editPieMenu.selectedPieKey.activationMode.ignoreProfileEnableKey);      
             this.openMenuInCenterCheckbox.prop('checked', editPieMenu.selectedPieKey.activationMode.openMenuInCenter);
             this.decoupleMouse.checkbox.prop('checked', editPieMenu.selectedPieKey.activationMode.decoupleMouse);
             function getEscapeRadiusMinimum(){    
