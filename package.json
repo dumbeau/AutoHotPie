@@ -11,6 +11,7 @@
     "start": "npm run build && electron .",
     "build": "npm run refresh-index-scripts",
     "build-installer": "npm run build && npm run build-ahk && electron-builder",
+    "setup-ahk": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/setup-ahk-v1.ps1",
     "build-ahk": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/build-ahk.ps1",
     "refresh-index-scripts": "node build/refreshIndexScripts.js",
     "verify": "node scripts/verify-lockfile.js && node build/refreshIndexScripts.js --check",

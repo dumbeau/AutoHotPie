@@ -98,6 +98,9 @@ blob-report/
 *.diag.log
 .reloadCount.txt
 
+# Compiler checksum sidecars (uploaded as CI artifacts)
+*.exe.sha256
+
 # Keep shared project rules; ignore local Cursor state
 .cursor/*
 !.cursor/rules/

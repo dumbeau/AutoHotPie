@@ -3,16 +3,34 @@ $ErrorActionPreference = "Stop"
 
 $repoRoot = Resolve-Path (Join-Path $PSScriptRoot "..")
 $script = Join-Path $repoRoot "tests\ahk\run-tests.ahk"
+$toolchainPath = Join-Path $repoRoot "build\ahk-toolchain.json"
+$toolchain = Get-Content $toolchainPath -Raw | ConvertFrom-Json
 
-$candidates = @(
+$candidates = @()
+if ($env:AHK_V1_PATH) {
+    $candidates += $env:AHK_V1_PATH
+}
+if ($toolchain.interpreterCandidates) {
+    $candidates += @($toolchain.interpreterCandidates)
+}
+$candidates += @(
     "$env:ProgramFiles\AutoHotkey\AutoHotkeyU64.exe",
     "$env:ProgramFiles\AutoHotkey\v1.1\AutoHotkeyU64.exe",
     "${env:ProgramFiles(x86)}\AutoHotkey\AutoHotkeyU64.exe"
 )
 
-$ahk = $candidates | Where-Object { Test-Path $_ } | Select-Object -First 1
+$ahk = $null
+foreach ($candidate in $candidates) {
+    if ([string]::IsNullOrWhiteSpace($candidate)) { continue }
+    $expanded = [Environment]::ExpandEnvironmentVariables($candidate)
+    if (Test-Path -LiteralPath $expanded) {
+        $ahk = (Resolve-Path -LiteralPath $expanded).Path
+        break
+    }
+}
+
 if (-not $ahk) {
-    Write-Warning "AutoHotkey v1.1 not installed; skipping AHK tests."
+    Write-Warning "AutoHotkey v1.1 not installed; skipping AHK tests. Set AHK_V1_PATH or run scripts/setup-ahk-v1.ps1."
     exit 0
 }
 
