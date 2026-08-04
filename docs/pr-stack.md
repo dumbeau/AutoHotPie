@@ -10,3 +10,5 @@ Merged modernization sequence:
 6. [#11 release docs](https://github.com/combwizard/AutoHotPie/pull/11) — triage + release ownership for the fork
 
 All of the above are merged to `master`.
+
+Next workstreams (hotkeys, input cleanup, startup, GDI+, Send Text, AHK v2 parity) are ordered in [continuation-plan.md](continuation-plan.md).

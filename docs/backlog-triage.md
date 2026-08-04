@@ -1,6 +1,6 @@
 # Backlog triage
 
-Use this when converting upstream or fork issues into work that can land through the PR sequence in `.cursor/rules/github-delivery.mdc`.
+Use this when converting upstream or fork issues into work that can land through the PR sequence in `.cursor/rules/github-delivery.mdc` and the issue-informed workstreams in [continuation-plan.md](continuation-plan.md).
 
 ## Labels
 

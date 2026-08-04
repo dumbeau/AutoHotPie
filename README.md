@@ -77,7 +77,7 @@ npm start
 | `npm run build-installer` | Build NSIS installer into `dist/` |
 | `npm run verify` | Lockfile + generated `index.html` check |
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) and [docs/architecture.md](docs/architecture.md).
+See [CONTRIBUTING.md](CONTRIBUTING.md), [docs/architecture.md](docs/architecture.md), and the [continuation plan](docs/continuation-plan.md) for modernization stages and issue-informed workstreams.
 
 ### Modifying the HTML/CSS
 

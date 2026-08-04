@@ -21,4 +21,4 @@ Renderer code is untrusted. Privileged filesystem/process work belongs in the El
 
 ## Modernization stages
 
-See the continuation plan. Work ships as small GitHub PRs with tests at each gate.
+See the [continuation plan](continuation-plan.md) for the stage sequence, issue-informed workstreams, and acceptance gates. Work ships as small GitHub PRs with tests at each gate. Upstream reports are evidence; defects need a reproducible case and a regression fixture before implementation ([backlog triage](backlog-triage.md)).
