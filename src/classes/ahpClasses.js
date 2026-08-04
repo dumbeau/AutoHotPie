@@ -1509,16 +1509,22 @@ class AHPSettings {
             p_global.functionConfig.custom.push(tempFunction);       
         }
 
-        this.global.functionConfig.custom = [];
-        if (
+        const incomingCustom =
             _settingsObj &&
             _settingsObj.global &&
             _settingsObj.global.functionConfig &&
-            Array.isArray(_settingsObj.global.functionConfig.custom)
-        ) {
-            this.global.functionConfig.custom = _settingsObj.global.functionConfig.custom.map(
+            _settingsObj.global.functionConfig.custom;
+        if (typeof AHPDomain !== "undefined" && AHPDomain.normalizeCustomFunctions) {
+            this.global.functionConfig.custom = AHPDomain.normalizeCustomFunctions(
+                incomingCustom,
                 (customFunc) => new CustomFunction(customFunc)
             );
+        } else if (Array.isArray(incomingCustom)) {
+            this.global.functionConfig.custom = incomingCustom.map(
+                (customFunc) => new CustomFunction(customFunc)
+            );
+        } else {
+            this.global.functionConfig.custom = [];
         }
         if (this.schemaVersion == null) {
             this.schemaVersion = 1;
@@ -1560,6 +1566,13 @@ class AHPSettings {
             AutoHotPieSettings.global.functionConfig.custom = [];
         }
         let tempFunction = new CustomFunction(customFuncObj);
+        if (typeof AHPDomain !== "undefined" && AHPDomain.upsertCustomFunction) {
+            AutoHotPieSettings.global.functionConfig.custom = AHPDomain.upsertCustomFunction(
+                AutoHotPieSettings.global.functionConfig.custom,
+                tempFunction
+            );
+            return tempFunction;
+        }
         for (let customFunctionIndex in AutoHotPieSettings.global.functionConfig.custom){
             let p_customFunc = AutoHotPieSettings.global.functionConfig.custom[customFunctionIndex];
             if (p_customFunc.id == tempFunction.id){
