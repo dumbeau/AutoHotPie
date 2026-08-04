@@ -1,0 +1,33 @@
+---
+description: Electron trust boundary and preload IPC rules
+globs: main.js,src/preload.js,src/**/*.js,src/index.html
+alwaysApply: false
+---
+
+# Electron security
+
+Treat the renderer as untrusted. Privileged work belongs in the main process.
+
+## Required direction
+
+- Prefer `contextIsolation: true`, sandbox on, no `enableRemoteModule`
+- Preload exposes thin typed wrappers only — never raw `fs`, `child_process`, or `windowManager`
+- Use async `ipcMain.handle` / `ipcRenderer.invoke` instead of sync `sendSync`/`returnValue`
+- Spawn processes without `shell: true`
+- Validate URL schemes before `shell.openExternal`
+- Validate imported settings against schema before writing userData
+
+## Rendering user data
+
+```javascript
+// BAD — settings/profile names can become XSS into privileged preload
+el.innerHTML = profile.name;
+$(el).html(heading);
+
+// GOOD
+el.textContent = profile.name;
+```
+
+## Path resolution
+
+Resolve packaged vs dev paths in one place. Do not assume `__dirname + '/../src'` is valid in both layouts.

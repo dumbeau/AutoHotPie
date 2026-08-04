@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 1,
+  "global": {
+    "pieTips": true,
+    "enableEscapeKeyMenuCancel": true,
+    "app": {
+      "sourceFileName": "AHPSettings.json",
+      "version": "1.0.29-alpha"
+    },
+    "startup": {
+      "runOnStartup": false,
+      "runAHKPieMenus": false,
+      "runOnAppQuit": true,
+      "alwaysRunOnAppQuit": false
+    },
+    "globalAppearance": {
+      "font": "Arial",
+      "fontSize": 14
+    },
+    "functionConfig": {
+      "common": [],
+      "custom": [
+        {
+          "name": "Hello Box",
+          "description": "Shows a message box",
+          "optionType": "Custom Options",
+          "controls": [],
+          "ahkFunction": "customFunction",
+          "id": "d0e0dc2d-b756-4262-a793-24aa17435d5c",
+          "associatedProgram": "",
+          "params": {},
+          "ahkScript": "MsgBox, Hello",
+          "commonPlacement": { "center": false, "slice": true }
+        }
+      ]
+    }
+  },
+  "appProfiles": [
+    {
+      "name": "Default Profile",
+      "ahkHandles": ["ahk_group regApps"],
+      "enable": true,
+      "pieEnableKey": {
+        "useEnableKey": false,
+        "enableKey": "capslock",
+        "toggle": false,
+        "sendOriginalFunc": false
+      },
+      "pieKeys": []
+    }
+  ]
+}

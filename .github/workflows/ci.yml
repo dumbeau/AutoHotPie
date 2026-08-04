@@ -1,0 +1,153 @@
+name: CI
+
+on:
+  push:
+    branches: [master, main]
+  pull_request:
+    branches: [master, main]
+
+jobs:
+  unit:
+    name: Unit and verify
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install dependencies
+        shell: pwsh
+        run: |
+          # Skip native rebuilds (node-window-manager) — unit tests do not need them,
+          # and windows-latest currently exposes a VS version node-gyp cannot resolve.
+          npm ci --ignore-scripts
+          node node_modules/esbuild/install.js
+
+      - name: Verify lockfile and index.html
+        run: npm run verify
+
+      - name: Unit tests
+        run: npm test
+
+      - name: Syntax-check first-party JS
+        shell: pwsh
+        run: |
+          $files = Get-ChildItem -Recurse -File -Include *.js |
+            Where-Object {
+              $_.FullName -notmatch '\\node_modules\\|\\assets\\|\\dist\\' -and
+              $_.Name -ne 'jscolor.js' -and
+              $_.Name -notmatch '\.min\.js$'
+            }
+          foreach ($f in $files) {
+            node --check $f.FullName
+            if ($LASTEXITCODE -ne 0) { throw "Syntax check failed: $($f.FullName)" }
+          }
+
+  ahk:
+    name: AHK compile
+    runs-on: windows-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install AutoHotkey v1.1 (portable zip)
+        shell: pwsh
+        run: |
+          $version = "1.1.37.02"
+          $zip = Join-Path $env:TEMP "AutoHotkey_${version}.zip"
+          $dest = Join-Path $env:TEMP "AutoHotkey-${version}"
+          $uri = "https://github.com/AutoHotkey/AutoHotkey/releases/download/v${version}/AutoHotkey_${version}.zip"
+          Invoke-WebRequest -Uri $uri -OutFile $zip
+          $expected = "6F3663F7CDD25063C8C8728F5D9B07813CED8780522FD1F124BA539E2854215F"
+          $actual = (Get-FileHash -Algorithm SHA256 $zip).Hash
+          if ($actual -ne $expected) {
+            throw "AHK zip hash mismatch. Expected $expected got $actual"
+          }
+          if (Test-Path $dest) { Remove-Item -Recurse -Force $dest }
+          Expand-Archive -Path $zip -DestinationPath $dest
+          # Expose compiler paths to the build wrapper via toolchain override env.
+          $ahk2exe = Get-ChildItem -Path $dest -Recurse -Filter Ahk2Exe.exe | Select-Object -First 1 -ExpandProperty FullName
+          $bin = Get-ChildItem -Path $dest -Recurse -Filter "Unicode 64-bit.bin" | Select-Object -First 1 -ExpandProperty FullName
+          if (-not $ahk2exe -or -not $bin) { throw "AHK portable zip missing Ahk2Exe or Unicode 64-bit.bin" }
+          "AHK2EXE_PATH=$ahk2exe" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+          "AHK_BIN_PATH=$bin" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+
+      - name: Compile PieMenu.exe
+        shell: pwsh
+        run: npm run build-ahk
+        env:
+          AHK2EXE_PATH: ${{ env.AHK2EXE_PATH }}
+          AHK_BIN_PATH: ${{ env.AHK_BIN_PATH }}
+
+      - name: Upload PieMenu.exe
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: PieMenu-exe
+          path: src/PieMenu.exe
+
+  electron-smoke:
+    name: Electron smoke
+    runs-on: windows-latest
+    needs: unit
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install dependencies
+        shell: pwsh
+        run: |
+          npm ci --ignore-scripts
+          node node_modules/esbuild/install.js
+          node node_modules/electron/install.js
+
+      - name: Install Playwright browsers
+        run: npx playwright install chromium
+
+      - name: Electron smoke tests
+        run: npm run test:e2e
+        env:
+          AHP_USER_DATA: ${{ runner.temp }}\ahp-userdata
+
+  package:
+    name: Package unpacked
+    runs-on: windows-latest
+    needs: [unit]
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main')
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install dependencies
+        shell: pwsh
+        run: |
+          npm ci --ignore-scripts
+          node node_modules/esbuild/install.js
+          node node_modules/electron/install.js
+
+      - name: Build index scripts
+        run: npm run build
+
+      - name: Electron builder (dir)
+        run: npx electron-builder --dir --win
+
+      - name: Verify unpacked layout
+        shell: pwsh
+        run: ./scripts/verify-artifacts.ps1
+
+      - name: Upload unpacked app
+        uses: actions/upload-artifact@v4
+        with:
+          name: win-unpacked
+          path: dist/win-unpacked/**

@@ -3,7 +3,11 @@
 const fs = require("fs");
 const path = require("path");
 const { ipcRenderer , contextBridge, shell, app, BrowserWindow, ipcMain } = require('electron');
-const { windowManager } = require("node-window-manager");
+
+function getWindowManager() {
+  // Lazy-load so Electron can boot in CI without a native node-gyp rebuild.
+  return require("node-window-manager").windowManager;
+}
 
 // var exec = require('child_process').execFile;
 const child_process = require('child_process');
@@ -655,7 +659,7 @@ contextBridge.exposeInMainWorld('getActiveWindowProcess', () => {
     let delaySeconds = 5;
     function getActiveWindow(){
       let exe = {path:"",name:""};
-      exe.path = windowManager.getActiveWindow().path;
+      exe.path = getWindowManager().getActiveWindow().path;
       exe.name = path.basename(exe.path);      
       if (["autohotpie.exe","electron.exe"].includes(exe.name.toString().toLowerCase())){        
         reject();        
@@ -667,9 +671,7 @@ contextBridge.exposeInMainWorld('getActiveWindowProcess', () => {
   })
 });
 
-contextBridge.exposeInMainWorld('windowManager', windowManager);
-
-
+// Do not expose the full native windowManager object to the renderer.
 
 contextBridge.exposeInMainWorld('menuListener', function(func){
   ipcRenderer.on('menuSelected', function(event, arg){

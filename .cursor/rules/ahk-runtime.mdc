@@ -1,0 +1,25 @@
+---
+description: AutoHotkey v1 runtime conventions and reliability rules
+globs: "**/*.ahk"
+alwaysApply: false
+---
+
+# AHK runtime
+
+Production runtime is **AutoHotkey v1.1** (`#Requires AutoHotKey v1.1.34.04+`). Keep v1 releasable while any v2 work is side-by-side.
+
+## Reliability
+
+- Hotkey registration order matters (custom context → default → app profiles)
+- Clean up temporary slice hotkeys after the menu closes
+- Prefer process-specific launch detection over matching generic `AutoHotkey`
+- Align DPI awareness; avoid full `Reload` for display changes when targeted reinit works
+- Keep geometry/helpers shared with JS tests when extracting pure functions
+
+## Naming
+
+Use one spelling for globals (e.g. `IsStandAlone`). Fix typos instead of adding aliases that diverge.
+
+## Actions
+
+Dispatch built-ins through an explicit registry over time. Custom functions that run user AHK are a trust boundary — validate before write/execute.

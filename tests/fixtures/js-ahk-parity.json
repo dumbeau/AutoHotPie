@@ -1,0 +1,16 @@
+{
+  "calcAngle": [
+    { "a": [0, 0], "b": [1, 0], "expected": 0 },
+    { "a": [0, 0], "b": [0, -1], "expected": 270 },
+    { "a": [0, 0], "b": [-1, 0], "expected": 180 }
+  ],
+  "cycleRange": [
+    { "num": 370, "range": 360, "expected": 10 },
+    { "num": -10, "range": 360, "expected": 350 },
+    { "num": 360, "range": 360, "expected": 0 }
+  ],
+  "extendAlongAngle": [
+    { "iPos": [100, 100], "theta": 0, "distance": 10, "expected": [100, 90] },
+    { "iPos": [100, 100], "theta": 90, "distance": 10, "expected": [110, 100] }
+  ]
+}

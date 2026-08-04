@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "global": {
+    "pieTips": true,
+    "enableEscapeKeyMenuCancel": true,
+    "app": {
+      "sourceFileName": "AHPSettings.json",
+      "version": "1.0.29-alpha"
+    },
+    "startup": {
+      "runOnStartup": false,
+      "runAHKPieMenus": false,
+      "runOnAppQuit": true,
+      "alwaysRunOnAppQuit": false
+    },
+    "globalAppearance": {
+      "font": "Arial",
+      "fontSize": 14,
+      "iconSize": 24
+    },
+    "functionConfig": {
+      "common": [],
+      "custom": []
+    }
+  },
+  "appProfiles": [
+    {
+      "name": "Default Profile",
+      "ahkHandles": ["ahk_group regApps"],
+      "enable": true,
+      "pieEnableKey": {
+        "useEnableKey": false,
+        "enableKey": "capslock",
+        "toggle": false,
+        "sendOriginalFunc": false
+      },
+      "pieKeys": []
+    }
+  ]
+}

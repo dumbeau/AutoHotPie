@@ -1,0 +1,14 @@
+{
+  "ahkVersionMin": "1.1.34.04",
+  "ahk2exeCandidates": [
+    "%ProgramFiles%\\AutoHotkey\\Compiler\\Ahk2Exe.exe",
+    "%ProgramFiles(x86)%\\AutoHotkey\\Compiler\\Ahk2Exe.exe"
+  ],
+  "binCandidates": [
+    "%ProgramFiles%\\AutoHotkey\\Compiler\\Unicode 64-bit.bin",
+    "%ProgramFiles(x86)%\\AutoHotkey\\Compiler\\Unicode 64-bit.bin"
+  ],
+  "input": "src\\PieMenu.ahk",
+  "output": "src\\PieMenu.exe",
+  "icon": "src\\assets\\AutoHotPieIcon.ico"
+}

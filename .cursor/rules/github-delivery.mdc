@@ -1,0 +1,34 @@
+---
+description: Small, reviewable GitHub commits and PRs for modernization
+alwaysApply: true
+---
+
+# GitHub delivery
+
+Deliver work in small, buildable chunks. Prefer a linear sequence of short-lived branches over one long modernization branch.
+
+## Commits
+
+- One purpose per commit: deps, refactor, fix, tests, docs, or generated files — not mixed
+- Include the regression test with the fix (or a preceding test-only commit that fails first)
+- Keep each commit buildable on Windows
+
+## Pull requests
+
+- One independently reviewable outcome per PR
+- Link issue, acceptance gate, tests, and migration impact
+- Rebase onto the merged predecessor so the PR shows only its own delta
+
+## Preferred sequence
+
+1. Build metadata / toolchain
+2. CI skeleton
+3. Pure test seams
+4. Settings schema + fixtures
+5. Electron smoke harness
+6. Correctness fixes (one area per PR)
+7. Renderer injection hardening
+8. IPC hardening by capability group
+9. Editor module extraction
+10. Runtime reliability (hotkeys, modes, DPI, etc.)
+11. AHK v2 subsystem ports

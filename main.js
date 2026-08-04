@@ -2,6 +2,7 @@
 const {app, ipcMain, dialog, contextBridge, BrowserWindow, Menu, MenuItem, shell} = require('electron')
 const path = require('path')
 const fs = require('fs')
+const { getUserDataFolder } = require('./src/main/paths')
 // const { isDataView } = require('util/types')
 
 
@@ -32,7 +33,7 @@ function createWindow() {
   mainWindow.loadFile('src/index.html')
 
   // Open the DevTools.
-  if (isDev()){
+  if (isDev() && !process.env.AHP_ELECTRON_TEST){
     mainWindow.webContents.openDevTools()
   }
   // mainWindow.webContents.openDevTools() //Use if debug exe needed
@@ -49,6 +50,9 @@ function createWindow() {
     // mainWindow.webContents.send('windowResized',mainWindow.getSize())
   });
   mainWindow.on('close', async e => {
+    if (process.env.AHP_ELECTRON_TEST) {
+      return
+    }
     e.preventDefault()
     mainWindow.webContents.send('attemptClose')
   })
@@ -56,7 +60,7 @@ function createWindow() {
     mainWindow.destroy();
   });
   ipcMain.on('getUserDataFolder', function(event){
-    event.returnValue = app.getPath('userData');
+    event.returnValue = getUserDataFolder(app);
   });
   ipcMain.on('setRunOnLogin', function(event, runOnLogin, isAHK){    
     let usePath

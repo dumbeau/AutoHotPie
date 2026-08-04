@@ -88,3 +88,17 @@ typings/
 
 # Electron-Forge
 out/
+
+# Playwright
+test-results/
+playwright-report/
+blob-report/
+
+# Local diagnostics / tooling
+*.diag.log
+.reloadCount.txt
+
+# Keep shared project rules; ignore local Cursor state
+.cursor/*
+!.cursor/rules/
+!.cursor/rules/**
