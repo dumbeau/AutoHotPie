@@ -1,0 +1,88 @@
+{
+  "schemaVersion": 1,
+  "global": {
+    "pieTips": true,
+    "enableEscapeKeyMenuCancel": true,
+    "app": {
+      "sourceFileName": "AHPSettings.json",
+      "version": "1.0.29-alpha"
+    },
+    "startup": {
+      "runOnStartup": false,
+      "runAHKPieMenus": false,
+      "runOnAppQuit": true,
+      "alwaysRunOnAppQuit": false
+    },
+    "globalAppearance": {
+      "font": "Arial",
+      "fontSize": 14,
+      "iconSize": 24
+    },
+    "functionConfig": {
+      "common": [],
+      "custom": []
+    }
+  },
+  "appProfiles": [
+    {
+      "name": "Default Profile",
+      "ahkHandles": ["ahk_group regApps"],
+      "enable": true,
+      "pieEnableKey": {
+        "useEnableKey": false,
+        "enableKey": "capslock",
+        "toggle": false,
+        "sendOriginalFunc": false
+      },
+      "pieKeys": [
+        {
+          "name": "Main Pie",
+          "hotkey": "xbutton1",
+          "enable": true,
+          "labelDelay": 0,
+          "globalMenu": false,
+          "activationMode": {
+            "submenuMode": 1,
+            "pieKeyAction": "None",
+            "clickableFunctions": true,
+            "escapeRadius": { "enable": false, "radius": 150 },
+            "openMenuInCenter": false,
+            "decoupleMouse": false,
+            "keyReleaseDelay": true
+          },
+          "pieMenus": [
+            {
+              "backgroundColor": [35, 35, 35, 255],
+              "selectionColor": [30, 232, 226, 255],
+              "radius": 20,
+              "thickness": 10,
+              "labelRadius": 80,
+              "functions": [
+                {
+                  "function": "none",
+                  "params": {},
+                  "label": "Center",
+                  "hotkey": "",
+                  "clickable": false,
+                  "icon": { "filePath": "", "WBOnly": true }
+                },
+                {
+                  "function": "sendKey",
+                  "params": {
+                    "keys": ["^c"],
+                    "keyDelay": 20,
+                    "delayKeyRelease": false
+                  },
+                  "label": "Copy",
+                  "hotkey": "",
+                  "clickable": true,
+                  "icon": { "filePath": "SendKey.png", "WBOnly": true }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

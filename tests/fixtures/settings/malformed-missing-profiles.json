@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "global": {
+    "startup": {
+      "runOnStartup": false
+    },
+    "globalAppearance": {}
+  }
+}
