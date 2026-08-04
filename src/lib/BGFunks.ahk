@@ -95,7 +95,7 @@ loadSettingsFile(){
 			}
 			if (loopFileFound){
 				; msgbox json found in scriptdir`ntherefore standalone=true
-				IsStandalone := true
+				IsStandAlone := true
 				return
 			} else {
 				; msgbox no json found in scriptdir`, so checking appdata
@@ -2066,7 +2066,8 @@ class MonitorManager {
     DPI_AWARENESS_CONTEXT_SYSTEM_AWARE := -2
     DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE := -3
     DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2 := -4
-    DllCall("User32\SetProcessDpiAwarenessContext", "UInt" , DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE)
+    ; Align with PieMenu.ahk thread context (PER_MONITOR_AWARE_V2).
+    DllCall("User32\SetProcessDpiAwarenessContext", "ptr", DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2)
     ;; pneumatic: -DPIScale not working properly (https://www.autohotkey.com/boards/viewtopic.php?p=241869&sid=abb2db983d2b3966bc040c3614c0971e#p241869)
     
     ptr := A_PtrSize ? "Ptr" : "UInt"

@@ -12,9 +12,11 @@ SetControlDelay, 0	; Changed to 0 upon recommendation of documentation
 #Include %A_ScriptDir%\lib\BGFunks.ahk
 #Include %A_ScriptDir%\lib\PieFunctions.ahk
 #Include %A_ScriptDir%\lib\Json.ahk
+#Include %A_ScriptDir%\lib\diagnostics.ahk
 
-;Set Per monitor DPI awareness: https://www.autohotkey.com/boards/viewtopic.php?p=295182#p295182
-DllCall("SetThreadDpiAwarenessContext", "ptr", -3, "ptr")
+; Per-monitor DPI awareness v2 (-4). Keep process/thread contexts aligned.
+; https://learn.microsoft.com/windows/win32/hidpi/dpi-awareness-context
+DllCall("SetThreadDpiAwarenessContext", "ptr", -4, "ptr")
 CoordMode, Mouse, Screen
 SetTitleMatchMode, RegEx ;May not need this anymore
 
@@ -24,6 +26,7 @@ if (!A_IsCompiled)
 
 global DebugMode := false
 ; DebugMode := true
+AHP_DiagInit(DebugMode, A_Temp . "\AutoHotPie-diag.log")
 global RemapLButton := ""
 
 ;Read Json Settings file to object from AppData\Local\AutoHotPie
