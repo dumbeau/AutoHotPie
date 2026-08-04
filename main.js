@@ -50,6 +50,9 @@ function createWindow() {
     // mainWindow.webContents.send('windowResized',mainWindow.getSize())
   });
   mainWindow.on('close', async e => {
+    if (process.env.AHP_ELECTRON_TEST) {
+      return
+    }
     e.preventDefault()
     mainWindow.webContents.send('attemptClose')
   })

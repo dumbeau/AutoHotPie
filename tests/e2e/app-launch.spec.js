@@ -29,8 +29,22 @@ test.describe("Electron smoke", () => {
   });
 
   test.afterEach(async () => {
-    if (app) {
-      await app.close();
+    if (!app) return;
+    try {
+      await Promise.race([
+        app.close(),
+        new Promise((_, reject) =>
+          setTimeout(() => reject(new Error("electron close timed out")), 15000)
+        ),
+      ]);
+    } catch {
+      try {
+        await app.evaluate(({ app: electronApp }) => electronApp.exit(0));
+      } catch {
+        // process may already be gone
+      }
+    } finally {
+      app = undefined;
     }
   });
 
