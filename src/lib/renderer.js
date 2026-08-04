@@ -49,11 +49,12 @@ function getKeyByValue(object, value) {
 }
 
 function getIndexOfObjByKeyValue(objects, key, value){
-    objects.forEach(function(val, index){
-        if(val[key] == value){
-            return index
+    for (let index = 0; index < objects.length; index++) {
+        if (objects[index][key] == value) {
+            return index;
         }
-    })
+    }
+    return -1;
 };
 
 function calcAngle(aX,aY,bX,bY){

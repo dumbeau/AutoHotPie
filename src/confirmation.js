@@ -52,17 +52,13 @@ async function confirmDialog(options){
         secondaryText:""
     }    
     var setting = Object.assign({}, defaults, options);
-    cd.heading.innerHTML = setting.heading;
-    cd.description.innerHTML = setting.description;
-    cd.cancelBtn.innerHTML = setting.cancelText;
-    cd.confirmBtn.innerHTML = setting.confirmText;
+    cd.heading.textContent = setting.heading;
+    cd.description.textContent = setting.description;
+    cd.cancelBtn.textContent = setting.cancelText;
+    cd.confirmBtn.textContent = setting.confirmText;
     
-    let visibilityState = "hidden"
-    if (setting.askAgainBox == true) {
-        visibilityState = "none"
-    }
-    cd.showAgainDiv.style.visibility = visibilityState;
-    cd.askAgainLabel.innerHTML = setting.askAgainLabel;
+    cd.showAgainDiv.style.visibility = setting.askAgainBox ? "visible" : "hidden";
+    cd.askAgainLabel.textContent = setting.askAgainLabel;
     
     if(setting.secondaryText != ""){
         cd.secondaryCancelBtn.show();

@@ -4,11 +4,6 @@ const fs = require("fs");
 const path = require("path");
 const { ipcRenderer , contextBridge, shell, app, BrowserWindow, ipcMain } = require('electron');
 
-function getWindowManager() {
-  // Lazy-load so Electron can boot in CI without a native node-gyp rebuild.
-  return require("node-window-manager").windowManager;
-}
-
 // var exec = require('child_process').execFile;
 const child_process = require('child_process');
 const { clearInterval } = require("timers");
@@ -56,16 +51,24 @@ function loadJSONFile(JSONFile){
 }
 function saveJSONFile(JSONFilePath, JSONData){
   let settingsFile
-  if (JSONFilePath.indexOf('\\') > -1){
+  if (JSONFilePath.indexOf('\\') > -1 || JSONFilePath.indexOf('/') > -1){
     settingsFile = JSONFilePath  
   } else {
     settingsFile = path.join(UserDataFolder, JSONFilePath)
-  }  
-    fs.writeFileSync(path.resolve(settingsFile),JSON.stringify(JSONData,null, "\t"), function(err){
-      if (err) {
-        console.log("Failed to save file.\n" + err)
-      }
-    })
+  }
+  try {
+    if (dataHasSchemaShape(JSONData)) {
+      JSONData.schemaVersion = JSONData.schemaVersion == null ? 1 : JSONData.schemaVersion;
+    }
+    fs.writeFileSync(path.resolve(settingsFile), JSON.stringify(JSONData, null, "\t"), "utf8");
+  } catch (err) {
+    console.error("Failed to save file.\n" + err);
+    throw err;
+  }
+}
+
+function dataHasSchemaShape(data) {
+  return data && typeof data === "object" && ("global" in data || "appProfiles" in data);
 }
 
 
@@ -147,7 +150,16 @@ contextBridge.exposeInMainWorld('win', {
 
 
 contextBridge.exposeInMainWorld('openURL',function(openURL){
-  shell.openExternal(openURL);
+  try {
+    const parsed = new URL(openURL);
+    if (parsed.protocol !== "http:" && parsed.protocol !== "https:") {
+      console.error("Blocked non-http(s) URL:", openURL);
+      return;
+    }
+    shell.openExternal(parsed.toString());
+  } catch (err) {
+    console.error("Invalid URL:", openURL, err);
+  }
 })
 
 contextBridge.exposeInMainWorld('updateApp',function(){
@@ -172,10 +184,11 @@ contextBridge.exposeInMainWorld('isPieMenusRunning', function(runAHK){
 contextBridge.exposeInMainWorld('pieMenus', {
   run: async function(runAHK=false){  
     function run_script(command, args, callback) {      
-      var child = child_process.spawn("\"" + command + "\"", args, {
+      var child = child_process.spawn(command, args || [], {
           encoding: 'utf8',
-          shell: true,
-          detached: true
+          shell: false,
+          detached: true,
+          windowsHide: false
       });
 
       console.log(child);
@@ -504,7 +517,7 @@ contextBridge.exposeInMainWorld('electron', {
       saveJSONFile(path.resolve(folderPath, "AHPSettings.json"), settingsData);
       shell.openPath(folderPath);
     } catch (e){
-      alert("Could not create the package at this destination:\n" . folderPath)
+      alert("Could not create the package at this destination:\n" + folderPath)
       return false
     }
     return true
@@ -656,22 +669,24 @@ contextBridge.exposeInMainWorld('font',{
 
 contextBridge.exposeInMainWorld('getActiveWindowProcess', () => {
   return new Promise((resolve, reject) => {
-    let delaySeconds = 5;
-    function getActiveWindow(){
-      let exe = {path:"",name:""};
-      exe.path = getWindowManager().getActiveWindow().path;
-      exe.name = path.basename(exe.path);      
-      if (["autohotpie.exe","electron.exe"].includes(exe.name.toString().toLowerCase())){        
-        reject();        
-      } else {
-        resolve(exe);        
+    const delaySeconds = 5;
+    setTimeout(async () => {
+      try {
+        const exe = await ipcRenderer.invoke("window:getActiveProcess");
+        const name = (exe.processName || exe.name || path.basename(exe.path || "")).toString();
+        if (["autohotpie.exe", "electron.exe"].includes(name.toLowerCase())) {
+          reject();
+        } else {
+          resolve({ path: exe.path || "", name });
+        }
+      } catch (err) {
+        reject(err);
       }
-    }  
-    setTimeout(getActiveWindow, (delaySeconds*1000)-300)
-  })
+    }, delaySeconds * 1000 - 300);
+  });
 });
 
-// Do not expose the full native windowManager object to the renderer.
+// Active-window lookup stays in main (window:getActiveProcess). Do not expose native addons.
 
 contextBridge.exposeInMainWorld('menuListener', function(func){
   ipcRenderer.on('menuSelected', function(event, arg){

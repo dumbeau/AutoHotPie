@@ -5,6 +5,7 @@ var SettingsFileName = "AHPSettings.json";
 class AHPSettings {
     constructor(_settingsObj=null){ //This is the load or create default settings 
         let defaults = {
+            schemaVersion: 1,
             global:{
                 pieTips: true,
                 enableEscapeKeyMenuCancel: true,
@@ -1509,13 +1510,19 @@ class AHPSettings {
         }
 
         this.global.functionConfig.custom = [];
-        // console.log(_settingsObj);
-        // if( (global in _settingsObj) _settingsObj.global.functionConfig.custom > 0){
-        //     this.global.functionConfig.custom = _settingsObj.global.functionConfig.custom.map((customFunc) => new CustomFunction(customFunc))
-        // } else {
-        //     //Initialize custom functions
-        //     // this.global.functionConfig.custom = _settingsObj.global.functionConfig.custom
-        // }
+        if (
+            _settingsObj &&
+            _settingsObj.global &&
+            _settingsObj.global.functionConfig &&
+            Array.isArray(_settingsObj.global.functionConfig.custom)
+        ) {
+            this.global.functionConfig.custom = _settingsObj.global.functionConfig.custom.map(
+                (customFunc) => new CustomFunction(customFunc)
+            );
+        }
+        if (this.schemaVersion == null) {
+            this.schemaVersion = 1;
+        }
 
         // saveCustomFunction({ //Add test function
         //     name:"Test Function",
@@ -1546,6 +1553,22 @@ class AHPSettings {
         //     associatedProgram:'Illustrator.exe',
         //     ahkScript:'msgbox, Hello'
         // })
+    }
+
+    static saveCustomFunction(customFuncObj){
+        if (!AutoHotPieSettings.global.functionConfig.custom) {
+            AutoHotPieSettings.global.functionConfig.custom = [];
+        }
+        let tempFunction = new CustomFunction(customFuncObj);
+        for (let customFunctionIndex in AutoHotPieSettings.global.functionConfig.custom){
+            let p_customFunc = AutoHotPieSettings.global.functionConfig.custom[customFunctionIndex];
+            if (p_customFunc.id == tempFunction.id){
+                AutoHotPieSettings.global.functionConfig.custom[customFunctionIndex] = tempFunction;
+                return tempFunction;
+            }
+        }
+        AutoHotPieSettings.global.functionConfig.custom.push(tempFunction);
+        return tempFunction;
     }
 
     //Save - related to instance
@@ -1579,13 +1602,11 @@ class CustomFunction {
 
     static generateFunctionID(){        
         let testID = generateUUID();
-        filterResult = AutoHotPieSettings.global.functionConfig.custom.filter(e => e['id'] == testID)
-        console.log(testID)
+        let filterResult = AutoHotPieSettings.global.functionConfig.custom.filter(e => e['id'] == testID)
         if (filterResult.length == 0){
-            console.log(testID)
             return testID
         }else{
-            return generateFunctionID();
+            return CustomFunction.generateFunctionID();
         }        
     }
 
@@ -1641,7 +1662,7 @@ class CustomControl {
             type:"",
             content:{}
         }
-        deepMerge(deepMerge(this, defaullts), _controlObj)
+        deepMerge(deepMerge(this, defaults), _controlObj)
         this.content = getCustomControlDefaultParameters(this.type)
     }
     static getCustomControlParameters(controlType){
@@ -1741,6 +1762,7 @@ class PieKey {
                 },
                 openMenuInCenter:false,
                 decoupleMouse:false,
+                // Persisted for compatibility; AHK runtime does not currently read this flag.
                 keyReleaseDelay: true
                 },
             pieMenus: []

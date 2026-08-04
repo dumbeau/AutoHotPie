@@ -23,26 +23,24 @@ var createNewScriptPage = {
 
         this.form.submit( (event) => {
             event.preventDefault();
-            //If everything is filled out, we gud   
-            event.target.elements.forEach((element) => {
-                if (element.value == ""){
-                    return
-                }
-            }); 
-            console.log("Creating new script")    
-            let tempCustomScript = new CustomFunction(
-                {
-                    name:element[0],
-                    description:element[1]                   
-                });                
-            createNewScriptPage.resolvePromise(tempCustomScript)
+            const name = (createNewScriptPage.nameInput.val() || "").trim();
+            const description = (createNewScriptPage.descriptionInput.val() || "").trim();
+            if (!name) {
+                return;
+            }
+            console.log("Creating new script");
+            let tempCustomScript = new CustomFunction({
+                name: name,
+                description: description
+            });
+            createNewScriptPage.resolvePromise(tempCustomScript);
         });
         
     },
     new: async function(associatedProgram=""){
         this.open();
-        let subHeadingText = (associatedProgram != "") ? ("New script for" + associatedProgram) : "";
-        this.subHeading.html(subHeadingText);
+        let subHeadingText = (associatedProgram != "") ? ("New script for " + associatedProgram) : "";
+        this.subHeading.text(subHeadingText);
         let myPromise = await waitForUserInput()
         return myPromise
         function waitForUserInput(){
@@ -53,4 +51,3 @@ var createNewScriptPage = {
         }
     }
 }
-// createNewScriptPage.initialize();

@@ -24,14 +24,14 @@ var profileManagement = {
         profileDropDown = document.getElementById("app-profile-dropdown-items")           
 
         profileDropDown.innerHTML = "";        
-        profileButton.innerHTML = this.selectedProfile.name
+        profileButton.textContent = this.selectedProfile.name
 
         AutoHotPieSettings.appProfiles.forEach(function(appProfile,index){
             
             var appProfileOption = document.createElement("a")
             appProfileOption.setAttribute("id","app-profile-item")
             appProfileOption.setAttribute("class","dropdown-item")
-            appProfileOption.text = appProfile.name
+            appProfileOption.textContent = appProfile.name
             profileDropDown.appendChild(appProfileOption)        
         })   
         let enabledCheckbox = document.getElementById("profile-enabled-checkbox")        
@@ -362,7 +362,7 @@ var profileManagement = {
         overviewTable: document.getElementById('pie-menu-overview-table'),
         newPieMenuBtn: document.getElementById('add-new-pie-menu-btn'),
         createOverviewTableListeners: function(){
-            this.overviewTable.addEventListener("onChange", function(event){ 
+            this.overviewTable.addEventListener("change", function(event){ 
                 console.log(event)  
                 let target = event.target;
                 let pieKeyIndex = $(target).closest('td').parent()[0].sectionRowIndex;
