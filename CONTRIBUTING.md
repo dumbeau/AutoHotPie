@@ -3,10 +3,10 @@
 ## Development setup
 
 1. Install [Node.js 20](https://nodejs.org/) (see `.nvmrc`)
-2. Install [AutoHotkey v1.1.34.04+](https://www.autohotkey.com/) **or** run `npm run setup-ahk` for the pinned portable toolchain (`build/ahk-toolchain.json`)
+2. Install [AutoHotkey v1.1.34.04+](https://www.autohotkey.com/) **or** run `npm run setup-ahk` for the pinned portable toolchain (`build/ahk-toolchain.json`). Setup caches paths in `build/.ahk-portable.json` so later `npm run build-ahk` / `npm run test:ahk` find the tools without exporting env vars.
 3. `npm ci`
 4. `npm test`
-5. `npm run test:ahk` (uses `AHK_V1_PATH` from setup, or a system install)
+5. `npm run test:ahk` (portable cache, `AHK_V1_PATH`, or a system install)
 6. `npm start` for the Electron editor
 
 ### Required CI gate: AHK compile

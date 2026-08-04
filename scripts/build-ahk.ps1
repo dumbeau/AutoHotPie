@@ -88,10 +88,17 @@ function Stop-ProcessTree([System.Diagnostics.Process]$Process) {
     }
 }
 
+. (Join-Path $PSScriptRoot "ahk-portable-paths.ps1")
+$portable = Get-AhkPortableToolPaths -Toolchain $toolchain -RepoRoot $repoRoot
+
 $ahk2exeCandidates = @()
 $binCandidates = @()
 if ($env:AHK2EXE_PATH) { $ahk2exeCandidates += $env:AHK2EXE_PATH }
 if ($env:AHK_BIN_PATH) { $binCandidates += $env:AHK_BIN_PATH }
+if ($portable) {
+    $ahk2exeCandidates += $portable.Ahk2Exe
+    $binCandidates += $portable.Bin
+}
 $ahk2exeCandidates += @($toolchain.ahk2exeCandidates)
 $binCandidates += @($toolchain.binCandidates)
 

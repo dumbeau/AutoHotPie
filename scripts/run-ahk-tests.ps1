@@ -6,9 +6,15 @@ $script = Join-Path $repoRoot "tests\ahk\run-tests.ahk"
 $toolchainPath = Join-Path $repoRoot "build\ahk-toolchain.json"
 $toolchain = Get-Content $toolchainPath -Raw | ConvertFrom-Json
 
+. (Join-Path $PSScriptRoot "ahk-portable-paths.ps1")
+$portable = Get-AhkPortableToolPaths -Toolchain $toolchain -RepoRoot $repoRoot
+
 $candidates = @()
 if ($env:AHK_V1_PATH) {
     $candidates += $env:AHK_V1_PATH
+}
+if ($portable) {
+    $candidates += $portable.Interpreter
 }
 if ($toolchain.interpreterCandidates) {
     $candidates += @($toolchain.interpreterCandidates)

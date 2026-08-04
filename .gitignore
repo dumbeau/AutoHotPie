@@ -101,6 +101,9 @@ blob-report/
 # Compiler checksum sidecars (uploaded as CI artifacts)
 *.exe.sha256
 
+# Local portable AHK path cache written by npm run setup-ahk
+build/.ahk-portable.json
+
 # Keep shared project rules; ignore local Cursor state
 .cursor/*
 !.cursor/rules/

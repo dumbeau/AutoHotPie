@@ -83,10 +83,15 @@ $ahk2exe = (Resolve-Path $ahk2exe).Path
 $bin = (Resolve-Path $bin).Path
 $interpreter = (Resolve-Path $interpreter).Path
 
+. (Join-Path $PSScriptRoot "ahk-portable-paths.ps1")
+Write-AhkPortableCache -RepoRoot $repoRoot -DestDir $DestDir -Ahk2Exe $ahk2exe -Bin $bin -Interpreter $interpreter
+
 Write-Host "AHK toolchain ready:"
 Write-Host "  AHK2EXE_PATH=$ahk2exe"
 Write-Host "  AHK_BIN_PATH=$bin"
 Write-Host "  AHK_V1_PATH=$interpreter"
+Write-Host "  Cache:   $(Join-Path $repoRoot 'build\.ahk-portable.json')"
+Write-Host "Local tip: npm run build-ahk will pick up this portable install automatically."
 
 if ($env:GITHUB_ENV) {
     "AHK2EXE_PATH=$ahk2exe" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
