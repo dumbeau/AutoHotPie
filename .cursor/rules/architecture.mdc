@@ -1,0 +1,28 @@
+---
+description: AutoHotPie dual-runtime architecture and settings contract
+alwaysApply: true
+---
+
+# Architecture
+
+AutoHotPie is two processes joined by a file contract:
+
+1. **Electron editor** — configures menus and writes `AHPSettings.json`
+2. **AHK runtime** (`PieMenu.ahk` / `PieMenu.exe`) — hotkeys, GDI+ overlay, action dispatch
+
+There is no live IPC between editor and runtime. Prefer filesystem/settings changes over inventing a new bridge unless the task requires it.
+
+## Settings contract
+
+- Canonical file: `AHPSettings.json` (userData or portable script dir)
+- Keep the JSON schema/version stable across Electron and AHK changes
+- Add fixtures/tests when changing defaults, hotkey encoding, or action params
+- Do not wipe or silently drop `functionConfig.custom` on load
+
+## Change boundaries
+
+- Editor-only: `main.js`, `src/preload.js`, renderer `src/*.js`, `src/index.html`
+- Runtime-only: `src/PieMenu.ahk`, `src/lib/*.ahk`
+- Shared contract: schema, fixtures, geometry/hotkey helpers used by both sides
+
+Preserve behavior first. Modernize behind tests; migrate AHK to v2 only after fixtures exist.

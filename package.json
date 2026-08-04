@@ -4,12 +4,23 @@
   "version": "1.0.29-alpha",
   "description": "Universal Pie Menus for Windows",
   "main": "main.js",
+  "engines": {
+    "node": ">=20 <25"
+  },
   "scripts": {
     "start": "npm run build && electron .",
-    "build":"npm run refresh-index-scripts",    
+    "build": "npm run refresh-index-scripts",
     "build-installer": "npm run build && npm run build-ahk && electron-builder",
-    "build-ahk": "build\\build-ahk.bat",
-    "refresh-index-scripts":"node build\\refreshIndexScripts.js"
+    "build-ahk": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/build-ahk.ps1",
+    "refresh-index-scripts": "node build/refreshIndexScripts.js",
+    "verify": "node scripts/verify-lockfile.js && node build/refreshIndexScripts.js --check",
+    "test": "vitest run",
+    "test:unit": "vitest run",
+    "test:watch": "vitest",
+    "test:e2e": "playwright test -c playwright.config.js",
+    "test:ahk": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/run-ahk-tests.ps1",
+    "test:packaging": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/verify-artifacts.ps1",
+    "lint:js": "node scripts/syntax-check-js.js"
   },
   "build": {
     "appId": "AutoHotPie",
@@ -47,22 +58,23 @@
   "author": "dumbeau <caspergilles@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "electron-squirrel-startup": "^1.0.0",
     "font-list": "^1.5.1",
     "node-dir": "^0.1.17",
-    "node-window-manager": "^2.2.4",
-    "uuid": "^9.0.1"
+    "node-window-manager": "^2.2.4"
   },
   "devDependencies": {
-    "electron": "^28.1.3",
-    "electron-builder": "^24.9.1"
+    "@playwright/test": "^1.49.1",
+    "ajv": "^8.17.1",
+    "electron": "^28.3.3",
+    "electron-builder": "^24.13.3",
+    "vitest": "^2.1.8"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dumbeau/AutoHotPie.git"
+    "url": "git+https://github.com/combwizard/AutoHotPie.git"
   },
   "bugs": {
-    "url": "https://github.com/dumbeau/AutoHotPie/issues"
+    "url": "https://github.com/combwizard/AutoHotPie/issues"
   },
-  "homepage": "https://github.com/dumbeau/AutoHotPie#readme"
+  "homepage": "https://github.com/combwizard/AutoHotPie#readme"
 }

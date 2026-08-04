@@ -1,0 +1,27 @@
+---
+description: Test and fixture expectations for AutoHotPie changes
+globs: "{shared,tests,schema,scripts}/**/*,**/*.{test,spec}.js"
+alwaysApply: false
+---
+
+# Testing
+
+No behavior change without coverage when a seam exists.
+
+## Preferred stack
+
+- **Vitest** — pure JS (geometry, color, deepMerge, hotkey, settings model)
+- **JSON Schema + fixtures** — Electron ↔ AHK contract
+- **AHK test runner** — load fixtures / parity vectors (Windows)
+- **Playwright Electron** — launch, save, import/export smoke with isolated userData
+
+## Fixtures
+
+Keep representative `AHPSettings` fixtures for: minimal default, builtins, submenu, hotkey edge cases, custom functions, legacy/malformed imports, portable layout.
+
+## Gates
+
+- Pure helpers: unit tests
+- Settings shape: schema validate + JS/AHK round-trip
+- Fixes: regression test in the same PR
+- Runtime input/DPI: deterministic tests first; hardware matrix for the rest
