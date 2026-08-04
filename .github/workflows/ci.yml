@@ -1,0 +1,122 @@
+name: CI
+
+on:
+  push:
+    branches: [master, main]
+  pull_request:
+    branches: [master, main]
+
+jobs:
+  unit:
+    name: Unit and verify
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Verify lockfile and index.html
+        run: npm run verify
+
+      - name: Unit tests
+        run: npm test
+
+      - name: Syntax-check first-party JS
+        shell: pwsh
+        run: |
+          $files = Get-ChildItem -Recurse -File -Include *.js |
+            Where-Object {
+              $_.FullName -notmatch '\\node_modules\\|\\assets\\|\\dist\\' -and
+              $_.Name -ne 'jscolor.js' -and
+              $_.Name -notmatch '\.min\.js$'
+            }
+          foreach ($f in $files) {
+            node --check $f.FullName
+            if ($LASTEXITCODE -ne 0) { throw "Syntax check failed: $($f.FullName)" }
+          }
+
+  ahk:
+    name: AHK compile
+    runs-on: windows-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install AutoHotkey v1.1
+        shell: pwsh
+        run: |
+          $installer = Join-Path $env:TEMP "ahk-install.exe"
+          Invoke-WebRequest -Uri "https://www.autohotkey.com/download/ahk-install.exe" -OutFile $installer
+          Start-Process -FilePath $installer -ArgumentList "/S" -Wait
+
+      - name: Compile PieMenu.exe
+        shell: pwsh
+        run: npm run build-ahk
+
+      - name: Upload PieMenu.exe
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: PieMenu-exe
+          path: src/PieMenu.exe
+
+  electron-smoke:
+    name: Electron smoke
+    runs-on: windows-latest
+    needs: unit
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install chromium
+
+      - name: Electron smoke tests
+        run: npm run test:e2e
+        env:
+          AHP_USER_DATA: ${{ runner.temp }}\ahp-userdata
+
+  package:
+    name: Package unpacked
+    runs-on: windows-latest
+    needs: [unit]
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main')
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build index scripts
+        run: npm run build
+
+      - name: Electron builder (dir)
+        run: npx electron-builder --dir --win
+
+      - name: Verify unpacked layout
+        shell: pwsh
+        run: ./scripts/verify-artifacts.ps1
+
+      - name: Upload unpacked app
+        uses: actions/upload-artifact@v4
+        with:
+          name: win-unpacked
+          path: dist/win-unpacked/**
