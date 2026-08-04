@@ -19,6 +19,7 @@
     "test:watch": "vitest",
     "test:e2e": "playwright test -c playwright.config.js",
     "test:ahk": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/run-ahk-tests.ps1",
+    "test:ahk:v2": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/run-ahk-v2-tests.ps1",
     "test:packaging": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/verify-artifacts.ps1",
     "lint:js": "node scripts/syntax-check-js.js"
   },
