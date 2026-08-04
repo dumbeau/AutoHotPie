@@ -14,6 +14,8 @@
 - Add or update tests with behavior changes
 - Do not mix dependency bumps, refactors, and fixes unless inseparable
 - Prefer the PR sequence in `.cursor/rules/github-delivery.mdc`
+- Triage guidance: [docs/backlog-triage.md](docs/backlog-triage.md)
+- Active stack: [docs/pr-stack.md](docs/pr-stack.md)
 
 ## Useful scripts
 
